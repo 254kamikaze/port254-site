@@ -1,165 +1,182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>port254 — Detection Catalog</title>
-  <meta name="color-scheme" content="dark">
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>port254 — OT/FinTech Detection Catalog</title>
+  <meta name="description" content="Clean, RegSeek-style catalog of OT/FinTech detection playbooks mapped to ATT&CK and IEC-62443 with KQL/Sigma, videos, and optional live runs." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://254kamikaze.github.io/port254-site/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="port254 — Detection Catalog">
+  <meta property="og:description" content="RegSeek-style catalog for OT/FinTech detections with videos and live PoC.">
+  <meta property="og:url" content="https://254kamikaze.github.io/port254-site/">
+
+  <!-- Fonts/Perf hints (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <!-- App shell -->
-  <header class="topbar">
-    <div class="brand">
-      <span class="logo">🔷</span><span>port254</span>
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookie-banner">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        We use privacy-friendly analytics to understand how this demo is used. Data is anonymous and helps us improve the catalog.
+        <a href="#" onclick="showPrivacyDetails()">Learn more</a>.
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn decline" onclick="declineAnalytics()">Decline</button>
+        <button class="cookie-btn accept" onclick="acceptAnalytics()">Accept Analytics</button>
+      </div>
     </div>
-    <nav class="nav">
-      <a href="#" class="navlink">Docs</a>
-      <a href="#" class="navlink">Contact</a>
-      <a href="#" class="btn pill">Get started</a>
-    </nav>
-  </header>
-
-  <div class="wrap">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="side-head">
-        <div class="title">Filters</div>
-        <button class="icon-btn" id="toggleSidebar" aria-label="Close">✕</button>
-      </div>
-
-      <div class="side-sec">
-        <div class="sec-title">Domain</div>
-        <div id="fltDomain" class="chips"></div>
-      </div>
-
-      <div class="side-sec">
-        <div class="sec-title">Severity</div>
-        <div id="fltSeverity" class="chips">
-          <!-- populated by JS -->
-        </div>
-      </div>
-
-      <div class="side-sec">
-        <div class="sec-title">ATT&CK</div>
-        <div id="fltAttack" class="chips scroll"></div>
-      </div>
-
-      <div class="side-sec">
-        <div class="sec-title">IEC-62443</div>
-        <div id="fltIEC" class="chips scroll"></div>
-      </div>
-
-      <div class="side-footer">
-        <button id="clearAll" class="btn ghost full">Clear all</button>
-      </div>
-    </aside>
-
-    <!-- Main -->
-    <main class="main">
-      <!-- Hero -->
-      <section class="hero card">
-        <div class="hero-left">
-          <h1>OT/FinTech detection catalog & live PoC</h1>
-          <p>
-            Clean, fast reference like <em>RegSeek</em>, with optional live runs. Explore tests mapped to
-            <strong>MITRE ATT&CK</strong> and <strong>IEC-62443</strong>, view KQL/Sigma & playbooks,
-            and (if connected) trigger a run and jump to Kibana filtered by <code>run_id</code>.
-          </p>
-          <div class="row gap">
-            <span class="chip">EVE-NG lab</span>
-            <span class="chip">Filebeat pipeline</span>
-            <span class="chip">YouTube demo</span>
-            <span class="chip">ATT&CK ↔ 62443</span>
-          </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="stat"><div id="statTotal">0</div><small>Total tests</small></div>
-          <div class="stat"><div id="statOT">0</div><small>OT/ICS</small></div>
-          <div class="stat"><div id="statFIN">0</div><small>FinTech</small></div>
-        </div>
-      </section>
-
-      <!-- Toolbar -->
-      <section class="toolbar">
-        <div class="left">
-          <button id="openSidebar" class="btn ghost">Filters</button>
-          <input id="search" class="search" placeholder="Search tests, ATT&CK, IEC, keywords…" />
-        </div>
-        <div class="right">
-          <select id="severitySelect" class="select">
-            <option value="">All severities</option>
-            <option value="critical">Critical</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-          <button id="exportNdjson" class="btn">Export NDJSON</button>
-        </div>
-      </section>
-
-      <!-- Grid -->
-      <section id="grid" class="grid"></section>
-    </main>
   </div>
 
-  <!-- Drawer -->
-  <aside id="drawer" class="drawer">
-    <div class="drawer-head">
-      <h3 id="dTitle">—</h3>
-      <button id="closeDrawer" class="icon-btn">✕</button>
-    </div>
-    <div class="drawer-body">
-      <div class="meta">
-        <span id="dDomain" class="badge"></span>
-        <span id="dSeverity" class="badge"></span>
-        <span id="dTechnique" class="badge"></span>
-        <span id="dIEC" class="badge"></span>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="https://github.com/254kamikaze/port254-site" target="_blank" rel="noopener" class="logo-link">
+          <h1 class="logo">port254</h1>
+        </a>
+        <p class="tagline">OT/ICS + FinTech detection catalog in a clean RegSeek-style layout</p>
+        <p class="project-info">
+          Click the logo to visit the repo. Want to contribute tests? Open a PR with a new entry in
+          <code>tests.json</code>.
+        </p>
       </div>
+    </div>
+  </header>
 
-      <p id="dDesc" class="muted"></p>
+  <main class="container">
+    <!-- Search -->
+    <div class="search-container">
+      <div class="search-wrapper">
+        <input id="search" type="text" placeholder="Search tests by title, ATT&CK ID, IEC control, or keywords..." autocomplete="off">
+        <button class="advanced-search-btn" id="advanced-search-btn">Advanced Search</button>
+      </div>
+    </div>
 
-      <div class="cols">
-        <div class="col">
-          <h4>Quick query (KQL)</h4>
-          <pre id="dKql" class="code"></pre>
-          <div class="row gap">
-            <button id="copyKql" class="btn sm">Copy KQL</button>
-            <a id="openKibana" class="btn sm ghost" target="_blank" rel="noopener">Open in Kibana</a>
+    <!-- Advanced Search Panel -->
+    <div class="advanced-search-panel" id="advanced-search-panel">
+      <div class="advanced-search-content">
+        <h3>Advanced Search Filters</h3>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>Domain</label>
+            <select id="filter-category">
+              <option value="">All Domains</option>
+              <option value="OT">OT/ICS</option>
+              <option value="FinTech">FinTech</option>
+            </select>
           </div>
 
-          <h4 class="mt">Sigma (pseudo)</h4>
-          <pre id="dSigma" class="code"></pre>
+          <div class="filter-group">
+            <label>Severity</label>
+            <select id="filter-criticality">
+              <option value="">All</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
 
-          <h4 class="mt">Playbook overview</h4>
-          <ul id="dPlaybook" class="bullets"></ul>
+          <div class="filter-group">
+            <label>ATT&CK Technique</label>
+            <select id="filter-attack-technique">
+              <option value="">Any</option>
+              <!-- populated from data -->
+            </select>
+          </div>
 
-          <div class="row gap mt">
-            <button id="runBtn" class="btn primary">Run in lab</button>
-            <span id="runHint" class="muted small">Set API in <code>app.js</code> to enable.</span>
+          <div class="filter-group">
+            <label>IEC-62443 Control</label>
+            <select id="filter-hive">
+              <option value="">Any</option>
+              <!-- populated from data -->
+            </select>
           </div>
         </div>
 
-        <div class="col">
-          <h4>Demo video</h4>
-          <div class="video">
-            <iframe id="dVideo" src="" title="Demo video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen loading="lazy"></iframe>
-          </div>
-
-          <h4 class="mt">Assets required</h4>
-          <ul id="dAssets" class="bullets"></ul>
-
-          <h4 class="mt">Notes</h4>
-          <p id="dNotes" class="small muted"></p>
+        <div class="advanced-search-actions">
+          <button class="btn-secondary" id="clear-filters">Clear All Filters</button>
+          <button class="btn-primary" id="apply-filters">Apply Filters</button>
         </div>
       </div>
     </div>
-  </aside>
 
-  <script src="validate.js"></script>
-  <script src="app.js"></script>
+    <!-- Quick Filters -->
+    <div class="quick-filters">
+      <div class="filter-section">
+        <label>Quick Domain Filter:</label>
+        <div class="quick-filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="OT">OT/ICS</button>
+          <button class="filter-btn" data-filter="FinTech">FinTech</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value" id="total-artifacts">0</div>
+        <div class="stat-label">Total Tests</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="total-categories">0</div>
+        <div class="stat-label">Domains</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="visible-artifacts">0</div>
+        <div class="stat-label">Showing</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="high-criticality">0</div>
+        <div class="stat-label">High/Critical</div>
+      </div>
+    </div>
+
+    <!-- Sort -->
+    <div class="sort-options">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select">
+        <option value="title">Title (A-Z)</option>
+        <option value="title-desc">Title (Z-A)</option>
+        <option value="category">Domain</option>
+        <option value="criticality">Severity</option>
+      </select>
+    </div>
+
+    <!-- Grid -->
+    <div class="registry-grid" id="registry-grid">
+      <div class="loading">Loading tests…</div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal"></div>
+
+  <!-- Cookie banner scripts -->
+  <script>
+    function showCookieBanner(){
+      const b = document.getElementById('cookie-banner');
+      if(localStorage.getItem('analytics-consent')===null){ b.classList.add('show'); }
+    }
+    function acceptAnalytics(){ localStorage.setItem('analytics-consent','true'); document.getElementById('cookie-banner').classList.remove('show'); }
+    function declineAnalytics(){ localStorage.setItem('analytics-consent','false'); document.getElementById('cookie-banner').classList.remove('show'); }
+    function showPrivacyDetails(){ alert("We collect anonymous usage metrics (page views, searches, clicks) to improve the catalog. No personal data."); }
+    document.addEventListener('DOMContentLoaded', showCookieBanner);
+  </script>
+
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
