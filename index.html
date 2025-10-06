@@ -3,76 +3,125 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>port254 — OT/ICS Detection Catalog</title>
+  <title>port254 — Detection Catalog</title>
+  <meta name="color-scheme" content="dark">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- App shell -->
   <header class="topbar">
-    <div class="brand">port254</div>
-    <nav class="topnav">
-      <a href="#" id="docsLink">Docs</a>
-      <a href="#" id="contactLink">Contact</a>
-      <a href="#" class="pill get-started">Get started</a>
+    <div class="brand">
+      <span class="logo">🔷</span><span>port254</span>
+    </div>
+    <nav class="nav">
+      <a href="#" class="navlink">Docs</a>
+      <a href="#" class="navlink">Contact</a>
+      <a href="#" class="btn pill">Get started</a>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="intro card">
-      <div class="intro-copy">
-        <h1>OT detection catalog & PoC — connect your lab to demo</h1>
-        <p>This catalog maps detection experiments to <strong>MITRE ATT&amp;CK</strong> and <strong>IEC-62443</strong>. 
-        Click a test card to see details, KQL/Sigma, playbooks, and a short video. If your orchestrator API is configured,
-        you can run the test and jump straight to Kibana filtered by <code>run_id</code>.</p>
-        <div class="quick">
-          <span class="chip">Filebeat pipeline</span>
-          <span class="chip">EVE-NG lab</span>
-          <span class="chip">ATT&amp;CK ↔ 62443</span>
-          <span class="chip">YouTube demo</span>
+  <div class="wrap">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-head">
+        <div class="title">Filters</div>
+        <button class="icon-btn" id="toggleSidebar" aria-label="Close">✕</button>
+      </div>
+
+      <div class="side-sec">
+        <div class="sec-title">Domain</div>
+        <div id="fltDomain" class="chips"></div>
+      </div>
+
+      <div class="side-sec">
+        <div class="sec-title">Severity</div>
+        <div id="fltSeverity" class="chips">
+          <!-- populated by JS -->
         </div>
       </div>
-      <div class="intro-actions">
-        <div class="stat"><div id="statTotal">0</div><small>Total tests</small></div>
-        <div class="stat"><div id="statOT">0</div><small>OT/ICS</small></div>
-        <div class="stat"><div id="statFIN">0</div><small>FinTech</small></div>
+
+      <div class="side-sec">
+        <div class="sec-title">ATT&CK</div>
+        <div id="fltAttack" class="chips scroll"></div>
       </div>
-    </section>
 
-    <section class="toolbar">
-      <input id="search" class="search" placeholder="Search tests, ATT&CK, IEC, keywords…" />
-      <div id="tags" class="tags"></div>
-      <div class="right">
-        <select id="severityFilter" class="select">
-          <option value="">All severities</option>
-          <option value="critical">Critical</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
-        <button id="clearBtn" class="btn ghost">Clear</button>
+      <div class="side-sec">
+        <div class="sec-title">IEC-62443</div>
+        <div id="fltIEC" class="chips scroll"></div>
       </div>
-    </section>
 
-    <section id="grid" class="grid"></section>
-  </main>
+      <div class="side-footer">
+        <button id="clearAll" class="btn ghost full">Clear all</button>
+      </div>
+    </aside>
 
-  <!-- Detail Drawer -->
+    <!-- Main -->
+    <main class="main">
+      <!-- Hero -->
+      <section class="hero card">
+        <div class="hero-left">
+          <h1>OT/FinTech detection catalog & live PoC</h1>
+          <p>
+            Clean, fast reference like <em>RegSeek</em>, with optional live runs. Explore tests mapped to
+            <strong>MITRE ATT&CK</strong> and <strong>IEC-62443</strong>, view KQL/Sigma & playbooks,
+            and (if connected) trigger a run and jump to Kibana filtered by <code>run_id</code>.
+          </p>
+          <div class="row gap">
+            <span class="chip">EVE-NG lab</span>
+            <span class="chip">Filebeat pipeline</span>
+            <span class="chip">YouTube demo</span>
+            <span class="chip">ATT&CK ↔ 62443</span>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="stat"><div id="statTotal">0</div><small>Total tests</small></div>
+          <div class="stat"><div id="statOT">0</div><small>OT/ICS</small></div>
+          <div class="stat"><div id="statFIN">0</div><small>FinTech</small></div>
+        </div>
+      </section>
+
+      <!-- Toolbar -->
+      <section class="toolbar">
+        <div class="left">
+          <button id="openSidebar" class="btn ghost">Filters</button>
+          <input id="search" class="search" placeholder="Search tests, ATT&CK, IEC, keywords…" />
+        </div>
+        <div class="right">
+          <select id="severitySelect" class="select">
+            <option value="">All severities</option>
+            <option value="critical">Critical</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+          <button id="exportNdjson" class="btn">Export NDJSON</button>
+        </div>
+      </section>
+
+      <!-- Grid -->
+      <section id="grid" class="grid"></section>
+    </main>
+  </div>
+
+  <!-- Drawer -->
   <aside id="drawer" class="drawer">
-    <div class="drawer-header">
+    <div class="drawer-head">
       <h3 id="dTitle">—</h3>
-      <button id="closeDrawer" class="icon-btn" aria-label="Close">✕</button>
+      <button id="closeDrawer" class="icon-btn">✕</button>
     </div>
     <div class="drawer-body">
       <div class="meta">
-        <span id="dDomain" class="chip"></span>
-        <span id="dSeverity" class="chip sev"></span>
-        <span id="dTechnique" class="chip"></span>
-        <span id="dIEC" class="chip"></span>
+        <span id="dDomain" class="badge"></span>
+        <span id="dSeverity" class="badge"></span>
+        <span id="dTechnique" class="badge"></span>
+        <span id="dIEC" class="badge"></span>
       </div>
 
       <p id="dDesc" class="muted"></p>
 
-      <div class="two-col">
-        <div>
+      <div class="cols">
+        <div class="col">
           <h4>Quick query (KQL)</h4>
           <pre id="dKql" class="code"></pre>
           <div class="row gap">
@@ -88,14 +137,16 @@
 
           <div class="row gap mt">
             <button id="runBtn" class="btn primary">Run in lab</button>
-            <span id="runHint" class="muted small">Configure API to enable (see <code>app.js</code>).</span>
+            <span id="runHint" class="muted small">Set API in <code>app.js</code> to enable.</span>
           </div>
         </div>
 
-        <div>
+        <div class="col">
           <h4>Demo video</h4>
-          <div class="video-wrap">
-            <iframe id="dVideo" src="" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          <div class="video">
+            <iframe id="dVideo" src="" title="Demo video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen loading="lazy"></iframe>
           </div>
 
           <h4 class="mt">Assets required</h4>
@@ -108,6 +159,7 @@
     </div>
   </aside>
 
+  <script src="validate.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
