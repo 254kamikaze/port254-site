@@ -6,19 +6,22 @@
     "severity": "high",
     "technique": "T1547.001",
     "iec": ["SR 2.3", "SR 3.1"],
-    "description": "Simulate persistence by logging a Run key creation on an engineering workstation. Uses Filebeat tailed JSON and optional Winlogbeat.",
+    "description": "Simulate persistence by logging a Run key creation on an engineering workstation. Uses Filebeat-tailed JSON and optional Winlogbeat/Sysmon.",
     "kql": "scenario:\"T1_registry_runkey\" OR (event.provider:\"Microsoft-Windows-Sysmon\" and winlog.event_data.TargetObject:*CurrentVersion\\\\Run*)",
     "sigma": "title: Registry Run Key (Sim)\\ndetection:\\n  selection:\\n    scenario: T1_registry_runkey\\n  condition: selection\\nlevel: high",
     "assets": ["eng-ws (Windows) with Filebeat", "optional: Sysmon + Winlogbeat"],
     "playbook": [
-      "Append JSON to C:\\\\port254\\\\demo.log (Windows) via Ansible win_shell.",
+      "Append JSON to C:\\\\port254\\\\demo.log via Ansible win_shell.",
       "Filebeat forwards to Elasticsearch.",
       "Open Kibana Discover filtered by run_id."
     ],
-    "notes": "Safe. Reversible. Works offline; when lab is up, Run button calls orchestrator.",
+    "notes": "Safe, reversible.",
     "video": "https://www.youtube.com/embed/UeLJwc8hwlM",
-    "tags": ["persistence", "windows", "filebeat", "safe"],
-    "kibana_saved_search": "", 
+    "tags": ["persistence","windows","filebeat","safe"],
     "api_route": "/api/run/t1"
-  }
-]
+  },
+  {
+    "id": "T2",
+    "title": "PowerShell IEX (Local)",
+    "domain": "OT",
+    "severity": "high",
