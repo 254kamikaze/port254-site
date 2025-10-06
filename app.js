@@ -1,99 +1,216 @@
-:root{
-  --bg0:#070c12;
-  --bg1:#0a141e;
-  --card:#0f1f2d;
-  --muted:#a8c2d4;
-  --text:#e9f5ff;
-  --chip:#173041;
-  --chip-b:#22485e;
-  --line:#123246;
-  --accent:#58d2ff;
-  --accent2:#7ef3d2;
-  --warn:#ffd166; --bad:#ff6b6b; --ok:#27d07d;
-  --glow:0 12px 36px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03);
+// Simple state
+let TESTS = [];
+let filtered = [];
+let currentQuick = "all";
+let adv = { domain:"", severity:"", attack:"", iec:"" };
+
+// Load data
+(async function init(){
+  const res = await fetch("../tests.json").catch(()=>fetch("tests.json"));
+  TESTS = await res.json();
+  filtered = TESTS.slice();
+  hydrateStats();
+  populateAdvancedDropdowns();
+  bindUI();
+  renderGrid();
+})();
+
+function bindUI(){
+  const q = el("#search");
+  q.addEventListener("input", ()=>{ renderGrid(searchFilter(q.value.trim().toLowerCase())); });
+
+  // Advanced panel
+  const advBtn = el("#advanced-search-btn");
+  const advPanel = el("#advanced-search-panel");
+  advBtn.onclick = ()=> advPanel.classList.toggle("open");
+
+  // Quick buttons
+  $all(".filter-btn").forEach(b=>{
+    b.onclick = ()=>{
+      $all(".filter-btn").forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
+      currentQuick = b.dataset.filter;
+      renderGrid();
+    };
+  });
+
+  // Sort
+  el("#sort-select").onchange = ()=> renderGrid();
+
+  // Advanced selects
+  el("#apply-filters").onclick = ()=>{
+    adv.domain   = el("#filter-category").value;
+    adv.severity = el("#filter-criticality").value;
+    adv.attack   = el("#filter-attack-technique").value;
+    adv.iec      = el("#filter-hive").value;
+    renderGrid();
+  };
+  el("#clear-filters").onclick = ()=>{
+    ["filter-category","filter-criticality","filter-attack-technique","filter-hive"].forEach(id=> el("#"+id).value="");
+    adv = { domain:"", severity:"", attack:"", iec:"" };
+    renderGrid();
+  };
 }
 
-*{box-sizing:border-box} html,body{height:100%}
-body{
-  margin:0; color:var(--text);
-  font:15.5px/1.55 Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;
-  background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(90,210,255,.14), transparent 60%),
-    radial-gradient(800px 400px at 90% 0%, rgba(126,243,210,.12), transparent 60%),
-    linear-gradient(180deg, var(--bg0), var(--bg1) 65%);
+// Helpers
+const el = s=>document.querySelector(s);
+const $all = s=>Array.from(document.querySelectorAll(s));
+
+function hydrateStats(){
+  el("#total-artifacts").textContent = TESTS.length;
+  el("#total-categories").textContent = new Set(TESTS.map(t=>t.domain)).size;
+  el("#high-criticality").textContent =
+    TESTS.filter(t=>["high","critical"].includes((t.severity||"").toLowerCase())).length;
+  el("#visible-artifacts").textContent = TESTS.length;
 }
 
-/* Header */
-.topbar{
-  position:sticky; top:0; z-index:50;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 18px; border-bottom:1px solid var(--line);
-  background:rgba(8,16,24,.72); backdrop-filter: blur(8px) saturate(140%);
+function populateAdvancedDropdowns(){
+  // ATT&CK techniques
+  const atk = [...new Set(TESTS.map(t=>t.technique).filter(Boolean))].sort();
+  const selAtk = el("#filter-attack-technique");
+  atk.forEach(v=>{
+    const o=document.createElement("option"); o.value=v; o.textContent=v; selAtk.appendChild(o);
+  });
+  // IEC controls
+  const iec = [...new Set(TESTS.flatMap(t=>t.iec||[]))].sort();
+  const selI = el("#filter-hive");
+  iec.forEach(v=>{
+    const o=document.createElement("option"); o.value=v; o.textContent=v; selI.appendChild(o);
+  });
 }
-.brand{display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.3px}
-.logo{filter:drop-shadow(0 2px 6px rgba(88,210,255,.45))}
-.nav .navlink{color:var(--muted); margin-right:14px; text-decoration:none}
-.nav .navlink:hover{color:#fff}
-.btn{border:1px solid var(--chip-b); background:#0e2230; color:#dff3ff; padding:10px 12px; border-radius:12px}
-.btn:hover{border-color:#2e6a89}
-.btn.ghost{background:transparent}
-.btn.pill{border-radius:999px}
-.btn.sm{padding:6px 10px; font-size:13px}
-.btn.primary{background:#0c3347; border-color:#2b5b74}
 
-.wrap{display:grid; grid-template-columns:280px 1fr; gap:18px; max-width:1280px; margin:22px auto; padding:0 16px}
-@media (max-width:960px){ .wrap{grid-template-columns:1fr} .sidebar{position:fixed; inset:0 auto 0 -320px; z-index:60} .sidebar.open{left:0} }
+function applyFilters(list){
+  let items = list.slice();
 
-.card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--glow)}
+  // Quick domain
+  if(currentQuick !== "all"){
+    items = items.filter(t=>t.domain === currentQuick);
+  }
 
-/* Sidebar */
-.sidebar{height:calc(100vh - 70px); border-radius:16px; border:1px solid var(--line); background:linear-gradient(180deg,#0f1f2d,#0b1a25); padding:12px; position:sticky; top:72px}
-.side-head{display:flex; align-items:center; justify-content:space-between; padding:6px 4px 10px}
-.title{font-weight:700}
-.icon-btn{border:1px solid var(--chip-b); background:#0c1e2a; color:#cde7f3; padding:6px 10px; border-radius:10px}
-.side-sec{margin:10px 0 16px}
-.sec-title{font-size:12px; color:var(--muted); margin-bottom:8px}
-.chips{display:flex; flex-wrap:wrap; gap:8px}
-.chips.scroll{max-height:150px; overflow:auto; padding-right:4px}
-.badge,.chip{font-size:12px; padding:4px 8px; border:1px solid var(--chip-b); background:var(--chip); border-radius:999px; color:#cfe8f8}
-.badge.sev-crit{background:#2a0f17; border-color:#6a2332; color:#ffc5ce}
-.badge.sev-high{background:#2a1509; border-color:#6a3a20; color:#ffd6b2}
-.badge.sev-med{background:#0e2a18; border-color:#2a6a45; color:#c8f3da}
-.side-footer{padding-top:4px}
-.full{width:100%}
+  // Advanced
+  if(adv.domain)   items = items.filter(t=>t.domain===adv.domain);
+  if(adv.severity) items = items.filter(t=>(t.severity||"").toLowerCase()===adv.severity);
+  if(adv.attack)   items = items.filter(t=>t.technique===adv.attack);
+  if(adv.iec)      items = items.filter(t=>(t.iec||[]).includes(adv.iec));
 
-/* Hero */
-.hero{display:flex; justify-content:space-between; align-items:flex-end; padding:20px}
-.hero-left h1{margin:0 0 10px; font-size:22px}
-.row.gap{gap:8px}
-.hero-right{display:flex; gap:12px}
-.stat{background:#0a1d2a; border:1px solid var(--line); border-radius:12px; padding:10px 14px; text-align:center; min-width:108px}
-.stat div{font-size:22px; font-weight:800}
+  // Sort
+  const sort = el("#sort-select").value;
+  if(sort==="title") items.sort((a,b)=>a.title.localeCompare(b.title));
+  if(sort==="title-desc") items.sort((a,b)=>b.title.localeCompare(a.title));
+  if(sort==="category") items.sort((a,b)=>a.domain.localeCompare(b.domain));
+  if(sort==="criticality"){
+    const rank = {critical:0,high:1,medium:2,low:3};
+    items.sort((a,b)=> (rank[(a.severity||"").toLowerCase()] ?? 9) - (rank[(b.severity||"").toLowerCase()] ?? 9));
+  }
 
-/* Toolbar */
-.toolbar{display:flex; align-items:center; justify-content:space-between; margin:16px 0}
-.left{display:flex; gap:8px}
-.search{min-width:300px; width:36vw; padding:12px 14px; border-radius:12px; border:1px solid var(--chip-b); background:#0c1e2a; color:#e6f5ff}
-.select{border-radius:12px; border:1px solid var(--chip-b); background:#0c1e2a; color:#e6f5ff; padding:10px 12px}
+  return items;
+}
 
-/* Grid */
-.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px}
-.card-test{padding:16px; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease}
-.card-test h3{margin:6px 0 6px; font-size:16px}
-.card-test:hover{transform:translateY(-2px); box-shadow:0 18px 40px rgba(9,24,34,.45)}
-.meta-line{display:flex; gap:6px; align-items:center}
-.small{font-size:12px}
-.muted{color:var(--muted)}
-.mt{margin-top:14px}
-.code{background:#091822; border:1px solid var(--line); border-radius:12px; padding:12px; overflow:auto}
-.bullets{margin:8px 0 0 18px}
+function searchFilter(q){
+  if(!q) return TESTS;
+  return TESTS.filter(t=>{
+    const blob = [
+      t.id,t.title,t.description,t.domain,t.technique,(t.iec||[]).join(" "), (t.tags||[]).join(" ")
+    ].join(" ").toLowerCase();
+    return blob.includes(q);
+  });
+}
 
-.drawer{position:fixed; top:70px; right:-760px; width:760px; max-width:96vw; height:calc(100vh - 80px); background:linear-gradient(180deg,#102334,#0c1c29); border-left:1px solid var(--line); box-shadow:-40px 0 60px rgba(0,0,0,.4); transition:right .22s ease}
-.drawer.open{right:10px}
-.drawer-head{display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--line)}
-.drawer-body{padding:16px; overflow:auto; height:calc(100% - 54px)}
-.meta{display:flex; gap:8px; flex-wrap:wrap}
-.cols{display:grid; grid-template-columns:1fr 1fr; gap:18px}
-@media (max-width:1000px){ .cols{grid-template-columns:1fr} }
-.video{position:relative; padding-top:56.25%; background:#08141d; border:1px solid var(--line); border-radius:12px}
-.video iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+function renderGrid(baseList){
+  const list = applyFilters(baseList || TESTS);
+  const grid = el("#registry-grid");
+  grid.innerHTML = "";
+  if(!list.length){
+    grid.innerHTML = `<div class="empty-state"><h3>No tests match your filters.</h3><p>Try clearing filters or changing the search query.</p></div>`;
+  }else{
+    list.forEach(t=> grid.appendChild(card(t)) );
+  }
+  el("#visible-artifacts").textContent = list.length;
+}
+
+function card(t){
+  const wrap = document.createElement("div");
+  wrap.className = "registry-item";
+  wrap.innerHTML = `
+    <div class="item-header">
+      <div class="item-badges">
+        <span class="item-category">${t.domain||"—"}</span>
+        <span class="item-criticality ${(t.severity||'').toLowerCase()}">${(t.severity||'').toUpperCase()}</span>
+        ${t.technique?`<span class="item-category">${t.technique}</span>`:""}
+      </div>
+      <h3 class="item-title">${t.id} — ${t.title}</h3>
+    </div>
+    <p class="item-description">${t.description||""}</p>
+    <div class="item-tags">${(t.tags||[]).map(s=>`<span class="item-tag">${s}</span>`).join("")}</div>
+    <div class="item-footer">
+      <div class="item-meta">${(t.iec||[]).join(", ")||"&nbsp;"}</div>
+      <div class="item-arrow">→</div>
+    </div>
+  `;
+  wrap.onclick = ()=> openModal(t);
+  return wrap;
+}
+
+/* ===== Modal (simple) ===== */
+function openModal(t){
+  const m = el("#modal");
+  m.innerHTML = `
+    <div class="enhanced-modal">
+      <div class="close-modal" onclick="document.getElementById('modal').style.display='none'">✕</div>
+      <div class="modal-main">
+        <div class="modal-header-enhanced">
+          <div class="artifact-title">${t.id} — ${t.title}</div>
+          <div class="artifact-badges">
+            <span class="badge badge-category">${t.domain}</span>
+            <span class="badge badge-criticality">${(t.severity||'').toUpperCase()}</span>
+            ${t.technique?`<span class="badge badge-category">${t.technique}</span>`:""}
+          </div>
+          <div class="artifact-paths">${(t.iec||[]).join(", ")||"—"}</div>
+          <p>${t.description||""}</p>
+        </div>
+        <div class="modal-content-area">
+          <div class="info-card">
+            <h3>Quick query (KQL)</h3>
+            <pre class="example-item" style="white-space:pre-wrap">${escapeHtml(t.kql||"")}</pre>
+            <div style="margin-top:8px;display:flex;gap:8px">
+              <button class="btn-primary" onclick="copyText(\`${escapeBackticks(t.kql||'')}\`)">Copy KQL</button>
+              ${t.video ? `<a class="btn-secondary" target="_blank" href="${t.video}">Watch demo</a>` : ""}
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Sigma (pseudo)</h3>
+            <pre class="example-item" style="white-space:pre-wrap">${escapeHtml(t.sigma||"")}</pre>
+          </div>
+
+          <div class="info-card">
+            <h3>Playbook overview</h3>
+            <ul class="correlation-list">
+              ${(t.playbook||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join("")}
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h3>Assets required</h3>
+            <div class="tag-grid">
+              ${(t.assets||[]).map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join("")}
+            </div>
+          </div>
+
+          ${t.notes ? `
+          <div class="limitations-section">
+            <div class="limitations-header">
+              <div class="limitations-title">Notes</div>
+            </div>
+            <ul class="limitations-list"><li>${escapeHtml(t.notes)}</li></ul>
+          </div>` : ""}
+
+        </div>
+      </div>
+    </div>`;
+  m.style.display = "block";
+}
+
+function copyText(txt){ navigator.clipboard.writeText(txt); }
+function escapeHtml(s){ return (s||"").replace(/[&<>]/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;" }[m])); }
+function escapeBackticks(s){ return (s||"").replace(/`/g,"\\`"); }
