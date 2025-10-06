@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>port254 — OT/ICS Detection Catalog</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">port254</div>
+    <nav class="topnav">
+      <a href="#" id="docsLink">Docs</a>
+      <a href="#" id="contactLink">Contact</a>
+      <a href="#" class="pill get-started">Get started</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="intro card">
+      <div class="intro-copy">
+        <h1>OT detection catalog & PoC — connect your lab to demo</h1>
+        <p>This catalog maps detection experiments to <strong>MITRE ATT&amp;CK</strong> and <strong>IEC-62443</strong>. 
+        Click a test card to see details, KQL/Sigma, playbooks, and a short video. If your orchestrator API is configured,
+        you can run the test and jump straight to Kibana filtered by <code>run_id</code>.</p>
+        <div class="quick">
+          <span class="chip">Filebeat pipeline</span>
+          <span class="chip">EVE-NG lab</span>
+          <span class="chip">ATT&amp;CK ↔ 62443</span>
+          <span class="chip">YouTube demo</span>
+        </div>
+      </div>
+      <div class="intro-actions">
+        <div class="stat"><div id="statTotal">0</div><small>Total tests</small></div>
+        <div class="stat"><div id="statOT">0</div><small>OT/ICS</small></div>
+        <div class="stat"><div id="statFIN">0</div><small>FinTech</small></div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <input id="search" class="search" placeholder="Search tests, ATT&CK, IEC, keywords…" />
+      <div id="tags" class="tags"></div>
+      <div class="right">
+        <select id="severityFilter" class="select">
+          <option value="">All severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <button id="clearBtn" class="btn ghost">Clear</button>
+      </div>
+    </section>
+
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <!-- Detail Drawer -->
+  <aside id="drawer" class="drawer">
+    <div class="drawer-header">
+      <h3 id="dTitle">—</h3>
+      <button id="closeDrawer" class="icon-btn" aria-label="Close">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div class="meta">
+        <span id="dDomain" class="chip"></span>
+        <span id="dSeverity" class="chip sev"></span>
+        <span id="dTechnique" class="chip"></span>
+        <span id="dIEC" class="chip"></span>
+      </div>
+
+      <p id="dDesc" class="muted"></p>
+
+      <div class="two-col">
+        <div>
+          <h4>Quick query (KQL)</h4>
+          <pre id="dKql" class="code"></pre>
+          <div class="row gap">
+            <button id="copyKql" class="btn sm">Copy KQL</button>
+            <a id="openKibana" class="btn sm ghost" target="_blank" rel="noopener">Open in Kibana</a>
+          </div>
+
+          <h4 class="mt">Sigma (pseudo)</h4>
+          <pre id="dSigma" class="code"></pre>
+
+          <h4 class="mt">Playbook overview</h4>
+          <ul id="dPlaybook" class="bullets"></ul>
+
+          <div class="row gap mt">
+            <button id="runBtn" class="btn primary">Run in lab</button>
+            <span id="runHint" class="muted small">Configure API to enable (see <code>app.js</code>).</span>
+          </div>
+        </div>
+
+        <div>
+          <h4>Demo video</h4>
+          <div class="video-wrap">
+            <iframe id="dVideo" src="" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+
+          <h4 class="mt">Assets required</h4>
+          <ul id="dAssets" class="bullets"></ul>
+
+          <h4 class="mt">Notes</h4>
+          <p id="dNotes" class="small muted"></p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
