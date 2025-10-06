@@ -1,0 +1,79 @@
+:root{
+  --bg:#0b1720; --card:#0f212e; --muted:#9fb2bf; --text:#e6f0f6; --accent:#5ad7ff;
+  --chip:#163142; --chip-border:#1f3f54; --ok:#27d07d; --warn:#ffd166; --bad:#ff6b6b;
+  --shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:linear-gradient(180deg,#07121a 0%,var(--bg) 60%);
+  color:var(--text); font:16px/1.5 Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;
+}
+
+.topbar{
+  position:sticky; top:0; z-index:50;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 20px; background:rgba(7,18,26,.75); backdrop-filter:saturate(180%) blur(8px);
+  border-bottom:1px solid #0e2330;
+}
+.brand{font-weight:800; letter-spacing:.5px}
+.topnav a{color:var(--muted); margin-left:16px; text-decoration:none}
+.topnav a:hover{color:#fff}
+.pill{padding:6px 10px; border:1px solid #1c3342; border-radius:999px}
+.get-started{background:#113246; color:#cbeaff}
+
+.container{max-width:1200px; margin:28px auto; padding:0 16px}
+
+.card{background:var(--card); border:1px solid #132636; border-radius:14px; box-shadow:var(--shadow)}
+.intro{display:flex; justify-content:space-between; padding:20px}
+.intro-copy h1{margin:0 0 10px 0; font-size:20px}
+.quick .chip{margin-right:8px}
+.intro-actions{display:flex; gap:16px; align-items:flex-end}
+.stat{background:#0c1c27; border:1px solid #143247; border-radius:12px; padding:10px 14px; text-align:center; min-width:110px}
+.stat div{font-size:22px; font-weight:700}
+
+.toolbar{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin:18px 0}
+.search{flex:1; min-width:280px; padding:12px 14px; border-radius:12px; border:1px solid #163142; background:#0c1d28; color:#dfeaf0}
+.tags{display:flex; flex-wrap:wrap; gap:8px}
+.select,.btn{border-radius:10px; border:1px solid #163142; background:#0f202c; color:#dfeaf0; padding:10px 12px}
+.btn:hover{border-color:#204a62}
+.btn.ghost{background:transparent}
+.btn.sm{padding:6px 10px; font-size:13px}
+.btn.primary{background:#0d3447; border-color:#22526a}
+.right{display:flex; gap:8px}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px}
+.card-test{padding:16px; cursor:pointer; transition:transform .12s ease}
+.card-test:hover{transform:translateY(-2px)}
+.card-test h3{margin:6px 0 4px 0; font-size:16px}
+.badge{font-size:11px; padding:3px 6px; border-radius:999px; border:1px solid var(--chip-border); background:var(--chip); color:#cde7f3}
+.badge + .badge{margin-left:6px}
+.sev-crit{border-color:#5b2131;background:#2b0d16;color:#ffb3c0}
+.sev-high{border-color:#5d2a14;background:#2e1309;color:#ffc89b}
+.sev-med{border-color:#2a4d2e;background:#0f2612;color:#c5f2c9}
+.meta-line{display:flex; gap:6px; align-items:center; margin-top:8px}
+.small{font-size:12px}
+.muted{color:var(--muted)}
+.mt{margin-top:14px}
+.row{display:flex;align-items:center}
+.gap{gap:8px}
+.code{background:#0a1a24; border:1px solid #143247; padding:12px; border-radius:10px; overflow:auto}
+
+.chip{border:1px solid var(--chip-border); background:var(--chip); padding:4px 8px; border-radius:999px; color:#cfe8f8}
+.chip.sev{border-color:#3c5c6b}
+
+.drawer{
+  position:fixed; top:0; right:-720px; width:720px; max-width:95vw; height:100%;
+  background:linear-gradient(180deg,#0e2230 0%, #0c1c26 100%); border-left:1px solid #133041;
+  box-shadow:-40px 0 60px rgba(0,0,0,.4); transition:right .22s ease; z-index:100;
+  display:flex; flex-direction:column;
+}
+.drawer.open{right:0}
+.drawer-header{display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid #133041}
+.drawer-body{padding:18px; overflow:auto}
+.icon-btn{border:1px solid #24445a; background:#0a1a24; color:#cde7f3; border-radius:10px; padding:6px 10px}
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.bullets{margin:8px 0 0 18px}
+.video-wrap{position:relative; padding-top:56.25%; background:#07121a; border:1px solid #143247; border-radius:12px}
+.video-wrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
