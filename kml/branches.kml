@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Branches (demo)</name>
+    <name>FinTech Branch Network</name>
+    <description>Financial institution branch locations for port254 fraud detection monitoring</description>
+    
+    <Style id="branchIcon">
+      <IconStyle>
+        <color>ff6b6bff</color>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/dollar.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ffffffff</color>
+        <scale>0.85</scale>
+      </LabelStyle>
+    </Style>
+    
+    <!-- Branch 1 - New York HQ -->
     <Placemark>
-      <name>Branch A</name>
-      <Point><coordinates>115.8610,-31.9510,0</coordinates></Point>
+      <name>NYC Headquarters</name>
+      <description>
+        <![CDATA[
+        <h3>Global Headquarters</h3>
+        <p><strong>Type:</strong> Main Office</p>
+        <p><strong>Transactions/Day:</strong> ~45,000</p>
+        <p><strong>Card Terminals:</strong> 12</p>
+        <p><strong>Detection Focus:</strong> Account Takeover, Geo-Velocity</p>
+        <hr>
+        <p>Primary monitoring hub for fraud patterns</p>
+        ]]>
+      </description>
+      <styleUrl>#branchIcon</styleUrl>
+      <Point>
+        <coordinates>-74.006,40.713,0</coordinates>
+      </Point>
     </Placemark>
+    
+    <!-- Branch 2 - San Francisco -->
     <Placemark>
-      <name>Branch B</name>
-      <Point><coordinates>115.8590,-31.9490,0</coordinates></Point>
+      <name>San Francisco Branch</name>
+      <description>
+        <![CDATA[
+        <h3>West Coast Operations</h3>
+        <p><strong>Type:</strong> Regional Branch</p>
+        <p><strong>Transactions/Day:</strong> ~28,000</p>
+        <p><strong>Card Terminals:</strong> 8</p>
+        <p><strong>Detection Focus:</strong> Card Fraud, Velocity Checks</p>
+        ]]>
+      </description>
+      <styleUrl>#branchIcon</styleUrl>
+      <Point>
+        <coordinates>-122.419,37.775,0</coordinates>
+      </Point>
     </Placemark>
+    
+    <!-- Branch 3 - Chicago -->
+    <Placemark>
+      <name>Chicago Branch</name>
+      <description>
+        <![CDATA[
+        <h3>Midwest Hub</h3>
+        <p><strong>Type:</strong> Regional Branch</p>
+        <p><strong>Transactions/Day:</strong> ~31,000</p>
+        <p><strong>Card Terminals:</strong> 10</p>
+        <p><strong>Detection Focus:</strong> Micro-Transactions, Behavioral Anomalies</p>
+        ]]>
+      </description>
+      <styleUrl>#branchIcon</styleUrl>
+      <Point>
+        <coordinates>-87.629,41.878,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <!-- Branch 4 - Miami -->
+    <Placemark>
+      <name>Miami Branch</name>
+      <description>
+        <![CDATA[
+        <h3>Southeast Operations</h3>
+        <p><strong>Type:</strong> Regional Branch</p>
+        <p><strong>Transactions/Day:</strong> ~22,000</p>
+        <p><strong>Card Terminals:</strong> 7</p>
+        <p><strong>Detection Focus:</strong> International Fraud, ATO</p>
+        ]]>
+      </description>
+      <styleUrl>#branchIcon</styleUrl>
+      <Point>
+        <coordinates>-80.191,25.761,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <!-- Branch 5 - London -->
+    <Placemark>
+      <name>London Branch</name>
+      <description>
+        <![CDATA[
+        <h3>European Headquarters</h3>
+        <p><strong>Type:</strong> International Hub</p>
+        <p><strong>Transactions/Day:</strong> ~38,000</p>
+        <p><strong>Card Terminals:</strong> 15</p>
+        <p><strong>Detection Focus:</strong> Cross-Border Fraud, SWIFT Monitoring</p>
+        ]]>
+      </description>
+      <styleUrl>#branchIcon</styleUrl>
+      <Point>
+        <coordinates>-0.127,51.507,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <!-- Branch 6 - Singapore -->
+    <Placemark>
+      <name>Singapore Branch</name>
+      <description>
+        <![CDATA[
+        <h3>Asia-Pacific Hub</h3>
+        <p><strong>Type:</strong> Regional HQ</p>
+        <p><strong>Transactions/Day:</strong> ~52,000</p>
+        <p><strong>Card Terminals:</strong> 18</p>
+        <p><strong>Detection Focus:</strong> APT Activity, Account Compromise</p>
+        ]]>
+      </description>
+      <styleUrl>#branchIcon</styleUrl>
+      <Point>
+        <coordinates>103.851,1.290,0</coordinates>
+      </Point>
+    </Placemark>
+    
   </Document>
 </kml>
