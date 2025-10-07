@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honeypot Dashboard - port254</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-card {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        
+        .dashboard-card.featured {
+            border: 2px solid #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .dashboard-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        
+        .dashboard-metric {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-green { color: #10b981; }
+        .metric-blue { color: #60a5fa; }
+        .metric-red { color: #ff6b6b; }
+        .metric-orange { color: #ffa94d; }
+        
+        .dashboard-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .protocol-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .protocol-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #252525;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .protocol-name {
+            font-weight: 500;
+            color: #e5e7eb;
+        }
+        
+        .protocol-port {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-online {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .event-log {
+            background-color: #0a0a0a;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 0.5rem;
+            color: #9ca3af;
+        }
+        
+        .log-timestamp {
+            color: #6b7280;
+        }
+        
+        .log-level {
+            font-weight: bold;
+            margin: 0 0.5rem;
+        }
+        
+        .log-warn { color: #fbbf24; }
+        .log-error { color: #ef4444; }
+        .log-info { color: #60a5fa; }
+        
+        .chart-placeholder {
+            background: linear-gradient(180deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 107, 107, 0) 100%);
+            height: 200px;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+        
+        .top-attacks {
+            list-style: none;
+        }
+        
+        .attack-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background-color: #252525;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .attack-name {
+            color: #e5e7eb;
+            font-size: 0.875rem;
+        }
+        
+        .attack-count {
+            color: #ff6b6b;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">port254</h1>
+        </div>
+    </header>
+
+    <!-- Subtitle -->
+    <div class="subtitle-section">
+        <div class="container">
+            <div class="subtitle-content">
+                <p class="subtitle">Honeypot Live Telemetry Dashboard</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <div class="filters-nav-wrapper">
+                <div class="quick-filters">
+                    <span class="filter-label">Real-time monitoring:</span>
+                </div>
+
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">Detections</a>
+                    <a href="honeypot-dashboard.html" class="nav-link active">Honeypot Dashboard</a>
+                    <a href="#" class="nav-link">ATT&CK Matrix</a>
+                    <a href="#" class="nav-link">Documentation</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="cards-section">
+        <div class="container">
+            
+            <!-- Top Metrics -->
+            <div class="dashboard-grid">
+                <!-- Honeypot Status -->
+                <div class="dashboard-card featured">
+                    <div class="dashboard-card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="2"></circle>
+                            <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
+                        </svg>
+                        <span class="dashboard-card-title">Honeypot Status</span>
+                    </div>
+                    <div class="dashboard-metric metric-green">Online</div>
+                    <div class="dashboard-subtitle">All services operational</div>
+                    <div class="dashboard-subtitle">Uptime: 47d 12h 34m</div>
+                </div>
+
+                <!-- Events (24h) -->
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span class="dashboard-card-title">Events (24h)</span>
+                    </div>
+                    <div class="dashboard-metric metric-blue">1,247</div>
+                    <div class="dashboard-subtitle">↑ 18% from yesterday</div>
+                </div>
+
+                <!-- Unique IPs -->
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                        </svg>
+                        <span class="dashboard-card-title">Unique Source IPs</span>
+                    </div>
+                    <div class="dashboard-metric metric-orange">387</div>
+                    <div class="dashboard-subtitle">From 42 countries</div>
+                </div>
+
+                <!-- Malicious Activity -->
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                        <span class="dashboard-card-title">Detected Attacks</span>
+                    </div>
+                    <div class="dashboard-metric metric-red">142</div>
+                    <div class="dashboard-subtitle">High/Critical severity</div>
+                </div>
+            </div>
+
+            <!-- Protocol Status -->
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <span class="dashboard-card-title">Exposed Protocols</span>
+                    </div>
+                    <ul class="protocol-list">
+                        <li class="protocol-item">
+                            <div>
+                                <div class="protocol-name">S7comm (Siemens PLC)</div>
+                                <div class="protocol-port">tcp/102</div>
+                            </div>
+                            <span class="status-badge status-online">Online</span>
+                        </li>
+                        <li class="protocol-item">
+                            <div>
+                                <div class="protocol-name">Modbus TCP</div>
+                                <div class="protocol-port">tcp/502</div>
+                            </div>
+                            <span class="status-badge status-online">Online</span>
+                        </li>
+                        <li class="protocol-item">
+                            <div>
+                                <div class="protocol-name">HTTP (Web Interface)</div>
+                                <div class="protocol-port">tcp/80</div>
+                            </div>
+                            <span class="status-badge status-online">Online</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <span class="dashboard-card-title">Top Attack Patterns (24h)</span>
+                    </div>
+                    <ul class="top-attacks">
+                        <li class="attack-item">
+                            <span class="attack-name">S7 Brute Force (T1110)</span>
+                            <span class="attack-count">487</span>
+                        </li>
+                        <li class="attack-item">
+                            <span class="attack-name">Modbus Scanning (T1046)</span>
+                            <span class="attack-count">312</span>
+                        </li>
+                        <li class="attack-item">
+                            <span class="attack-name">Port Enumeration</span>
+                            <span class="attack-count">198</span>
+                        </li>
+                        <li class="attack-item">
+                            <span class="attack-name">Invalid Function Codes</span>
+                            <span class="attack-count">142</span>
+                        </li>
+                        <li class="attack-item">
+                            <span class="attack-name">Connection Floods</span>
+                            <span class="attack-count">108</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Event Timeline Chart -->
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <span class="dashboard-card-title">Event Timeline (Last 24 Hours)</span>
+                </div>
+                <div class="chart-placeholder">
+                    📊 Chart visualization - Integrate with ELK/Kibana for live data
+                    <br><small>Use Kibana embedded visualizations or Chart.js with ES queries</small>
+                </div>
+            </div>
+
+            <!-- Live Event Log -->
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <span class="dashboard-card-title">Live Event Stream</span>
+                </div>
+                <div class="event-log" id="eventLog">
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:23:45]</span>
+                        <span class="log-level log-warn">WARN</span>
+                        <span>S7 connection attempt from 203.0.113.42 - Invalid authentication</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:23:38]</span>
+                        <span class="log-level log-info">INFO</span>
+                        <span>Modbus read request (function 0x03) from 198.51.100.15</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:23:31]</span>
+                        <span class="log-level log-error">ERROR</span>
+                        <span>Malformed S7 packet detected from 192.0.2.78 - Potential exploit attempt</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:23:22]</span>
+                        <span class="log-level log-info">INFO</span>
+                        <span>Connection established on tcp/102 from 198.51.100.23</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:23:15]</span>
+                        <span class="log-level log-warn">WARN</span>
+                        <span>Modbus function code flood from 203.0.113.91 - Rate limit triggered</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:23:08]</span>
+                        <span class="log-level log-info">INFO</span>
+                        <span>S7 device enumeration scan detected from 198.51.100.67</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:22:59]</span>
+                        <span class="log-level log-error">ERROR</span>
+                        <span>Unauthorized PLC program upload attempt from 192.0.2.156</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:22:51]</span>
+                        <span class="log-level log-info">INFO</span>
+                        <span>HTTP request to /login from 203.0.113.12</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:22:44]</span>
+                        <span class="log-level log-warn">WARN</span>
+                        <span>Rapid connection attempts from 198.51.100.89 - Possible scanner</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-timestamp">[2024-10-07 14:22:37]</span>
+                        <span class="log-level log-info">INFO</span>
+                        <span>Modbus coil read from 192.0.2.34 - Normal operation</span>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button class="btn-primary" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+                        View Full Logs in Kibana →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Geographic Distribution -->
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <span class="dashboard-card-title">Geographic Distribution of Attacks</span>
+                </div>
+                <div class="chart-placeholder">
+                    🗺️ World Map - Top countries: China (34%), Russia (22%), USA (15%), Netherlands (9%), Germany (7%)
+                    <br><small>Integrate with Kibana Maps or use KML overlays</small>
+                </div>
+            </div>
+
+            <!-- Integration Info -->
+            <div class="dashboard-card" style="background-color: #1e293b; border-color: #334155;">
+                <div class="dashboard-card-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="dashboard-card-title">ELK Integration Status</span>
+                </div>
+                <div style="color: #94a3b8; font-size: 0.875rem; line-height: 1.8;">
+                    <p><strong>Next Steps:</strong></p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Configure Logstash/Filebeat to ingest Conpot logs</li>
+                        <li>Create Elasticsearch index: <code style="background: #0f172a; padding: 0.125rem 0.375rem; border-radius: 0.25rem;">regseek-events-*</code></li>
+                        <li>Build Kibana dashboards for each detection test case</li>
+                        <li>Replace placeholders with embedded Kibana iframes</li>
+                        <li>Use Elasticsearch Query DSL for real-time metrics</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">
+                        <strong>Sample ES Query for event counts:</strong><br>
+                        <code style="background: #0f172a; padding: 0.5rem; display: block; border-radius: 0.25rem; margin-top: 0.5rem; font-size: 0.75rem;">
+GET regseek-events-*/_count<br>
+{<br>
+  &nbsp;&nbsp;"query": {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;"range": { "@timestamp": { "gte": "now-24h" } }<br>
+  &nbsp;&nbsp;}<br>
+}
+                        </code>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>port254 Honeypot Dashboard | Real-time OT/ICS telemetry powered by Conpot & ELK Stack</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simulate live log updates (remove when connected to real data)
+        function addLogEntry() {
+            const logDiv = document.getElementById('eventLog');
+            const now = new Date();
+            const timestamp = now.toISOString().replace('T', ' ').substring(0, 19);
+            
+            const logTypes = [
+                { level: 'info', class: 'log-info', msg: 'S7 connection from 198.51.100.' + Math.floor(Math.random() * 255) },
+                { level: 'warn', class: 'log-warn', msg: 'Modbus scan detected from 203.0.113.' + Math.floor(Math.random() * 255) },
+                { level: 'error', class: 'log-error', msg: 'Malicious payload from 192.0.2.' + Math.floor(Math.random() * 255) }
+            ];
+            
+            const log = logTypes[Math.floor(Math.random() * logTypes.length)];
+            
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `
+                <span class="log-timestamp">[${timestamp}]</span>
+                <span class="log-level ${log.class}">${log.level.toUpperCase()}</span>
+                <span>${log.msg}</span>
+            `;
+            
+            logDiv.insertBefore(entry, logDiv.firstChild);
+            
+            // Keep only last 20 entries
+            while (logDiv.children.length > 20) {
+                logDiv.removeChild(logDiv.lastChild);
+            }
+        }
+        
+        // Add new log entry every 5 seconds (demo only)
+        setInterval(addLogEntry, 5000);
+    </script>
+</body>
+</html>
