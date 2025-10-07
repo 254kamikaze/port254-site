@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Branches (demo)</name>
+    <Placemark>
+      <name>Branch A</name>
+      <Point><coordinates>115.8610,-31.9510,0</coordinates></Point>
+    </Placemark>
+    <Placemark>
+      <name>Branch B</name>
+      <Point><coordinates>115.8590,-31.9490,0</coordinates></Point>
+    </Placemark>
+  </Document>
+</kml>
