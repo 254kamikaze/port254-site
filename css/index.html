@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>port254 — OT/FinTech Detection Catalog</title>
+  <meta name="description" content="Clean, RegSeek-style catalog of OT/FinTech detection playbooks mapped to ATT&CK and IEC-62443 with KQL/Sigma, videos, and optional live runs." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://254kamikaze.github.io/port254-site/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="port254 — Detection Catalog">
+  <meta property="og:description" content="RegSeek-style catalog for OT/FinTech detections with videos and live PoC.">
+  <meta property="og:url" content="https://254kamikaze.github.io/port254-site/">
+
+  <!-- Fonts/Perf hints (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookie-banner">
+    <div class="cookie-content">
+      <div class="cookie-text">
+        We use privacy-friendly analytics to understand how this demo is used. Data is anonymous and helps us improve the catalog.
+        <a href="#" onclick="showPrivacyDetails()">Learn more</a>.
+      </div>
+      <div class="cookie-buttons">
+        <button class="cookie-btn decline" onclick="declineAnalytics()">Decline</button>
+        <button class="cookie-btn accept" onclick="acceptAnalytics()">Accept Analytics</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="https://github.com/254kamikaze/port254-site" target="_blank" rel="noopener" class="logo-link">
+          <h1 class="logo">port254</h1>
+        </a>
+        <p class="tagline">OT/ICS + FinTech detection catalog in a clean RegSeek-style layout</p>
+        <p class="project-info">
+          Click the logo to visit the repo. Want to contribute tests? Open a PR with a new entry in
+          <code>tests.json</code>.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Search -->
+    <div class="search-container">
+      <div class="search-wrapper">
+        <input id="search" type="text" placeholder="Search tests by title, ATT&CK ID, IEC control, or keywords..." autocomplete="off">
+        <button class="advanced-search-btn" id="advanced-search-btn">Advanced Search</button>
+      </div>
+    </div>
+
+    <!-- Advanced Search Panel -->
+    <div class="advanced-search-panel" id="advanced-search-panel">
+      <div class="advanced-search-content">
+        <h3>Advanced Search Filters</h3>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>Domain</label>
+            <select id="filter-category">
+              <option value="">All Domains</option>
+              <option value="OT">OT/ICS</option>
+              <option value="FinTech">FinTech</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Severity</label>
+            <select id="filter-criticality">
+              <option value="">All</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>ATT&CK Technique</label>
+            <select id="filter-attack-technique">
+              <option value="">Any</option>
+              <!-- populated from data -->
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>IEC-62443 Control</label>
+            <select id="filter-hive">
+              <option value="">Any</option>
+              <!-- populated from data -->
+            </select>
+          </div>
+        </div>
+
+        <div class="advanced-search-actions">
+          <button class="btn-secondary" id="clear-filters">Clear All Filters</button>
+          <button class="btn-primary" id="apply-filters">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Filters -->
+    <div class="quick-filters">
+      <div class="filter-section">
+        <label>Quick Domain Filter:</label>
+        <div class="quick-filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="OT">OT/ICS</button>
+          <button class="filter-btn" data-filter="FinTech">FinTech</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value" id="total-artifacts">0</div>
+        <div class="stat-label">Total Tests</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="total-categories">0</div>
+        <div class="stat-label">Domains</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="visible-artifacts">0</div>
+        <div class="stat-label">Showing</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="high-criticality">0</div>
+        <div class="stat-label">High/Critical</div>
+      </div>
+    </div>
+
+    <!-- Sort -->
+    <div class="sort-options">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select">
+        <option value="title">Title (A-Z)</option>
+        <option value="title-desc">Title (Z-A)</option>
+        <option value="category">Domain</option>
+        <option value="criticality">Severity</option>
+      </select>
+    </div>
+
+    <!-- Grid -->
+    <div class="registry-grid" id="registry-grid">
+      <div class="loading">Loading tests…</div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal"></div>
+
+  <!-- Cookie banner scripts -->
+  <script>
+    function showCookieBanner(){
+      const b = document.getElementById('cookie-banner');
+      if(localStorage.getItem('analytics-consent')===null){ b.classList.add('show'); }
+    }
+    function acceptAnalytics(){ localStorage.setItem('analytics-consent','true'); document.getElementById('cookie-banner').classList.remove('show'); }
+    function declineAnalytics(){ localStorage.setItem('analytics-consent','false'); document.getElementById('cookie-banner').classList.remove('show'); }
+    function showPrivacyDetails(){ alert("We collect anonymous usage metrics (page views, searches, clicks) to improve the catalog. No personal data."); }
+    document.addEventListener('DOMContentLoaded', showCookieBanner);
+  </script>
+
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
