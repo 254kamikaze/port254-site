@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ot-s7-bruteforce-001",
+    "title": "S7 PLC Session Bruteforce (simulated)",
+    "domain": "ot",
+    "category": "Network/Access",
+    "criticality": "high",
+    "added_at": "2025-10-07T00:00:00Z",
+    "tags": ["s7", "ics", "plc", "bruteforce"],
+    "mitre_attack_ids": ["T1110", "T1040"],
+    "iec62443_controls": ["SR 1.1", "SR 1.2"],
+    "description": "Fake dataset: repeated failed S7Comm session setups to virtual PLC (Conpot) on tcp/102 from same source.",
+    "kibana_url": "#",
+    "youtube_url": "#",
+    "kml_url": "kml/plant.kml"
+  },
+  {
+    "id": "fintech-card-fraud-geo-002",
+    "title": "Card Fraud Geo Velocity Spike (simulated)",
+    "domain": "fintech",
+    "category": "Fraud/Behavioral",
+    "criticality": "critical",
+    "added_at": "2025-10-07T00:00:00Z",
+    "tags": ["card", "fraud", "velocity"],
+    "mitre_attack_ids": ["T1078"],
+    "iec62443_controls": ["SR 3.2", "SR 5.2"],
+    "description": "Fake dataset: same PAN used across distant geolocations within 10 minutes with abnormal spend velocity.",
+    "kibana_url": "#",
+    "youtube_url": "#",
+    "kml_url": "kml/branches.kml"
+  },
+  {
+    "id": "ot-modbus-flood-003",
+    "title": "Modbus Read Flood (simulated)",
+    "domain": "ot",
+    "category": "Protocol Abuse",
+    "criticality": "medium",
+    "added_at": "2025-10-05T00:00:00Z",
+    "tags": ["modbus","flood"],
+    "mitre_attack_ids": ["T1040"],
+    "iec62443_controls": ["SR 3.2"],
+    "description": "Fake event stream mimicking high-frequency Modbus reads.",
+    "kibana_url": "#",
+    "youtube_url": "#",
+    "kml_url": "kml/plant.kml"
+  },
+  {
+    "id": "fin-ato-004",
+    "title": "Account Takeover — Unusual Login Pattern (simulated)",
+    "domain": "fintech",
+    "category": "Auth",
+    "criticality": "high",
+    "added_at": "2025-09-01T00:00:00Z",
+    "tags": ["ato","login"],
+    "mitre_attack_ids": ["T1078"],
+    "iec62443_controls": ["SR 7.6"],
+    "description": "Simulated ATO login pattern for UI layout testing.",
+    "kibana_url": "#",
+    "youtube_url": "#",
+    "kml_url": "kml/branches.kml"
+  }
+]
