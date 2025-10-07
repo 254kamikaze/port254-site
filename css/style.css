@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal Layout - Centered</title>
+    <title>Modal Layout - Reorganized</title>
     <style>
         * {
             margin: 0;
@@ -30,7 +30,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.9);
-            padding: 2rem;
+            padding: 1rem;
         }
 
         .modal-content {
@@ -39,21 +39,18 @@
             border-radius: 0.75rem;
             max-width: 1600px;
             width: 98%;
-            max-height: 92vh;
+            max-height: 95vh;
             display: flex;
             flex-direction: column;
         }
 
         .modal-header {
-            position: sticky;
-            top: 0;
             background-color: #1a1a1a;
             border-bottom: 1px solid #2a2a2a;
             padding: 1.5rem;
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            z-index: 10;
         }
 
         .modal-title {
@@ -99,32 +96,104 @@
             color: white;
         }
 
-        /* Body Layout - Same as before */
+        /* NEW LAYOUT - 2 columns */
         .modal-body {
-            padding: 1rem;
+            padding: 1.5rem;
             display: grid;
-            grid-template-columns: 1fr 1fr 1.2fr;
-            gap: 1rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
             overflow-y: auto;
             flex: 1;
         }
 
+        /* Left Column */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Right Column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
         .modal-section {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0;
         }
 
         .section-title {
-            font-size: 0.75rem;
+            font-size: 0.688rem;
             font-weight: 600;
             color: #9ca3af;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .modal-text {
             color: #e5e7eb;
+            line-height: 1.6;
+            font-size: 0.875rem;
+        }
+
+        /* Mappings Row */
+        .mappings-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .mapping-column {
+            display: flex;
+            flex-direction: column;
+            background-color: #252525;
+            border: 1px solid #3a3a3a;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .badge-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .mapping-badge {
+            font-size: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid;
+            text-align: center;
+            background-color: transparent;
+        }
+
+        .mapping-mitre {
+            color: #93c5fd;
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .mapping-iec {
+            color: #c084fc;
+            border-color: rgba(192, 132, 252, 0.5);
+        }
+
+        .mapping-description {
+            padding: 0.75rem;
+            background-color: #1a1a1a;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
             line-height: 1.5;
+        }
+
+        .mapping-description strong {
+            color: #e5e7eb;
+            display: block;
+            margin-bottom: 0.5rem;
             font-size: 0.813rem;
         }
 
@@ -142,44 +211,19 @@
             border-radius: 0.25rem;
         }
 
-        .badge-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .mapping-badge {
-            font-size: 0.75rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.375rem;
-            border: 1px solid;
-        }
-
-        .mapping-mitre {
-            background-color: rgba(96, 165, 250, 0.15);
-            color: #93c5fd;
-            border-color: rgba(96, 165, 250, 0.3);
-        }
-
-        .mapping-iec {
-            background-color: rgba(192, 132, 252, 0.15);
-            color: #c084fc;
-            border-color: rgba(192, 132, 252, 0.3);
-        }
-
-        /* Lab Testing */
+        /* Lab Testing - Bottom Left */
         .lab-testing-section {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
             border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 0.5rem;
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
         .lab-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .lab-header svg {
@@ -188,16 +232,20 @@
             height: 18px;
         }
 
+        .lab-header .section-title {
+            margin: 0;
+        }
+
         .lab-description {
             color: #9ca3af;
-            font-size: 0.875rem;
-            line-height: 1.7;
+            font-size: 0.813rem;
+            line-height: 1.6;
             margin-bottom: 1rem;
         }
 
         .lab-description strong {
             color: #e5e7eb;
-            font-size: 0.938rem;
+            font-size: 0.875rem;
         }
 
         .btn-trigger {
@@ -207,14 +255,15 @@
             gap: 0.5rem;
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 0.5rem;
             font-weight: 600;
             border: none;
             cursor: pointer;
-            font-size: 0.938rem;
+            font-size: 0.875rem;
             transition: all 0.2s;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            width: 100%;
         }
 
         .btn-trigger:hover {
@@ -224,17 +273,21 @@
         }
 
         .btn-trigger svg {
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1rem;
+            height: 1rem;
         }
 
         /* Resource Frames */
         .resource-frame {
-            margin-bottom: 1.5rem;
             background-color: #0f0f0f;
             border: 1px solid #2a2a2a;
             border-radius: 0.5rem;
             overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .resource-frame:last-child {
+            margin-bottom: 0;
         }
 
         .resource-frame-header {
@@ -272,7 +325,7 @@
         .iframe-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%;
+            padding-bottom: 45%;
             height: 0;
             overflow: hidden;
             background-color: #0a0a0a;
@@ -319,33 +372,17 @@
         }
 
         .kml-preview {
-            padding-bottom: 40%;
+            padding-bottom: 35%;
         }
 
         .modal-footer {
             border-top: 1px solid #2a2a2a;
-            padding: 0.75rem 1rem;
+            padding: 0.75rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 0.75rem;
             color: #6b7280;
-        }
-
-        .mapping-description {
-            margin-top: 0.75rem;
-            padding: 0.75rem;
-            background-color: #0f0f0f;
-            border-radius: 0.375rem;
-            font-size: 0.813rem;
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        .mapping-description strong {
-            color: #e5e7eb;
-            display: block;
-            margin-bottom: 0.25rem;
         }
 
         /* Demo button */
@@ -387,8 +424,9 @@
             </div>
 
             <div class="modal-body">
-                <!-- Column 1: Description + MITRE + Tags -->
-                <div>
+                <!-- LEFT COLUMN -->
+                <div class="left-column">
+                    <!-- Description -->
                     <div class="modal-section">
                         <h3 class="section-title">Detection Description</h3>
                         <p class="modal-text">
@@ -396,17 +434,45 @@
                         </p>
                     </div>
 
-                    <div class="modal-section">
-                        <h3 class="section-title">MITRE ATT&CK Mapping</h3>
-                        <div class="badge-list">
-                            <span class="mapping-badge mapping-mitre">T1110</span>
+                    <!-- Mappings Row (MITRE + IEC side by side) -->
+                    <div class="mappings-row">
+                        <div class="mapping-column">
+                            <h3 class="section-title">MITRE ATT&CK Mapping</h3>
+                            <div class="badge-list">
+                                <span class="mapping-badge mapping-mitre">T1110</span>
+                                <span class="mapping-badge mapping-mitre">SR 1.1</span>
+                            </div>
+                            <div class="mapping-description">
+                                <strong>T1110: Brute Force</strong>
+                                Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.
+                            </div>
                         </div>
-                        <div class="mapping-description">
-                            <strong>T1110: Brute Force</strong>
-                            Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.
+
+                        <div class="mapping-column">
+                            <h3 class="section-title">IEC 62443 Controls</h3>
+                            <div class="badge-list">
+                                <span class="mapping-badge mapping-iec">SR 1.1</span>
+                                <span class="mapping-badge mapping-iec">SR 3.2</span>
+                                <span class="mapping-badge mapping-iec">SR 5.1</span>
+                                <span class="mapping-badge mapping-iec">SR 5.2</span>
+                                <span class="mapping-badge mapping-iec">SR 5.3</span>
+                            </div>
+                            <div class="mapping-description">
+                                <strong>SR 1.1: Human User Identification</strong>
+                                The control system shall provide the capability to identify and authenticate all human users.
+                            </div>
+                            <div class="mapping-description" style="margin-top: 0.5rem;">
+                                <strong>SR 3.2: Malicious Code Protection</strong>
+                                The control system shall provide the capability to protect itself from malicious code.
+                            </div>
+                            <div class="mapping-description" style="margin-top: 0.5rem;">
+                                <strong>SR 5.1: Network Segmentation</strong>
+                                The control system shall provide the capability to segment networks from other networks.
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Tags -->
                     <div class="modal-section">
                         <h3 class="section-title">Tags</h3>
                         <div class="tag-list">
@@ -416,32 +482,19 @@
                             <span class="tag">authentication</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Column 2: IEC + Lab Testing -->
-                <div>
-                    <div class="modal-section">
-                        <h3 class="section-title">IEC 62443 Controls</h3>
-                        <div class="badge-list">
-                            <span class="mapping-badge mapping-iec">SR 1.1</span>
-                            <span class="mapping-badge mapping-iec">SR 3.2</span>
-                        </div>
-                        <div class="mapping-description">
-                            <strong>SR 1.1: Human User Identification & Authentication</strong>
-                            The control system shall provide the capability to identify and authenticate all human users.
-                        </div>
-                    </div>
-
-                    <div class="modal-section lab-testing-section">
+                    <!-- Lab Testing -->
+                    <div class="lab-testing-section">
                         <div class="lab-header">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                             </svg>
-                            <h3 class="section-title" style="margin: 0;">Lab Testing</h3>
+                            <h3 class="section-title">Lab Testing</h3>
                         </div>
                         <p class="lab-description">
-                            <strong>Test in isolated lab.</strong><br>
-                            Generates synthetic attack traffic via Conpot honeypots to your ELK stack. Results appear in Kibana within 5-10 seconds.
+                            <strong>Test in isolated lab environment.</strong><br>
+                            Generates synthetic attack traffic via Conpot honeypots to your ELK stack. Results appear in Kibana within 5-10 seconds.<br><br>
+                            This feature allows security teams to validate detection rules in a safe, controlled environment before deploying to production systems. No actual infrastructure is affected during testing.
                         </p>
                         <button class="btn-trigger">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -452,8 +505,8 @@
                     </div>
                 </div>
 
-                <!-- Column 3: Resources (Kibana, YouTube, KML) -->
-                <div>
+                <!-- RIGHT COLUMN - Resources -->
+                <div class="right-column">
                     <div class="modal-section">
                         <h3 class="section-title">Telemetry & Resources</h3>
                         
@@ -497,29 +550,6 @@
                             </div>
                             <div class="iframe-container">
                                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        </div>
-
-                        <!-- KML -->
-                        <div class="resource-frame">
-                            <div class="resource-frame-header">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
-                                </svg>
-                                <span>Geospatial</span>
-                                <a href="#" class="open-external">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="iframe-container kml-preview">
-                                <div class="iframe-placeholder">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
-                                    </svg>
-                                    <p>Industrial Plant Locations</p>
-                                </div>
                             </div>
                         </div>
                     </div>
