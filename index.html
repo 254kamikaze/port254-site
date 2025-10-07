@@ -139,16 +139,42 @@
                     <div>
                         <h3 class="section-title">MITRE ATT&CK Mapping</h3>
                         <div id="modalMitre" class="badge-list"></div>
+                        <div id="modalMitreDesc" class="mapping-description"></div>
                     </div>
                     <div>
                         <h3 class="section-title">IEC 62443 Controls</h3>
                         <div id="modalIec" class="badge-list"></div>
+                        <div id="modalIecDesc" class="mapping-description"></div>
                     </div>
                 </div>
 
                 <div class="modal-section">
                     <h3 class="section-title">Tags</h3>
                     <div id="modalTags" class="tag-list"></div>
+                </div>
+
+                <!-- Lab Testing Section -->
+                <div class="modal-section lab-testing-section">
+                    <h3 class="section-title">🧪 Lab Testing</h3>
+                    <div class="lab-testing-card">
+                        <p class="lab-description">
+                            Trigger this detection in your lab environment. The test will generate synthetic events matching this attack pattern and send them to your ELK stack. Results will appear in the Kibana dashboard and event log below within 5-10 seconds.
+                        </p>
+                        <button class="btn-trigger" onclick="triggerDetection()">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Trigger Detection in Lab
+                        </button>
+                        <div id="labStatus" class="lab-status" style="display: none;">
+                            <span class="status-icon">⚡</span>
+                            <span id="labStatusText">Sending test events...</span>
+                        </div>
+                        <div id="labResults" class="lab-results" style="display: none;">
+                            <h4>Detection Results:</h4>
+                            <ul id="labResultsList"></ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-section resource-section">
