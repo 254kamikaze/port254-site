@@ -130,30 +130,35 @@
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-section">
-                    <h3 class="section-title">Detection Description</h3>
-                    <p id="modalDescription" class="modal-text"></p>
-                </div>
+                <!-- Left Column -->
+                <div>
+                    <div class="modal-section">
+                        <h3 class="section-title">Detection Description</h3>
+                        <p id="modalDescription" class="modal-text"></p>
+                    </div>
 
-                <div class="modal-grid">
-                    <div>
+                    <div class="modal-section">
                         <h3 class="section-title">MITRE ATT&CK Mapping</h3>
                         <div id="modalMitre" class="badge-list"></div>
                         <div id="modalMitreDesc"></div>
                     </div>
-                    <div>
+
+                    <div class="modal-section">
+                        <h3 class="section-title">Tags</h3>
+                        <div id="modalTags" class="tag-list"></div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <div class="modal-section">
                         <h3 class="section-title">IEC 62443 Controls</h3>
                         <div id="modalIec" class="badge-list"></div>
                         <div id="modalIecDesc"></div>
                     </div>
                 </div>
 
-                <div class="modal-section">
-                    <h3 class="section-title">Tags</h3>
-                    <div id="modalTags" class="tag-list"></div>
-                </div>
-
-                <!-- Lab Testing Section -->
+                <!-- Lab Testing Section - Full Width -->
                 <div class="modal-section lab-testing-section">
                     <div class="lab-header">
                         <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,60 +189,62 @@
                     </div>
                 </div>
 
+                <!-- Resources Section - Full Width -->
                 <div class="modal-section resource-section">
                     <h3 class="section-title">Telemetry & Resources</h3>
-                    
-                    <!-- Kibana View -->
-                    <div class="resource-frame">
-                        <div class="resource-frame-header">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                            <span>Kibana Dashboard - Live Event Query</span>
-                            <a id="kibanaOpenLink" href="#" target="_blank" class="open-external">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="iframe-container">
-                            <iframe id="kibanaFrame" src="" frameborder="0"></iframe>
-                            <div class="iframe-placeholder">
-                                <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <!-- Kibana View -->
+                        <div class="resource-frame">
+                            <div class="resource-frame-header">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
-                                <p>Kibana Dashboard</p>
-                                <small>Configure your Kibana URL in tests.json</small>
+                                <span>Kibana Dashboard</span>
+                                <a id="kibanaOpenLink" href="#" target="_blank" class="open-external">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="iframe-container">
+                                <iframe id="kibanaFrame" src="" frameborder="0"></iframe>
+                                <div class="iframe-placeholder">
+                                    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                    <p>Kibana Dashboard</p>
+                                    <small>Configure URL in tests.json</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- YouTube Demo -->
+                        <div class="resource-frame">
+                            <div class="resource-frame-header">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>Detection Demo Video</span>
+                                <a id="youtubeOpenLink" href="#" target="_blank" class="open-external">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="iframe-container">
+                                <iframe id="youtubeFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
 
-                    <!-- YouTube Demo -->
-                    <div class="resource-frame">
-                        <div class="resource-frame-header">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span>Detection Demo Video - Step-by-Step Walkthrough</span>
-                            <a id="youtubeOpenLink" href="#" target="_blank" class="open-external">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="iframe-container">
-                            <iframe id="youtubeFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-
-                    <!-- KML Overlay -->
-                    <div class="resource-frame">
+                    <!-- KML - Smaller, below -->
+                    <div class="resource-frame" style="margin-top: 1rem;">
                         <div class="resource-frame-header">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
                             </svg>
-                            <span>Geospatial Context - Site/Branch Locations</span>
+                            <span>Geospatial Context</span>
                             <a id="kmlDownloadLink" href="#" download class="open-external">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -249,14 +256,14 @@
                                 <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
                                 </svg>
-                                <p>KML Geospatial Overlay</p>
-                                <small id="kmlSiteName">Click download to open in Google Earth</small>
+                                <p>KML Overlay</p>
+                                <small id="kmlSiteName">Download for Google Earth</small>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal-footer full-width" style="grid-column: 1 / -1;">
                     <span id="modalDate" class="modal-date"></span>
                     <span class="modal-source">Source: Conpot Honeypot (S7/Modbus)</span>
                 </div>
