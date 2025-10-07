@@ -132,7 +132,7 @@ function renderCards() {
     noResults.style.display = 'none';
     
     grid.innerHTML = filteredTests.map(test => `
-        <div class="detection-card" onclick="openModal('${test.id}')">
+        <div class="detection-card" data-test-id="${test.id}">
             <div class="card-badges">
                 <span class="badge badge-${getCategoryClass(test.category)}">${test.category}</span>
                 <span class="badge badge-${getCriticalityClass(test.criticality)}">${test.criticality}</span>
@@ -167,6 +167,14 @@ function renderCards() {
             </div>
         </div>
     `).join('');
+    
+    // Add click listeners to cards
+    document.querySelectorAll('.detection-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const testId = card.dataset.testId;
+            openModal(testId);
+        });
+    });
 }
 
 // Update statistics
