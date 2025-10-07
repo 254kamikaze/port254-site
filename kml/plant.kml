@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Plant (demo)</name>
+    <Placemark>
+      <name>Virtual PLC (Demo)</name>
+      <Point><coordinates>115.8605,-31.9505,0</coordinates></Point>
+    </Placemark>
+  </Document>
+</kml>
