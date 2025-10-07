@@ -102,15 +102,115 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadTests() {
     try {
         const response = await fetch('./data/tests.json');
+        if (!response.ok) {
+            throw new Error('Failed to load tests.json');
+        }
         allTests = await response.json();
         filteredTests = [...allTests];
         renderCards();
         updateStats();
     } catch (error) {
         console.error('Error loading tests:', error);
-        // Fallback to empty state
-        allTests = [];
-        filteredTests = [];
+        // Fallback to embedded demo data
+        allTests = [
+            {
+                "id": "ot-001",
+                "title": "S7 Session Failure Storm Detection",
+                "domain": "ot",
+                "category": "PROTOCOL ABUSE",
+                "criticality": "CRITICAL",
+                "added_at": "2024-10-01T10:30:00Z",
+                "tags": ["s7", "plc", "brute-force", "authentication"],
+                "mitre_attack_ids": ["T1110"],
+                "iec62443_controls": ["SR 1.1", "SR 3.2"],
+                "identifier": "detection.ot.s7.session_failure_storm",
+                "description": "Detects repeated S7comm session establishment failures indicating brute force or misconfiguration attacks against Siemens PLCs on tcp/102",
+                "kibana_url": "https://your-kibana.example.com/app/discover#/view/s7-failures",
+                "youtube_video_id": "jNQXAC9IVRw",
+                "kml_url": "./kml/plant.kml"
+            },
+            {
+                "id": "ot-002",
+                "title": "Modbus Function Code Read Flood",
+                "domain": "ot",
+                "category": "NETWORK",
+                "criticality": "HIGH",
+                "added_at": "2024-09-28T14:20:00Z",
+                "tags": ["modbus", "scada", "reconnaissance", "enumeration"],
+                "mitre_attack_ids": ["T1040", "T1046"],
+                "iec62443_controls": ["SR 3.2", "SR 5.1"],
+                "identifier": "detection.ot.modbus.read_flood",
+                "description": "Identifies excessive Modbus read function codes (0x03/0x04) suggesting reconnaissance or data exfiltration attempts on ICS networks",
+                "kibana_url": "https://your-kibana.example.com/app/discover#/view/modbus-flood",
+                "youtube_video_id": "jNQXAC9IVRw",
+                "kml_url": "./kml/plant.kml"
+            },
+            {
+                "id": "ft-001",
+                "title": "Card Fraud Geo-Velocity Spike",
+                "domain": "fintech",
+                "category": "FRAUD",
+                "criticality": "HIGH",
+                "added_at": "2024-10-05T09:15:00Z",
+                "tags": ["cards", "geolocation", "velocity-check", "fraud"],
+                "mitre_attack_ids": ["T1078"],
+                "iec62443_controls": ["SR 5.2", "SR 7.6"],
+                "identifier": "detection.fintech.card.geo_velocity",
+                "description": "Detects card transactions from geographically impossible locations within short time windows, indicating credential compromise or card cloning",
+                "kibana_url": "https://your-kibana.example.com/app/discover#/view/card-velocity",
+                "youtube_video_id": "jNQXAC9IVRw",
+                "kml_url": "./kml/branches.kml"
+            },
+            {
+                "id": "ft-002",
+                "title": "Account Takeover - Unusual Login Pattern",
+                "domain": "fintech",
+                "category": "AUTH",
+                "criticality": "CRITICAL",
+                "added_at": "2024-10-03T16:45:00Z",
+                "tags": ["ato", "authentication", "behavioral", "anomaly"],
+                "mitre_attack_ids": ["T1078", "T1110"],
+                "iec62443_controls": ["SR 5.2", "SR 1.1"],
+                "identifier": "detection.fintech.auth.unusual_login",
+                "description": "Identifies login attempts with unusual device fingerprints, ISPs, or time-of-day patterns suggesting account takeover activity",
+                "kibana_url": "https://your-kibana.example.com/app/discover#/view/ato-pattern",
+                "youtube_video_id": "jNQXAC9IVRw",
+                "kml_url": "./kml/branches.kml"
+            },
+            {
+                "id": "ot-003",
+                "title": "Unauthorized PLC Program Upload",
+                "domain": "ot",
+                "category": "PROTOCOL ABUSE",
+                "criticality": "CRITICAL",
+                "added_at": "2024-09-25T11:00:00Z",
+                "tags": ["plc", "s7", "program-upload", "modification"],
+                "mitre_attack_ids": ["T1542"],
+                "iec62443_controls": ["SR 3.2", "SR 7.3"],
+                "identifier": "detection.ot.s7.unauthorized_upload",
+                "description": "Detects S7 program upload commands from unauthorized sources, indicating potential malicious logic injection attempts",
+                "kibana_url": "https://your-kibana.example.com/app/discover#/view/plc-upload",
+                "youtube_video_id": "jNQXAC9IVRw",
+                "kml_url": "./kml/plant.kml"
+            },
+            {
+                "id": "ft-003",
+                "title": "Rapid Micro-Transaction Pattern",
+                "domain": "fintech",
+                "category": "FRAUD",
+                "criticality": "MEDIUM",
+                "added_at": "2024-09-30T13:30:00Z",
+                "tags": ["transactions", "pattern", "money-laundering", "micro"],
+                "mitre_attack_ids": ["T1537"],
+                "iec62443_controls": ["SR 7.6"],
+                "identifier": "detection.fintech.txn.micro_pattern",
+                "description": "Flags accounts performing high-frequency micro-transactions that may indicate money laundering or testing stolen payment instruments",
+                "kibana_url": "https://your-kibana.example.com/app/discover#/view/micro-txn",
+                "youtube_video_id": "jNQXAC9IVRw",
+                "kml_url": "./kml/branches.kml"
+            }
+        ];
+        filteredTests = [...allTests];
         renderCards();
         updateStats();
     }
