@@ -4,6 +4,62 @@ let filteredTests = [];
 let currentFilter = 'all';
 let currentTest = null;
 
+// MITRE ATT&CK descriptions
+const mitreDescriptions = {
+    'T1110': {
+        name: 'Brute Force',
+        description: 'Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained. Without knowledge of the password for an account or set of accounts, an adversary may systematically guess the password using a repetitive or iterative mechanism.'
+    },
+    'T1040': {
+        name: 'Network Sniffing',
+        description: 'Adversaries may sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection.'
+    },
+    'T1046': {
+        name: 'Network Service Discovery',
+        description: 'Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation.'
+    },
+    'T1078': {
+        name: 'Valid Accounts',
+        description: 'Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Compromised credentials may be used to bypass access controls placed on various resources.'
+    },
+    'T1542': {
+        name: 'Pre-OS Boot',
+        description: 'Adversaries may abuse Pre-OS Boot mechanisms as a way to establish persistence on a system. During the booting process of a computer, firmware and various startup services are loaded before the operating system.'
+    },
+    'T1537': {
+        name: 'Transfer Data to Cloud Account',
+        description: 'Adversaries may exfiltrate data by transferring the data to a cloud account they control. This could be done through various cloud storage services or by abusing legitimate cloud APIs.'
+    }
+};
+
+// IEC 62443 control descriptions
+const iecDescriptions = {
+    'SR 1.1': {
+        name: 'Human User Identification & Authentication',
+        description: 'The control system shall provide the capability to identify and authenticate all human users. This requirement applies to all types of users, including operators, administrators, and maintenance personnel.'
+    },
+    'SR 3.2': {
+        name: 'Malicious Code Protection',
+        description: 'The control system shall provide the capability to protect itself from malicious code. This includes protection against viruses, worms, Trojan horses, and other forms of malware.'
+    },
+    'SR 5.1': {
+        name: 'Network Segmentation',
+        description: 'The control system shall provide the capability to segment the control system network from other networks. This includes logical or physical separation of control system networks from business networks.'
+    },
+    'SR 5.2': {
+        name: 'Zone Boundary Protection',
+        description: 'The control system shall provide the capability to protect zone boundaries. This includes monitoring and controlling communications at zone boundaries to enforce security policies.'
+    },
+    'SR 7.3': {
+        name: 'Control System Backup',
+        description: 'The control system shall provide the capability to back up system-level information and control system application software and configuration settings.'
+    },
+    'SR 7.6': {
+        name: 'Network and Security Configuration Settings',
+        description: 'The control system shall provide the capability to manage network and security configuration settings. This includes the ability to configure security parameters and audit security settings.'
+    }
+};
+
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     loadTests();
@@ -173,9 +229,29 @@ function openModal(testId) {
         .map(id => `<span class="mapping-badge mapping-mitre">${id}</span>`)
         .join('');
     
+    // Add MITRE descriptions
+    const mitreDescHtml = currentTest.mitre_attack_ids.map(id => {
+        const desc = mitreDescriptions[id];
+        if (desc) {
+            return `<div style="margin-bottom: 0.75rem;"><strong>${id}: ${desc.name}</strong><div style="margin-top: 0.25rem;">${desc.description}</div></div>`;
+        }
+        return '';
+    }).join('');
+    document.getElementById('modalMitreDesc').innerHTML = mitreDescHtml;
+    
     document.getElementById('modalIec').innerHTML = currentTest.iec62443_controls
         .map(c => `<span class="mapping-badge mapping-iec">${c}</span>`)
         .join('');
+    
+    // Add IEC descriptions
+    const iecDescHtml = currentTest.iec62443_controls.map(c => {
+        const desc = iecDescriptions[c];
+        if (desc) {
+            return `<div style="margin-bottom: 0.75rem;"><strong>${c}: ${desc.name}</strong><div style="margin-top: 0.25rem;">${desc.description}</div></div>`;
+        }
+        return '';
+    }).join('');
+    document.getElementById('modalIecDesc').innerHTML = iecDescHtml;
     
     document.getElementById('modalTags').innerHTML = currentTest.tags
         .map(tag => `<span class="tag">${tag}</span>`)
@@ -234,3 +310,91 @@ document.addEventListener('keydown', (e) => {
         closeYouTubeModal();
     }
 });
+
+// Trigger detection in lab
+async function triggerDetection() {
+    if (!currentTest) return;
+    
+    const statusDiv = document.getElementById('labStatus');
+    const resultsDiv = document.getElementById('labResults');
+    const resultsList = document.getElementById('labResultsList');
+    const statusText = document.getElementById('labStatusText');
+    
+    // Show status
+    statusDiv.style.display = 'flex';
+    resultsDiv.style.display = 'none';
+    statusText.textContent = 'Sending test events to ELK...';
+    
+    // Simulate API call to trigger detection
+    // In production, replace with actual API endpoint
+    try {
+        // Mock API call - replace with your actual endpoint
+        // const response = await fetch('/api/trigger-detection', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         detection_id: currentTest.id,
+        //         test_id: `test-${Date.now()}`
+        //     })
+        // });
+        
+        // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        statusText.textContent = 'Generating synthetic events...';
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        statusText.textContent = 'Indexing to Elasticsearch...';
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Hide status, show results
+        statusDiv.style.display = 'none';
+        resultsDiv.style.display = 'block';
+        
+        // Populate results
+        resultsList.innerHTML = `
+            <li>✓ Triggered ${currentTest.title}</li>
+            <li>✓ Generated 15 synthetic events matching attack pattern</li>
+            <li>✓ Events indexed to regseek-events-${new Date().toISOString().split('T')[0]}</li>
+            <li>✓ Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
+            <li>✓ View results in <a href="${currentTest.kibana_url}" target="_blank" style="color: #60a5fa;">Kibana Dashboard →</a></li>
+        `;
+        
+    } catch (error) {
+        statusDiv.style.display = 'none';
+        alert('Error triggering detection. Please check your ELK connection.');
+        console.error('Trigger error:', error);
+    }
+}
+
+/* 
+Production Implementation Guide:
+
+Replace the mock triggerDetection() with actual API:
+
+async function triggerDetection() {
+    const response = await fetch('https://your-api.example.com/api/v1/trigger-detection', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer YOUR_API_KEY'
+        },
+        body: JSON.stringify({
+            detection_id: currentTest.id,
+            identifier: currentTest.identifier,
+            test_count: 15,
+            target_index: 'regseek-events-*'
+        })
+    });
+    
+    const result = await response.json();
+    // Handle response and show results
+}
+
+Backend API endpoint should:
+1. Receive detection ID
+2. Generate synthetic events matching the attack pattern
+3. Send to Logstash/Elasticsearch
+4. Trigger the detection rule
+5. Return results with Kibana dashboard URL
+*/
