@@ -189,8 +189,14 @@ function updateStats() {
 
 // Open detail modal
 function openModal(testId) {
+    console.log('Opening modal for:', testId);
     currentTest = allTests.find(t => t.id === testId);
-    if (!currentTest) return;
+    if (!currentTest) {
+        console.error('Test not found:', testId);
+        return;
+    }
+    
+    console.log('Current test:', currentTest);
     
     document.getElementById('modalTitle').textContent = currentTest.title;
     document.getElementById('modalBadges').innerHTML = `
@@ -204,7 +210,7 @@ function openModal(testId) {
         .map(id => `<span class="mapping-badge mapping-mitre">${id}</span>`).join('');
     
     // Add MITRE descriptions
-    document.getElementById('modalMitreDesc').innerHTML = currentTest.mitre_attack_ids.map(id => {
+    const mitreDescHtml = currentTest.mitre_attack_ids.map(id => {
         const desc = mitreDescriptions[id];
         return desc ? `
             <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 0.375rem;">
@@ -213,12 +219,13 @@ function openModal(testId) {
             </div>
         ` : '';
     }).join('');
+    document.getElementById('modalMitreDesc').innerHTML = mitreDescHtml;
     
     document.getElementById('modalIec').innerHTML = currentTest.iec62443_controls
         .map(c => `<span class="mapping-badge mapping-iec">${c}</span>`).join('');
     
     // Add IEC descriptions
-    document.getElementById('modalIecDesc').innerHTML = currentTest.iec62443_controls.map(c => {
+    const iecDescHtml = currentTest.iec62443_controls.map(c => {
         const desc = iecDescriptions[c];
         return desc ? `
             <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 0.375rem;">
@@ -227,23 +234,29 @@ function openModal(testId) {
             </div>
         ` : '';
     }).join('');
+    document.getElementById('modalIecDesc').innerHTML = iecDescHtml;
     
     document.getElementById('modalTags').innerHTML = currentTest.tags
         .map(tag => `<span class="tag">${tag}</span>`).join('');
     
     // Set up resources
-    document.getElementById('kibanaFrame').src = currentTest.kibana_url !== '#' ? currentTest.kibana_url : '';
-    document.getElementById('kibanaOpenLink').href = currentTest.kibana_url;
+    const kibanaUrl = currentTest.kibana_url;
+    document.getElementById('kibanaFrame').src = kibanaUrl !== '#' ? kibanaUrl : '';
+    document.getElementById('kibanaOpenLink').href = kibanaUrl;
     
-    document.getElementById('youtubeFrame').src = `https://www.youtube.com/embed/${currentTest.youtube_video_id}?rel=0`;
+    const youtubeEmbedUrl = `https://www.youtube.com/embed/${currentTest.youtube_video_id}?rel=0`;
+    document.getElementById('youtubeFrame').src = youtubeEmbedUrl;
     document.getElementById('youtubeOpenLink').href = `https://www.youtube.com/watch?v=${currentTest.youtube_video_id}`;
     
     document.getElementById('kmlDownloadLink').href = currentTest.kml_url;
     document.getElementById('kmlSiteName').textContent = currentTest.domain === 'ot' ? 'Industrial Plant Locations' : 'Financial Branch Network';
     
-    document.getElementById('modalDate').textContent = `Added: ${new Date(currentTest.added_at).toLocaleDateString()}`;
+    const addedDate = new Date(currentTest.added_at);
+    document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
     
-    document.getElementById('detailModal').classList.add('active');
+    const modal = document.getElementById('detailModal');
+    modal.classList.add('active');
+    console.log('Modal should be visible now');
 }
 
 // Close modal
