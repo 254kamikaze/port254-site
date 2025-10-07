@@ -1,4 +1,36 @@
-// Global state
+// Add MITRE descriptions
+    const mitreDescHtml = currentTest.mitre_attack_ids.map(id => {
+        const desc = mitreDescriptions[id];
+        if (desc) {
+            return `<div style="margin-bottom: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 0.375rem;">
+                <strong style="color: #60a5fa; display: block; margin-bottom: 0.5rem;">${id}: ${desc.name}</strong>
+                <div style="color: #9ca3af; font-size: 0.813rem; line-height: 1.6;">${desc.description}</div>
+            </div>`;
+        }
+        return '';
+    }).join('');
+    document.getElementById('modalMitreDesc').innerHTML = mitreDescHtml;
+    
+    document.getElementById('modalIec').innerHTML = currentTest.iec62443_controls
+        .map(c => `<span class="mapping-badge mapping-iec">${c}</span>`)
+        .join('');
+    
+    // Add IEC descriptions
+    const iecDescHtml = currentTest.iec62443_controls.map(c => {
+        const desc = iecDescriptions[c];
+        if (desc) {
+            return `<div style="margin-bottom: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 0.375rem;">
+                <strong style="color: #c084fc; display: block; margin-bottom: 0.5rem;">${c}: ${desc.name}</strong>
+                <div style="color: #9ca3af; font-size: 0.813rem; line-height: 1.6;">${desc.description}</div>
+            </div>`;
+        }
+        return '';
+    }).join('');
+    document.getElementById('modalIecDesc').innerHTML = iecDescHtml;
+    
+    document.getElementById('modalTags').innerHTML = currentTest.tags
+        .map(tag => `<span class="tag">${tag}</span>`)
+        .join('');// Global state
 let allTests = [];
 let filteredTests = [];
 let currentFilter = 'all';
