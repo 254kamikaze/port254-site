@@ -289,8 +289,21 @@ function openModal(testId) {
         .map(tag => `<span class="tag">${tag}</span>`)
         .join('');
     
-    document.getElementById('modalKibana').href = currentTest.kibana_url;
-    document.getElementById('modalKml').href = currentTest.kml_url;
+    // Set up resource iframes and links
+    // Kibana
+    const kibanaUrl = currentTest.kibana_url;
+    document.getElementById('kibanaFrame').src = kibanaUrl !== '#' ? kibanaUrl : '';
+    document.getElementById('kibanaOpenLink').href = kibanaUrl;
+    
+    // YouTube - embed directly
+    const youtubeEmbedUrl = `https://www.youtube.com/embed/${currentTest.youtube_video_id}?rel=0`;
+    document.getElementById('youtubeFrame').src = youtubeEmbedUrl;
+    document.getElementById('youtubeOpenLink').href = `https://www.youtube.com/watch?v=${currentTest.youtube_video_id}`;
+    
+    // KML
+    document.getElementById('kmlDownloadLink').href = currentTest.kml_url;
+    const kmlSiteName = currentTest.domain === 'ot' ? 'Industrial Plant Locations' : 'Financial Branch Network';
+    document.getElementById('kmlSiteName').textContent = kmlSiteName;
     
     const addedDate = new Date(currentTest.added_at);
     document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
@@ -302,22 +315,20 @@ function openModal(testId) {
 // Close detail modal
 function closeModal() {
     document.getElementById('detailModal').classList.remove('active');
+    // Stop videos when closing
+    document.getElementById('youtubeFrame').src = '';
+    document.getElementById('kibanaFrame').src = '';
     currentTest = null;
 }
 
-// Open YouTube modal
+// Open YouTube modal (removed - now using inline embed)
 function openYouTubeModal() {
-    if (!currentTest) return;
-    
-    const youtubeUrl = `https://www.youtube.com/embed/${currentTest.youtube_video_id}?autoplay=1`;
-    document.getElementById('youtubePlayer').src = youtubeUrl;
-    document.getElementById('youtubeModal').classList.add('active');
+    // Not needed anymore - YouTube is embedded directly
 }
 
-// Close YouTube modal
+// Close YouTube modal (removed - now using inline embed)
 function closeYouTubeModal() {
-    document.getElementById('youtubeModal').classList.remove('active');
-    document.getElementById('youtubePlayer').src = '';
+    // Not needed anymore
 }
 
 // Helper functions
