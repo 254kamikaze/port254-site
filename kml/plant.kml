@@ -1,10 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Plant (demo)</name>
+    <name>OT/ICS Industrial Sites</name>
+    <description>Sample industrial plant locations for port254 honeypot detections</description>
+    
+    <Style id="plantIcon">
+      <IconStyle>
+        <color>ff0000ff</color>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/factories.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ffffffff</color>
+        <scale>0.9</scale>
+      </LabelStyle>
+    </Style>
+    
+    <!-- Plant A - Manufacturing -->
     <Placemark>
-      <name>Virtual PLC (Demo)</name>
-      <Point><coordinates>115.8605,-31.9505,0</coordinates></Point>
+      <name>Plant A - Manufacturing Facility</name>
+      <description>
+        <![CDATA[
+        <h3>Primary Manufacturing Site</h3>
+        <p><strong>Type:</strong> Automotive Assembly</p>
+        <p><strong>PLC Count:</strong> 47 devices</p>
+        <p><strong>Protocols:</strong> S7comm, Modbus TCP</p>
+        <p><strong>Criticality:</strong> High</p>
+        <hr>
+        <p>Honeypot monitoring S7 sessions on tcp/102</p>
+        ]]>
+      </description>
+      <styleUrl>#plantIcon</styleUrl>
+      <Point>
+        <coordinates>-122.084,37.422,0</coordinates>
+      </Point>
     </Placemark>
+    
+    <!-- Plant B - Power Generation -->
+    <Placemark>
+      <name>Plant B - Power Generation</name>
+      <description>
+        <![CDATA[
+        <h3>Energy Production Facility</h3>
+        <p><strong>Type:</strong> Combined Cycle Gas Turbine</p>
+        <p><strong>SCADA Systems:</strong> 12 RTUs</p>
+        <p><strong>Protocols:</strong> Modbus, DNP3</p>
+        <p><strong>Criticality:</strong> Critical</p>
+        <hr>
+        <p>Honeypot monitoring Modbus traffic on tcp/502</p>
+        ]]>
+      </description>
+      <styleUrl>#plantIcon</styleUrl>
+      <Point>
+        <coordinates>-95.712,37.09,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <!-- Plant C - Water Treatment -->
+    <Placemark>
+      <name>Plant C - Water Treatment</name>
+      <description>
+        <![CDATA[
+        <h3>Municipal Water Facility</h3>
+        <p><strong>Type:</strong> Wastewater Treatment</p>
+        <p><strong>PLC Count:</strong> 23 devices</p>
+        <p><strong>Protocols:</strong> S7comm, Profinet</p>
+        <p><strong>Criticality:</strong> High</p>
+        <hr>
+        <p>Monitoring chemical dosing and pump controls</p>
+        ]]>
+      </description>
+      <styleUrl>#plantIcon</styleUrl>
+      <Point>
+        <coordinates>-80.191,25.761,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <!-- Plant D - Chemical Processing -->
+    <Placemark>
+      <name>Plant D - Chemical Processing</name>
+      <description>
+        <![CDATA[
+        <h3>Petrochemical Refinery</h3>
+        <p><strong>Type:</strong> Refining & Processing</p>
+        <p><strong>DCS Nodes:</strong> 156</p>
+        <p><strong>Protocols:</strong> Modbus, OPC UA</p>
+        <p><strong>Criticality:</strong> Critical</p>
+        <hr>
+        <p>High-risk environment with safety instrumented systems</p>
+        ]]>
+      </description>
+      <styleUrl>#plantIcon</styleUrl>
+      <Point>
+        <coordinates>-95.269,29.760,0</coordinates>
+      </Point>
+    </Placemark>
+    
   </Document>
 </kml>
