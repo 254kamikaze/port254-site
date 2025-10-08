@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - port254</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .doc-hero {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(37, 37, 37, 0.1) 100%);
+            border-bottom: 1px solid #2a2a2a;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        .doc-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+
+        .doc-hero p {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .doc-container {
+            padding: 3rem 1.5rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .doc-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 3rem;
+        }
+
+        .doc-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .doc-nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .doc-nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .doc-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .doc-nav-link {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .doc-nav-link:hover {
+            background-color: #252525;
+            color: #e5e7eb;
+        }
+
+        .doc-nav-link.active {
+            background-color: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        .doc-content {
+            min-height: 80vh;
+        }
+
+        .doc-section {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+
+        .doc-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+
+        .doc-section h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: #e5e7eb;
+        }
+
+        .doc-section h4 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 0.75rem;
+            color: #d1d5db;
+        }
+
+        .doc-section p {
+            color: #9ca3af;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .doc-code-block {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .doc-code-block code {
+            color: #93c5fd;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .doc-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .doc-list li {
+            color: #9ca3af;
+            padding: 0.75rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .doc-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-box p {
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .warning-box .info-box-title {
+            color: #fbbf24;
+        }
+
+        @media (max-width: 1024px) {
+            .doc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .doc-sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">port254</h1>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Detections</a>
+                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
+                <a href="#" class="nav-link">ATT&CK Matrix</a>
+                <a href="documentation.html" class="nav-link active">Documentation</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="doc-hero">
+        <h1>Documentation</h1>
+        <p>Learn how to use port254's detection catalog, integrate with your SIEM, and deploy honeypots</p>
+    </div>
+
+    <!-- Documentation Content -->
+    <div class="doc-container">
+        <div class="doc-grid">
+            <!-- Sidebar Navigation -->
+            <aside class="doc-sidebar">
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Getting Started</div>
+                    <div class="doc-nav-links">
+                        <a href="#overview" class="doc-nav-link active">Overview</a>
+                        <a href="#quick-start" class="doc-nav-link">Quick Start</a>
+                        <a href="#architecture" class="doc-nav-link">Architecture</a>
+                    </div>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Detection Rules</div>
+                    <div class="doc-nav-links">
+                        <a href="#detection-format" class="doc-nav-link">Rule Format</a>
+                        <a href="#deploying-rules" class="doc-nav-link">Deploying Rules</a>
+                        <a href="#testing-rules" class="doc-nav-link">Testing Rules</a>
+                    </div>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Honeypot Setup</div>
+                    <div class="doc-nav-links">
+                        <a href="#honeypot-install" class="doc-nav-link">Installation</a>
+                        <a href="#honeypot-config" class="doc-nav-link">Configuration</a>
+                        <a href="#honeypot-monitoring" class="doc-nav-link">Monitoring</a>
+                    </div>
+                </div>
+
+                <div class="doc-nav-section">
+                    <div class="doc-nav-title">Integration</div>
+                    <div class="doc-nav-links">
+                        <a href="#elk-integration" class="doc-nav-link">ELK Stack</a>
+                        <a href="#splunk-integration" class="doc-nav-link">Splunk</a>
+                        <a href="#api-reference" class="doc-nav-link">API Reference</a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="doc-content">
+                <section id="overview" class="doc-section">
+                    <h2>Overview</h2>
+                    <p>port254 is a comprehensive detection catalog specifically designed for OT/ICS and FinTech environments. It provides battle-tested detection rules mapped to MITRE ATT&CK and IEC 62443 frameworks, along with live honeypot telemetry for threat intelligence.</p>
+
+                    <h3>Key Features</h3>
+                    <ul class="doc-list">
+                        <li>Production-ready detection rules for OT/ICS protocols (S7, Modbus, DNP3)</li>
+                        <li>FinTech-specific fraud and authentication detections</li>
+                        <li>MITRE ATT&CK and IEC 62443 compliance mappings</li>
+                        <li>Live honeypot telemetry and threat intelligence</li>
+                        <li>Integrated lab testing environment</li>
+                        <li>Compatible with major SIEM platforms (ELK, Splunk, QRadar)</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Note
+                        </div>
+                        <p>All detection rules are tested in isolated lab environments before being added to the catalog. Each rule includes video demonstrations and Kibana dashboard templates.</p>
+                    </div>
+                </section>
+
+                <section id="quick-start" class="doc-section">
+                    <h2>Quick Start</h2>
+                    <p>Get up and running with port254 in less than 15 minutes.</p>
+
+                    <h3>Prerequisites</h3>
+                    <ul class="doc-list">
+                        <li>ELK Stack 8.x or Splunk 9.x</li>
+                        <li>Network access to OT/ICS devices or FinTech systems</li>
+                        <li>Basic knowledge of SIEM rule deployment</li>
+                    </ul>
+
+                    <h3>Step 1: Download Detection Rules</h3>
+                    <p>Clone the detection repository or download individual rules from the catalog:</p>
+                    <div class="doc-code-block">
+                        <code>git clone https://github.com/port254/detection-rules.git
+cd detection-rules</code>
+                    </div>
+
+                    <h3>Step 2: Import to Your SIEM</h3>
+                    <p>For ELK Stack (Elasticsearch):</p>
+                    <div class="doc-code-block">
+                        <code>curl -X PUT "localhost:9200/_index_template/port254-detections" \
+  -H 'Content-Type: application/json' \
+  -d @templates/elk/port254-template.json</code>
+                    </div>
+
+                    <h3>Step 3: Test Detection</h3>
+                    <p>Use the built-in lab testing feature to verify rules before production deployment. Click "Trigger Detection" in any detection's detail modal.</p>
+
+                    <div class="warning-box info-box">
+                        <div class="info-box-title">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                            Warning
+                        </div>
+                        <p>Lab testing generates synthetic attack traffic. Only use in isolated test environments, never in production networks.</p>
+                    </div>
+                </section>
+
+                <section id="architecture" class="doc-section">
+                    <h2>Architecture</h2>
+                    <p>port254 uses a modular architecture designed for flexibility and scalability:</p>
+
+                    <h3>Components</h3>
+                    <h4>1. Detection Catalog</h4>
+                    <p>Central repository of detection rules in universal format (Sigma-compatible). Each detection includes:</p>
+                    <ul class="doc-list">
+                        <li>Rule logic and query syntax</li>
+                        <li>MITRE ATT&CK technique mappings</li>
+                        <li>IEC 62443 control mappings</li>
+                        <li>False positive guidance</li>
+                        <li>Remediation steps</li>
+                    </ul>
+
+                    <h4>2. Honeypot Network</h4>
+                    <p>Distributed Conpot honeypots emulating:</p>
+                    <ul class="doc-list">
+                        <li>Siemens S7 PLCs (tcp/102)</li>
+                        <li>Modbus devices (tcp/502)</li>
+                        <li>DNP3 substations (tcp/20000)</li>
+                    </ul>
+
+                    <h4>3. Telemetry Pipeline</h4>
+                    <p>Real-time event streaming from honeypots to central analytics platform, providing threat intelligence and attack pattern analysis.</p>
+                </section>
+
+                <section id="detection-format" class="doc-section">
+                    <h2>Detection Rule Format</h2>
+                    <p>All port254 detection rules follow a standardized JSON format:</p>
+
+                    <div class="doc-code-block">
+                        <code>{
+  "id": "DET-OT-001",
+  "title": "S7 Session Failure Storm Detection",
+  "category": "PROTOCOL ABUSE",
+  "criticality": "CRITICAL",
+  "domain": "ot",
+  "description": "Detects repeated S7comm session...",
+  "mitre_attack_ids": ["T1110"],
+  "iec62443_controls": ["SR 1.1", "SR 3.2"],
+  "tags": ["s7", "plc", "brute-force"],
+  "query": "event.dataset:s7comm AND event.outcome:failure",
+  "threshold": 10,
+  "timeframe": "5m"
+}</code>
+                    </div>
+                </section>
+
+                <section id="deploying-rules" class="doc-section">
+                    <h2>Deploying Detection Rules</h2>
+                    
+                    <h3>ELK Stack Deployment</h3>
+                    <p>Import rules as Kibana detection rules:</p>
+                    <div class="doc-code-block">
+                        <code># Using Kibana API
+curl -X POST "localhost:5601/api/detection_engine/rules" \
+  -H 'kbn-xsrf: true' \
+  -H 'Content-Type: application/json' \
+  -d @rules/ot/s7-session-failure.json</code>
+                    </div>
+
+                    <h3>Splunk Deployment</h3>
+                    <p>Convert to Splunk correlation searches:</p>
+                    <div class="doc-code-block">
+                        <code>index=ics sourcetype=s7comm action=failure 
+| stats count by src_ip 
+| where count > 10</code>
+                    </div>
+                </section>
+
+                <section id="honeypot-install" class="doc-section">
+                    <h2>Honeypot Installation</h2>
+                    
+                    <h3>Docker Deployment (Recommended)</h3>
+                    <div class="doc-code-block">
+                        <code>docker run -d \
+  --name port254-honeypot \
+  -p 102:102 \
+  -p 502:502 \
+  -e HONEYPOT_TYPE=s7-modbus \
+  -e LOG_DESTINATION=elk \
+  -e ELK_HOST=your-elk-server:9200 \
+  port254/conpot-honeypot:latest</code>
+                    </div>
+
+                    <h3>Configuration</h3>
+                    <p>Edit <code>conpot.cfg</code> to customize honeypot behavior:</p>
+                    <div class="doc-code-block">
+                        <code>[s7]
+device_name = Siemens S7-1200
+firmware_version = V4.2
+listen_port = 102
+
+[logging]
+destination = elasticsearch
+host = 192.168.1.100
+port = 9200
+index = port254-honeypot</code>
+                    </div>
+                </section>
+
+                <section id="api-reference" class="doc-section">
+                    <h2>API Reference</h2>
+                    <p>Access port254 detection catalog programmatically.</p>
+
+                    <h3>Get All Detections</h3>
+                    <div class="doc-code-block">
+                        <code>GET /api/v1/detections
+
+Response:
+{
+  "total": 42,
+  "detections": [...]
+}</code>
+                    </div>
+
+                    <h3>Get Detection by ID</h3>
+                    <div class="doc-code-block">
+                        <code>GET /api/v1/detections/DET-OT-001
+
+Response:
+{
+  "id": "DET-OT-001",
+  "title": "S7 Session Failure Storm Detection",
+  ...
+}</code>
+                    </div>
+
+                    <h3>Search Detections</h3>
+                    <div class="doc-code-block">
+                        <code>GET /api/v1/detections/search?q=modbus&domain=ot
+
+Response:
+{
+  "results": [...],
+  "count": 5
+}</code>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>port254 Detection Catalog | Powered by Conpot honeypot telemetry | Mapping to MITRE ATT&CK & IEC 62443</p>
+        </div>
+    </footer>
+</body>
+</html>
