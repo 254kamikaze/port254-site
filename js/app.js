@@ -239,8 +239,7 @@ function openModal(testId) {
     }).join('');
     document.getElementById('modalIecDesc').innerHTML = iecDescHtml;
     
-    document.getElementById('modalTags').innerHTML = currentTest.tags
-        .map(tag => `<span class="tag">${tag}</span>`).join('');
+
     
     // Set up Kibana
     const kibanaUrl = currentTest.kibana_url;
