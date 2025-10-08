@@ -114,6 +114,7 @@
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
+            line-height: 1.3;
         }
 
         .technique-item:hover {
@@ -372,166 +373,166 @@
                 id: "TA0108",
                 description: "The adversary is trying to get into your ICS environment.",
                 techniques: [
-                    "Drive-by Compromise",
-                    "Exploit Public-Facing Application",
-                    "Exploitation of Remote Services",
-                    "External Remote Services",
-                    "Internet Accessible Device",
-                    "Remote Services",
-                    "Replication Through Removable Media",
-                    "Rogue Master",
-                    "Spearphishing Attachment",
-                    "Supply Chain Compromise",
-                    "Transient Cyber Asset",
-                    "Wireless Compromise"
+                    { name: "Drive-by Compromise", id: "T0817" },
+                    { name: "Exploit Public-Facing Application", id: "T0819" },
+                    { name: "Exploitation of Remote Services", id: "T0866" },
+                    { name: "External Remote Services", id: "T0822" },
+                    { name: "Internet Accessible Device", id: "T0883" },
+                    { name: "Remote Services", id: "T0886" },
+                    { name: "Replication Through Removable Media", id: "T0847" },
+                    { name: "Rogue Master", id: "T0848" },
+                    { name: "Spearphishing Attachment", id: "T0865" },
+                    { name: "Supply Chain Compromise", id: "T0862" },
+                    { name: "Transient Cyber Asset", id: "T0864" },
+                    { name: "Wireless Compromise", id: "T0860" }
                 ]
             },
             "Execution": {
                 id: "TA0104",
                 description: "The adversary is trying to run code or manipulate system functions, parameters, and data in an unauthorized way.",
                 techniques: [
-                    "Autorun Image",
-                    "Change Operating Mode",
-                    "Command-Line Interface",
-                    "Execution through API",
-                    "Graphical User Interface",
-                    "Hooking",
-                    "Modify Controller Tasking",
-                    "Native API",
-                    "Scripting",
-                    "User Execution"
+                    { name: "Autorun Image", id: "T0803" },
+                    { name: "Change Operating Mode", id: "T0858" },
+                    { name: "Command-Line Interface", id: "T0807" },
+                    { name: "Execution through API", id: "T0871" },
+                    { name: "Graphical User Interface", id: "T0823" },
+                    { name: "Hooking", id: "T0874" },
+                    { name: "Modify Controller Tasking", id: "T0821" },
+                    { name: "Native API", id: "T0834" },
+                    { name: "Scripting", id: "T0853" },
+                    { name: "User Execution", id: "T0863" }
                 ]
             },
             "Persistence": {
                 id: "TA0110",
                 description: "The adversary is trying to maintain their foothold in your ICS environment.",
                 techniques: [
-                    "Hardcoded Credentials",
-                    "Modify Program",
-                    "Module Firmware",
-                    "Project File Infection",
-                    "System Firmware",
-                    "Valid Accounts"
+                    { name: "Hardcoded Credentials", id: "T0891" },
+                    { name: "Modify Program", id: "T0889" },
+                    { name: "Module Firmware", id: "T0839" },
+                    { name: "Project File Infection", id: "T0873" },
+                    { name: "System Firmware", id: "T0857" },
+                    { name: "Valid Accounts", id: "T0859" }
                 ]
             },
             "Privilege Escalation": {
                 id: "TA0111",
                 description: "The adversary is trying to gain higher-level permissions.",
                 techniques: [
-                    "Exploitation for Privilege Escalation",
-                    "Hooking"
+                    { name: "Exploitation for Privilege Escalation", id: "T0890" },
+                    { name: "Hooking", id: "T0874" }
                 ]
             },
             "Evasion": {
                 id: "TA0103",
                 description: "The adversary is trying to avoid security defenses.",
                 techniques: [
-                    "Change Operating Mode",
-                    "Exploitation for Evasion",
-                    "Indicator Removal on Host",
-                    "Masquerading",
-                    "Rootkit",
-                    "Spoof Reporting Message",
-                    "System Binary Proxy Execution"
+                    { name: "Change Operating Mode", id: "T0858" },
+                    { name: "Exploitation for Evasion", id: "T0820" },
+                    { name: "Indicator Removal on Host", id: "T0872" },
+                    { name: "Masquerading", id: "T0849" },
+                    { name: "Rootkit", id: "T0851" },
+                    { name: "Spoof Reporting Message", id: "T0856" },
+                    { name: "System Binary Proxy Execution", id: "T0202" }
                 ]
             },
             "Discovery": {
                 id: "TA0102",
                 description: "The adversary is locating information to assess and identify their targets in your environment.",
                 techniques: [
-                    "Network Connection Enumeration",
-                    "Network Sniffing",
-                    "Remote System Discovery",
-                    "Remote System Information Discovery",
-                    "Wireless Sniffing"
+                    { name: "Network Connection Enumeration", id: "T0840" },
+                    { name: "Network Sniffing", id: "T0842" },
+                    { name: "Remote System Discovery", id: "T0846" },
+                    { name: "Remote System Information Discovery", id: "T0888" },
+                    { name: "Wireless Sniffing", id: "T0887" }
                 ]
             },
             "Lateral Movement": {
                 id: "TA0109",
                 description: "The adversary is trying to move through your ICS environment.",
                 techniques: [
-                    "Default Credentials",
-                    "Exploitation of Remote Services",
-                    "Hardcoded Credentials",
-                    "Lateral Tool Transfer",
-                    "Program Download",
-                    "Remote Services",
-                    "Valid Accounts"
+                    { name: "Default Credentials", id: "T0812" },
+                    { name: "Exploitation of Remote Services", id: "T0866" },
+                    { name: "Hardcoded Credentials", id: "T0891" },
+                    { name: "Lateral Tool Transfer", id: "T0867" },
+                    { name: "Program Download", id: "T0843" },
+                    { name: "Remote Services", id: "T0886" },
+                    { name: "Valid Accounts", id: "T0859" }
                 ]
             },
             "Collection": {
                 id: "TA0100",
                 description: "The adversary is trying to gather data of interest and domain knowledge on your ICS environment to inform their goal.",
                 techniques: [
-                    "Adversary-in-the-Middle",
-                    "Automated Collection",
-                    "Data from Information Repositories",
-                    "Data from Local System",
-                    "Detect Operating Mode",
-                    "I/O Image",
-                    "Monitor Process State",
-                    "Point & Tag Identification",
-                    "Program Upload",
-                    "Screen Capture",
-                    "Wireless Sniffing"
+                    { name: "Adversary-in-the-Middle", id: "T0830" },
+                    { name: "Automated Collection", id: "T0802" },
+                    { name: "Data from Information Repositories", id: "T0811" },
+                    { name: "Data from Local System", id: "T0893" },
+                    { name: "Detect Operating Mode", id: "T0868" },
+                    { name: "I/O Image", id: "T0877" },
+                    { name: "Monitor Process State", id: "T0801" },
+                    { name: "Point & Tag Identification", id: "T0861" },
+                    { name: "Program Upload", id: "T0845" },
+                    { name: "Screen Capture", id: "T0852" },
+                    { name: "Wireless Sniffing", id: "T0887" }
                 ]
             },
             "Command and Control": {
                 id: "TA0101",
                 description: "The adversary is trying to communicate with and control compromised systems, controllers, and platforms with access to your ICS environment.",
                 techniques: [
-                    "Commonly Used Port",
-                    "Connection Proxy",
-                    "Standard Application Layer Protocol"
+                    { name: "Commonly Used Port", id: "T0885" },
+                    { name: "Connection Proxy", id: "T0884" },
+                    { name: "Standard Application Layer Protocol", id: "T0869" }
                 ]
             },
             "Inhibit Response Function": {
                 id: "TA0107",
                 description: "The adversary is trying to prevent your safety, protection, quality assurance, and operator intervention functions from responding to a failure, hazard, or unsafe state.",
                 techniques: [
-                    "Activate Firmware Update Mode",
-                    "Alarm Suppression",
-                    "Block Command Message",
-                    "Block Reporting Message",
-                    "Block Serial COM",
-                    "Change Credential",
-                    "Data Destruction",
-                    "Denial of Service",
-                    "Device Restart/Shutdown",
-                    "Manipulate I/O Image",
-                    "Modify Alarm Settings",
-                    "Rootkit",
-                    "Service Stop",
-                    "System Firmware"
+                    { name: "Activate Firmware Update Mode", id: "T0800" },
+                    { name: "Alarm Suppression", id: "T0878" },
+                    { name: "Block Command Message", id: "T0803" },
+                    { name: "Block Reporting Message", id: "T0804" },
+                    { name: "Block Serial COM", id: "T0805" },
+                    { name: "Change Credential", id: "T0892" },
+                    { name: "Data Destruction", id: "T0809" },
+                    { name: "Denial of Service", id: "T0814" },
+                    { name: "Device Restart/Shutdown", id: "T0816" },
+                    { name: "Manipulate I/O Image", id: "T0835" },
+                    { name: "Modify Alarm Settings", id: "T0838" },
+                    { name: "Rootkit", id: "T0851" },
+                    { name: "Service Stop", id: "T0881" },
+                    { name: "System Firmware", id: "T0857" }
                 ]
             },
             "Impair Process Control": {
                 id: "TA0106",
                 description: "The adversary is trying to manipulate, disable, or damage physical control processes.",
                 techniques: [
-                    "Brute Force I/O",
-                    "Modify Parameter",
-                    "Module Firmware",
-                    "Spoof Reporting Message",
-                    "Unauthorized Command Message"
+                    { name: "Brute Force I/O", id: "T0806" },
+                    { name: "Modify Parameter", id: "T0836" },
+                    { name: "Module Firmware", id: "T0839" },
+                    { name: "Spoof Reporting Message", id: "T0856" },
+                    { name: "Unauthorized Command Message", id: "T0855" }
                 ]
             },
             "Impact": {
                 id: "TA0105",
                 description: "The adversary is trying to manipulate, interrupt, or destroy your ICS systems, data, and their surrounding environment.",
                 techniques: [
-                    "Damage to Property",
-                    "Denial of Control",
-                    "Denial of View",
-                    "Loss of Availability",
-                    "Loss of Control",
-                    "Loss of Productivity and Revenue",
-                    "Loss of Protection",
-                    "Loss of Safety",
-                    "Loss of View",
-                    "Manipulation of Control",
-                    "Manipulation of View",
-                    "Theft of Operational Information"
+                    { name: "Damage to Property", id: "T0879" },
+                    { name: "Denial of Control", id: "T0813" },
+                    { name: "Denial of View", id: "T0815" },
+                    { name: "Loss of Availability", id: "T0826" },
+                    { name: "Loss of Control", id: "T0827" },
+                    { name: "Loss of Productivity and Revenue", id: "T0828" },
+                    { name: "Loss of Protection", id: "T0837" },
+                    { name: "Loss of Safety", id: "T0880" },
+                    { name: "Loss of View", id: "T0829" },
+                    { name: "Manipulation of Control", id: "T0831" },
+                    { name: "Manipulation of View", id: "T0832" },
+                    { name: "Theft of Operational Information", id: "T0882" }
                 ]
             }
         };
@@ -552,8 +553,9 @@
                     </div>
                     <div class="techniques-list">
                         ${tacticData.techniques.map(tech => `
-                            <div class="technique-item" onclick="showTechniqueDetail('${tech}', '${tacticName}')">
-                                ${tech}
+                            <div class="technique-item" onclick='showTechniqueDetail(${JSON.stringify(tech)}, "${tacticName}")'>
+                                <div style="font-size: 0.65rem; color: #ff6b6b; margin-bottom: 0.25rem;">${tech.id}</div>
+                                ${tech.name}
                             </div>
                         `).join('')}
                     </div>
@@ -564,13 +566,13 @@
         }
 
         // Show technique detail
-        function showTechniqueDetail(techniqueName, tacticName) {
-            document.getElementById('techniqueId').textContent = `Technique`;
-            document.getElementById('techniqueName').textContent = techniqueName;
+        function showTechniqueDetail(technique, tacticName) {
+            document.getElementById('techniqueId').textContent = technique.id;
+            document.getElementById('techniqueName').textContent = technique.name;
             
             // Sample description - in real implementation, fetch from MITRE API
             document.getElementById('techniqueDescription').textContent = 
-                `${techniqueName} is a technique used by adversaries in ICS environments. This technique is categorized under the ${tacticName} tactic and represents a specific method attackers use to achieve their objectives in industrial control systems.`;
+                `${technique.name} is a technique used by adversaries in ICS environments. This technique is categorized under the ${tacticName} tactic and represents a specific method attackers use to achieve their objectives in industrial control systems.`;
             
             // Show tactics
             document.getElementById('techniqueTactics').innerHTML = `
