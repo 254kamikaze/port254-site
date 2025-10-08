@@ -520,6 +520,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    height: 810px;
 }
 
 .mapping-column {
@@ -529,6 +530,7 @@ body {
     border: 1px solid #3a3a3a;
     border-radius: 0.5rem;
     padding: 1rem;
+    overflow-y: auto;
 }
 
 .badge-list {
