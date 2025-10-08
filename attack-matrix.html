@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITRE ATT&CK ICS Matrix - port254</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .attack-hero {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(37, 37, 37, 0.1) 100%);
+            border-bottom: 1px solid #2a2a2a;
+            padding: 3rem 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .attack-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+
+        .attack-hero p {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .attack-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 1.5rem;
+        }
+
+        .attack-stat {
+            text-align: center;
+        }
+
+        .attack-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .attack-stat-label {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+
+        .matrix-container {
+            padding: 2rem 1.5rem;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .matrix-scroll {
+            min-width: 1600px;
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 0.75rem;
+        }
+
+        .tactic-column {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .tactic-header {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 107, 107, 0.1) 100%);
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid #ff6b6b;
+        }
+
+        .tactic-id {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            margin-bottom: 0.25rem;
+        }
+
+        .tactic-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .tactic-count {
+            font-size: 0.75rem;
+            color: #ff6b6b;
+        }
+
+        .techniques-list {
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .technique-item {
+            background-color: #252525;
+            border: 1px solid #3a3a3a;
+            border-radius: 0.375rem;
+            padding: 0.75rem 0.5rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .technique-item:hover {
+            background-color: rgba(255, 107, 107, 0.1);
+            border-color: #ff6b6b;
+            color: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        /* Technique Detail Modal */
+        .technique-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-y: auto;
+        }
+
+        .technique-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .technique-modal-content {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            max-width: 900px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .technique-modal-header {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .technique-modal-title {
+            font-size: 1.5rem;
+            color: #f3f4f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .technique-modal-id {
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .technique-modal-body {
+            padding: 1.5rem;
+        }
+
+        .technique-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .technique-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .technique-section-content {
+            color: #e5e7eb;
+            line-height: 1.8;
+            font-size: 0.875rem;
+        }
+
+        .technique-tactics-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .technique-tactic-badge {
+            background-color: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.813rem;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .technique-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .technique-close:hover {
+            color: white;
+        }
+
+        .legend {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+
+        .legend-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            margin-bottom: 1rem;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .legend-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.375rem;
+            flex-shrink: 0;
+        }
+
+        .legend-initial-access { background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%); }
+        .legend-execution { background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 100%); }
+        .legend-persistence { background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0.1) 100%); }
+        .legend-impact { background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.1) 100%); }
+
+        .legend-text {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 1024px) {
+            .attack-stats {
+                gap: 1.5rem;
+            }
+
+            .attack-stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">port254</h1>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Detections</a>
+                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
+                <a href="attack-matrix.html" class="nav-link active">ATT&CK Matrix</a>
+                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="attack-hero">
+        <h1>MITRE ATT&CK for ICS</h1>
+        <p>Adversary tactics and techniques for Industrial Control Systems based on real-world observations</p>
+        <div class="attack-stats">
+            <div class="attack-stat">
+                <div class="attack-stat-value">12</div>
+                <div class="attack-stat-label">Tactics</div>
+            </div>
+            <div class="attack-stat">
+                <div class="attack-stat-value">94</div>
+                <div class="attack-stat-label">Techniques</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matrix -->
+    <div class="matrix-container">
+        <div class="matrix-scroll">
+            <div class="matrix-grid" id="matrixGrid">
+                <!-- Matrix will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Technique Detail Modal -->
+    <div id="techniqueModal" class="technique-modal">
+        <div class="technique-modal-content">
+            <div class="technique-modal-header">
+                <button class="technique-close" onclick="closeTechniqueModal()">&times;</button>
+                <div class="technique-modal-id" id="techniqueId"></div>
+                <h2 class="technique-modal-title" id="techniqueName"></h2>
+            </div>
+            <div class="technique-modal-body">
+                <div class="technique-section">
+                    <h3 class="technique-section-title">Description</h3>
+                    <div class="technique-section-content" id="techniqueDescription"></div>
+                </div>
+                <div class="technique-section">
+                    <h3 class="technique-section-title">Tactics</h3>
+                    <div class="technique-tactics-list" id="techniqueTactics"></div>
+                </div>
+                <div class="technique-section">
+                    <h3 class="technique-section-title">Mitigations</h3>
+                    <div class="technique-section-content" id="techniqueMitigations"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>port254 Detection Catalog | Powered by Conpot honeypot telemetry | Mapping to MITRE ATT&CK & IEC 62443</p>
+        </div>
+    </footer>
+
+    <script>
+        // ICS Tactics and Techniques Data
+        const icsMatrix = {
+            "Initial Access": {
+                id: "TA0108",
+                description: "The adversary is trying to get into your ICS environment.",
+                techniques: [
+                    "Drive-by Compromise",
+                    "Exploit Public-Facing Application",
+                    "Exploitation of Remote Services",
+                    "External Remote Services",
+                    "Internet Accessible Device",
+                    "Remote Services",
+                    "Replication Through Removable Media",
+                    "Rogue Master",
+                    "Spearphishing Attachment",
+                    "Supply Chain Compromise",
+                    "Transient Cyber Asset",
+                    "Wireless Compromise"
+                ]
+            },
+            "Execution": {
+                id: "TA0104",
+                description: "The adversary is trying to run code or manipulate system functions, parameters, and data in an unauthorized way.",
+                techniques: [
+                    "Autorun Image",
+                    "Change Operating Mode",
+                    "Command-Line Interface",
+                    "Execution through API",
+                    "Graphical User Interface",
+                    "Hooking",
+                    "Modify Controller Tasking",
+                    "Native API",
+                    "Scripting",
+                    "User Execution"
+                ]
+            },
+            "Persistence": {
+                id: "TA0110",
+                description: "The adversary is trying to maintain their foothold in your ICS environment.",
+                techniques: [
+                    "Hardcoded Credentials",
+                    "Modify Program",
+                    "Module Firmware",
+                    "Project File Infection",
+                    "System Firmware",
+                    "Valid Accounts"
+                ]
+            },
+            "Privilege Escalation": {
+                id: "TA0111",
+                description: "The adversary is trying to gain higher-level permissions.",
+                techniques: [
+                    "Exploitation for Privilege Escalation",
+                    "Hooking"
+                ]
+            },
+            "Evasion": {
+                id: "TA0103",
+                description: "The adversary is trying to avoid security defenses.",
+                techniques: [
+                    "Change Operating Mode",
+                    "Exploitation for Evasion",
+                    "Indicator Removal on Host",
+                    "Masquerading",
+                    "Rootkit",
+                    "Spoof Reporting Message",
+                    "System Binary Proxy Execution"
+                ]
+            },
+            "Discovery": {
+                id: "TA0102",
+                description: "The adversary is locating information to assess and identify their targets in your environment.",
+                techniques: [
+                    "Network Connection Enumeration",
+                    "Network Sniffing",
+                    "Remote System Discovery",
+                    "Remote System Information Discovery",
+                    "Wireless Sniffing"
+                ]
+            },
+            "Lateral Movement": {
+                id: "TA0109",
+                description: "The adversary is trying to move through your ICS environment.",
+                techniques: [
+                    "Default Credentials",
+                    "Exploitation of Remote Services",
+                    "Hardcoded Credentials",
+                    "Lateral Tool Transfer",
+                    "Program Download",
+                    "Remote Services",
+                    "Valid Accounts"
+                ]
+            },
+            "Collection": {
+                id: "TA0100",
+                description: "The adversary is trying to gather data of interest and domain knowledge on your ICS environment to inform their goal.",
+                techniques: [
+                    "Adversary-in-the-Middle",
+                    "Automated Collection",
+                    "Data from Information Repositories",
+                    "Data from Local System",
+                    "Detect Operating Mode",
+                    "I/O Image",
+                    "Monitor Process State",
+                    "Point & Tag Identification",
+                    "Program Upload",
+                    "Screen Capture",
+                    "Wireless Sniffing"
+                ]
+            },
+            "Command and Control": {
+                id: "TA0101",
+                description: "The adversary is trying to communicate with and control compromised systems, controllers, and platforms with access to your ICS environment.",
+                techniques: [
+                    "Commonly Used Port",
+                    "Connection Proxy",
+                    "Standard Application Layer Protocol"
+                ]
+            },
+            "Inhibit Response Function": {
+                id: "TA0107",
+                description: "The adversary is trying to prevent your safety, protection, quality assurance, and operator intervention functions from responding to a failure, hazard, or unsafe state.",
+                techniques: [
+                    "Activate Firmware Update Mode",
+                    "Alarm Suppression",
+                    "Block Command Message",
+                    "Block Reporting Message",
+                    "Block Serial COM",
+                    "Change Credential",
+                    "Data Destruction",
+                    "Denial of Service",
+                    "Device Restart/Shutdown",
+                    "Manipulate I/O Image",
+                    "Modify Alarm Settings",
+                    "Rootkit",
+                    "Service Stop",
+                    "System Firmware"
+                ]
+            },
+            "Impair Process Control": {
+                id: "TA0106",
+                description: "The adversary is trying to manipulate, disable, or damage physical control processes.",
+                techniques: [
+                    "Brute Force I/O",
+                    "Modify Parameter",
+                    "Module Firmware",
+                    "Spoof Reporting Message",
+                    "Unauthorized Command Message"
+                ]
+            },
+            "Impact": {
+                id: "TA0105",
+                description: "The adversary is trying to manipulate, interrupt, or destroy your ICS systems, data, and their surrounding environment.",
+                techniques: [
+                    "Damage to Property",
+                    "Denial of Control",
+                    "Denial of View",
+                    "Loss of Availability",
+                    "Loss of Control",
+                    "Loss of Productivity and Revenue",
+                    "Loss of Protection",
+                    "Loss of Safety",
+                    "Loss of View",
+                    "Manipulation of Control",
+                    "Manipulation of View",
+                    "Theft of Operational Information"
+                ]
+            }
+        };
+
+        // Populate matrix
+        function populateMatrix() {
+            const grid = document.getElementById('matrixGrid');
+            
+            Object.entries(icsMatrix).forEach(([tacticName, tacticData]) => {
+                const column = document.createElement('div');
+                column.className = 'tactic-column';
+                
+                column.innerHTML = `
+                    <div class="tactic-header">
+                        <div class="tactic-id">${tacticData.id}</div>
+                        <div class="tactic-name">${tacticName}</div>
+                        <div class="tactic-count">${tacticData.techniques.length} techniques</div>
+                    </div>
+                    <div class="techniques-list">
+                        ${tacticData.techniques.map(tech => `
+                            <div class="technique-item" onclick="showTechniqueDetail('${tech}', '${tacticName}')">
+                                ${tech}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                grid.appendChild(column);
+            });
+        }
+
+        // Show technique detail
+        function showTechniqueDetail(techniqueName, tacticName) {
+            document.getElementById('techniqueId').textContent = `Technique`;
+            document.getElementById('techniqueName').textContent = techniqueName;
+            
+            // Sample description - in real implementation, fetch from MITRE API
+            document.getElementById('techniqueDescription').textContent = 
+                `${techniqueName} is a technique used by adversaries in ICS environments. This technique is categorized under the ${tacticName} tactic and represents a specific method attackers use to achieve their objectives in industrial control systems.`;
+            
+            // Show tactics
+            document.getElementById('techniqueTactics').innerHTML = `
+                <div class="technique-tactic-badge">${tacticName}</div>
+            `;
+            
+            // Sample mitigations
+            document.getElementById('techniqueMitigations').innerHTML = `
+                <ul style="padding-left: 1.5rem; color: #9ca3af;">
+                    <li>Network segmentation to limit lateral movement</li>
+                    <li>Application allowlisting to prevent unauthorized execution</li>
+                    <li>Monitor for unusual process activity and command execution</li>
+                    <li>Implement least privilege access controls</li>
+                </ul>
+            `;
+            
+            document.getElementById('techniqueModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeTechniqueModal() {
+            document.getElementById('techniqueModal').classList.remove('active');
+        }
+
+        // Close on outside click
+        document.getElementById('techniqueModal').addEventListener('click', function(e) {
+            if (e.target.id === 'techniqueModal') {
+                closeTechniqueModal();
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeTechniqueModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', populateMatrix);
+    </script>
+</body>
+</html>
