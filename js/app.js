@@ -242,13 +242,24 @@ function openModal(testId) {
     document.getElementById('modalTags').innerHTML = currentTest.tags
         .map(tag => `<span class="tag">${tag}</span>`).join('');
     
-    // Set up resources
+    // Set up Kibana
     const kibanaUrl = currentTest.kibana_url;
-    document.getElementById('kibanaFrame').src = kibanaUrl !== '#' ? kibanaUrl : '';
+    const kibanaFrame = document.getElementById('kibanaFrame');
+    const kibanaPlaceholder = kibanaFrame.nextElementSibling;
+    
+    if (kibanaUrl && kibanaUrl !== '#') {
+        kibanaFrame.src = kibanaUrl;
+        kibanaPlaceholder.style.display = 'none';
+    } else {
+        kibanaFrame.src = '';
+        kibanaPlaceholder.style.display = 'flex';
+    }
     document.getElementById('kibanaOpenLink').href = kibanaUrl;
     
+    // Set up YouTube
+    const youtubeFrame = document.getElementById('youtubeFrame');
     const youtubeEmbedUrl = `https://www.youtube.com/embed/${currentTest.youtube_video_id}?rel=0`;
-    document.getElementById('youtubeFrame').src = youtubeEmbedUrl;
+    youtubeFrame.src = youtubeEmbedUrl;
     document.getElementById('youtubeOpenLink').href = `https://www.youtube.com/watch?v=${currentTest.youtube_video_id}`;
     
     const addedDate = new Date(currentTest.added_at);
