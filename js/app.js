@@ -4,6 +4,10 @@ let filteredTests = [];
 let currentFilter = 'all';
 let currentTest = null;
 
+// Rate limiting for trigger detection
+let lastTriggerTime = 0;
+const COOLDOWN_MS = 60000; // 1 minute cooldown
+
 // MITRE ATT&CK descriptions
 const mitreDescriptions = {
     'T1110': {
@@ -276,14 +280,51 @@ function closeModal() {
     currentTest = null;
 }
 
-// Trigger detection in lab
+// Trigger detection in lab (with rate limiting)
 async function triggerDetection() {
     if (!currentTest) return;
     
+    // Check rate limit / cooldown
+    const now = Date.now();
+    if (now - lastTriggerTime < COOLDOWN_MS) {
+        const remainingSeconds = Math.ceil((COOLDOWN_MS - (now - lastTriggerTime)) / 1000);
+        
+        // Show error message in the lab results area
+        const resultsDiv = document.getElementById('labResults');
+        const resultsList = document.getElementById('labResultsList');
+        
+        resultsDiv.style.display = 'block';
+        resultsDiv.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)';
+        resultsDiv.style.borderColor = '#ef4444';
+        
+        resultsList.innerHTML = `
+            <li style="color: #fca5a5;">⏱️ Rate limit active</li>
+            <li style="color: #9ca3af;">Please wait ${remainingSeconds} seconds before triggering again</li>
+            <li style="color: #9ca3af;">This prevents abuse and protects lab resources</li>
+        `;
+        
+        // Reset styling after a few seconds
+        setTimeout(() => {
+            resultsDiv.style.display = 'none';
+            resultsDiv.style.background = '';
+            resultsDiv.style.borderColor = '';
+        }, 3000);
+        
+        return;
+    }
+    
+    // Update last trigger time
+    lastTriggerTime = now;
+    
+    // Continue with existing detection logic
     const statusDiv = document.getElementById('labStatus');
     const resultsDiv = document.getElementById('labResults');
     const resultsList = document.getElementById('labResultsList');
     const statusText = document.getElementById('labStatusText');
+    
+    // Reset styling in case it was changed by rate limit message
+    resultsDiv.style.background = '';
+    resultsDiv.style.borderColor = '';
     
     statusDiv.style.display = 'flex';
     resultsDiv.style.display = 'none';
