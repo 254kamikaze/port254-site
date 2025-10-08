@@ -17,53 +17,17 @@ body {
     padding: 0 1.5rem;
 }
 
-/* Header with Terminal Logo */
+/* Header */
 .header {
     background-color: #1a1a1a;
     padding: 1.5rem 1.5rem 1rem;
 }
 
-.terminal-logo {
-    font-family: 'Courier New', monospace;
-    background: #1a1a1a;
-    border: 0px solid #333;
-    padding: 1.25rem 1.875rem;
-    border-radius: 0.375rem;
-    display: inline-block;
-    margin: 0 auto;
-    min-width: 450px;
-}
-
-.header .container {
-    display: flex;
-    justify-content: center;
-}
-
-.terminal-line {
-    margin: 0.5rem 0;
-    font-size: 0.875rem;
-}
-
-.terminal-prompt {
-    color: #4ade80;
-    font-size: 1.125rem;
-}
-
-.terminal-command {
-    color: #fff;
-}
-
-.logo-main {
+.logo {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: bold;
     color: #ff6b6b;
-    margin: 0.625rem 0;
-    letter-spacing: 0.5px;
-}
-
-.terminal-comment {
-    color: #666;
-    font-style: italic;
+    text-align: center;
 }
 
 /* Subtitle Section */
@@ -968,10 +932,6 @@ body {
     .modal-body-top {
         grid-template-columns: 1fr;
     }
-
-    .terminal-logo {
-        min-width: 350px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -989,22 +949,5 @@ body {
 
     .search-container {
         flex-direction: column;
-    }
-
-    .terminal-logo {
-        min-width: 280px;
-        padding: 1rem 1.25rem;
-    }
-
-    .logo-main {
-        font-size: 1.5rem;
-    }
-
-    .terminal-prompt {
-        font-size: 0.875rem;
-    }
-
-    .terminal-line {
-        font-size: 0.75rem;
     }
 }
