@@ -50,6 +50,10 @@ const iecDescriptions = {
         name: 'Zone Boundary Protection',
         description: 'The control system shall provide the capability to protect zone boundaries.'
     },
+    'SR 5.3': {
+        name: 'General Purpose Person-to-Person Communication',
+        description: 'The control system shall provide the capability to restrict general purpose person-to-person communication.'
+    },
     'SR 7.3': {
         name: 'Control System Backup',
         description: 'The control system shall provide the capability to back up system-level information and control system application software.'
@@ -189,14 +193,11 @@ function updateStats() {
 
 // Open detail modal
 function openModal(testId) {
-    console.log('Opening modal for:', testId);
     currentTest = allTests.find(t => t.id === testId);
     if (!currentTest) {
         console.error('Test not found:', testId);
         return;
     }
-    
-    console.log('Current test:', currentTest);
     
     document.getElementById('modalTitle').textContent = currentTest.title;
     document.getElementById('modalBadges').innerHTML = `
@@ -206,31 +207,33 @@ function openModal(testId) {
     
     document.getElementById('modalDescription').textContent = currentTest.description;
     
+    // MITRE badges
     document.getElementById('modalMitre').innerHTML = currentTest.mitre_attack_ids
         .map(id => `<span class="mapping-badge mapping-mitre">${id}</span>`).join('');
     
-    // Add MITRE descriptions
+    // MITRE descriptions
     const mitreDescHtml = currentTest.mitre_attack_ids.map(id => {
         const desc = mitreDescriptions[id];
         return desc ? `
-            <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 0.375rem;">
-                <strong style="color: #60a5fa; display: block; margin-bottom: 0.5rem;">${id}: ${desc.name}</strong>
-                <div style="color: #9ca3af; font-size: 0.813rem; line-height: 1.6;">${desc.description}</div>
+            <div class="mapping-description" style="margin-top: 0.5rem;">
+                <strong>${id}: ${desc.name}</strong>
+                ${desc.description}
             </div>
         ` : '';
     }).join('');
     document.getElementById('modalMitreDesc').innerHTML = mitreDescHtml;
     
+    // IEC badges
     document.getElementById('modalIec').innerHTML = currentTest.iec62443_controls
         .map(c => `<span class="mapping-badge mapping-iec">${c}</span>`).join('');
     
-    // Add IEC descriptions
+    // IEC descriptions
     const iecDescHtml = currentTest.iec62443_controls.map(c => {
         const desc = iecDescriptions[c];
         return desc ? `
-            <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 0.375rem;">
-                <strong style="color: #c084fc; display: block; margin-bottom: 0.5rem;">${c}: ${desc.name}</strong>
-                <div style="color: #9ca3af; font-size: 0.813rem; line-height: 1.6;">${desc.description}</div>
+            <div class="mapping-description" style="margin-top: 0.5rem;">
+                <strong>${c}: ${desc.name}</strong>
+                ${desc.description}
             </div>
         ` : '';
     }).join('');
@@ -248,15 +251,11 @@ function openModal(testId) {
     document.getElementById('youtubeFrame').src = youtubeEmbedUrl;
     document.getElementById('youtubeOpenLink').href = `https://www.youtube.com/watch?v=${currentTest.youtube_video_id}`;
     
-    document.getElementById('kmlDownloadLink').href = currentTest.kml_url;
-    document.getElementById('kmlSiteName').textContent = currentTest.domain === 'ot' ? 'Industrial Plant Locations' : 'Financial Branch Network';
-    
     const addedDate = new Date(currentTest.added_at);
     document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
     
     const modal = document.getElementById('detailModal');
     modal.classList.add('active');
-    console.log('Modal should be visible now');
 }
 
 // Close modal
