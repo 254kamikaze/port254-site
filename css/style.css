@@ -26,7 +26,7 @@ body {
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #b01a1a;
+    color: #60a5fa;
     text-align: center;
 }
 
@@ -82,11 +82,11 @@ body {
 
 .search-input:focus {
     outline: none;
-    border-color: #b01a1a;
+    border-color: #60a5fa;
 }
 
 .btn-primary {
-    background-color: #b01a1a;
+    background-color: #60a5fa;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
@@ -149,7 +149,7 @@ body {
 }
 
 .filter-btn.active {
-    background-color: #b01a1a;
+    background-color: #60a5fa;
     color: white;
 }
 
@@ -174,9 +174,9 @@ body {
 }
 
 .nav-link.active {
-    color: #b01a1a;
+    color: #60a5fa;
     font-weight: 600;
-    border-bottom-color: #b01a1a;
+    border-bottom-color: #60a5fa;
 }
 
 /* Stats Section */
@@ -203,7 +203,7 @@ body {
 .stat-value {
     font-size: 1.875rem;
     font-weight: bold;
-    color: #b01a1a;
+    color: #60a5fa;
 }
 
 .stat-value-orange {
@@ -284,7 +284,7 @@ body {
 }
 
 .detection-card:hover {
-    border-color: #b01a1a;
+    border-color: #60a5fa;
 }
 
 .card-badges {
@@ -385,7 +385,7 @@ body {
 
 .card-link {
     font-size: 0.875rem;
-    color: #b01a1a;
+    color: #60a5fa;
     display: flex;
     align-items: center;
     gap: 0.5rem;
