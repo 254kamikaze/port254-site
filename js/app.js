@@ -243,8 +243,6 @@ function openModal(testId) {
     }).join('');
     document.getElementById('modalIecDesc').innerHTML = iecDescHtml;
     
-
-    
     // Set up Kibana
     const kibanaUrl = currentTest.kibana_url;
     const kibanaFrame = document.getElementById('kibanaFrame');
@@ -259,12 +257,6 @@ function openModal(testId) {
     }
     document.getElementById('kibanaOpenLink').href = kibanaUrl;
     
-    // Set up YouTube
-    const youtubeFrame = document.getElementById('youtubeFrame');
-    const youtubeEmbedUrl = `https://www.youtube.com/embed/${currentTest.youtube_video_id}?rel=0`;
-    youtubeFrame.src = youtubeEmbedUrl;
-    document.getElementById('youtubeOpenLink').href = `https://www.youtube.com/watch?v=${currentTest.youtube_video_id}`;
-    
     const addedDate = new Date(currentTest.added_at);
     document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
     
@@ -275,7 +267,6 @@ function openModal(testId) {
 // Close modal
 function closeModal() {
     document.getElementById('detailModal').classList.remove('active');
-    document.getElementById('youtubeFrame').src = '';
     document.getElementById('kibanaFrame').src = '';
     currentTest = null;
 }
