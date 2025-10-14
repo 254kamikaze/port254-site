@@ -8,6 +8,9 @@ let currentTest = null;
 let lastTriggerTime = 0;
 const COOLDOWN_MS = 60000; // 1 minute cooldown
 
+// Backend API URL - CHANGE THIS TO YOUR PUBLIC IP
+const BACKEND_API_URL = 'http://58.84.157.60:5000';
+
 // MITRE ATT&CK descriptions
 const mitreDescriptions = {
     'T1110': {
@@ -271,9 +274,6 @@ function closeModal() {
     currentTest = null;
 }
 
-const BACKEND_API_URL = 'http://58.84.157.60:5000';  // e.g., 'http://203.0.113.45:5000'
-
-
 // Trigger detection in lab (with rate limiting)
 async function triggerDetection() {
     if (!currentTest) return;
@@ -367,3 +367,23 @@ async function triggerDetection() {
         `;
     }
 }
+
+// Helper functions
+function getCategoryClass(category) {
+    const map = {
+        'PROTOCOL ABUSE': 'protocol-abuse',
+        'NETWORK': 'network',
+        'FRAUD': 'fraud',
+        'AUTH': 'auth'
+    };
+    return map[category] || 'default';
+}
+
+function getCriticalityClass(criticality) {
+    return criticality.toLowerCase();
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+});
