@@ -9,7 +9,7 @@ let lastTriggerTime = 0;
 const COOLDOWN_MS = 60000; // 1 minute cooldown
 
 // Backend API URL - CHANGE THIS TO YOUR PUBLIC IP
-const BACKEND_API_URL = 'http://58.84.157.60:5000';
+const BACKEND_API_URL = 'https://api.port254.com';
 
 // MITRE ATT&CK descriptions
 const mitreDescriptions = {
