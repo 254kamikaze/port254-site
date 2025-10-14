@@ -11,7 +11,7 @@
     "iec62443_controls": ["SR 1.1", "SR 3.2"],
     "identifier": "detection.ot.s7.session_failure_storm",
     "description": "Detects repeated S7comm session establishment failures indicating brute force or misconfiguration attacks against Siemens PLCs on tcp/102",
-    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/s7-failures",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/fd3d563a-6cee-4a5e-a023-9b0d412454bd",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/plant.kml"
   },
