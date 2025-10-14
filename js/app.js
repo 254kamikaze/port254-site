@@ -271,6 +271,9 @@ function closeModal() {
     currentTest = null;
 }
 
+const BACKEND_API_URL = 'http://58.84.157.60:5000';  // e.g., 'http://203.0.113.45:5000'
+
+
 // Trigger detection in lab (with rate limiting)
 async function triggerDetection() {
     if (!currentTest) return;
@@ -280,7 +283,6 @@ async function triggerDetection() {
     if (now - lastTriggerTime < COOLDOWN_MS) {
         const remainingSeconds = Math.ceil((COOLDOWN_MS - (now - lastTriggerTime)) / 1000);
         
-        // Show error message in the lab results area
         const resultsDiv = document.getElementById('labResults');
         const resultsList = document.getElementById('labResultsList');
         
@@ -294,7 +296,6 @@ async function triggerDetection() {
             <li style="color: #9ca3af;">This prevents abuse and protects lab resources</li>
         `;
         
-        // Reset styling after a few seconds
         setTimeout(() => {
             resultsDiv.style.display = 'none';
             resultsDiv.style.background = '';
@@ -304,57 +305,65 @@ async function triggerDetection() {
         return;
     }
     
-    // Update last trigger time
     lastTriggerTime = now;
     
-    // Continue with existing detection logic
     const statusDiv = document.getElementById('labStatus');
     const resultsDiv = document.getElementById('labResults');
     const resultsList = document.getElementById('labResultsList');
     const statusText = document.getElementById('labStatusText');
     
-    // Reset styling in case it was changed by rate limit message
     resultsDiv.style.background = '';
     resultsDiv.style.borderColor = '';
     
     statusDiv.style.display = 'flex';
     resultsDiv.style.display = 'none';
-    statusText.textContent = 'Sending test events to ELK...';
+    statusText.textContent = 'Connecting to lab environment...';
     
-    await new Promise(r => setTimeout(r, 2000));
-    statusText.textContent = 'Generating synthetic events...';
-    await new Promise(r => setTimeout(r, 1500));
-    statusText.textContent = 'Indexing to Elasticsearch...';
-    await new Promise(r => setTimeout(r, 1500));
-    
-    statusDiv.style.display = 'none';
-    resultsDiv.style.display = 'block';
-    
-    resultsList.innerHTML = `
-        <li>Triggered ${currentTest.title}</li>
-        <li>Generated 15 synthetic events matching attack pattern</li>
-        <li>Events indexed to regseek-events-${new Date().toISOString().split('T')[0]}</li>
-        <li>Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
-        <li>View results in <a href="${currentTest.kibana_url}" target="_blank">Kibana Dashboard →</a></li>
-    `;
+    try {
+        // Call backend API
+        statusText.textContent = 'Sending test events to ELK...';
+        
+        const response = await fetch(`${BACKEND_API_URL}/trigger-detection`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(currentTest)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            statusDiv.style.display = 'none';
+            resultsDiv.style.display = 'block';
+            
+            resultsList.innerHTML = `
+                <li>✓ Triggered ${currentTest.title}</li>
+                <li>✓ Generated ${data.events_indexed} synthetic events matching attack pattern</li>
+                <li>✓ Events indexed to ${data.index}</li>
+                <li>✓ Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
+                <li>View results in <a href="${currentTest.kibana_url}" target="_blank">Kibana Dashboard →</a></li>
+            `;
+        } else {
+            throw new Error(data.message || 'Unknown error');
+        }
+        
+    } catch (error) {
+        console.error('Detection trigger error:', error);
+        statusDiv.style.display = 'none';
+        resultsDiv.style.display = 'block';
+        resultsDiv.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)';
+        resultsDiv.style.borderColor = '#ef4444';
+        
+        resultsList.innerHTML = `
+            <li style="color: #fca5a5;">❌ Error triggering detection</li>
+            <li style="color: #9ca3af;">${error.message}</li>
+            <li style="color: #9ca3af;">Check if backend API is accessible</li>
+            <li style="color: #9ca3af;">Backend URL: ${BACKEND_API_URL}</li>
+        `;
+    }
 }
-
-// Helper functions
-function getCategoryClass(category) {
-    const map = {
-        'PROTOCOL ABUSE': 'protocol-abuse',
-        'NETWORK': 'network',
-        'FRAUD': 'fraud',
-        'AUTH': 'auth'
-    };
-    return map[category] || 'default';
-}
-
-function getCriticalityClass(criticality) {
-    return criticality.toLowerCase();
-}
-
-// Close modal on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-});
