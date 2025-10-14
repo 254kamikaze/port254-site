@@ -11,7 +11,7 @@
     "iec62443_controls": ["SR 1.1", "SR 3.2"],
     "identifier": "detection.ot.s7.session_failure_storm",
     "description": "Detects repeated S7comm session establishment failures indicating brute force or misconfiguration attacks against Siemens PLCs on tcp/102",
-    "kibana_url": "https://your-kibana.example.com/app/discover#/view/s7-failures",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/s7-failures",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/plant.kml"
   },
@@ -27,7 +27,7 @@
     "iec62443_controls": ["SR 3.2", "SR 5.1"],
     "identifier": "detection.ot.modbus.read_flood",
     "description": "Identifies excessive Modbus read function codes (0x03/0x04) suggesting reconnaissance or data exfiltration attempts on ICS networks",
-    "kibana_url": "https://your-kibana.example.com/app/discover#/view/modbus-flood",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/modbus-flood",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/plant.kml"
   },
@@ -43,7 +43,7 @@
     "iec62443_controls": ["SR 5.2", "SR 7.6"],
     "identifier": "detection.fintech.card.geo_velocity",
     "description": "Detects card transactions from geographically impossible locations within short time windows, indicating credential compromise or card cloning",
-    "kibana_url": "https://your-kibana.example.com/app/discover#/view/card-velocity",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/card-velocity",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/branches.kml"
   },
@@ -59,7 +59,7 @@
     "iec62443_controls": ["SR 5.2", "SR 1.1"],
     "identifier": "detection.fintech.auth.unusual_login",
     "description": "Identifies login attempts with unusual device fingerprints, ISPs, or time-of-day patterns suggesting account takeover activity",
-    "kibana_url": "https://your-kibana.example.com/app/discover#/view/ato-pattern",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/ato-pattern",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/branches.kml"
   },
@@ -75,7 +75,7 @@
     "iec62443_controls": ["SR 3.2", "SR 7.3"],
     "identifier": "detection.ot.s7.unauthorized_upload",
     "description": "Detects S7 program upload commands from unauthorized sources, indicating potential malicious logic injection attempts",
-    "kibana_url": "https://your-kibana.example.com/app/discover#/view/plc-upload",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/plc-upload",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/plant.kml"
   },
@@ -91,7 +91,7 @@
     "iec62443_controls": ["SR 7.6"],
     "identifier": "detection.fintech.txn.micro_pattern",
     "description": "Flags accounts performing high-frequency micro-transactions that may indicate money laundering or testing stolen payment instruments",
-    "kibana_url": "https://your-kibana.example.com/app/discover#/view/micro-txn",
+    "kibana_url": "https://kibana.port254.com/app/dashboards#/view/view/micro-txn",
     "youtube_video_id": "jNQXAC9IVRw",
     "kml_url": "./kml/branches.kml"
   }
