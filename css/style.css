@@ -679,7 +679,7 @@ body {
 
 .lab-results {
     padding: 1rem;
-    border: 1px solid #10b981;
+    border: 0px solid #10b981;
     border-radius: 0.375rem;
     animation: slideIn 0.3s ease-out;
     margin-top: 1rem;
