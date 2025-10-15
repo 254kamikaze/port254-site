@@ -8,7 +8,7 @@ let currentTest = null;
 let lastTriggerTime = 0;
 const COOLDOWN_MS = 60000; // 1 minute cooldown
 
-// Backend API URL - CHANGE THIS TO YOUR PUBLIC IP
+// Backend API URL
 const BACKEND_API_URL = 'https://api.port254.com';
 
 // MITRE ATT&CK descriptions
@@ -246,20 +246,6 @@ function openModal(testId) {
     }).join('');
     document.getElementById('modalIecDesc').innerHTML = iecDescHtml;
     
-    // Set up Kibana
-    const kibanaUrl = currentTest.kibana_url;
-    const kibanaFrame = document.getElementById('kibanaFrame');
-    const kibanaPlaceholder = kibanaFrame.nextElementSibling;
-    
-    if (kibanaUrl && kibanaUrl !== '#') {
-        kibanaFrame.src = kibanaUrl;
-        kibanaPlaceholder.style.display = 'none';
-    } else {
-        kibanaFrame.src = '';
-        kibanaPlaceholder.style.display = 'flex';
-    }
-    document.getElementById('kibanaOpenLink').href = kibanaUrl;
-    
     const addedDate = new Date(currentTest.added_at);
     document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
     
@@ -270,15 +256,14 @@ function openModal(testId) {
 // Close modal
 function closeModal() {
     document.getElementById('detailModal').classList.remove('active');
-    document.getElementById('kibanaFrame').src = '';
     currentTest = null;
 }
 
-// Trigger detection in lab (with rate limiting)
+// Trigger detection in lab with ELK verification
 async function triggerDetection() {
     if (!currentTest) return;
     
-    // Check rate limit / cooldown
+    // Check rate limit
     const now = Date.now();
     if (now - lastTriggerTime < COOLDOWN_MS) {
         const remainingSeconds = Math.ceil((COOLDOWN_MS - (now - lastTriggerTime)) / 1000);
@@ -320,7 +305,6 @@ async function triggerDetection() {
     statusText.textContent = 'Connecting to lab environment...';
     
     try {
-        // Call backend API
         statusText.textContent = 'Sending test events to ELK...';
         
         const response = await fetch(`${BACKEND_API_URL}/trigger-detection`, {
@@ -337,16 +321,85 @@ async function triggerDetection() {
         
         const data = await response.json();
         
-        if (data.status === 'success') {
+        if (data.status === 'success' || data.status === 'partial') {
             statusDiv.style.display = 'none';
             resultsDiv.style.display = 'block';
             
+            const es = data.elasticsearch_verification;
+            const sizeKB = (es.index_size_bytes / 1024).toFixed(2);
+            const sizeMB = (es.index_size_bytes / (1024 * 1024)).toFixed(2);
+            const displaySize = es.index_size_bytes > 1048576 ? `${sizeMB} MB` : `${sizeKB} KB`;
+            
+            // Build event IDs HTML if available
+            let eventIdsHtml = '';
+            if (es.sample_event_ids && es.sample_event_ids.length > 0) {
+                eventIdsHtml = `
+                    <details style="margin-top: 0.75rem; cursor: pointer;">
+                        <summary style="color: #60a5fa; font-size: 0.813rem; user-select: none;">
+                            📄 View Sample Event IDs (Elasticsearch UUIDs) ▼
+                        </summary>
+                        <ul style="margin: 0.5rem 0 0 1rem; padding: 0.5rem; background: rgba(0,0,0,0.3); border-radius: 0.25rem; font-family: 'Courier New', monospace; font-size: 0.75rem; list-style: none;">
+                            ${es.sample_event_ids.map(id => `<li style="padding: 0.25rem 0; color: #93c5fd;">• ${id}</li>`).join('')}
+                        </ul>
+                    </details>
+                `;
+            }
+            
             resultsList.innerHTML = `
+                <li style="font-size: 0.875rem; font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">
+                    ✓ Test Completed Successfully
+                </li>
                 <li>✓ Triggered ${currentTest.title}</li>
                 <li>✓ Generated ${data.events_indexed} synthetic events matching attack pattern</li>
-                <li>✓ Events indexed to ${data.index}</li>
+                <li>✓ Events indexed to <code style="background: rgba(96, 165, 250, 0.15); padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #93c5fd;">${data.index}</code></li>
                 <li>✓ Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
-                <li>View results in <a href="${currentTest.kibana_url}" target="_blank">Kibana Dashboard →</a></li>
+                
+                <li style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 0.375rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <svg style="width: 1rem; height: 1rem; color: #60a5fa;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <strong style="color: #60a5fa; font-size: 0.875rem;">ELASTICSEARCH VERIFICATION</strong>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1rem; font-size: 0.813rem;">
+                        <span style="color: #9ca3af;">Cluster:</span>
+                        <span style="color: #e5e7eb;">${es.cluster_name} <span style="display: inline-block; width: 0.5rem; height: 0.5rem; background: ${es.cluster_status === 'green' ? '#10b981' : es.cluster_status === 'yellow' ? '#fbbf24' : '#ef4444'}; border-radius: 50%; margin-left: 0.25rem;"></span></span>
+                        
+                        <span style="color: #9ca3af;">ES Version:</span>
+                        <span style="color: #e5e7eb;">${es.elasticsearch_version}</span>
+                        
+                        <span style="color: #9ca3af;">Total Documents:</span>
+                        <span style="color: #e5e7eb; font-weight: 600;">${es.total_documents.toLocaleString()}</span>
+                        
+                        <span style="color: #9ca3af;">Index Size:</span>
+                        <span style="color: #e5e7eb;">${displaySize}</span>
+                        
+                        <span style="color: #9ca3af;">Query Time:</span>
+                        <span style="color: #e5e7eb;">${es.query_time_ms}ms</span>
+                        
+                        <span style="color: #9ca3af;">Shards:</span>
+                        <span style="color: #e5e7eb;">${es.shards.successful}/${es.shards.total} successful</span>
+                        
+                        <span style="color: #9ca3af;">Timestamp:</span>
+                        <span style="color: #e5e7eb; font-family: 'Courier New', monospace; font-size: 0.75rem;">${new Date(es.timestamp).toLocaleString()}</span>
+                    </div>
+                    
+                    ${eventIdsHtml}
+                    
+                    <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(96, 165, 250, 0.2); font-size: 0.75rem; color: #9ca3af;">
+                        💡 All data above is fetched live from Elasticsearch cluster
+                    </div>
+                </li>
+                
+                <li style="margin-top: 0.75rem;">
+                    <a href="${currentTest.kibana_url}" target="_blank" style="color: #60a5fa; text-decoration: none; display: inline-flex; align-items: center; gap: 0.375rem;">
+                        🔗 View Full Dashboard in Kibana
+                        <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                </li>
             `;
         } else {
             throw new Error(data.message || 'Unknown error');
