@@ -249,6 +249,9 @@ function openModal(testId) {
     const addedDate = new Date(currentTest.added_at);
     document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
     
+    // Clear previous test results
+    clearTestResults();
+    
     const modal = document.getElementById('detailModal');
     modal.classList.add('active');
 }
@@ -256,7 +259,20 @@ function openModal(testId) {
 // Close modal
 function closeModal() {
     document.getElementById('detailModal').classList.remove('active');
+    clearTestResults();
     currentTest = null;
+}
+
+// Clear test results
+function clearTestResults() {
+    const statusDiv = document.getElementById('labStatus');
+    const resultsDiv = document.getElementById('labResults');
+    
+    statusDiv.style.display = 'none';
+    resultsDiv.style.display = 'none';
+    resultsDiv.style.background = '';
+    resultsDiv.style.borderColor = '';
+    document.getElementById('labResultsList').innerHTML = '';
 }
 
 // Trigger detection in lab with ELK verification
@@ -282,9 +298,7 @@ async function triggerDetection() {
         `;
         
         setTimeout(() => {
-            resultsDiv.style.display = 'none';
-            resultsDiv.style.background = '';
-            resultsDiv.style.borderColor = '';
+            clearTestResults();
         }, 3000);
         
         return;
@@ -354,7 +368,7 @@ async function triggerDetection() {
                 <li>✓ Events indexed to <code style="background: rgba(96, 165, 250, 0.15); padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #93c5fd;">${data.index}</code></li>
                 <li>✓ Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
                 
-                <li style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 0.375rem;">
+                <li style="margin-top: 1rem; padding: 1rem; background: transparent; border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 0.375rem;">
                     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                         <svg style="width: 1rem; height: 1rem; color: #60a5fa;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -390,15 +404,6 @@ async function triggerDetection() {
                     <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(96, 165, 250, 0.2); font-size: 0.75rem; color: #9ca3af;">
                         💡 All data above is fetched live from Elasticsearch cluster
                     </div>
-                </li>
-                
-                <li style="margin-top: 0.75rem;">
-                    <a href="${currentTest.kibana_url}" target="_blank" style="color: #60a5fa; text-decoration: none; display: inline-flex; align-items: center; gap: 0.375rem;">
-                        🔗 View Full Dashboard in Kibana
-                        <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
                 </li>
             `;
         } else {
