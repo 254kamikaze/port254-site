@@ -11,6 +11,10 @@ const COOLDOWN_MS = 60000; // 1 minute cooldown
 // Backend API URL
 const BACKEND_API_URL = 'https://api.port254.com';
 
+// ELK Health Check
+let elkHealthCheckInterval = null;
+let elkHealthStatus = 'unknown'; // 'online', 'offline', 'unknown'
+
 // MITRE ATT&CK descriptions
 const mitreDescriptions = {
     'T1110': {
@@ -198,6 +202,76 @@ function updateStats() {
     ).length;
 }
 
+// ELK Health Check Function
+async function checkElkHealth() {
+    const elkHealthBox = document.getElementById('elkHealthBox');
+    const elkStatusDot = document.getElementById('elkStatusDot');
+    const elkStatusText = document.getElementById('elkStatusText');
+    const elkLastCheck = document.getElementById('elkLastCheck');
+    
+    if (!elkHealthBox) return;
+    
+    try {
+        const response = await fetch(`${BACKEND_API_URL}/health-check`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            if (data.status === 'online' || data.elasticsearch_status === 'healthy') {
+                elkHealthStatus = 'online';
+                elkStatusDot.style.backgroundColor = '#10b981';
+                elkStatusText.textContent = 'ELK Cluster Online';
+                elkStatusText.style.color = '#10b981';
+                elkHealthBox.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                elkHealthBox.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%)';
+            } else {
+                elkHealthStatus = 'offline';
+                elkStatusDot.style.backgroundColor = '#ef4444';
+                elkStatusText.textContent = 'ELK Cluster Offline';
+                elkStatusText.style.color = '#ef4444';
+                elkHealthBox.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                elkHealthBox.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%)';
+            }
+        } else {
+            throw new Error('Health check failed');
+        }
+    } catch (error) {
+        console.error('ELK health check failed:', error);
+        elkHealthStatus = 'offline';
+        elkStatusDot.style.backgroundColor = '#ef4444';
+        elkStatusText.textContent = 'ELK Cluster Offline';
+        elkStatusText.style.color = '#ef4444';
+        elkHealthBox.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+        elkHealthBox.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%)';
+    }
+    
+    const now = new Date();
+    elkLastCheck.textContent = `Last check: ${now.toLocaleTimeString()}`;
+}
+
+// Start ELK health monitoring
+function startElkHealthMonitoring() {
+    checkElkHealth();
+    
+    if (elkHealthCheckInterval) {
+        clearInterval(elkHealthCheckInterval);
+    }
+    elkHealthCheckInterval = setInterval(checkElkHealth, 60000);
+}
+
+// Stop ELK health monitoring
+function stopElkHealthMonitoring() {
+    if (elkHealthCheckInterval) {
+        clearInterval(elkHealthCheckInterval);
+        elkHealthCheckInterval = null;
+    }
+}
+
 // Open detail modal
 function openModal(testId) {
     currentTest = allTests.find(t => t.id === testId);
@@ -249,11 +323,13 @@ function openModal(testId) {
     const addedDate = new Date(currentTest.added_at);
     document.getElementById('modalDate').textContent = `Added: ${addedDate.toLocaleDateString()}`;
     
-    // Clear previous test results
     clearTestResults();
     
     const modal = document.getElementById('detailModal');
     modal.classList.add('active');
+    
+    // Start ELK health monitoring when modal opens
+    startElkHealthMonitoring();
 }
 
 // Close modal
@@ -261,6 +337,9 @@ function closeModal() {
     document.getElementById('detailModal').classList.remove('active');
     clearTestResults();
     currentTest = null;
+    
+    // Stop ELK health monitoring when modal closes
+    stopElkHealthMonitoring();
 }
 
 // Clear test results
@@ -278,6 +357,28 @@ function clearTestResults() {
 // Trigger detection in lab with ELK verification
 async function triggerDetection() {
     if (!currentTest) return;
+    
+    // Check ELK status before triggering
+    if (elkHealthStatus === 'offline') {
+        const resultsDiv = document.getElementById('labResults');
+        const resultsList = document.getElementById('labResultsList');
+        
+        resultsDiv.style.display = 'block';
+        resultsDiv.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)';
+        resultsDiv.style.borderColor = '#ef4444';
+        
+        resultsList.innerHTML = `
+            <li style="color: #fca5a5;">⚠️ Cannot trigger detection</li>
+            <li style="color: #9ca3af;">ELK cluster is currently offline</li>
+            <li style="color: #9ca3af;">Please wait for the cluster to come back online</li>
+        `;
+        
+        setTimeout(() => {
+            clearTestResults();
+        }, 4000);
+        
+        return;
+    }
     
     // Check rate limit
     const now = Date.now();
@@ -344,6 +445,23 @@ async function triggerDetection() {
             const sizeMB = (es.index_size_bytes / (1024 * 1024)).toFixed(2);
             const displaySize = es.index_size_bytes > 1048576 ? `${sizeMB} MB` : `${sizeKB} KB`;
             
+            // Build event timestamps HTML
+            let eventTimestampsHtml = '';
+            if (data.event_timestamps && data.event_timestamps.length > 0) {
+                const firstEvent = data.event_timestamps[0];
+                const lastEvent = data.event_timestamps[data.event_timestamps.length - 1];
+                
+                eventTimestampsHtml = `
+                    <li style="border-top: 1px solid rgba(16, 185, 129, 0.2); margin-top: 0.5rem; padding-top: 0.5rem;">
+                        <strong style="color: #10b981;">Event Timestamps:</strong><br>
+                        <span style="font-family: 'Courier New', monospace; font-size: 0.75rem; color: #9ca3af;">
+                            First: ${firstEvent}<br>
+                            Last: ${lastEvent}
+                        </span>
+                    </li>
+                `;
+            }
+            
             // Build event IDs HTML if available
             let eventIdsHtml = '';
             if (es.sample_event_ids && es.sample_event_ids.length > 0) {
@@ -367,6 +485,8 @@ async function triggerDetection() {
                 <li>✓ Generated ${data.events_indexed} synthetic events matching attack pattern</li>
                 <li>✓ Events indexed to <code style="background: rgba(96, 165, 250, 0.15); padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #93c5fd;">${data.index}</code></li>
                 <li>✓ Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
+                
+                ${eventTimestampsHtml}
                 
                 <li style="margin-top: 1rem; padding: 1rem; background: transparent; border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 0.375rem;">
                     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
