@@ -5,6 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>port254 - OT/ICS + FinTech Detection Catalog</title>
     <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* ELK Health Status Box */
+        .elk-health-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.875rem 1rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .elk-health-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .elk-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #10b981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .elk-status-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .elk-status-text {
+            font-size: 0.813rem;
+            font-weight: 600;
+            color: #10b981;
+            transition: color 0.3s ease;
+        }
+
+        .elk-last-check {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .elk-health-icon {
+            width: 18px;
+            height: 18px;
+            color: #10b981;
+            transition: color 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -130,67 +195,82 @@
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
 
-<div class="modal-body">
-    <div class="modal-body-top">
-        <!-- LEFT COLUMN -->
-        <div class="left-column">
-            <!-- Description -->
-            <div class="modal-section">
-                <h3 class="section-title">Detection Description</h3>
-                <p id="modalDescription" class="modal-text"></p>
-            </div>
+            <div class="modal-body">
+                <div class="modal-body-top">
+                    <!-- LEFT COLUMN -->
+                    <div class="left-column">
+                        <!-- Description -->
+                        <div class="modal-section">
+                            <h3 class="section-title">Detection Description</h3>
+                            <p id="modalDescription" class="modal-text"></p>
+                        </div>
 
-            <!-- Mappings Row (MITRE + IEC side by side) -->
-            <div class="mappings-row">
-                <div class="mapping-column">
-                    <h3 class="section-title">MITRE ATT&CK Mapping</h3>
-                    <div id="modalMitre" class="badge-list"></div>
-                    <div id="modalMitreDesc"></div>
-                </div>
+                        <!-- Mappings Row (MITRE + IEC side by side) -->
+                        <div class="mappings-row">
+                            <div class="mapping-column">
+                                <h3 class="section-title">MITRE ATT&CK Mapping</h3>
+                                <div id="modalMitre" class="badge-list"></div>
+                                <div id="modalMitreDesc"></div>
+                            </div>
 
-                <div class="mapping-column">
-                    <h3 class="section-title">IEC 62443 Controls</h3>
-                    <div id="modalIec" class="badge-list"></div>
-                    <div id="modalIecDesc"></div>
+                            <div class="mapping-column">
+                                <h3 class="section-title">IEC 62443 Controls</h3>
+                                <div id="modalIec" class="badge-list"></div>
+                                <div id="modalIecDesc"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN - Lab Testing Only -->
+                    <div class="right-column">
+                        <div class="modal-section">
+                            <h3 class="section-title">Lab Testing</h3>
+                            
+                            <!-- Lab Testing Section -->
+                            <div class="lab-testing-section">
+                                <div class="lab-header">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                    </svg>
+                                </div>
+
+                                <!-- ELK Health Status Box -->
+                                <div id="elkHealthBox" class="elk-health-box">
+                                    <div class="elk-health-left">
+                                        <div id="elkStatusDot" class="elk-status-dot"></div>
+                                        <div class="elk-status-info">
+                                            <span id="elkStatusText" class="elk-status-text">ELK Cluster Online</span>
+                                            <span id="elkLastCheck" class="elk-last-check">Checking...</span>
+                                        </div>
+                                    </div>
+                                    <svg class="elk-health-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                                    </svg>
+                                </div>
+
+                                <p class="lab-description">
+                                    <strong>Test in isolated lab environment.</strong><br>
+                                    Generates synthetic attack traffic via Conpot honeypots to your ELK stack. Results appear within 5-10 seconds.
+                                </p>
+                                <button class="btn-trigger" onclick="triggerDetection()">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    Trigger Detection
+                                </button>
+                                <div id="labStatus" class="lab-status" style="display: none;">
+                                    <span class="status-icon">⚡</span>
+                                    <span id="labStatusText">Sending events...</span>
+                                </div>
+                                <div id="labResults" class="lab-results" style="display: none;">
+                                    <h4>✓ Test Completed</h4>
+                                    <ul id="labResultsList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- RIGHT COLUMN - Lab Testing Only -->
-        <div class="right-column">
-            <div class="modal-section">
-                <h3 class="section-title">Lab Testing</h3>
-                
-                <!-- Lab Testing Section -->
-                <div class="lab-testing-section">
-                    <div class="lab-header">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                        </svg>
-                    </div>
-                    <p class="lab-description">
-                        <strong>Test in isolated lab environment.</strong><br>
-                        Generates synthetic attack traffic via Conpot honeypots to your ELK stack. Results appear within 5-10 seconds.
-                    </p>
-                    <button class="btn-trigger" onclick="triggerDetection()">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                        Trigger Detection
-                    </button>
-                    <div id="labStatus" class="lab-status" style="display: none;">
-                        <span class="status-icon">⚡</span>
-                        <span id="labStatusText">Sending events...</span>
-                    </div>
-                    <div id="labResults" class="lab-results" style="display: none;">
-                        <h4>✓ Test Completed</h4>
-                        <ul id="labResultsList"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
             <div class="modal-footer">
                 <span id="modalDate" class="modal-date"></span>
