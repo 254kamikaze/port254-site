@@ -657,3 +657,189 @@ function getCriticalityClass(criticality) {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
 });
+
+// Export detection rule in various formats
+function exportDetection(format) {
+    if (!currentTest) return;
+    
+    let content = '';
+    let filename = '';
+    
+    switch(format) {
+        case 'elastic':
+            content = generateElasticKQL(currentTest);
+            filename = `${currentTest.identifier}.kql`;
+            break;
+        case 'splunk':
+            content = generateSplunkSPL(currentTest);
+            filename = `${currentTest.identifier}.spl`;
+            break;
+        case 'sigma':
+            content = generateSigmaRule(currentTest);
+            filename = `${currentTest.identifier}.yml`;
+            break;
+        case 'sentinel':
+            content = generateSentinelKQL(currentTest);
+            filename = `${currentTest.identifier}_sentinel.kql`;
+            break;
+        case 'qradar':
+            content = generateQRadarAQL(currentTest);
+            filename = `${currentTest.identifier}.aql`;
+            break;
+    }
+    
+    // Create download
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    
+    // Show notification
+    const notification = document.getElementById('exportNotification');
+    const notificationText = document.getElementById('exportNotificationText');
+    notificationText.textContent = `✓ Downloaded ${format.toUpperCase()} detection rule: ${filename}`;
+    notification.style.display = 'block';
+    
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
+}
+
+// Generate Elastic KQL query
+function generateElasticKQL(test) {
+    const protocol = test.domain === 'ot' ? (test.identifier.includes('s7') ? 's7' : 'modbus') : 'https';
+    const port = test.domain === 'ot' ? (protocol === 's7' ? 102 : 502) : 443;
+    
+    return `# ${test.title}
+# Detection ID: ${test.id}
+# Description: ${test.description}
+# MITRE ATT&CK: ${test.mitre_attack_ids.join(', ')}
+# IEC 62443: ${test.iec62443_controls.join(', ')}
+# Severity: ${test.criticality}
+
+event.category: "network" 
+AND network.protocol: "${protocol}"
+AND destination.port: ${port}
+AND event.outcome: "failure"
+
+# Adjust threshold based on your environment
+| where count() > 5 within 300s by source.ip
+
+# Alert configuration
+| alert 
+  severity: ${test.criticality.toLowerCase()}
+  tags: [${test.mitre_attack_ids.map(id => `"${id}"`).join(', ')}]
+`;
+}
+
+// Generate Splunk SPL query
+function generateSplunkSPL(test) {
+    const protocol = test.domain === 'ot' ? (test.identifier.includes('s7') ? 's7' : 'modbus') : 'https';
+    const port = test.domain === 'ot' ? (protocol === 's7' ? 102 : 502) : 443;
+    
+    return `## ${test.title}
+## Detection ID: ${test.id}
+## Description: ${test.description}
+## MITRE ATT&CK: ${test.mitre_attack_ids.join(', ')}
+## IEC 62443: ${test.iec62443_controls.join(', ')}
+## Severity: ${test.criticality}
+
+index=* sourcetype=*
+| where protocol="${protocol}" AND dest_port=${port} AND action="failure"
+| bucket _time span=5m
+| stats count by _time, src_ip
+| where count > 5
+| eval severity="${test.criticality}"
+| eval mitre_attack="${test.mitre_attack_ids.join(', ')}"
+| eval detection_name="${test.title}"
+`;
+}
+
+// Generate Sigma rule
+function generateSigmaRule(test) {
+    const protocol = test.domain === 'ot' ? (test.identifier.includes('s7') ? 's7' : 'modbus') : 'https';
+    
+    return `title: ${test.title}
+id: ${test.id}
+status: stable
+description: ${test.description}
+references:
+    - https://port254.com/detections/${test.id}
+author: port254
+date: ${new Date().toISOString().split('T')[0]}
+tags:
+    ${test.mitre_attack_ids.map(id => `- attack.${id.toLowerCase()}`).join('\n    ')}
+logsource:
+    category: network
+    product: industrial_control_systems
+detection:
+    selection:
+        event.category: 'network'
+        network.protocol: '${protocol}'
+        event.outcome: 'failure'
+    timeframe: 5m
+    condition: selection | count(source.ip) > 5
+falsepositives:
+    - Legitimate connection issues during maintenance
+    - Network configuration changes
+level: ${test.criticality.toLowerCase()}
+`;
+}
+
+// Generate Microsoft Sentinel KQL
+function generateSentinelKQL(test) {
+    const protocol = test.domain === 'ot' ? (test.identifier.includes('s7') ? 's7' : 'modbus') : 'https';
+    
+    return `// ${test.title}
+// Detection ID: ${test.id}
+// Description: ${test.description}
+// MITRE ATT&CK: ${test.mitre_attack_ids.join(', ')}
+// IEC 62443: ${test.iec62443_controls.join(', ')}
+// Severity: ${test.criticality}
+
+let threshold = 5;
+let timeframe = 5m;
+
+CommonSecurityLog
+| where DeviceEventCategory == "network"
+| where Protocol == "${protocol}"
+| where DeviceAction == "failure"
+| summarize EventCount = count() by SourceIP, bin(TimeGenerated, timeframe)
+| where EventCount > threshold
+| extend Severity = "${test.criticality}"
+| extend MitreAttack = "${test.mitre_attack_ids.join(', ')}"
+| extend DetectionName = "${test.title}"
+`;
+}
+
+// Generate QRadar AQL
+function generateQRadarAQL(test) {
+    const protocol = test.domain === 'ot' ? (test.identifier.includes('s7') ? 's7' : 'modbus') : 'https';
+    const port = test.domain === 'ot' ? (protocol === 's7' ? 102 : 502) : 443;
+    
+    return `-- ${test.title}
+-- Detection ID: ${test.id}
+-- Description: ${test.description}
+-- MITRE ATT&CK: ${test.mitre_attack_ids.join(', ')}
+-- IEC 62443: ${test.iec62443_controls.join(', ')}
+-- Severity: ${test.criticality}
+
+SELECT 
+    sourceip,
+    COUNT(*) as event_count,
+    '${test.title}' as detection_name,
+    '${test.criticality}' as severity
+FROM events
+WHERE 
+    protocol = '${protocol}'
+    AND destinationport = ${port}
+    AND eventaction = 'failure'
+    AND starttime >= NOW() - INTERVAL '5' MINUTE
+GROUP BY sourceip
+HAVING COUNT(*) > 5
+ORDER BY event_count DESC
+`;
+}
