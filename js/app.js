@@ -399,8 +399,8 @@ async function triggerDetection() {
         
         resultsList.innerHTML = `
             <li style="color: #fca5a5;">⏱️ Rate limit active</li>
-            <li style="color: #9ca3af;">Please wait ${remainingSeconds} seconds before triggering again</li>
-            <li style="color: #9ca3af;">This prevents abuse and protects lab resources</li>
+            <li style="color: #9ca3af;">Please wait ${remainingSeconds} seconds before testing again</li>
+            <li style="color: #9ca3af;">Rate limiting protects backend resources (1 test per minute)</li>
         `;
         
         setTimeout(() => {
@@ -422,10 +422,10 @@ async function triggerDetection() {
     
     statusDiv.style.display = 'flex';
     resultsDiv.style.display = 'none';
-    statusText.textContent = 'Connecting to lab environment...';
+    statusText.textContent = 'Connecting to Elasticsearch cluster...';
     
     try {
-        statusText.textContent = 'Sending test events to ELK...';
+        statusText.textContent = 'Indexing test events to Elasticsearch...';
         
         const response = await fetch(`${BACKEND_API_URL}/trigger-detection`, {
             method: 'POST',
@@ -511,7 +511,9 @@ async function triggerDetection() {
                         "destination.port": currentTest.domain === 'ot' ? (i % 2 === 0 ? 102 : 502) : 443,
                         "network.protocol": currentTest.domain === 'ot' ? (i % 2 === 0 ? 's7' : 'modbus') : 'https',
                         "honeypot.source": "conpot",
-                        "message": `Lab test: ${currentTest.title} - Event ${i + 1}/${numSamples}`
+                        "lab.test": true,
+                        "lab.trigger_source": "port254_ui",
+                        "message": `Detection test: ${currentTest.title}`
                     };
                     sampleEvents.push(event);
                 }
@@ -522,7 +524,7 @@ async function triggerDetection() {
                 eventsHtml = `
                     <details style="margin-top: 0.75rem; cursor: pointer;">
                         <summary style="color: #60a5fa; font-size: 0.813rem; font-weight: 600; user-select: none; padding: 0.5rem; background: rgba(96, 165, 250, 0.1); border-radius: 0.375rem; border: 1px solid rgba(96, 165, 250, 0.2);">
-                            📄 View Sample Events (${sampleEvents.length} of ${data.events_indexed} total) ▼
+                            📄 View Indexed Events - ECS JSON Format (${sampleEvents.length} of ${data.events_indexed} total) ▼
                         </summary>
                         <div style="margin-top: 0.75rem; max-height: 400px; overflow-y: auto;">
                             ${sampleEvents.map((event, idx) => `
@@ -542,13 +544,13 @@ async function triggerDetection() {
                 eventsHtml = `
                     <details style="margin-top: 0.75rem; cursor: pointer;">
                         <summary style="color: #60a5fa; font-size: 0.813rem; user-select: none;">
-                            📄 View Sample Event IDs (Elasticsearch UUIDs) ▼
+                            📄 View Event Document IDs (Elasticsearch _id field) ▼
                         </summary>
                         <ul style="margin: 0.5rem 0 0 1rem; padding: 0.5rem; background: rgba(0,0,0,0.3); border-radius: 0.25rem; font-family: 'Courier New', monospace; font-size: 0.75rem; list-style: none;">
                             ${es.sample_event_ids.map(id => `<li style="padding: 0.25rem 0; color: #93c5fd;">• ${id}</li>`).join('')}
                         </ul>
                         <div style="margin-top: 0.5rem; padding: 0.5rem; background: rgba(251, 191, 36, 0.1); border-radius: 0.25rem; font-size: 0.7rem; color: #fbbf24;">
-                            💡 Full event content not available. Backend should return <code style="background: rgba(0,0,0,0.3); padding: 0.125rem 0.375rem;">sample_events</code> array.
+                            💡 Full event JSON not returned. Backend should include <code style="background: rgba(0,0,0,0.3); padding: 0.125rem 0.375rem;">sample_events</code> array with complete event documents.
                         </div>
                     </details>
                 `;
@@ -558,10 +560,10 @@ async function triggerDetection() {
                 <li style="font-size: 0.875rem; font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">
                     ✓ Test Completed Successfully
                 </li>
-                <li>✓ Triggered ${currentTest.title}</li>
-                <li>✓ Generated ${data.events_indexed} synthetic events matching attack pattern</li>
-                <li>✓ Events indexed to <code style="background: rgba(96, 165, 250, 0.15); padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #93c5fd;">${data.index}</code></li>
-                <li>✓ Detection fired: ${currentTest.mitre_attack_ids.join(', ')}</li>
+                <li>✓ Triggered detection rule: ${currentTest.title}</li>
+                <li>✓ Indexed ${data.events_indexed} ECS-formatted test events to Elasticsearch</li>
+                <li>✓ Events written to index: <code style="background: rgba(96, 165, 250, 0.15); padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #93c5fd;">${data.index}</code></li>
+                <li>✓ MITRE ATT&CK mapping validated: ${currentTest.mitre_attack_ids.join(', ')}</li>
                 
                 ${eventTimestampsHtml}
                 
@@ -608,7 +610,7 @@ async function triggerDetection() {
                     ${eventsHtml}
                     
                     <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(96, 165, 250, 0.2); font-size: 0.75rem; color: #9ca3af;">
-                        💡 All data above is fetched live from Elasticsearch cluster
+                        💡 Verification data queried directly from Elasticsearch cluster in real-time
                     </div>
                 </li>
             `;
@@ -628,9 +630,9 @@ async function triggerDetection() {
         resultsDiv.style.borderColor = '#ef4444';
         
         resultsList.innerHTML = `
-            <li style="color: #fca5a5;">❌ Error triggering detection</li>
+            <li style="color: #fca5a5;">❌ Detection test failed</li>
             <li style="color: #9ca3af;">${error.message}</li>
-            <li style="color: #9ca3af;">Check if backend API is accessible</li>
+            <li style="color: #9ca3af;">Unable to connect to backend API</li>
             <li style="color: #9ca3af;">Backend URL: ${BACKEND_API_URL}</li>
         `;
     }
