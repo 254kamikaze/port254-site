@@ -485,10 +485,30 @@ async function triggerDetection() {
                 </li>
             `;
             
-            // Build event IDs HTML if available
-            let eventIdsHtml = '';
-            if (es.sample_event_ids && es.sample_event_ids.length > 0) {
-                eventIdsHtml = `
+            // Build sample events HTML - show full event content
+            let eventsHtml = '';
+            if (data.sample_events && data.sample_events.length > 0) {
+                eventsHtml = `
+                    <details style="margin-top: 0.75rem; cursor: pointer;">
+                        <summary style="color: #60a5fa; font-size: 0.813rem; font-weight: 600; user-select: none; padding: 0.5rem; background: rgba(96, 165, 250, 0.1); border-radius: 0.375rem; border: 1px solid rgba(96, 165, 250, 0.2);">
+                            📄 View Sample Events (${data.sample_events.length} events) ▼
+                        </summary>
+                        <div style="margin-top: 0.75rem; max-height: 400px; overflow-y: auto;">
+                            ${data.sample_events.map((event, idx) => `
+                                <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 0.375rem;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <span style="color: #60a5fa; font-size: 0.75rem; font-weight: 600;">Event ${idx + 1}</span>
+                                        <span style="color: #6b7280; font-size: 0.7rem; font-family: 'Courier New', monospace;">${event['@timestamp'] || event.timestamp || 'N/A'}</span>
+                                    </div>
+                                    <pre style="margin: 0; padding: 0.75rem; background: #0a0a0a; border-radius: 0.25rem; overflow-x: auto; font-size: 0.7rem; line-height: 1.4; color: #93c5fd; font-family: 'Courier New', monospace;">${JSON.stringify(event, null, 2)}</pre>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </details>
+                `;
+            } else if (es.sample_event_ids && es.sample_event_ids.length > 0) {
+                // Fallback: show just IDs if full events not available
+                eventsHtml = `
                     <details style="margin-top: 0.75rem; cursor: pointer;">
                         <summary style="color: #60a5fa; font-size: 0.813rem; user-select: none;">
                             📄 View Sample Event IDs (Elasticsearch UUIDs) ▼
@@ -496,6 +516,9 @@ async function triggerDetection() {
                         <ul style="margin: 0.5rem 0 0 1rem; padding: 0.5rem; background: rgba(0,0,0,0.3); border-radius: 0.25rem; font-family: 'Courier New', monospace; font-size: 0.75rem; list-style: none;">
                             ${es.sample_event_ids.map(id => `<li style="padding: 0.25rem 0; color: #93c5fd;">• ${id}</li>`).join('')}
                         </ul>
+                        <div style="margin-top: 0.5rem; padding: 0.5rem; background: rgba(251, 191, 36, 0.1); border-radius: 0.25rem; font-size: 0.7rem; color: #fbbf24;">
+                            💡 Full event content not available. Backend should return <code style="background: rgba(0,0,0,0.3); padding: 0.125rem 0.375rem;">sample_events</code> array.
+                        </div>
                     </details>
                 `;
             }
