@@ -149,7 +149,7 @@
         }
         
         .honeypot-header h2 {
-            color: #60a5fa;
+            color: #e5e7eb;
             font-size: 2rem;
         }
         
@@ -179,6 +179,24 @@
             50% { opacity: 0.5; }
         }
         
+        .component-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .component-status-dot.online {
+            background: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+        
+        .component-status-dot.offline {
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+        }
+        
         .honeypot-description {
             color: #9ca3af;
             font-size: 1rem;
@@ -194,7 +212,7 @@
         }
         
         .deployment-card {
-            
+            background: rgba(30, 30, 30, 0.5);
             border: 1px solid #3a3a3a;
             border-radius: 0.5rem;
             padding: 1.5rem;
@@ -226,15 +244,12 @@
             padding: 0.5rem 0;
             font-size: 0.875rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
         }
         
         .deployment-components li:last-child {
             border-bottom: none;
-        }
-        
-        .deployment-components li::before {
-            content: "🔧 ";
-            margin-right: 0.5rem;
         }
         
         .honeypot-stats {
@@ -456,16 +471,34 @@
                     <div style="margin-bottom: 1rem;">
                         <span class="live-indicator">
                             <span class="live-dot"></span>
-                            Honeypot Online
+                            Honeypot Server Online
                         </span>
                     </div>
                     <ul class="deployment-components">
-                        <li>Siemens S7-1200 PLC (S7comm on tcp/102)</li>
-                        <li>Modbus TCP RTU (tcp/502)</li>
-                        <li>HMI interface (Wonderware/FactoryTalk)</li>
-                        <li>Historian database (OSISoft PI)</li>
-                        <li>Windows Engineering Station</li>
-                        <li>Linux SCADA Server</li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Siemens S7-1200 PLC (S7comm on tcp/102)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Modbus TCP RTU (tcp/502)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            HMI interface (Wonderware/FactoryTalk)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Historian database (OSISoft PI)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Windows Engineering Station
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Linux SCADA Server
+                        </li>
                     </ul>
                 </div>
                 
@@ -477,16 +510,34 @@
                     <div style="margin-bottom: 1rem;">
                         <span class="live-indicator">
                             <span class="live-dot"></span>
-                            Honeypot Online
+                            Honeypot Server Online
                         </span>
                     </div>
                     <ul class="deployment-components">
-                        <li>Siemens S7-1200 PLC (S7comm on tcp/102)</li>
-                        <li>Modbus TCP RTU (tcp/502)</li>
-                        <li>HMI interface (Wonderware/FactoryTalk)</li>
-                        <li>Historian database (OSISoft PI)</li>
-                        <li>Windows Engineering Station</li>
-                        <li>Linux SCADA Server</li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Siemens S7-1200 PLC (S7comm on tcp/102)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Modbus TCP RTU (tcp/502)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            HMI interface (Wonderware/FactoryTalk)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Historian database (OSISoft PI)
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Windows Engineering Station
+                        </li>
+                        <li>
+                            <span class="component-status-dot online"></span>
+                            Linux SCADA Server
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -515,6 +566,10 @@
                 Do adversaries target Africa differently than Oceania? Which protocols are prioritized? 
                 How do attack timings differ across time zones? The dual-deployment approach allows 
                 direct comparison of threat landscapes.
+                <br><br>
+                <strong>Component Monitoring:</strong> Individual status indicators show the health of each 
+                honeypot component. Green dots indicate online services actively collecting telemetry. 
+                Red dots would indicate offline components requiring attention.
             </div>
         </div>
         
@@ -586,11 +641,52 @@
             </p>
             
             <div class="cta-buttons">
-                <a href="index.html" class="btn btn-primary">Browse Detection Catalog</a>
+                <a href="detections.html" class="btn btn-primary">Browse Detection Catalog</a>
                 <a href="honeypot-dashboard.html" class="btn btn-secondary">View Live Honeypot Data</a>
                 <a href="getting-started.html" class="btn btn-secondary">Getting Started</a>
             </div>
         </div>
     </div>
+    
+    <footer style="background-color: #1a1a1a; border-top: 1px solid #2a2a2a; padding: 2rem; margin-top: 4rem; text-align: center;">
+        <p style="color: #6b7280; font-size: 0.875rem;">
+            port254 Detection Catalog | Powered by Conpot honeypot telemetry | Mapping to MITRE ATT&CK & IEC 62443
+        </p>
+    </footer>
+    
+    <!-- 
+    Future Enhancement: Dynamic Component Status
+    Add this JavaScript to fetch real-time component status:
+    
+    <script>
+    async function updateComponentStatus() {
+        try {
+            const response = await fetch('/api/honeypot-status');
+            const data = await response.json();
+            
+            // Update Australia components
+            document.querySelectorAll('.deployment-card')[0]
+                .querySelectorAll('.component-status-dot').forEach((dot, i) => {
+                    dot.className = 'component-status-dot ' + 
+                        (data.australia.components[i].online ? 'online' : 'offline');
+                });
+            
+            // Update Kenya components
+            document.querySelectorAll('.deployment-card')[1]
+                .querySelectorAll('.component-status-dot').forEach((dot, i) => {
+                    dot.className = 'component-status-dot ' + 
+                        (data.kenya.components[i].online ? 'online' : 'offline');
+                });
+        } catch (error) {
+            console.error('Failed to fetch status:', error);
+        }
+    }
+    
+    // Check status every 30 seconds
+    setInterval(updateComponentStatus, 30000);
+    updateComponentStatus(); // Initial check
+    </script>
+    -->
 </body>
 </html>
+    
