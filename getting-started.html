@@ -18,6 +18,38 @@
             line-height: 1.6;
         }
         
+        .site-header {
+            background-color: #1a1a1a;
+            padding: 1rem 0;
+            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 2rem;
+        }
+        
+        .site-nav {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .site-nav a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .site-nav a:hover {
+            color: #60a5fa;
+        }
+        
+        .site-nav a.active {
+            color: #60a5fa;
+        }
+        
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -195,6 +227,16 @@
     </style>
 </head>
 <body>
+    <div class="site-header">
+        <nav class="site-nav">
+            <a href="index.html">Home</a>
+            <a href="detections.html">Detections</a>
+            <a href="honeypot-dashboard.html">Honeypot Dashboard</a>
+            <a href="attack-matrix.html">ATT&CK Matrix</a>
+            <a href="getting-started.html" class="active">Getting Started</a>
+        </nav>
+    </div>
+    
     <div class="container">
         <div class="header">
             <h1>Getting Started with port254</h1>
@@ -383,17 +425,17 @@ AND s7.function_code: "0x32"
         </div>
         
         <div class="quick-links">
-            <a href="index.html" class="quick-link">
+            <a href="detections.html" class="quick-link">
                 <div class="quick-link-title">📚 Browse All Detections</div>
                 <div class="quick-link-description">
-                    See the full catalog of 150+ OT/ICS and FinTech detection rules
+                    See the full catalog of 150+ OT/ICS detection rules
                 </div>
             </a>
             
-            <a href="#" class="quick-link">
-                <div class="quick-link-title">🎯 View by MITRE ATT&CK</div>
+            <a href="index.html" class="quick-link">
+                <div class="quick-link-title">🏠 Back to Home</div>
                 <div class="quick-link-description">
-                    Filter detections by adversary technique (T1110, T1040, etc.)
+                    Return to port254 research homepage
                 </div>
             </a>
             
@@ -404,7 +446,7 @@ AND s7.function_code: "0x32"
                 </div>
             </a>
             
-            <a href="#" class="quick-link">
+            <a href="honeypot-dashboard.html" class="quick-link">
                 <div class="quick-link-title">📡 Honeypot Dashboard</div>
                 <div class="quick-link-description">
                     Real-time view of attacks hitting our industrial honeypots
