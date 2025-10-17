@@ -424,6 +424,7 @@
             <a href="detections.html" class="nav-link">Detections</a>
             <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
             <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
+            <a href="file-analysis.html" class="nav-link">File Analysis</a>
             <a href="getting-started.html" class="nav-link">Getting Started</a>
         </nav>
     </div>
@@ -623,7 +624,7 @@
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
+                    <div class="feature-icon">🌐</div>
                     <h3>Geographic Comparison</h3>
                     <p>
                         Compare threat patterns between Australia and Kenya deployments. Identify 
@@ -643,6 +644,7 @@
             <div class="cta-buttons">
                 <a href="detections.html" class="btn btn-primary">Browse Detection Catalog</a>
                 <a href="honeypot-dashboard.html" class="btn btn-secondary">View Live Honeypot Data</a>
+                <a href="file-analysis.html" class="btn btn-secondary">Analyze Files</a>
                 <a href="getting-started.html" class="btn btn-secondary">Getting Started</a>
             </div>
         </div>
@@ -653,40 +655,5 @@
              honeypot telemetry | port254 Detection Catalog | Mapping to MITRE ATT&CK & IEC 62443
         </p>
     </footer>
-    
-    <!-- 
-    Future Enhancement: Dynamic Component Status
-    Add this JavaScript to fetch real-time component status:
-    
-    <script>
-    async function updateComponentStatus() {
-        try {
-            const response = await fetch('/api/honeypot-status');
-            const data = await response.json();
-            
-            // Update Australia components
-            document.querySelectorAll('.deployment-card')[0]
-                .querySelectorAll('.component-status-dot').forEach((dot, i) => {
-                    dot.className = 'component-status-dot ' + 
-                        (data.australia.components[i].online ? 'online' : 'offline');
-                });
-            
-            // Update Kenya components
-            document.querySelectorAll('.deployment-card')[1]
-                .querySelectorAll('.component-status-dot').forEach((dot, i) => {
-                    dot.className = 'component-status-dot ' + 
-                        (data.kenya.components[i].online ? 'online' : 'offline');
-                });
-        } catch (error) {
-            console.error('Failed to fetch status:', error);
-        }
-    }
-    
-    // Check status every 30 seconds
-    setInterval(updateComponentStatus, 30000);
-    updateComponentStatus(); // Initial check
-    </script>
-    -->
 </body>
 </html>
-    
