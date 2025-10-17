@@ -332,53 +332,8 @@
             max-width: 60%;
         }
         
-        .elk-matches {
-            grid-column: 1 / -1;
-        }
-        
-        .match-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .match-item {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 0.375rem;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .match-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .match-severity {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .severity-critical {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-        
-        .severity-high {
-            background: rgba(251, 146, 60, 0.2);
-            color: #fb923c;
-        }
-        
-        .match-description {
-            color: #d1d5db;
-            font-size: 0.875rem;
-        }
-        
         .btn-new-scan {
-            
+            background: rgba(96, 165, 250, 0.1);
             border: 1px solid rgba(96, 165, 250, 0.3);
             color: #60a5fa;
             padding: 0.75rem 2rem;
@@ -395,7 +350,7 @@
         }
         
         .info-section {
-            
+            background: rgba(59, 130, 246, 0.05);
             border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 0.5rem;
             padding: 1rem;
@@ -448,13 +403,13 @@
         }
         
         .eicar-code {
-            
+            background: #1a1a1a;
             border: 1px solid #3a3a3a;
             border-radius: 0.375rem;
             padding: 0.75rem;
             margin-top: 0.5rem;
             font-family: 'Courier New', monospace;
-            font-size: 1.0rem;
+            font-size: 0.75rem;
             color: #e5e7eb;
             word-break: break-all;
             cursor: pointer;
@@ -502,14 +457,15 @@
     <div class="main-content">
         <div class="page-header">
             <h1 class="page-title">File Analysis Tool</h1>
-            <p class="page-subtitle">Check files against an EDR and threat intelligence</p>
+            <p class="page-subtitle">Check files against EDR and threat intelligence</p>
         </div>
 
         <div class="info-section">
             <h3>🔬 What This Tool Does</h3>
             <ul>
                 <li>Analyzes file hash against ELK/EDR database</li>
-                <li>Checks for known malware signatures and behaviors</li>
+                <li>Checks for known malware signatures with ClamAV</li>
+                <li>Queries VirusTotal for crowd-sourced threat intelligence</li>
                 <li>Searches for similar execution patterns in telemetry</li>
                 <li>File is automatically deleted after analysis</li>
                 <li>Maximum file size: 5MB</li>
@@ -576,30 +532,23 @@
                 </div>
 
                 <div class="result-card">
-                    <h3>ELK Database Check</h3>
+                    <h3>Detection Summary</h3>
                     <div class="result-item">
-                        <span class="result-label">Hash Matches:</span>
-                        <span class="result-value" id="resHashMatches">0</span>
+                        <span class="result-label">ClamAV:</span>
+                        <span class="result-value" id="resClamAV">-</span>
                     </div>
                     <div class="result-item">
-                        <span class="result-label">Behavior Matches:</span>
-                        <span class="result-value" id="resBehaviorMatches">0</span>
+                        <span class="result-label">VirusTotal:</span>
+                        <span class="result-value" id="resVirusTotal">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">ELK Matches:</span>
+                        <span class="result-value" id="resHashMatches">0</span>
                     </div>
                     <div class="result-item">
                         <span class="result-label">Query Time:</span>
                         <span class="result-value" id="resQueryTime">-</span>
                     </div>
-                    <div class="result-item">
-                        <span class="result-label">Index Searched:</span>
-                        <span class="result-value" id="resIndex">-</span>
-                    </div>
-                </div>
-
-                <div class="result-card elk-matches">
-                    <h3>⚠️ Threat Detections</h3>
-                    <ul class="match-list" id="matchList">
-                        <li style="color: #9ca3af; font-size: 0.875rem;">No threats detected</li>
-                    </ul>
                 </div>
             </div>
 
@@ -693,7 +642,13 @@
             try {
                 // Update status messages
                 document.getElementById('analyzingStatus').textContent = 'Computing file hashes...';
-                await sleep(1000);
+                await sleep(500);
+                
+                document.getElementById('analyzingStatus').textContent = 'Scanning with ClamAV...';
+                await sleep(500);
+                
+                document.getElementById('analyzingStatus').textContent = 'Checking VirusTotal...';
+                await sleep(500);
                 
                 document.getElementById('analyzingStatus').textContent = 'Searching ELK database...';
                 
@@ -727,11 +682,24 @@
             document.getElementById('resMD5').textContent = data.md5;
             document.getElementById('resSHA256').textContent = data.sha256;
 
-            // ELK results
-            document.getElementById('resHashMatches').textContent = data.hash_matches;
-            document.getElementById('resBehaviorMatches').textContent = data.behavior_matches;
+            // Detection summary
+            // ClamAV
+            const clamavResult = data.clamav_scan?.infected 
+                ? `⚠️ ${data.clamav_scan.virus_name}` 
+                : '✓ Clean';
+            document.getElementById('resClamAV').textContent = clamavResult;
+            
+            // VirusTotal
+            const vtResult = data.virustotal?.scanned 
+                ? (data.virustotal.detections > 0 
+                    ? `⚠️ ${data.virustotal.detections}/${data.virustotal.total_scanners} vendors`
+                    : '✓ Clean')
+                : 'Not checked';
+            document.getElementById('resVirusTotal').textContent = vtResult;
+            
+            // ELK matches
+            document.getElementById('resHashMatches').textContent = data.hash_matches || 0;
             document.getElementById('resQueryTime').textContent = data.query_time_ms + 'ms';
-            document.getElementById('resIndex').textContent = data.index_searched;
 
             // Verdict
             const verdict = data.verdict; // 'clean', 'suspicious', 'malicious'
@@ -742,21 +710,6 @@
             // Icon
             document.getElementById('resultsIcon').textContent = 
                 verdict === 'clean' ? '✅' : verdict === 'suspicious' ? '⚠️' : '🚨';
-
-            // Matches
-            const matchList = document.getElementById('matchList');
-            if (data.detections && data.detections.length > 0) {
-                matchList.innerHTML = data.detections.map(detection => `
-                    <li class="match-item">
-                        <span class="match-severity severity-${detection.severity.toLowerCase()}">
-                            ${detection.severity}
-                        </span>
-                        <div class="match-description">${detection.description}</div>
-                    </li>
-                `).join('');
-            } else {
-                matchList.innerHTML = '<li style="color: #10b981; font-size: 0.875rem;">✓ No threats detected</li>';
-            }
 
             resultsSection.classList.add('show');
         }
