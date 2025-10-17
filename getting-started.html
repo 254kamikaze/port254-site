@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - port254</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0f0f0f;
+            color: #f3f4f6;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            color: #9ca3af;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+        }
+        
+        .step {
+            position: relative;
+            margin-bottom: 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.75rem;
+            padding: 2rem;
+        }
+        
+        .step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -3.5rem;
+            top: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.125rem;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .step-title {
+            color: #60a5fa;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .step-description {
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-action {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-label {
+            color: #60a5fa;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-content {
+            color: #e5e7eb;
+            font-size: 0.875rem;
+        }
+        
+        .screenshot-placeholder {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed rgba(96, 165, 250, 0.3);
+            border-radius: 0.5rem;
+            padding: 3rem;
+            text-align: center;
+            color: #6b7280;
+            margin: 1rem 0;
+        }
+        
+        .tip-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .tip-box strong {
+            color: #10b981;
+        }
+        
+        .warning-box {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 3px solid #fbbf24;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .warning-box strong {
+            color: #fbbf24;
+        }
+        
+        .code-block {
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            color: #93c5fd;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .quick-link {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+        
+        .quick-link:hover {
+            border-color: #60a5fa;
+            transform: translateY(-2px);
+        }
+        
+        .quick-link-title {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .quick-link-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Getting Started with port254</h1>
+            <p>From zero to protected in 15 minutes</p>
+        </div>
+        
+        <div class="timeline">
+            <div class="step" data-step="1">
+                <h2 class="step-title">Browse the Detection Catalog</h2>
+                <p class="step-description">
+                    Start by finding threats relevant to your environment. We have detections for S7comm (Siemens PLCs), 
+                    Modbus (SCADA), DNP3 (electrical substations), and financial fraud patterns.
+                </p>
+                
+                <div class="step-action">
+                    <div class="action-label">What to do:</div>
+                    <div class="action-content">
+                        • Use the search bar to find specific threats ("brute force", "modbus flood")<br>
+                        • Filter by domain: Click "OT/ICS" for industrial systems or "FinTech" for banking<br>
+                        • Look at severity badges: RED = Critical, ORANGE = High priority
+                    </div>
+                </div>
+                
+                <div class="screenshot-placeholder">
+                    [Screenshot: Main detection catalog with search and filters]
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Pro Tip:</strong> Start with CRITICAL severity detections for your protocol. 
+                    For example, if you use Siemens PLCs, search for "S7" and look for red badges.
+                </div>
+            </div>
+            
+            <div class="step" data-step="2">
+                <h2 class="step-title">Review Detection Details</h2>
+                <p class="step-description">
+                    Click any detection card to see the full details. You'll see exactly what it detects, 
+                    why it matters, and how it maps to compliance frameworks.
+                </p>
+                
+                <div class="step-action">
+                    <div class="action-label">What you'll see:</div>
+                    <div class="action-content">
+                        • <strong>Detection Description:</strong> Plain-English explanation of the attack<br>
+                        • <strong>MITRE ATT&CK Mapping:</strong> Which adversary techniques this catches (T1110, T1040, etc.)<br>
+                        • <strong>IEC 62443 Controls:</strong> Compliance requirements this satisfies (SR 1.1, SR 3.2, etc.)<br>
+                        • <strong>Severity & Category:</strong> How urgent and what type of threat
+                    </div>
+                </div>
+                
+                <div class="screenshot-placeholder">
+                    [Screenshot: Detection modal showing MITRE and IEC mapping]
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 For Auditors:</strong> Take screenshots of the IEC 62443 mapping. 
+                    This proves which security controls you've implemented.
+                </div>
+            </div>
+            
+            <div class="step" data-step="3">
+                <h2 class="step-title">Test in Lab Environment</h2>
+                <p class="step-description">
+                    Before deploying to production, test the detection safely. Our lab sends synthetic test events 
+                    to your Elasticsearch cluster to prove the rule works.
+                </p>
+                
+                <div class="step-action">
+                    <div class="action-label">How to test:</div>
+                    <div class="action-content">
+                        1. Check the ELK cluster status (should show green "Online")<br>
+                        2. Click the blue "Trigger Detection" button<br>
+                        3. Wait 5-10 seconds for results<br>
+                        4. Review the test output: event timestamps, Elasticsearch verification
+                    </div>
+                </div>
+                
+                <div class="screenshot-placeholder">
+                    [Screenshot: Lab testing section with "Trigger Detection" button and results]
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> Testing sends real events to your Elasticsearch cluster. 
+                    Make sure you're connected to a test/lab environment, not production!
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 What You're Looking At:</strong><br>
+                    • "Total Documents" shows how many events were indexed<br>
+                    • "Event Timestamps" shows when test events fired<br>
+                    • "View Indexed Events" reveals the actual JSON sent to Elasticsearch
+                </div>
+            </div>
+            
+            <div class="step" data-step="4">
+                <h2 class="step-title">Export Detection Rule</h2>
+                <p class="step-description">
+                    Once you've tested and verified the detection works, export it in your SIEM's native format. 
+                    One-click export means you don't have to manually translate the logic.
+                </p>
+                
+                <div class="step-action">
+                    <div class="action-label">Export options:</div>
+                    <div class="action-content">
+                        • <strong>Elastic (KQL):</strong> For Elasticsearch SIEM, Kibana<br>
+                        • <strong>Splunk (SPL):</strong> For Splunk Enterprise Security<br>
+                        • <strong>Sigma Rule:</strong> Universal format that converts to any SIEM<br>
+                        • <strong>Microsoft Sentinel (KQL):</strong> For Azure Sentinel<br>
+                        • <strong>QRadar (AQL):</strong> For IBM QRadar
+                    </div>
+                </div>
+                
+                <div class="code-block">
+Example Elastic KQL Export:
+
+event.category: "network" 
+AND network.protocol: "s7" 
+AND event.outcome: "failure"
+AND s7.function_code: "0x32"
+| where count() > 5 within 60s
+| alert severity: critical
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Next Step:</strong> Copy this rule, paste it into your SIEM's rule editor, 
+                    and configure alert actions (email SOC, create ticket, etc.)
+                </div>
+            </div>
+            
+            <div class="step" data-step="5">
+                <h2 class="step-title">Deploy to Production SIEM</h2>
+                <p class="step-description">
+                    Take the exported rule and import it into your production SIEM. The exact steps vary by tool, 
+                    but the concept is the same: create a new detection rule and paste the query.
+                </p>
+                
+                <div class="step-action">
+                    <div class="action-label">Elastic SIEM Example:</div>
+                    <div class="action-content">
+                        1. Navigate to: <strong>Security → Rules → Create new rule</strong><br>
+                        2. Select rule type: <strong>Custom query</strong><br>
+                        3. Paste the KQL query from port254<br>
+                        4. Set severity to match detection (Critical/High/Medium/Low)<br>
+                        5. Add MITRE ATT&CK tags (shown in detection details)<br>
+                        6. Configure actions: email, webhook, create case<br>
+                        7. Enable the rule
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Tuning Required:</strong> Start with the rule as-is, then adjust thresholds based on 
+                    your environment. Some networks are noisier than others. Monitor for false positives in the first week.
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Expected Alert Volume:</strong> Most OT detections fire 0-5 times per week in 
+                    normal operations. If you're seeing 50+ alerts per day, you may need to tune thresholds.
+                </div>
+            </div>
+            
+            <div class="step" data-step="6">
+                <h2 class="step-title">Monitor & Respond</h2>
+                <p class="step-description">
+                    Now your detection is live. When it fires, you'll get real-time alerts about potential threats 
+                    to your industrial systems. Use the port254 detection details to help with incident response.
+                </p>
+                
+                <div class="step-action">
+                    <div class="action-label">When an alert fires:</div>
+                    <div class="action-content">
+                        1. <strong>Verify it's real:</strong> Check source IP, timing, affected system<br>
+                        2. <strong>Refer to port254:</strong> Review detection description for context<br>
+                        3. <strong>Check MITRE mapping:</strong> Understand the adversary technique<br>
+                        4. <strong>Contain if needed:</strong> Isolate affected PLC/SCADA system<br>
+                        5. <strong>Investigate root cause:</strong> Was it unauthorized access? Misconfiguration?<br>
+                        6. <strong>Document for compliance:</strong> Save evidence for auditors
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 False Positive?</strong> If a legitimate process triggered the alert, 
+                    add an exception in your SIEM for that specific source IP or process. Keep the detection enabled 
+                    for everything else.
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-links">
+            <a href="index.html" class="quick-link">
+                <div class="quick-link-title">📚 Browse All Detections</div>
+                <div class="quick-link-description">
+                    See the full catalog of 150+ OT/ICS and FinTech detection rules
+                </div>
+            </a>
+            
+            <a href="#" class="quick-link">
+                <div class="quick-link-title">🎯 View by MITRE ATT&CK</div>
+                <div class="quick-link-description">
+                    Filter detections by adversary technique (T1110, T1040, etc.)
+                </div>
+            </a>
+            
+            <a href="#" class="quick-link">
+                <div class="quick-link-title">📋 IEC 62443 Compliance</div>
+                <div class="quick-link-description">
+                    See which detections satisfy each control requirement
+                </div>
+            </a>
+            
+            <a href="#" class="quick-link">
+                <div class="quick-link-title">📡 Honeypot Dashboard</div>
+                <div class="quick-link-description">
+                    Real-time view of attacks hitting our industrial honeypots
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
