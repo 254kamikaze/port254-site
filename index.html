@@ -3,132 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>port254 - OT/ICS + FinTech Detection Catalog</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>port254 - OT/ICS Security Research</title>
     <style>
-        /* ELK Health Status Box - Compact */
-        .elk-health-box {
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
-            padding: 0.625rem 0.875rem;
-            background: rgba(31, 41, 55, 0.4);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 0.375rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .elk-server-icon {
-            width: 28px;
-            height: 28px;
-            flex-shrink: 0;
-        }
-
-        .elk-status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #10b981;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
-            animation: pulse-dot 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { 
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% { 
-                transform: scale(1.15);
-                opacity: 0.7;
-            }
-        }
-
-        .elk-status-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.125rem;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .elk-status-text {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #10b981;
-            transition: color 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .elk-last-check {
-            font-size: 0.625rem;
-            color: #6b7280;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        /* Export Section */
-        .export-section {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0f0f0f;
+            color: #f3f4f6;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background-color: #1a1a1a;
+            padding: 1.5rem 1.5rem 1rem;
+        }
+        
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+            text-align: center;
+            cursor: pointer;
+            transition: color 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .logo:hover {
+            color: #93c5fd;
+        }
+        
+        .nav-section {
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 1rem 1.5rem;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: #e5e7eb;
+        }
+        
+        .nav-link.active {
+            color: #60a5fa;
+            font-weight: 600;
+            border-bottom-color: #60a5fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            color: #e5e7eb;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-weight: 500;
+        }
+        
+        .research-badge {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: #60a5fa;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .intro-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+        }
+        
+        .intro-section h2 {
+            color: #60a5fa;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .intro-section p {
+            color: #d1d5db;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .honeypot-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            margin: 3rem 0;
+        }
+        
+        .honeypot-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .honeypot-icon {
+            font-size: 2rem;
+        }
+        
+        .honeypot-header h2 {
+            color: #60a5fa;
+            font-size: 2rem;
+        }
+        
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            color: #10b981;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .honeypot-description {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .deployment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .deployment-card {
+            background: rgba(30, 30, 30, 0.5);
+            border: 1px solid #3a3a3a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        
+        .deployment-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .location-icon {
+            font-size: 1.5rem;
+        }
+        
+        .deployment-card h3 {
+            color: #60a5fa;
+            font-size: 1.25rem;
+        }
+        
+        .deployment-components {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .deployment-components li {
+            color: #d1d5db;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .deployment-components li:last-child {
+            border-bottom: none;
+        }
+        
+        .deployment-components li::before {
+            content: "🔧 ";
+            margin-right: 0.5rem;
+        }
+        
+        .honeypot-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-box {
+            background: rgba(30, 30, 30, 0.5);
+            border: 1px solid #3a3a3a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        
+        .research-goal {
             margin-top: 2rem;
             padding: 1.5rem;
-            background: rgba(96, 165, 250, 0.05);
-            border: 1px solid rgba(96, 165, 250, 0.2);
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 0.5rem;
         }
         
-        .export-description {
-            color: #9ca3af;
-            font-size: 0.813rem;
+        .research-goal strong {
+            color: #60a5fa;
+        }
+        
+        .features-section {
+            margin: 3rem 0;
+        }
+        
+        .features-section h2 {
+            color: #60a5fa;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: border-color 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: #60a5fa;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
         
-        .export-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.75rem;
+        .feature-card h3 {
+            color: #60a5fa;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
         }
         
-        .export-btn {
+        .feature-card p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+        }
+        
+        .cta-section h2 {
+            color: #60a5fa;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        .cta-buttons {
             display: flex;
-            align-items: center;
+            gap: 1rem;
             justify-content: center;
-            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-secondary {
             background: rgba(96, 165, 250, 0.1);
             border: 1px solid rgba(96, 165, 250, 0.3);
             color: #60a5fa;
-            padding: 0.75rem 1rem;
-            border-radius: 0.375rem;
-            font-size: 0.813rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
         }
         
-        .export-btn:hover {
+        .btn-secondary:hover {
             background: rgba(96, 165, 250, 0.2);
-            border-color: #60a5fa;
-            transform: translateY(-2px);
         }
         
-        .export-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .export-notification {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            border-radius: 0.375rem;
-            color: #10b981;
-            font-size: 0.813rem;
-            animation: slideIn 0.3s ease-out;
+        @media (max-width: 768px) {
+            .deployment-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .honeypot-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -136,271 +398,699 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="landing.html" style="text-decoration: none;">
-                <h1 class="logo">port254</h1>
-            </a>
+            <a href="index.html" class="logo">port254</a>
         </div>
     </header>
 
-    <!-- Subtitle -->
-    <div class="subtitle-section">
-        <div class="container">
-            <div class="subtitle-content">
-                <p class="subtitle">OT/ICS + FinTech detection catalog & honeypot telemetry</p>
-            </div>
+    <!-- Navigation -->
+    <div class="nav-section">
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="detections.html" class="nav-link">Detections</a>
+            <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
+            <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
+            <a href="getting-started.html" class="nav-link">Getting Started</a>
+        </nav>
+    </div>
 
-            <!-- Search Bar -->
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        placeholder="Search detections by name, identifier, or keywords..."
-                        class="search-input"
-                    />
+    <div class="container">
+        <div class="hero-section">
+            <p class="tagline">
+                Personal cybersecurity research focused on industrial control systems
+            </p>
+            <span class="research-badge">🔬 Independent OT/ICS Security Research</span>
+        </div>
+        
+        <div class="intro-section">
+            <h2>About This Research</h2>
+            <p>
+                port254 is my personal research initiative documenting real-world attack patterns against 
+                industrial control systems. Using live honeypots deployed as full ICS environments, I collect 
+                and analyze actual threat actor behavior to build a freely-available detection rule catalog.
+            </p>
+            <p>
+                This isn't a commercial product—it's a research project aimed at improving cybersecurity visibility 
+                in operational technology domains. All findings, detection rules, and telemetry are shared 
+                openly with the security community.
+            </p>
+        </div>
+        
+        <div class="honeypot-section">
+            <div class="honeypot-header">
+                <span class="honeypot-icon">🍯</span>
+                <h2>Live Honeypot Telemetry</h2>
+            </div>
+            
+            <p class="honeypot-description">
+                The foundation of this research is a network of full-stack ICS honeypots deployed in two geographic 
+                locations. Each deployment mimics a complete industrial environment with PLCs, HMIs, historians, 
+                and supporting infrastructure to attract and study real attack patterns.
+            </p>
+            
+            <div class="deployment-grid">
+                <div class="deployment-card">
+                    <div class="deployment-header">
+                        <span class="location-icon">🌏</span>
+                        <h3>Australia Deployment</h3>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <span class="live-indicator">
+                            <span class="live-dot"></span>
+                            Honeypot Online
+                        </span>
+                    </div>
+                    <ul class="deployment-components">
+                        <li>Siemens S7-1200 PLC (S7comm on tcp/102)</li>
+                        <li>Modbus TCP RTU (tcp/502)</li>
+                        <li>HMI interface (Wonderware/FactoryTalk)</li>
+                        <li>Historian database (OSISoft PI)</li>
+                        <li>Windows Engineering Station</li>
+                        <li>Linux SCADA Server</li>
+                    </ul>
                 </div>
-                <button class="btn-primary">Advanced Search</button>
+                
+                <div class="deployment-card">
+                    <div class="deployment-header">
+                        <span class="location-icon">🌍</span>
+                        <h3>Kenya Deployment</h3>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <span class="live-indicator">
+                            <span class="live-dot"></span>
+                            Honeypot Online
+                        </span>
+                    </div>
+                    <ul class="deployment-components">
+                        <li>Siemens S7-1200 PLC (S7comm on tcp/102)</li>
+                        <li>Modbus TCP RTU (tcp/502)</li>
+                        <li>HMI interface (Wonderware/FactoryTalk)</li>
+                        <li>Historian database (OSISoft PI)</li>
+                        <li>Windows Engineering Station</li>
+                        <li>Linux SCADA Server</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="honeypot-stats">
+                <div class="stat-box">
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">Events (24h)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Locations</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Components/Site</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+            </div>
+            
+            <div class="research-goal">
+                <strong>Research Objective:</strong> Compare attack patterns between geographic regions. 
+                Do adversaries target Africa differently than Oceania? Which protocols are prioritized? 
+                How do attack timings differ across time zones? The dual-deployment approach allows 
+                direct comparison of threat landscapes.
+            </div>
+        </div>
+        
+        <div class="features-section">
+            <h2>What You'll Find Here</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Detection Rule Catalog</h3>
+                    <p>
+                        Browse 150+ detection rules based on real attack patterns captured by honeypots. 
+                        Each includes MITRE ATT&CK mapping and IEC 62443 compliance tags.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧪</div>
+                    <h3>Lab Testing Environment</h3>
+                    <p>
+                        Test detections safely before deployment. Send synthetic events to your Elasticsearch 
+                        cluster to validate rules work as expected.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3>Multi-SIEM Export</h3>
+                    <p>
+                        Export detection rules in Elastic KQL, Splunk SPL, Sigma, Microsoft Sentinel, 
+                        or QRadar AQL format. Ready to paste.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📡</div>
+                    <h3>Real-Time Dashboard</h3>
+                    <p>
+                        Live view of attacks hitting industrial honeypots. See geographic distribution, 
+                        protocol targeting, and attack trends.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>MITRE ATT&CK for ICS</h3>
+                    <p>
+                        Every detection mapped to adversary techniques specific to industrial systems. 
+                        Understand attack context within the ICS kill chain.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Geographic Comparison</h3>
+                    <p>
+                        Compare threat patterns between Australia and Kenya deployments. Identify 
+                        regional differences in OT targeting.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Explore the Research</h2>
+            <p>
+                All data, detection rules, and findings are freely available. Whether you're securing industrial 
+                systems, researching OT threats, or studying ICS security—dive in.
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">Browse Detection Catalog</a>
+                <a href="honeypot-dashboard.html" class="btn btn-secondary">View Live Honeypot Data</a>
+                <a href="getting-started.html" class="btn btn-secondary">Getting Started</a>
             </div>
         </div>
     </div>
-
-    <!-- Filters & Navigation -->
-    <div class="filters-section">
-        <div class="container">
-            <div class="filters-nav-wrapper">
-                <!-- Quick Filters -->
-                <div class="quick-filters">
-                    <span class="filter-label">Quick Filter:</span>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="ot">OT/ICS</button>
-                        <button class="filter-btn" data-filter="fintech">FinTech</button>
-                    </div>
+</body>
+</html>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0f0f0f;
+            color: #f3f4f6;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .research-badge {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: #60a5fa;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .intro-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+        }
+        
+        .intro-section h2 {
+            color: #e5e7eb;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .intro-section p {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .objective-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 2rem;
+        }
+        
+        .objective-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .objective-card h3 {
+            color: #60a5fa;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .objective-card p {
+            color: #9ca3af;
+            margin-bottom: 0.75rem;
+        }
+        
+        .focus-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+        
+        .focus-list li {
+            color: #d1d5db;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .focus-list li::before {
+            content: "▸ ";
+            color: #60a5fa;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .honeypot-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .honeypot-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .honeypot-icon {
+            font-size: 2rem;
+        }
+        
+        .honeypot-header h2 {
+            color: #10b981;
+            font-size: 1.75rem;
+        }
+        
+        .honeypot-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            color: #10b981;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .features-section {
+            margin: 3rem 0;
+        }
+        
+        .features-section h2 {
+            color: #e5e7eb;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: border-color 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: #60a5fa;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            color: #60a5fa;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-card p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+        }
+        
+        .cta-section h2 {
+            color: #e5e7eb;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #60a5fa;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(96, 165, 250, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .objectives-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .honeypot-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">port254</div>
+            <p class="tagline">
+                Personal cybersecurity research focused on industrial control systems and financial technology
+            </p>
+            <span class="research-badge">🔬 Independent Security Research</span>
+        </div>
+        
+        <div class="intro-section">
+            <h2>About This Project</h2>
+            <p>
+                port254 is my personal research initiative documenting real-world attack patterns against 
+                industrial control systems (OT/ICS) and financial technology infrastructure. Using live honeypots 
+                deployed across multiple protocols, I collect and analyze actual threat actor behavior to build 
+                a freely-available detection rule catalog.
+            </p>
+            <p>
+                This isn't a commercial product—it's a research project aimed at improving cybersecurity visibility 
+                in two critical but underserved domains. All findings, detection rules, and telemetry are shared 
+                openly with the security community.
+            </p>
+        </div>
+        
+        <div class="objectives-grid">
+            <div class="objective-card">
+                <div class="objective-number">1</div>
+                <h3>OT/ICS Security Research</h3>
+                <p>
+                    Investigating attack patterns targeting industrial control systems, with focus on:
+                </p>
+                <ul class="focus-list">
+                    <li>S7comm protocol attacks (Siemens PLCs)</li>
+                    <li>Modbus TCP exploitation (SCADA systems)</li>
+                    <li>DNP3 reconnaissance (electrical substations)</li>
+                    <li>Protocol abuse and manipulation attempts</li>
+                    <li>Unauthorized PLC programming/configuration</li>
+                </ul>
+            </div>
+            
+            <div class="objective-card">
+                <div class="objective-number">2</div>
+                <h3>FinTech Security Research</h3>
+                <p>
+                    Analyzing fraud patterns and authentication attacks in financial systems:
+                </p>
+                <ul class="focus-list">
+                    <li>Card fraud geo-velocity patterns</li>
+                    <li>Account takeover (ATO) techniques</li>
+                    <li>Transaction anomaly detection</li>
+                    <li>Behavioral authentication bypass</li>
+                    <li>Payment protocol exploitation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="honeypot-section">
+            <div class="honeypot-header">
+                <span class="honeypot-icon">🍯</span>
+                <h2>Live Honeypot Telemetry</h2>
+            </div>
+            
+            <p style="color: #d1d5db; margin-bottom: 1.5rem;">
+                The heart of this research is a network of honeypots mimicking real OT/ICS and FinTech systems. 
+                These capture actual attack traffic 24/7, providing ground truth data for detection rule development.
+            </p>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <span class="live-indicator">
+                    <span class="live-dot"></span>
+                    Honeypots Currently Online
+                </span>
+            </div>
+            
+            <div class="honeypot-stats">
+                <div class="stat-box">
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">Events (24h)</div>
                 </div>
-
-                <!-- Navigation Menu -->
-                <nav class="nav-menu">
-                    <a href="landing.html" class="nav-link">Home</a>
-                    <a href="index.html" class="nav-link active">Detections</a>
-                    <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
-                    <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
-                    <a href="getting-started.html" class="nav-link">Getting Started</a>
-                </nav>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Active Protocols</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">150+</div>
+                    <div class="stat-label">Detection Rules</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+            </div>
+            
+            <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 1rem;">
+                <strong style="color: #10b981;">Protocols monitored:</strong> S7comm (tcp/102), Modbus TCP (tcp/502), 
+                with plans to expand to DNP3, BACnet, and other industrial protocols
+            </p>
+        </div>
+        
+        <div class="features-section">
+            <h2>What You'll Find Here</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Detection Rule Catalog</h3>
+                    <p>
+                        Browse 150+ detection rules based on real attack patterns. Each rule includes description, 
+                        MITRE ATT&CK mapping, and IEC 62443 compliance tagging.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧪</div>
+                    <h3>Lab Testing Environment</h3>
+                    <p>
+                        Test detections safely before deployment. Send synthetic events to your Elasticsearch cluster 
+                        to validate rules work as expected.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3>Multi-SIEM Export</h3>
+                    <p>
+                        Export detection rules in Elastic KQL, Splunk SPL, Sigma, Microsoft Sentinel, or QRadar AQL. 
+                        Ready to paste into your SIEM.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📡</div>
+                    <h3>Honeypot Dashboard</h3>
+                    <p>
+                        Real-time view of attacks hitting industrial honeypots. See geographic distribution, 
+                        protocol targeting, and attack trends.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>MITRE ATT&CK Mapping</h3>
+                    <p>
+                        Every detection mapped to adversary techniques. Understand the broader context of 
+                        each attack pattern within the kill chain.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>IEC 62443 Compliance</h3>
+                    <p>
+                        Detections tagged with relevant IEC 62443 control requirements for industrial systems. 
+                        Simplifies compliance documentation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Explore the Research</h2>
+            <p>
+                All data, detection rules, and findings are freely available. Whether you're securing industrial 
+                systems, researching threats, or just curious about OT/ICS security—dive in.
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">Browse Detection Catalog</a>
+                <a href="honeypot-dashboard.html" class="btn btn-secondary">View Honeypot Dashboard</a>
+                <a href="getting-started.html" class="btn btn-secondary">Getting Started Guide</a>
             </div>
         </div>
     </div>
-
-    <!-- Stats & Honeypot -->
-    <div class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <!-- Honeypot Status - Featured -->
-                <div class="stat-card honeypot-card">
-                    <div class="honeypot-header">
-                        <svg class="honeypot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="2"></circle>
-                            <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
-                        </svg>
-                        <span class="honeypot-label">Honeypot Live</span>
-                    </div>
-                    <div class="stat-value" style="color: #10b981;">Online</div>
-                    <div class="honeypot-detail">S7: tcp/102</div>
-                    <div class="honeypot-detail">Modbus: tcp/502</div>
-                    <div class="honeypot-events">
-                        <span class="events-count">1,247</span> events (24h)
-                    </div>
-                </div>
-
-                <!-- Other Stats -->
-                <div class="stat-card">
-                    <div class="stat-value" id="totalTests">0</div>
-                    <div class="stat-label">Total Detections</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="categories">0</div>
-                    <div class="stat-label">Categories</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="showing">0</div>
-                    <div class="stat-label">Showing</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value stat-value-orange" id="highPriority">0</div>
-                    <div class="stat-label">High Priority</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cards Grid -->
-    <div class="cards-section">
-        <div class="container">
-            <div id="cardsGrid" class="cards-grid">
-                <!-- Cards will be injected here by JavaScript -->
-            </div>
-            <div id="noResults" class="no-results" style="display: none;">
-                <p>No detections found matching your criteria</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail Modal -->
-    <div id="detailModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h2 id="modalTitle" class="modal-title"></h2>
-                    <div id="modalBadges" class="modal-badges"></div>
-                </div>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <div class="modal-body-top">
-                    <!-- LEFT COLUMN -->
-                    <div class="left-column">
-                        <!-- Description -->
-                        <div class="modal-section">
-                            <h3 class="section-title">Detection Description</h3>
-                            <p id="modalDescription" class="modal-text"></p>
-                        </div>
-
-                        <!-- Mappings Row (MITRE + IEC side by side) -->
-                        <div class="mappings-row">
-                            <div class="mapping-column">
-                                <h3 class="section-title">MITRE ATT&CK Mapping</h3>
-                                <div id="modalMitre" class="badge-list"></div>
-                                <div id="modalMitreDesc"></div>
-                            </div>
-
-                            <div class="mapping-column">
-                                <h3 class="section-title">IEC 62443 Controls</h3>
-                                <div id="modalIec" class="badge-list"></div>
-                                <div id="modalIecDesc"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- Export Detection Section -->
-                        <div class="export-section">
-                            <h3 class="section-title">📤 Export Detection Rule</h3>
-                            <p class="export-description">
-                                Download this detection in your SIEM's native format. Ready to paste into production.
-                            </p>
-                            <div class="export-buttons">
-                                <button class="export-btn" onclick="exportDetection('elastic')">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                    </svg>
-                                    Elastic (KQL)
-                                </button>
-                                <button class="export-btn" onclick="exportDetection('splunk')">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                    </svg>
-                                    Splunk (SPL)
-                                </button>
-                                <button class="export-btn" onclick="exportDetection('sigma')">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                    </svg>
-                                    Sigma Rule
-                                </button>
-                                <button class="export-btn" onclick="exportDetection('sentinel')">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                    </svg>
-                                    MS Sentinel
-                                </button>
-                                <button class="export-btn" onclick="exportDetection('qradar')">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
-                                    </svg>
-                                    QRadar (AQL)
-                                </button>
-                            </div>
-                            <div id="exportNotification" class="export-notification" style="display: none;">
-                                <span id="exportNotificationText"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT COLUMN - Lab Testing Only -->
-                    <div class="right-column">
-                        <div class="modal-section">
-                            <h3 class="section-title">Lab Testing</h3>
-                            
-                            <!-- Lab Testing Section -->
-                            <div class="lab-testing-section">
-                                <div class="lab-header">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                    </svg>
-                                </div>
-
-                                <!-- ELK Health Status Box - Compact -->
-                                <div id="elkHealthBox" class="elk-health-box">
-                                    <!-- Protectli Server Icon -->
-                                    <svg class="elk-server-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                        <rect x="2" y="3" width="20" height="5" rx="1" stroke-width="1.5" stroke="#60a5fa" fill="rgba(96, 165, 250, 0.1)"/>
-                                        <rect x="2" y="10" width="20" height="5" rx="1" stroke-width="1.5" stroke="#60a5fa" fill="rgba(96, 165, 250, 0.1)"/>
-                                        <rect x="2" y="17" width="20" height="5" rx="1" stroke-width="1.5" stroke="#60a5fa" fill="rgba(96, 165, 250, 0.1)"/>
-                                        <circle cx="5" cy="5.5" r="0.8" fill="#10b981"/>
-                                        <circle cx="5" cy="12.5" r="0.8" fill="#10b981"/>
-                                        <circle cx="5" cy="19.5" r="0.8" fill="#60a5fa"/>
-                                        <line x1="8" y1="5.5" x2="11" y2="5.5" stroke="#60a5fa" stroke-width="0.8"/>
-                                        <line x1="8" y1="12.5" x2="11" y2="12.5" stroke="#60a5fa" stroke-width="0.8"/>
-                                        <line x1="8" y1="19.5" x2="11" y2="19.5" stroke="#60a5fa" stroke-width="0.8"/>
-                                    </svg>
-                                    
-                                    <div id="elkStatusDot" class="elk-status-dot"></div>
-                                    
-                                    <div class="elk-status-info">
-                                        <span id="elkStatusText" class="elk-status-text">ELK Cluster</span>
-                                        <span id="elkLastCheck" class="elk-last-check">Checking...</span>
-                                    </div>
-                                </div>
-
-                                <p class="lab-description">
-                                    <strong>Validate detection in test environment.</strong><br>
-                                    Sends ECS-formatted test events directly to your Elasticsearch cluster to validate detection rules. Events are indexed immediately and verified within seconds.
-                                </p>
-                                <button class="btn-trigger" onclick="triggerDetection()">
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                    </svg>
-                                    Trigger Detection
-                                </button>
-                                <div id="labStatus" class="lab-status" style="display: none;">
-                                    <span class="status-icon">⚡</span>
-                                    <span id="labStatusText">Sending events...</span>
-                                </div>
-                                <div id="labResults" class="lab-results" style="display: none;">
-                                    <h4>✓ Test Completed</h4>
-                                    <ul id="labResultsList"></ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <span id="modalDate" class="modal-date"></span>
-                <span class="modal-source">Source: Conpot Honeypot</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>port254 Detection Catalog | Powered by Conpot honeypot telemetry | Mapping to MITRE ATT&CK & IEC 62443</p>
-        </div>
-    </footer>
-
-    <script src="./js/app.js"></script>
 </body>
 </html>
