@@ -71,6 +71,65 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        
+        /* Export Section */
+        .export-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(96, 165, 250, 0.05);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.5rem;
+        }
+        
+        .export-description {
+            color: #9ca3af;
+            font-size: 0.813rem;
+            margin-bottom: 1rem;
+        }
+        
+        .export-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .export-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #60a5fa;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.813rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .export-btn:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            transform: translateY(-2px);
+        }
+        
+        .export-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .export-notification {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 0.375rem;
+            color: #10b981;
+            font-size: 0.813rem;
+            animation: slideIn 0.3s ease-out;
+        }
     </style>
 </head>
 <body>
@@ -219,6 +278,49 @@
                                 <h3 class="section-title">IEC 62443 Controls</h3>
                                 <div id="modalIec" class="badge-list"></div>
                                 <div id="modalIecDesc"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Export Detection Section -->
+                        <div class="export-section">
+                            <h3 class="section-title">📤 Export Detection Rule</h3>
+                            <p class="export-description">
+                                Download this detection in your SIEM's native format. Ready to paste into production.
+                            </p>
+                            <div class="export-buttons">
+                                <button class="export-btn" onclick="exportDetection('elastic')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                    </svg>
+                                    Elastic (KQL)
+                                </button>
+                                <button class="export-btn" onclick="exportDetection('splunk')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                    </svg>
+                                    Splunk (SPL)
+                                </button>
+                                <button class="export-btn" onclick="exportDetection('sigma')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                    </svg>
+                                    Sigma Rule
+                                </button>
+                                <button class="export-btn" onclick="exportDetection('sentinel')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                    </svg>
+                                    MS Sentinel
+                                </button>
+                                <button class="export-btn" onclick="exportDetection('qradar')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                    </svg>
+                                    QRadar (AQL)
+                                </button>
+                            </div>
+                            <div id="exportNotification" class="export-notification" style="display: none;">
+                                <span id="exportNotificationText"></span>
                             </div>
                         </div>
                     </div>
