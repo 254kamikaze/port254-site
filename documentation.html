@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <style>
         .doc-hero {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(37, 37, 37, 0.1) 100%);
+            background-color: #1a1a1a;
             border-bottom: 1px solid #2a2a2a;
             padding: 3rem 1.5rem;
             text-align: center;
@@ -78,8 +78,8 @@
         }
 
         .doc-nav-link.active {
-            background-color: rgba(255, 107, 107, 0.15);
-            color: #ff6b6b;
+            background-color: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
             font-weight: 500;
         }
 
@@ -107,12 +107,6 @@
             font-size: 1.5rem;
             margin: 2rem 0 1rem;
             color: #e5e7eb;
-        }
-
-        .doc-section h4 {
-            font-size: 1.25rem;
-            margin: 1.5rem 0 0.75rem;
-            color: #d1d5db;
         }
 
         .doc-section p {
@@ -154,7 +148,7 @@
             content: "→";
             position: absolute;
             left: 0;
-            color: #ff6b6b;
+            color: #60a5fa;
             font-weight: bold;
         }
 
@@ -180,15 +174,6 @@
             margin: 0;
         }
 
-        .warning-box {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-        }
-
-        .warning-box .info-box-title {
-            color: #fbbf24;
-        }
-
         @media (max-width: 1024px) {
             .doc-grid {
                 grid-template-columns: 1fr;
@@ -205,17 +190,22 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <h1 class="logo">port254</h1>
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="logo">port254</h1>
+            </a>
         </div>
     </header>
 
     <!-- Navigation -->
     <div class="filters-section">
         <div class="container">
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Detections</a>
+            <nav class="nav-menu" style="justify-content: center;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="detections.html" class="nav-link">Detections</a>
                 <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
-                <a href="#" class="nav-link">ATT&CK Matrix</a>
+                <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
+                <a href="file-analysis.html" class="nav-link">File Analysis</a>
+                <a href="getting-started.html" class="nav-link">Getting Started</a>
                 <a href="documentation.html" class="nav-link active">Documentation</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </nav>
@@ -325,16 +315,6 @@ cd detection-rules</code>
 
                     <h3>Step 3: Test Detection</h3>
                     <p>Use the built-in lab testing feature to verify rules before production deployment. Click "Trigger Detection" in any detection's detail modal.</p>
-
-                    <div class="warning-box info-box">
-                        <div class="info-box-title">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                            </svg>
-                            Warning
-                        </div>
-                        <p>Lab testing generates synthetic attack traffic. Only use in isolated test environments, never in production networks.</p>
-                    </div>
                 </section>
 
                 <section id="architecture" class="doc-section">
@@ -342,26 +322,12 @@ cd detection-rules</code>
                     <p>port254 uses a modular architecture designed for flexibility and scalability:</p>
 
                     <h3>Components</h3>
-                    <h4>1. Detection Catalog</h4>
-                    <p>Central repository of detection rules in universal format (Sigma-compatible). Each detection includes:</p>
                     <ul class="doc-list">
-                        <li>Rule logic and query syntax</li>
-                        <li>MITRE ATT&CK technique mappings</li>
-                        <li>IEC 62443 control mappings</li>
-                        <li>False positive guidance</li>
-                        <li>Remediation steps</li>
+                        <li>Detection Catalog: Central repository of detection rules</li>
+                        <li>Honeypot Network: Distributed Conpot honeypots</li>
+                        <li>Telemetry Pipeline: Real-time event streaming</li>
+                        <li>Lab Environment: Safe testing infrastructure</li>
                     </ul>
-
-                    <h4>2. Honeypot Network</h4>
-                    <p>Distributed Conpot honeypots emulating:</p>
-                    <ul class="doc-list">
-                        <li>Siemens S7 PLCs (tcp/102)</li>
-                        <li>Modbus devices (tcp/502)</li>
-                        <li>DNP3 substations (tcp/20000)</li>
-                    </ul>
-
-                    <h4>3. Telemetry Pipeline</h4>
-                    <p>Real-time event streaming from honeypots to central analytics platform, providing threat intelligence and attack pattern analysis.</p>
                 </section>
 
                 <section id="detection-format" class="doc-section">
@@ -378,10 +344,7 @@ cd detection-rules</code>
   "description": "Detects repeated S7comm session...",
   "mitre_attack_ids": ["T1110"],
   "iec62443_controls": ["SR 1.1", "SR 3.2"],
-  "tags": ["s7", "plc", "brute-force"],
-  "query": "event.dataset:s7comm AND event.outcome:failure",
-  "threshold": 10,
-  "timeframe": "5m"
+  "tags": ["s7", "plc", "brute-force"]
 }</code>
                     </div>
                 </section>
@@ -422,21 +385,6 @@ curl -X POST "localhost:5601/api/detection_engine/rules" \
   -e ELK_HOST=your-elk-server:9200 \
   port254/conpot-honeypot:latest</code>
                     </div>
-
-                    <h3>Configuration</h3>
-                    <p>Edit <code>conpot.cfg</code> to customize honeypot behavior:</p>
-                    <div class="doc-code-block">
-                        <code>[s7]
-device_name = Siemens S7-1200
-firmware_version = V4.2
-listen_port = 102
-
-[logging]
-destination = elasticsearch
-host = 192.168.1.100
-port = 9200
-index = port254-honeypot</code>
-                    </div>
                 </section>
 
                 <section id="api-reference" class="doc-section">
@@ -463,17 +411,6 @@ Response:
   "id": "DET-OT-001",
   "title": "S7 Session Failure Storm Detection",
   ...
-}</code>
-                    </div>
-
-                    <h3>Search Detections</h3>
-                    <div class="doc-code-block">
-                        <code>GET /api/v1/detections/search?q=modbus&domain=ot
-
-Response:
-{
-  "results": [...],
-  "count": 5
 }</code>
                     </div>
                 </section>
