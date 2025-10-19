@@ -7,6 +7,800 @@
     <link rel="stylesheet" href="./css/style.css">
     <style>
         .playbook-hero {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-bottom: 1px solid #2a2a2a;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        .playbook-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f3f4f6;
+        }
+
+        .playbook-hero p {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .disclaimer-box {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .disclaimer-box strong {
+            color: #60a5fa;
+        }
+
+        .playbook-container {
+            padding: 2rem 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Tab Navigation */
+        .playbook-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #2a2a2a;
+        }
+
+        .playbook-tab {
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem 0.5rem 0 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #9ca3af;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .playbook-tab:hover {
+            background: rgba(96, 165, 250, 0.1);
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .playbook-tab.active {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(59, 130, 246, 0.15) 100%);
+            border-color: #60a5fa;
+            color: #60a5fa;
+            font-weight: 600;
+            border-bottom: 2px solid #60a5fa;
+            margin-bottom: -2px;
+        }
+
+        .playbook-tab-icon {
+            font-size: 1.25rem;
+        }
+
+        .severity-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .severity-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .severity-high {
+            background: rgba(251, 146, 60, 0.2);
+            color: #fdba74;
+            border: 1px solid rgba(251, 146, 60, 0.4);
+        }
+
+        /* Tab Content */
+        .playbook-content {
+            display: none;
+        }
+
+        .playbook-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .playbook-card {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .playbook-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        .playbook-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        .playbook-icon {
+            font-size: 2.5rem;
+        }
+
+        .playbook-header h2 {
+            color: #60a5fa;
+            font-size: 1.75rem;
+            margin: 0;
+            flex: 1;
+        }
+
+        .playbook-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .playbook-why {
+            background: rgba(96, 165, 250, 0.05);
+            border-left: 3px solid #60a5fa;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+        }
+
+        .playbook-why strong {
+            color: #60a5fa;
+        }
+
+        .trigger-section {
+            background: rgba(251, 191, 36, 0.05);
+            border-left: 3px solid #fbbf24;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+        }
+
+        .trigger-section strong {
+            color: #fbbf24;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .trigger-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .trigger-section li {
+            color: #d1d5db;
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.875rem;
+        }
+
+        .trigger-section li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+
+        .response-steps {
+            margin-bottom: 1.5rem;
+        }
+
+        .response-steps h3 {
+            color: #60a5fa;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0.375rem;
+            border: 1px solid #2a2a2a;
+            transition: all 0.2s;
+        }
+
+        .step:hover {
+            border-color: #60a5fa;
+            background: rgba(96, 165, 250, 0.05);
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.938rem;
+        }
+
+        .step-description {
+            color: #9ca3af;
+            font-size: 0.813rem;
+            line-height: 1.6;
+        }
+
+        /* Sidebar Info */
+        .playbook-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+        }
+
+        .sidebar-card h4 {
+            color: #60a5fa;
+            font-size: 0.938rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #2a2a2a;
+            font-size: 0.813rem;
+        }
+
+        .sidebar-card li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-card a {
+            color: #60a5fa;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .sidebar-card a:hover {
+            color: #93c5fd;
+            text-decoration: underline;
+        }
+
+        /* Lab Demo Section */
+        .lab-demo-section {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .lab-demo-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lab-demo-header h4 {
+            color: #a78bfa;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .lab-demo-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .demo-button {
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(167, 139, 250, 0.4);
+        }
+
+        .demo-button:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* LockBit Simulator */
+        .lockbit-simulator {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #a78bfa;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .lockbit-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .lockbit-logo {
+            font-size: 2rem;
+        }
+
+        .lockbit-status h4 {
+            color: #a78bfa;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .lockbit-status p {
+            color: #9ca3af;
+            font-size: 0.813rem;
+            margin: 0;
+        }
+
+        .encryption-progress {
+            background: rgba(167, 139, 250, 0.1);
+            border-radius: 0.25rem;
+            height: 24px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .encryption-bar {
+            background: linear-gradient(90deg, #a78bfa 0%, #8b5cf6 100%);
+            height: 100%;
+            transition: width 2s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .encrypted-files {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #0a0a0a;
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+
+        .file-item {
+            padding: 0.25rem 0;
+            color: #6b7280;
+        }
+
+        .file-item.encrypted {
+            color: #a78bfa;
+        }
+
+        .timeline-view {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .timeline-view h4 {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .timeline-time {
+            color: #6b7280;
+            font-family: monospace;
+            font-size: 0.75rem;
+            min-width: 80px;
+        }
+
+        .timeline-event {
+            flex: 1;
+            color: #d1d5db;
+            font-size: 0.875rem;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        .blinking {
+            animation: blink 1s infinite;
+        }
+
+        @media (max-width: 1024px) {
+            .playbook-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .playbook-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="logo">port254</h1>
+            </a>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <nav class="nav-menu" style="justify-content: center;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="detections.html" class="nav-link">Detections</a>
+                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
+                <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
+                <a href="file-analysis.html" class="nav-link">File Analysis</a>
+                <a href="incident-response.html" class="nav-link active">Incident Response</a>
+                <a href="getting-started.html" class="nav-link">Getting Started</a>
+                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="playbook-hero">
+        <h1>🛡️ Incident Response Playbooks</h1>
+        <p>Practical response procedures for critical OT/ICS attack scenarios</p>
+        
+        <div class="disclaimer-box">
+            <strong>⚠️ Lab Environment Only:</strong> All demonstrations run in isolated, sandboxed environments. 
+            No live malware, credential capture, or offensive activity. Educational purposes only.
+        </div>
+    </div>
+
+    <div class="playbook-container">
+        
+        <!-- Tab Navigation -->
+        <div class="playbook-tabs">
+            <div class="playbook-tab active" onclick="showPlaybook('ransomware')">
+                <span class="playbook-tab-icon">🔒</span>
+                <span>Ransomware</span>
+                <span class="severity-badge severity-critical">Critical</span>
+            </div>
+            <div class="playbook-tab" onclick="showPlaybook('supply-chain')">
+                <span class="playbook-tab-icon">🧰</span>
+                <span>Supply Chain</span>
+                <span class="severity-badge severity-critical">Critical</span>
+            </div>
+            <div class="playbook-tab" onclick="showPlaybook('lateral-movement')">
+                <span class="playbook-tab-icon">🔐</span>
+                <span>Lateral Movement</span>
+                <span class="severity-badge severity-high">High</span>
+            </div>
+            <div class="playbook-tab" onclick="showPlaybook('plc-manipulation')">
+                <span class="playbook-tab-icon">⚡</span>
+                <span>PLC Manipulation</span>
+                <span class="severity-badge severity-critical">Critical</span>
+            </div>
+            <div class="playbook-tab" onclick="showPlaybook('phishing')">
+                <span class="playbook-tab-icon">🎣</span>
+                <span>Phishing</span>
+                <span class="severity-badge severity-high">High</span>
+            </div>
+        </div>
+
+        <!-- Ransomware Content -->
+        <div id="ransomware" class="playbook-content active">
+            <div class="playbook-card">
+                <div class="playbook-header">
+                    <span class="playbook-icon">🔒</span>
+                    <h2>Ransomware Impacting Engineering / OT Workstations</h2>
+                </div>
+
+                <div class="playbook-grid">
+                    <!-- Left Column - Main Content -->
+                    <div>
+                        <div class="playbook-why">
+                            <strong>💡 Why It Matters:</strong><br>
+                            Ransomware can halt production by encrypting HMIs, historians, or PLC configuration hosts. 
+                            Recent attacks like LockBit targeting critical infrastructure demonstrate real-world impact on 
+                            industrial operations.
+                        </div>
+
+                        <div class="trigger-section">
+                            <strong>🎯 Detection Triggers:</strong>
+                            <ul>
+                                <li>Suricata/Zeek detects mass file renames or SMB write bursts</li>
+                                <li>EDR shows suspicious parent-child process chains</li>
+                                <li>Historian service stops responding</li>
+                                <li>Multiple .lockbit or .encrypted file extensions appear</li>
+                            </ul>
+                        </div>
+
+                        <div class="response-steps">
+                            <h3>📋 Response Steps:</h3>
+                            
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <div class="step-title">Detect</div>
+                                    <div class="step-description">
+                                        Correlate Sysmon and network telemetry; identify encryption patterns. 
+                                        Check for ransom notes in common directories.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <div class="step-title">Contain</div>
+                                    <div class="step-description">
+                                        Immediately isolate host from network; snapshot VMs if virtualized; 
+                                        preserve forensic evidence.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <div class="step-title">Eradicate</div>
+                                    <div class="step-description">
+                                        Reimage from verified builds; close RDP/VPN exposures that enabled initial access.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <div class="step-title">Recover</div>
+                                    <div class="step-description">
+                                        Restore PLC/HMI configs from offline backups; test offline before reconnecting.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <div class="step-title">Lessons Learned</div>
+                                    <div class="step-description">
+                                        Harden engineering hosts; restrict internet access; apply IEC 62443 network segmentation.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Sidebar -->
+                    <div class="playbook-sidebar">
+                        <div class="sidebar-card">
+                            <h4>📚 References</h4>
+                            <ul>
+                                <li>• IEC 62443-3-3 — System Security Requirements</li>
+                                <li>• <a href="https://www.cisa.gov/stopransomware" target="_blank">CISA StopRansomware Guide</a></li>
+                                <li>• <a href="https://attack.mitre.org/techniques/T1486/" target="_blank">MITRE T1486</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h4>🎯 Key Indicators</h4>
+                            <ul>
+                                <li>File extensions: .lockbit, .encrypted</li>
+                                <li>Ransom note: README.txt</li>
+                                <li>Process: powershell.exe → cipher.exe</li>
+                                <li>Network: C2 beaconing on ports 443, 8443</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h4>⏱️ Response Timeline</h4>
+                            <ul>
+                                <li>0-15 min: Detection & Initial containment</li>
+                                <li>15-60 min: Full network isolation</li>
+                                <li>1-4 hours: Forensic analysis</li>
+                                <li>4-24 hours: Recovery initiation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lab Demo -->
+                <div class="lab-demo-section">
+                    <div class="lab-demo-header">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <h4>🧪 Interactive Lab Demo: LockBit Ransomware Simulation</h4>
+                    </div>
+                    <p class="lab-demo-description">
+                        Simulate LockBit ransomware behavior in an isolated environment. Watch file encryption patterns, 
+                        observe network indicators, and practice response procedures.
+                    </p>
+                    <button class="demo-button" onclick="startLockBitDemo()">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Start Ransomware Simulation
+                    </button>
+
+                    <div id="lockbitSimulator" class="lockbit-simulator" style="display: none;">
+                        <div class="lockbit-header">
+                            <div class="lockbit-logo">🔒</div>
+                            <div class="lockbit-status">
+                                <h4>LockBit 3.0 Encryption Simulator</h4>
+                                <p>Isolated Lab Environment - Educational Demo Only</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: #9ca3af; font-size: 0.875rem;">Encryption Progress:</span>
+                                <span id="encryptionPercent" style="color: #a78bfa; font-weight: 600; font-size: 0.875rem;">0%</span>
+                            </div>
+                            <div class="encryption-progress">
+                                <div id="encryptionBar" class="encryption-bar" style="width: 0%;">0%</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">Encrypted Files:</h4>
+                            <div id="encryptedFiles" class="encrypted-files">
+                                <div style="color: #6b7280;">Waiting for simulation to start...</div>
+                            </div>
+                        </div>
+
+                        <button class="demo-button" onclick="stopLockBitDemo()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            Stop Simulation
+                        </button>
+                    </div>
+
+                    <div id="attackTimeline" class="timeline-view" style="display: none;">
+                        <h4>⏱️ Attack Timeline & Detection Points</h4>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+0:00</div>
+                            <div class="timeline-event">Initial access via compromised RDP session</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+0:15</div>
+                            <div class="timeline-event">🚨 Detection: Unusual PowerShell execution detected</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+0:30</div>
+                            <div class="timeline-event">Credential harvesting via Mimikatz</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+1:00</div>
+                            <div class="timeline-event">🚨 Detection: Suspicious SMB write activity</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+1:15</div>
+                            <div class="timeline-event">Ransomware payload dropped to disk</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+1:30</div>
+                            <div class="timeline-event">🚨 Detection: Mass file renaming begins</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">T+2:00</div>
+                            <div class="timeline-event blinking" style="color: #60a5fa;">CONTAINMENT: Network isolated, VM snapshot created</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supply Chain Content -->
+        <div id="supply-chain" class="playbook-content">
+            <div class="playbook-card">
+                <div class="playbook-header">
+                    <span class="playbook-icon">🧰</span>
+                    <h2>Supply-Chain or Firmware Compromise</h2>
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Response Playbooks - port254</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .playbook-hero {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
             border-bottom: 1px solid #2a2a2a;
             padding: 3rem 1.5rem;
