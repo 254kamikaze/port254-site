@@ -65,8 +65,8 @@
         }
 
         .tactic-column {
-            background-color: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            /*background-color: #1a1a1a;*/
+            /*border: 1px solid #2a2a2a;*/
             border-radius: 0.5rem;
             overflow: hidden;
         }
@@ -557,7 +557,7 @@
                     <div class="techniques-list">
                         ${tacticData.techniques.map(tech => `
                             <div class="technique-item" onclick='showTechniqueDetail(${JSON.stringify(tech)}, "${tacticName}")'>
-                                <div style="font-size: 0.65rem; color: #60a5fa; margin-bottom: 0.25rem;">${tech.id}</div>
+                                <div style="font-size: 1.0rem; color: #60a5fa; margin-bottom: 0.25rem;">${tech.id}</div>
                                 ${tech.name}
                             </div>
                         `).join('')}
