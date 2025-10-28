@@ -1,0 +1,645 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #0f0f0f;
+    color: #f3f4f6;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ======================
+   HEADER & SUBTITLE
+   ====================== */
+.header {
+    background-color: #1a1a1a;
+    padding: 1.5rem 1.5rem 1rem;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #60a5fa;
+    text-align: center;
+}
+
+.subtitle-section {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 0.5rem 1.5rem 1.5rem;
+}
+
+.subtitle-content {
+    text-align: center;
+}
+
+.subtitle {
+    color: #9ca3af;
+    font-size: 1rem;
+}
+
+/* ======================
+   STATS SECTION - 7 CARDS
+   ====================== */
+.stats-section {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Changed from 6 to 7 */
+    gap: 0.75rem;
+}
+
+.stat-card {
+    background-color: #252525;
+    border: 1px solid #3a3a3a;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #60a5fa;
+}
+
+.stat-value-orange {
+    color: #ffa94d;
+}
+
+.stat-value-red {
+    color: #ef4444;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    margin-top: 0.35rem;
+}
+
+.honeypot-card {
+    background-color: #1e293b;
+    border: 2px solid #10b981;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+}
+
+.honeypot-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    justify-content: center;
+}
+
+.honeypot-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: #10b981;
+}
+
+.honeypot-label {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.honeypot-detail {
+    font-size: 0.7rem;
+    color: #64748b;
+    margin-bottom: 0.2rem;
+}
+
+/* ======================
+   DASHBOARD GRID - FIXED STRUCTURE
+   ====================== */
+.dashboard-section {
+    padding: 1rem 1.5rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(260px, auto);
+    gap: 1rem;
+}
+
+.dashboard-card {
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ROW 1: All cards same fixed height - 260px */
+.dashboard-card:nth-child(1),
+.dashboard-card:nth-child(2),
+.credentials-card,
+.countries-card {
+    min-height: 260px;
+    max-height: 260px;
+}
+
+.dashboard-card:nth-child(1) {
+    grid-column: 1 / 2;
+}
+
+.dashboard-card:nth-child(1) #attackingIPs {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    max-height: 200px;
+}
+
+.dashboard-card:nth-child(2) {
+    grid-column: 2 / 3;
+}
+
+.credentials-card {
+    grid-column: 3 / 4;
+}
+
+.countries-card {
+    grid-column: 4 / 5;
+}
+
+/* ROW 2: 40% | 30% | 30% */
+.timeline-card {
+    grid-column: 1 / 3;
+    min-height: 280px;
+    max-height: 280px;
+}
+.dashboard-card:nth-child(6) {
+    grid-column: 3 / 4;
+    min-height: 280px;
+    max-height: 280px;
+}
+.dashboard-card:nth-child(7) {
+    grid-column: 4 / 5;
+    min-height: 280px;
+    max-height: 280px;
+}
+
+/* ROW 3: 50% | 50% */
+.breach-card {
+    grid-column: 1 / 3;
+    min-height: 320px;
+    max-height: 320px;
+}
+.commands-card {
+    grid-column: 3 / 5;
+    min-height: 320px;
+    max-height: 320px;
+}
+
+/* ROW 4: 25% each */
+.row4-card {
+    min-height: 280px;
+    max-height: 280px !important;
+    background-color: #1a1a1a !important;
+}
+
+.dashboard-card:nth-child(10) { grid-column: 1 / 2; }
+.dashboard-card:nth-child(11) { grid-column: 2 / 3; }
+.dashboard-card:nth-child(12) { grid-column: 3 / 4; }
+.dashboard-card:nth-child(13) { grid-column: 4 / 5; }
+
+/* ======================
+   CARD TITLES
+   ====================== */
+.card-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #60a5fa;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+}
+
+/* ======================
+   SCROLLABLE CONTAINERS
+   ====================== */
+.scrollable-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.table-container {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    max-height: 220px !important;
+}
+
+/* ======================
+   CREDENTIALS CARD (COMPACT)
+   ====================== */
+.credentials-card {
+    font-size: 0.7rem;
+}
+
+.credentials-card .card-title {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+}
+
+.compact-list {
+    overflow: hidden;
+    max-height: 75px;
+}
+
+.compact-list table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.7rem;
+}
+
+.compact-list tbody tr {
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.compact-list tbody tr:last-child {
+    border-bottom: none;
+}
+
+.compact-list td {
+    padding: 0.3rem 0.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #e5e7eb;
+}
+
+.compact-list td:first-child {
+    font-family: 'Courier New', monospace;
+    color: #60a5fa;
+}
+
+.compact-list td:last-child {
+    text-align: right;
+    color: #9ca3af;
+    font-size: 0.65rem;
+}
+
+.compact-list code {
+    font-size: 0.7rem;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+    font-family: 'Courier New', monospace;
+}
+
+/* ======================
+   IP & EVENT LISTS
+   ====================== */
+.ip-list {
+    list-style: none;
+    padding: 0;
+}
+
+.ip-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem;
+    border-bottom: 1px solid #2a2a2a;
+    font-size: 0.7rem;
+}
+
+.ip-address {
+    font-family: 'Courier New', monospace;
+    color: #e5e7eb;
+    font-size: 0.65rem;
+}
+
+.ip-country {
+    font-size: 0.65rem;
+    color: #60a5fa;
+}
+
+.ip-count {
+    background-color: rgba(255, 169, 77, 0.15);
+    color: #ffa94d;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+}
+
+.event-item {
+    padding: 0.4rem;
+    border-bottom: 1px solid #2a2a2a;
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #9ca3af;
+    background-color: #1a1a1a;
+}
+
+.event-time {
+    color: #60a5fa;
+    font-weight: 600;
+    font-size: 0.6rem;
+}
+
+.event-type {
+    background-color: rgba(96, 165, 250, 0.15);
+    color: #93c5fd;
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.2rem;
+    font-size: 0.55rem;
+}
+
+.event-message {
+    color: #9ca3af;
+    font-size: 0.6rem;
+}
+
+/* ======================
+   ROW 4 TABLE FIX
+   ====================== */
+#topCommandsList,
+#repeatOffendersList {
+    display: flex;
+    flex-direction: column;
+    max-height: 220px !important;
+    overflow-y: auto !important;
+}
+
+#topCommandsList table,
+#repeatOffendersList table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.65rem;
+    display: table !important;
+    table-layout: fixed;
+}
+
+#topCommandsList thead,
+#repeatOffendersList thead {
+    position: sticky;
+    top: 0;
+    background: #1a1a1a;
+    z-index: 10;
+}
+
+#topCommandsList th,
+#repeatOffendersList th {
+    padding: 0.4rem;
+    text-align: left;
+    color: #9ca3af;
+    font-size: 0.6rem;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+#topCommandsList td,
+#repeatOffendersList td {
+    padding: 0.4rem;
+    border-bottom: 1px solid #2a2a2a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#topCommandsList tbody,
+#repeatOffendersList tbody {
+    display: table-row-group !important;
+}
+
+#topCommandsList tr,
+#repeatOffendersList tr {
+    display: table-row !important;
+}
+
+/* ======================
+   BREACH CARDS
+   ====================== */
+.breach-item {
+    background-color: #252525;
+    border: 1px solid #3a3a3a;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.breach-item:hover {
+    background-color: #2a2a2a;
+    border-color: #60a5fa;
+}
+
+.breach-item.selected {
+    background-color: #1e293b;
+    border: 2px solid #60a5fa;
+    box-shadow: 0 0 12px rgba(96, 165, 250, 0.3);
+}
+
+.breach-time {
+    color: #60a5fa;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.breach-ip {
+    color: #e5e7eb;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+}
+
+.breach-country {
+    color: #9ca3af;
+    font-size: 0.65rem;
+}
+
+.breach-severity {
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+}
+
+.severity-critical {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+}
+
+.severity-high {
+    background-color: rgba(251, 146, 60, 0.2);
+    color: #fdba74;
+}
+
+.btn-view-commands {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-view-commands:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(96, 165, 250, 0.3);
+}
+
+/* ======================
+   COMMANDS DISPLAY - COMPACT TERMINAL
+   ====================== */
+.commands-display {
+    background-color: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    flex: 1;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: #10b981;
+    line-height: 1.3;
+}
+
+.commands-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+    color: #6b7280;
+    text-align: center;
+}
+
+.commands-content {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.command-entry {
+    background-color: #0a0a0a;
+    padding: 0.35rem 0;
+    margin-bottom: 0.35rem;
+    word-wrap: break-word;
+    line-height: 1.3;
+}
+
+.command-prompt {
+    color: #60a5fa;
+    font-weight: 600;
+}
+
+.command-text {
+    color: #10b981;
+}
+
+/* ======================
+   CHARTS
+   ====================== */
+canvas {
+    max-height: 200px !important;
+}
+
+#protocolChart,
+#countriesChart {
+    height: 180px !important;
+    max-height: 180px !important;
+}
+
+/* ======================
+   FOOTER
+   ====================== */
+.footer {
+    background-color: #1a1a1a;
+    border-top: 1px solid #2a2a2a;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.footer p {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* ======================
+   SCROLLBAR STYLING
+   ====================== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4a4a4a;
+}
+
+/* ======================
+   RESPONSIVE
+   ====================== */
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-card {
+        grid-column: span 2 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        grid-column: span 1 !important;
+    }
+}
