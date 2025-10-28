@@ -5,38 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Honeypot Dashboard - port254</title>
     <link rel="stylesheet" href="./css/style.css">
-    <style>
-        /* Additional dashboard-specific styles */
-        .dashboard-notice {
-            background: rgba(96, 165, 250, 0.1);
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            border-radius: 0.5rem;
-            padding: 1rem 1.5rem;
-            margin: 1rem 0 2rem 0;
-            text-align: center;
-        }
-        
-        .dashboard-notice p {
-            color: #60a5fa;
-            font-size: 0.875rem;
-            margin: 0;
-        }
-        
-        .dashboard-notice a {
-            color: #93c5fd;
-            text-decoration: underline;
-        }
-        
-        /* Live indicator animation */
-        @keyframes pulse-live {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .live-pulse {
-            animation: pulse-live 2s ease-in-out infinite;
-        }
-    </style>
+    <link rel="stylesheet" href="./dashboard_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -65,146 +35,154 @@
         </div>
     </div>
 
-    <!-- Dashboard Title -->
-    <div class="subtitle-section" style="border-bottom: none; padding-bottom: 0.5rem;">
+    <!-- Subtitle -->
+    <div class="subtitle-section">
         <div class="container">
             <div class="subtitle-content">
-                <h2 style="color: #60a5fa; font-size: 2rem; margin-bottom: 0.5rem;">
-                    <span class="live-pulse" style="display: inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-right: 0.5rem;"></span>
-                    Live Honeypot Telemetry
-                </h2>
-                <p class="subtitle">Real-time attack monitoring from OT/ICS honeypots deployed in Australia & Kenya</p>
-            </div>
-            
-            <!-- API Connection Notice -->
-            <div class="dashboard-notice">
-                <p>
-                    📡 <strong>Live Data:</strong> This dashboard connects to production honeypots via secure API. 
-                    Data refreshes every 30 seconds.
-                    <br>
-                    <small>Powered by Elasticsearch + Conpot honeypots | <a href="https://dashboard.port254.com" target="_blank">Full Dashboard</a></small>
-                </p>
+                <p class="subtitle">🔴 LIVE Honeypot Telemetry - Perth, Australia | Auto-refresh: 30s</p>
             </div>
         </div>
     </div>
 
-    <!-- Stats Section -->
+    <!-- Live Stats -->
     <div class="stats-section">
         <div class="container">
             <div class="stats-grid">
-                <!-- Honeypot Status - Featured -->
+                <div class="stat-card">
+                    <div class="stat-value" id="totalEvents">-</div>
+                    <div class="stat-label">Events (24h)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value stat-value-orange" id="uniqueIPs">-</div>
+                    <div class="stat-label">Unique IPs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="sshLogins">-</div>
+                    <div class="stat-label">SSH Login Attempts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value stat-value-orange" id="hmiLogins">-</div>
+                    <div class="stat-label">HMI Login Attempts</div>
+                </div>
+                <!-- SPLIT: SSH Compromised -->
+                <div class="stat-card" title="Successful SSH login attempts by attackers">
+                    <div class="stat-value stat-value-red" id="sshCompromised">-</div>
+                    <div class="stat-label">SSH Compromised</div>
+                </div>
+                <!-- SPLIT: HTTP Compromised -->
+                <div class="stat-card" title="Successful HTTP login attempts by attackers">
+                    <div class="stat-value stat-value-red" id="httpCompromised">-</div>
+                    <div class="stat-label">HTTP Compromised</div>
+                </div>
                 <div class="stat-card honeypot-card">
                     <div class="honeypot-header">
                         <svg class="honeypot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <circle cx="12" cy="12" r="2"></circle>
                             <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
                         </svg>
-                        <span class="honeypot-label">Honeypot Live</span>
+                        <span class="honeypot-label">Honeypots</span>
                     </div>
-                    <div class="stat-value" style="color: #10b981;" id="honeypotStatus">Connecting...</div>
-                    <div class="honeypot-detail">S7: tcp/102</div>
-                    <div class="honeypot-detail">Modbus: tcp/502</div>
-                    <div class="honeypot-events">
-                        <span class="events-count" id="events24h">-</span> events (24h)
-                    </div>
-                </div>
-
-                <!-- Other Stats -->
-                <div class="stat-card">
-                    <div class="stat-value" id="totalEvents">-</div>
-                    <div class="stat-label">Total Events</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="uniqueIPs">-</div>
-                    <div class="stat-label">Unique IPs</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="sshAttempts">-</div>
-                    <div class="stat-label">SSH Login Attempts</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value stat-value-orange" id="criticalEvents">-</div>
-                    <div class="stat-label">Critical Events</div>
+                    <div class="stat-value" style="color: #10b981;">5</div>
+                    <div class="honeypot-detail">SSH • S7 • Modbus • MQTT • HMI</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Dashboard Content -->
-    <div class="cards-section">
+    <!-- Main Dashboard - Fixed Grid Layout -->
+    <div class="dashboard-section">
         <div class="container">
-            <div class="cards-grid">
-                
-                <!-- Top Attacking IPs -->
-                <div class="detection-card">
-                    <div class="card-title" style="padding: 1rem;">Top Attacking IPs</div>
-                    <div style="padding: 0 1rem 1rem;">
-                        <div id="topIPsList" style="font-size: 0.875rem; color: #9ca3af;">
-                            Loading...
+            <div class="dashboard-grid">
+
+                <!-- ROW 1: Top IPs | Protocol Dist | Credentials (narrow) | Countries (wide) -->
+                <div class="dashboard-card">
+                    <h3 class="card-title">TOP ATTACKING IPs</h3>
+                    <div id="attackingIPs" class="scrollable-list"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">PROTOCOL DISTRIBUTION</h3>
+                    <canvas id="protocolChart"></canvas>
+                </div>
+
+                <div class="dashboard-card credentials-card">
+                    <h3 class="card-title">TOP 3 USERNAMES</h3>
+                    <div id="usernamesTable" class="compact-list"></div>
+
+                    <h3 class="card-title" style="margin-top: 0.75rem;">TOP 3 PASSWORDS</h3>
+                    <div id="passwordsTable" class="compact-list"></div>
+                </div>
+
+                <div class="dashboard-card countries-card">
+                    <h3 class="card-title">TOP ATTACK COUNTRIES</h3>
+                    <canvas id="countriesChart"></canvas>
+                </div>
+
+                <!-- ROW 2: Timeline (40%) | Failed Logins (30%) | Live Events (30%) -->
+                <div class="dashboard-card timeline-card">
+                    <h3 class="card-title">ATTACK TIMELINE (24H)</h3>
+                    <canvas id="timelineChart"></canvas>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">FAILED SSH LOGIN ATTEMPTS</h3>
+                    <div id="failedLoginsList" class="scrollable-list"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">LIVE SSH EVENTS (5m)</h3>
+                    <div id="eventStream" class="scrollable-list"></div>
+                </div>
+
+                <!-- ROW 3: Breaches (50%) | Executed Commands (50%) -->
+                <div class="dashboard-card breach-card">
+                    <h3 class="card-title">BREACHES</h3>
+                    <div id="breachesList" class="scrollable-list"></div>
+                </div>
+
+                <div class="dashboard-card commands-card">
+                    <h3 class="card-title">EXECUTED COMMANDS AFTER SSH BREACH</h3>
+                    <div id="commandsDisplay" class="commands-display">
+                        <div class="commands-placeholder">
+                            <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p>No commands selected.</p>
+                            <small>Click "View Commands" on a breach to display details here.</small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Protocol Distribution -->
-                <div class="detection-card">
-                    <div class="card-title" style="padding: 1rem;">Protocol Distribution</div>
-                    <div style="padding: 0 1rem 1rem;">
-                        <canvas id="protocolChart" height="200"></canvas>
-                    </div>
+                <!-- ROW 4: HMI Logins | Protocol Activity | HTTP Logins | Repeat Offenders -->
+                <div class="dashboard-card row4-card">
+                    <h3 class="card-title">HMI WEB LOGIN ATTEMPTS</h3>
+                    <div id="hmiLoginsList" class="table-container"></div>
                 </div>
 
-                <!-- Recent SSH Events -->
-                <div class="detection-card">
-                    <div class="card-title" style="padding: 1rem;">Recent SSH Events</div>
-                    <div style="padding: 0 1rem 1rem;">
-                        <div id="recentEvents" style="max-height: 300px; overflow-y: auto; font-size: 0.75rem; font-family: monospace;">
-                            Loading...
-                        </div>
-                    </div>
+                <div class="dashboard-card row4-card">
+                    <h3 class="card-title">PROTOCOL ACTIVITY</h3>
+                    <canvas id="protocolActivityChart"></canvas>
                 </div>
 
-                <!-- Top Usernames -->
-                <div class="detection-card">
-                    <div class="card-title" style="padding: 1rem;">Top Usernames</div>
-                    <div style="padding: 0 1rem 1rem;">
-                        <div id="topUsernames" style="font-size: 0.875rem;">
-                            Loading...
-                        </div>
-                    </div>
+                <div class="dashboard-card row4-card">
+                    <h3 class="card-title">RECENT HMI HTTP LOGIN ATTEMPTS</h3>
+                    <div id="recentHTTPLoginsList" class="scrollable-list"></div>
                 </div>
 
-                <!-- Top Passwords -->
-                <div class="detection-card">
-                    <div class="card-title" style="padding: 1rem;">Top Passwords</div>
-                    <div style="padding: 0 1rem 1rem;">
-                        <div id="topPasswords" style="font-size: 0.875rem;">
-                            Loading...
-                        </div>
-                    </div>
+                <div class="dashboard-card row4-card">
+                    <h3 class="card-title">REPEAT OFFENDERS</h3>
+                    <div id="repeatOffendersList" class="table-container"></div>
                 </div>
-
-                <!-- Attack Timeline -->
-                <div class="detection-card" style="grid-column: span 2;">
-                    <div class="card-title" style="padding: 1rem;">Attack Timeline (24h)</div>
-                    <div style="padding: 0 1rem 1rem;">
-                        <canvas id="timelineChart" height="100"></canvas>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>port254 - OT/ICS Security Research | Live Honeypot Telemetry | Powered by Elasticsearch & Conpot</p>
         </div>
     </footer>
 
-    <!-- Load Chart.js from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    
-    <!-- Dashboard JavaScript -->
-    <script src="./js/dashboard-live.js"></script>
+    <script src="./js/dashboard.js"></script>
 </body>
+</html>
