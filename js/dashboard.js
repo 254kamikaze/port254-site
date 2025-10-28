@@ -1,8 +1,8 @@
 // ==================================================================
 // GitHub Pages Configuration - Uses API Proxy
 // ==================================================================
-// IMPORTANT: Change this to your deployed API endpoint
-const API_HOST = 'https://dashboard.port254.com';  // Your ES proxy API
+// API endpoint for live honeypot data
+const API_HOST = 'https://p-scada.duckdns.org';
 
 // Refresh interval (30 seconds)
 const REFRESH_INTERVAL = 30000;
