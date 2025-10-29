@@ -286,7 +286,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #e5e7eb;
+    color:#9ca3af;
 }
 
 .compact-list td:first-child {
@@ -328,7 +328,7 @@ body {
 
 .ip-address {
     font-family: 'Courier New', monospace;
-    color: #e5e7eb;
+    color:#9ca3af;
     font-size: 0.65rem;
 }
 
@@ -466,7 +466,7 @@ body {
 }
 
 .breach-ip {
-    color: #e5e7eb;
+    color:#9ca3af;
     font-family: 'Courier New', monospace;
     font-size: 0.65rem;
 }
@@ -591,7 +591,7 @@ body {
 }
 
 .health-name {
-    color: #e5e7eb;
+    color:#9ca3af;
     font-weight: 500;
 }
 
