@@ -569,58 +569,41 @@ body {
 .infrastructure-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    padding: 0.5rem 0;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
 }
 
 .health-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     background-color: rgba(16, 185, 129, 0.05);
     border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 0.375rem;
-    padding: 0.75rem;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
 }
 
-.health-icon {
-    font-size: 1.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(16, 185, 129, 0.1);
-    border-radius: 0.375rem;
-}
-
-.health-icon.active {
-    animation: pulse-green 2s ease-in-out infinite;
-}
-
-@keyframes pulse-green {
-    0%, 100% { 
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-    }
-    50% { 
-        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-    }
-}
-
-.health-details {
-    flex: 1;
+.health-bullet {
+    color: #10b981;
+    font-size: 0.6rem;
 }
 
 .health-name {
-    font-size: 0.75rem;
-    font-weight: 600;
     color: #e5e7eb;
-    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.health-port {
+    color: #60a5fa;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
 }
 
 .health-status {
-    font-size: 0.65rem;
     color: #10b981;
+    font-size: 0.65rem;
     font-weight: 500;
 }
 
@@ -703,3 +686,4 @@ canvas {
     .dashboard-card {
         grid-column: span 1 !important;
     }
+}
