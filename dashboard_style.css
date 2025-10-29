@@ -282,7 +282,7 @@ body {
 }
 
 .compact-list td {
-    padding: 0.2rem 0.4rem;
+    padding: 0.3rem 0.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -564,6 +564,67 @@ body {
 }
 
 /* ======================
+   INFRASTRUCTURE HEALTH
+   ====================== */
+.infrastructure-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+.health-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+}
+
+.health-icon {
+    font-size: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-radius: 0.375rem;
+}
+
+.health-icon.active {
+    animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    50% { 
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+}
+
+.health-details {
+    flex: 1;
+}
+
+.health-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-bottom: 0.25rem;
+}
+
+.health-status {
+    font-size: 0.65rem;
+    color: #10b981;
+    font-weight: 500;
+}
+
+/* ======================
    CHARTS
    ====================== */
 canvas {
@@ -642,4 +703,3 @@ canvas {
     .dashboard-card {
         grid-column: span 1 !important;
     }
-}
