@@ -24,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function initDashboard() {
     initCharts();
     refreshDashboard();
-    updateHealthMonitor();
-    setInterval(updateHealthMonitor, 5000); // Update health metrics every 5 seconds
 }
 
 async function refreshDashboard() {
@@ -1123,25 +1121,5 @@ function updateTopCountriesChart(labels, data) {
         topCountriesChart.data.labels = labels;
         topCountriesChart.data.datasets[0].data = data;
         topCountriesChart.update('none');
-    }
-}
-
-
-// Health Monitor - Update metrics
-let eventCounter = 0;
-function updateHealthMonitor() {
-    // Update events per minute (simulated for demo)
-    const eventsPerMin = Math.floor(Math.random() * 20) + 15; // 15-35 events/min
-    const eventsPerMinEl = document.getElementById("eventsPerMin");
-    if (eventsPerMinEl) {
-        eventsPerMinEl.textContent = eventsPerMin;
-    }
-    
-    // Update last event time
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
-    const lastEventEl = document.getElementById("lastEventTime");
-    if (lastEventEl) {
-        lastEventEl.textContent = timeStr;
     }
 }

@@ -5,12 +5,10 @@
 }
 
 body {
-    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #0f0f0f;
     color: #f3f4f6;
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -87,7 +85,7 @@ body {
 }
 
 .stat-label {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: #9ca3af;
     text-transform: uppercase;
     margin-top: 0.35rem;
@@ -114,217 +112,16 @@ body {
 }
 
 .honeypot-label {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: #9ca3af;
     text-transform: uppercase;
     font-weight: 600;
 }
 
 .honeypot-detail {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: #64748b;
     margin-bottom: 0.2rem;
-}
-
-/* Health Monitor Card */
-.honeypot-health-card {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-    border: 2px solid #10b981;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
-}
-
-.honeypot-status-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-}
-
-.health-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.5rem;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 0.3rem;
-}
-
-.health-indicator {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.health-online {
-    background-color: #10b981;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-    animation: pulse-glow 2s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-    0%, 100% { 
-        opacity: 1;
-        box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-    }
-    50% { 
-        opacity: 0.7;
-        box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
-    }
-}
-
-.health-label {
-    font-size: 0.85rem;
-    color: #e5e7eb;
-    font-weight: 500;
-    flex: 1;
-}
-
-.health-port {
-    font-size: 0.85rem;
-    color: #60a5fa;
-    font-family: 'Courier New', monospace;
-}
-
-.health-status {
-    font-size: 0.85rem;
-    color: #34d399;
-    font-weight: 500;
-}
-
-.honeypot-footer-stats {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 0.6rem;
-    border-top: 1px solid rgba(16, 185, 129, 0.2);
-}
-
-.footer-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.footer-stat .stat-number {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #10b981;
-    transition: transform 0.2s ease;
-}
-
-.footer-stat .stat-text {
-    font-size: 0.8rem;
-    color: #9ca3af;
-    text-transform: uppercase;
-    margin-top: 0.1rem;
-}
-
-
-/* ======================
-   HEALTH MONITOR CARD
-   ====================== */
-.health-monitor-card {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-    border: 2px solid #10b981 !important;
-}
-
-.health-monitor-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-
-.health-service {
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 0.375rem;
-    padding: 0.75rem;
-}
-
-.health-service-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.health-indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.health-online {
-    background-color: #10b981;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
-    animation: pulse-glow 2s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-    0%, 100% { 
-        opacity: 1;
-        box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
-    }
-    50% { 
-        opacity: 0.6;
-        box-shadow: 0 0 15px rgba(16, 185, 129, 0.9);
-    }
-}
-
-.health-service-name {
-    font-size: 0.875rem;
-    color: #e5e7eb;
-    font-weight: 600;
-}
-
-.health-service-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.health-port {
-    font-size: 0.85rem;
-    color: #60a5fa;
-    font-family: 'Courier New', monospace;
-    font-weight: 600;
-}
-
-.health-status-text {
-    font-size: 0.85rem;
-    color: #34d399;
-    font-weight: 500;
-}
-
-.health-footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.75rem;
-    background-color: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 0.375rem;
-}
-
-.health-metric {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.metric-label {
-    font-size: 0.8rem;
-    color: #9ca3af;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.metric-value {
-    font-size: 0.938rem;
-    color: #10b981;
-    font-weight: bold;
 }
 
 /* ======================
@@ -356,7 +153,7 @@ body {
 .dashboard-card:nth-child(2),
 .credentials-card,
 .countries-card {
-    min-height: 260px; /* Back to original - fits with tighter spacing */
+    min-height: 260px;
     max-height: 260px;
 }
 
@@ -428,7 +225,7 @@ body {
    CARD TITLES
    ====================== */
 .card-title {
-    font-size: 0.85rem; /* Increased from 0.7rem */
+    font-size: 0.7rem;
     font-weight: 700;
     color: #60a5fa;
     margin-bottom: 0.75rem;
@@ -457,24 +254,23 @@ body {
    CREDENTIALS CARD (COMPACT)
    ====================== */
 .credentials-card {
-    font-size: 0.85rem; /* Increased from 0.7rem */
+    font-size: 0.7rem;
 }
 
 .credentials-card .card-title {
-    font-size: 0.85rem; /* Increased from 0.7rem */
+    font-size: 0.7rem;
     margin-bottom: 0.5rem;
 }
 
 .compact-list {
-    overflow: hidden; /* No scroll needed */
-    max-height: 130px; /* Reduced to fit exactly 3 items */
-    line-height: 1.2; /* Tighter line spacing */
+    overflow: hidden;
+    max-height: 75px;
 }
 
 .compact-list table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem; /* Increased from 0.7rem */
+    font-size: 0.7rem;
 }
 
 .compact-list tbody tr {
@@ -486,12 +282,11 @@ body {
 }
 
 .compact-list td {
-    padding: 0.35rem 0.5rem; /* Reduced from 0.5rem 0.6rem for tighter fit */
+    padding: 0.3rem 0.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #e5e7eb;
-    line-height: 1.2; /* Tighter line spacing */
 }
 
 .compact-list td:first-child {
@@ -502,11 +297,11 @@ body {
 .compact-list td:last-child {
     text-align: right;
     color: #9ca3af;
-    font-size: 0.8rem; /* Increased from 0.65rem */
+    font-size: 0.65rem;
 }
 
 .compact-list code {
-    font-size: 0.85rem; /* Increased from 0.7rem */
+    font-size: 0.7rem;
     background: transparent;
     padding: 0;
     border-radius: 0;
@@ -526,20 +321,19 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.3rem 0.4rem; /* Reduced padding for tighter spacing */
+    padding: 0.4rem;
     border-bottom: 1px solid #2a2a2a;
-    font-size: 0.85rem; /* Consistent with other cards */
-    line-height: 1.2; /* Tighter line spacing */
+    font-size: 0.7rem;
 }
 
 .ip-address {
     font-family: 'Courier New', monospace;
     color: #e5e7eb;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.65rem;
 }
 
 .ip-country {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     color: #60a5fa;
 }
 
@@ -548,26 +342,25 @@ body {
     color: #ffa94d;
     padding: 0.2rem 0.4rem;
     border-radius: 0.25rem;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     font-weight: 600;
 }
 
 .event-item {
-    padding: 0.3rem 0.4rem; /* Reduced padding for tighter spacing */
+    padding: 0.4rem;
     border-bottom: 1px solid #2a2a2a;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.65rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #9ca3af;
     background-color: #1a1a1a;
-    line-height: 1.2; /* Tighter line spacing */
 }
 
 .event-time {
     color: #60a5fa;
     font-weight: 600;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.6rem;
 }
 
 .event-type {
@@ -575,12 +368,12 @@ body {
     color: #93c5fd;
     padding: 0.1rem 0.3rem;
     border-radius: 0.2rem;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.55rem;
 }
 
 .event-message {
     color: #9ca3af;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.6rem;
 }
 
 /* ======================
@@ -598,7 +391,7 @@ body {
 #repeatOffendersList table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.65rem;
     display: table !important;
     table-layout: fixed;
 }
@@ -613,22 +406,19 @@ body {
 
 #topCommandsList th,
 #repeatOffendersList th {
-    padding: 0.3rem 0.4rem; /* Reduced for tighter spacing */
+    padding: 0.4rem;
     text-align: left;
     color: #9ca3af;
-    font-size: 0.85rem; /* Increased from 0.8rem */
+    font-size: 0.6rem;
     border-bottom: 1px solid #2a2a2a;
-    line-height: 1.2; /* Tighter line spacing */
 }
 
 #topCommandsList td,
 #repeatOffendersList td {
-    padding: 0.3rem 0.4rem; /* Reduced for tighter spacing */
+    padding: 0.4rem;
     border-bottom: 1px solid #2a2a2a;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.2; /* Tighter line spacing */
-    font-size: 0.85rem; /* Added for consistency */
 }
 
 #topCommandsList tbody,
@@ -671,25 +461,25 @@ body {
 
 .breach-time {
     color: #60a5fa;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-weight: 600;
 }
 
 .breach-ip {
     color: #e5e7eb;
     font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
 }
 
 .breach-country {
     color: #9ca3af;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
 }
 
 .breach-severity {
     padding: 0.2rem 0.5rem;
     border-radius: 0.25rem;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     font-weight: 600;
 }
 
@@ -709,7 +499,7 @@ body {
     border: none;
     padding: 0.4rem 0.75rem;
     border-radius: 0.25rem;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
@@ -731,7 +521,7 @@ body {
     flex: 1;
     overflow-y: auto;
     font-family: 'Courier New', monospace;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: #10b981;
     line-height: 1.3;
 }
@@ -852,117 +642,4 @@ canvas {
     .dashboard-card {
         grid-column: span 1 !important;
     }
-}
-
-/* ======================
-   CUSTOM SCROLLBAR FOR BETTER UX
-   ====================== */
-.compact-list::-webkit-scrollbar,
-.scrollable-list::-webkit-scrollbar,
-.table-container::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-.compact-list::-webkit-scrollbar-track,
-.scrollable-list::-webkit-scrollbar-track,
-.table-container::-webkit-scrollbar-track {
-    background: #1a1a1a;
-    border-radius: 3px;
-}
-
-.compact-list::-webkit-scrollbar-thumb,
-.scrollable-list::-webkit-scrollbar-thumb,
-.table-container::-webkit-scrollbar-thumb {
-    background: #3a3a3a;
-    border-radius: 3px;
-}
-
-.compact-list::-webkit-scrollbar-thumb:hover,
-.scrollable-list::-webkit-scrollbar-thumb:hover,
-.table-container::-webkit-scrollbar-thumb:hover {
-    background: #4a4a4a;
-}
-
-/* Better hover states for interactive elements */
-.compact-list tbody tr:hover {
-    background-color: rgba(96, 165, 250, 0.05);
-    transition: background-color 0.2s ease;
-}
-
-/* ======================
-   FAILED SSH LOGIN & ALL TABLES - INCREASED FONT & TIGHTER SPACING
-   ====================== */
-table {
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-table th {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-table td {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-/* Specific styling for Failed SSH Login table */
-.failed-login-table,
-#failedLoginTable {
-    font-size: 0.85rem;
-}
-
-.failed-login-table th,
-#failedLoginTable th {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-.failed-login-table td,
-#failedLoginTable td {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-/* Recent HTTP Login Attempts */
-.http-login-table,
-#httpLoginTable {
-    font-size: 0.85rem;
-}
-
-.http-login-table th,
-#httpLoginTable th {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-.http-login-table td,
-#httpLoginTable td {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-    line-height: 1.2;
-}
-
-/* Tighter spacing for all scrollable lists */
-.scrollable-list {
-    line-height: 1.2;
-}
-
-.scrollable-list table {
-    line-height: 1.2;
-}
-
-/* Better text overflow handling */
-table td {
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
