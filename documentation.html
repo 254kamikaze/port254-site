@@ -3,187 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - port254</title>
+    <title>Documentation - port254 Honeypot Project</title>
     <link rel="stylesheet" href="./css/style.css">
     <style>
-        .doc-hero {
+        .doc-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+        .doc-section {
             background-color: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
-            padding: 3rem 1.5rem;
-            text-align: center;
-        }
-
-        .doc-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #60a5fa;
-        }
-
-        .doc-hero p {
-            font-size: 1.125rem;
-            color: #9ca3af;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .doc-container {
-            padding: 3rem 1.5rem;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .doc-grid {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 3rem;
-        }
-
-        .doc-sidebar {
-            position: sticky;
-            top: 2rem;
-            height: fit-content;
-        }
-
-        .doc-nav-section {
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.5rem;
+            padding: 2rem;
             margin-bottom: 2rem;
         }
-
-        .doc-nav-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .doc-section h2 {
+            color: #60a5fa;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.2);
+        }
+        .doc-section h3 {
+            color: #93c5fd;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
             margin-bottom: 0.75rem;
         }
-
-        .doc-nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .doc-nav-link {
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 0.875rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.375rem;
-            transition: all 0.2s;
-        }
-
-        .doc-nav-link:hover {
-            background-color: #252525;
-            color: #e5e7eb;
-        }
-
-        .doc-nav-link.active {
-            background-color: rgba(96, 165, 250, 0.15);
-            color: #60a5fa;
-            font-weight: 500;
-        }
-
-        .doc-content {
-            min-height: 80vh;
-        }
-
-        .doc-section {
-            margin-bottom: 3rem;
-            padding-bottom: 3rem;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .doc-section:last-child {
-            border-bottom: none;
-        }
-
-        .doc-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #60a5fa;
-        }
-
-        .doc-section h3 {
-            font-size: 1.5rem;
-            margin: 2rem 0 1rem;
-            color: #93c5fd;
-        }
-
         .doc-section p {
             color: #9ca3af;
             line-height: 1.8;
             margin-bottom: 1rem;
         }
-
-        .doc-code-block {
-            background-color: #1a1a1a;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-left: 3px solid #60a5fa;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-        }
-
-        .doc-code-block code {
-            color: #93c5fd;
-            font-family: 'Courier New', monospace;
-            font-size: 0.875rem;
-            line-height: 1.6;
-        }
-
-        .doc-list {
-            list-style: none;
-            padding: 0;
-            margin: 1rem 0;
-        }
-
-        .doc-list li {
+        .doc-section ul {
             color: #9ca3af;
-            padding: 0.75rem 0;
-            padding-left: 1.5rem;
-            position: relative;
+            line-height: 1.8;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
         }
-
-        .doc-list li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #60a5fa;
-            font-weight: bold;
+        .doc-section li {
+            margin-bottom: 0.5rem;
         }
-
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-left: 4px solid #60a5fa;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.25rem;
+        }
+        .highlight-box p {
+            margin: 0;
+            color: #e5e7eb;
+        }
         .info-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.25rem;
+        }
+        .info-box p {
+            margin: 0;
+            color: #e5e7eb;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
             margin: 1.5rem 0;
         }
-
-        .info-box-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: #60a5fa;
-            margin-bottom: 0.75rem;
+        .stat-item {
+            background-color: #252525;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            text-align: center;
         }
-
-        .info-box p {
+        .stat-item .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .stat-item .label {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        .component-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .component-card {
+            background-color: #252525;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.375rem;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+        .component-card:hover {
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.15);
+        }
+        .component-card h4 {
+            color: #60a5fa;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .component-card p {
+            font-size: 0.875rem;
             color: #9ca3af;
             margin: 0;
         }
-
-        @media (max-width: 1024px) {
-            .doc-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .doc-sidebar {
-                position: relative;
-                top: 0;
-            }
+        .component-card .port {
+            display: inline-block;
+            background-color: #1a1a1a;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            color: #93c5fd;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(96, 165, 250, 0.3);
         }
     </style>
 </head>
@@ -191,239 +136,272 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="index.html" style="text-decoration: none;">
-                <h1 class="logo">port254</h1>
-            </a>
+            <h1 class="logo">port254</h1>
         </div>
     </header>
+
+    <!-- Subtitle -->
+    <div class="subtitle-section">
+        <div class="container">
+            <div class="subtitle-content">
+                <p class="subtitle">Understanding the port254 Honeypot Project</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Navigation -->
     <div class="filters-section">
         <div class="container">
-            <nav class="nav-menu" style="justify-content: center;">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="detections.html" class="nav-link">Detections</a>
-                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
-                <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
-                <a href="file-analysis.html" class="nav-link">File Analysis</a>
-                <a href="incident-response.html" class="nav-link">Incident Response</a>
-                <a href="getting-started.html" class="nav-link">Getting Started</a>
-                <a href="documentation.html" class="nav-link active">Documentation</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-            </nav>
+            <div class="filters-nav-wrapper">
+                <div class="quick-filters"></div>
+                <nav class="nav-menu">
+                    <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
+                    <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
+                    <a href="file-analysis.html" class="nav-link">File Analysis</a>
+                    <a href="incident-response.html" class="nav-link">Incident Response</a>
+                    <a href="documentation.html" class="nav-link active">Documentation</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </nav>
+            </div>
         </div>
-    </div>
-
-    <!-- Hero -->
-    <div class="doc-hero">
-        <h1>Documentation</h1>
-        <p>Learn how to use port254's detection catalog, integrate with your SIEM, and deploy honeypots</p>
     </div>
 
     <!-- Documentation Content -->
-    <div class="doc-container">
-        <div class="doc-grid">
-            <!-- Sidebar Navigation -->
-            <aside class="doc-sidebar">
-                <div class="doc-nav-section">
-                    <div class="doc-nav-title">Getting Started</div>
-                    <div class="doc-nav-links">
-                        <a href="#overview" class="doc-nav-link active">Overview</a>
-                        <a href="#quick-start" class="doc-nav-link">Quick Start</a>
-                        <a href="#architecture" class="doc-nav-link">Architecture</a>
-                    </div>
-                </div>
+    <div class="doc-content">
+        
+        <!-- What is port254 -->
+        <div class="doc-section">
+            <h2>What is port254?</h2>
+            <p>
+                port254 is a <strong>honeypot project</strong> designed to study and detect cyber threats targeting 
+                critical infrastructure systems. Think of it as a digital trap that looks like a real water treatment 
+                plant control system, but is actually monitoring who tries to break in and what they try to do.
+            </p>
+            
+            <div class="highlight-box">
+                <p><strong>Simple Explanation:</strong> We've created a fake water treatment plant system that cyber 
+                attackers think is real. When they try to hack it, we record everything they do to learn their 
+                tactics and improve security for actual critical infrastructure.</p>
+            </div>
 
-                <div class="doc-nav-section">
-                    <div class="doc-nav-title">Detection Rules</div>
-                    <div class="doc-nav-links">
-                        <a href="#detection-format" class="doc-nav-link">Rule Format</a>
-                        <a href="#deploying-rules" class="doc-nav-link">Deploying Rules</a>
-                        <a href="#testing-rules" class="doc-nav-link">Testing Rules</a>
-                    </div>
-                </div>
-
-                <div class="doc-nav-section">
-                    <div class="doc-nav-title">Honeypot Setup</div>
-                    <div class="doc-nav-links">
-                        <a href="#honeypot-install" class="doc-nav-link">Installation</a>
-                        <a href="#honeypot-config" class="doc-nav-link">Configuration</a>
-                        <a href="#honeypot-monitoring" class="doc-nav-link">Monitoring</a>
-                    </div>
-                </div>
-
-                <div class="doc-nav-section">
-                    <div class="doc-nav-title">Integration</div>
-                    <div class="doc-nav-links">
-                        <a href="#elk-integration" class="doc-nav-link">ELK Stack</a>
-                        <a href="#splunk-integration" class="doc-nav-link">Splunk</a>
-                        <a href="#api-reference" class="doc-nav-link">API Reference</a>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Main Content -->
-            <main class="doc-content">
-                <section id="overview" class="doc-section">
-                    <h2>Overview</h2>
-                    <p>port254 is a comprehensive detection catalog specifically designed for OT/ICS and FinTech environments. It provides battle-tested detection rules mapped to MITRE ATT&CK and IEC 62443 frameworks, along with live honeypot telemetry for threat intelligence.</p>
-
-                    <h3>Key Features</h3>
-                    <ul class="doc-list">
-                        <li>Production-ready detection rules for OT/ICS protocols (S7, Modbus, DNP3)</li>
-                        <li>FinTech-specific fraud and authentication detections</li>
-                        <li>MITRE ATT&CK and IEC 62443 compliance mappings</li>
-                        <li>Live honeypot telemetry and threat intelligence</li>
-                        <li>Integrated lab testing environment</li>
-                        <li>Compatible with major SIEM platforms (ELK, Splunk, QRadar)</li>
-                    </ul>
-
-                    <div class="info-box">
-                        <div class="info-box-title">
-                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            Note
-                        </div>
-                        <p>All detection rules are tested in isolated lab environments before being added to the catalog. Each rule includes video demonstrations and Kibana dashboard templates.</p>
-                    </div>
-                </section>
-
-                <section id="quick-start" class="doc-section">
-                    <h2>Quick Start</h2>
-                    <p>Get up and running with port254 in less than 15 minutes.</p>
-
-                    <h3>Prerequisites</h3>
-                    <ul class="doc-list">
-                        <li>ELK Stack 8.x or Splunk 9.x</li>
-                        <li>Network access to OT/ICS devices or FinTech systems</li>
-                        <li>Basic knowledge of SIEM rule deployment</li>
-                    </ul>
-
-                    <h3>Step 1: Download Detection Rules</h3>
-                    <p>Clone the detection repository or download individual rules from the catalog:</p>
-                    <div class="doc-code-block">
-                        <code>git clone https://github.com/port254/detection-rules.git
-cd detection-rules</code>
-                    </div>
-
-                    <h3>Step 2: Import to Your SIEM</h3>
-                    <p>For ELK Stack (Elasticsearch):</p>
-                    <div class="doc-code-block">
-                        <code>curl -X PUT "localhost:9200/_index_template/port254-detections" \
-  -H 'Content-Type: application/json' \
-  -d @templates/elk/port254-template.json</code>
-                    </div>
-
-                    <h3>Step 3: Test Detection</h3>
-                    <p>Use the built-in lab testing feature to verify rules before production deployment. Click "Trigger Detection" in any detection's detail modal.</p>
-                </section>
-
-                <section id="architecture" class="doc-section">
-                    <h2>Architecture</h2>
-                    <p>port254 uses a modular architecture designed for flexibility and scalability:</p>
-
-                    <h3>Components</h3>
-                    <ul class="doc-list">
-                        <li>Detection Catalog: Central repository of detection rules</li>
-                        <li>Honeypot Network: Distributed Conpot honeypots</li>
-                        <li>Telemetry Pipeline: Real-time event streaming</li>
-                        <li>Lab Environment: Safe testing infrastructure</li>
-                    </ul>
-                </section>
-
-                <section id="detection-format" class="doc-section">
-                    <h2>Detection Rule Format</h2>
-                    <p>All port254 detection rules follow a standardized JSON format:</p>
-
-                    <div class="doc-code-block">
-                        <code>{
-  "id": "DET-OT-001",
-  "title": "S7 Session Failure Storm Detection",
-  "category": "PROTOCOL ABUSE",
-  "criticality": "CRITICAL",
-  "domain": "ot",
-  "description": "Detects repeated S7comm session...",
-  "mitre_attack_ids": ["T1110"],
-  "iec62443_controls": ["SR 1.1", "SR 3.2"],
-  "tags": ["s7", "plc", "brute-force"]
-}</code>
-                    </div>
-                </section>
-
-                <section id="deploying-rules" class="doc-section">
-                    <h2>Deploying Detection Rules</h2>
-                    
-                    <h3>ELK Stack Deployment</h3>
-                    <p>Import rules as Kibana detection rules:</p>
-                    <div class="doc-code-block">
-                        <code># Using Kibana API
-curl -X POST "localhost:5601/api/detection_engine/rules" \
-  -H 'kbn-xsrf: true' \
-  -H 'Content-Type: application/json' \
-  -d @rules/ot/s7-session-failure.json</code>
-                    </div>
-
-                    <h3>Splunk Deployment</h3>
-                    <p>Convert to Splunk correlation searches:</p>
-                    <div class="doc-code-block">
-                        <code>index=ics sourcetype=s7comm action=failure 
-| stats count by src_ip 
-| where count > 10</code>
-                    </div>
-                </section>
-
-                <section id="honeypot-install" class="doc-section">
-                    <h2>Honeypot Installation</h2>
-                    
-                    <h3>Docker Deployment (Recommended)</h3>
-                    <div class="doc-code-block">
-                        <code>docker run -d \
-  --name port254-honeypot \
-  -p 102:102 \
-  -p 502:502 \
-  -e HONEYPOT_TYPE=s7-modbus \
-  -e LOG_DESTINATION=elk \
-  -e ELK_HOST=your-elk-server:9200 \
-  port254/conpot-honeypot:latest</code>
-                    </div>
-                </section>
-
-                <section id="api-reference" class="doc-section">
-                    <h2>API Reference</h2>
-                    <p>Access port254 detection catalog programmatically.</p>
-
-                    <h3>Get All Detections</h3>
-                    <div class="doc-code-block">
-                        <code>GET /api/v1/detections
-
-Response:
-{
-  "total": 42,
-  "detections": [...]
-}</code>
-                    </div>
-
-                    <h3>Get Detection by ID</h3>
-                    <div class="doc-code-block">
-                        <code>GET /api/v1/detections/DET-OT-001
-
-Response:
-{
-  "id": "DET-OT-001",
-  "title": "S7 Session Failure Storm Detection",
-  ...
-}</code>
-                    </div>
-                </section>
-            </main>
+            <h3>Why "port254"?</h3>
+            <p>
+                In industrial systems, "port" refers to communication channels (like doors) that systems use to talk 
+                to each other. Common industrial ports include 102 (S7), 502 (Modbus), and others. The "254" represents 
+                the Australian country code (+61) and Western Australia's area - this is a Perth-based security research project.
+            </p>
         </div>
+
+        <!-- The Problem We're Solving -->
+        <div class="doc-section">
+            <h2>The Problem We're Solving</h2>
+            <p>
+                Critical infrastructure like water treatment plants, power stations, and manufacturing facilities are 
+                increasingly connected to the internet. While this connectivity improves efficiency, it also creates 
+                opportunities for cyber attackers to cause real-world damage.
+            </p>
+
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="number">1,247</span>
+                    <span class="label">Attack Attempts (24h)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">5</span>
+                    <span class="label">Protocols Monitored</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">24/7</span>
+                    <span class="label">Active Monitoring</span>
+                </div>
+            </div>
+
+            <p>
+                Traditional security systems can't always predict how attackers will behave when targeting industrial 
+                systems. By creating a realistic fake system (our honeypot), we can safely observe actual attack 
+                techniques and develop better defenses.
+            </p>
+        </div>
+
+        <!-- How It Works -->
+        <div class="doc-section">
+            <h2>How It Works</h2>
+            
+            <h3>The Setup</h3>
+            <p>
+                Our honeypot mimics a Perth Water Treatment Plant with several components that look and behave like 
+                real industrial control systems:
+            </p>
+
+            <div class="component-list">
+                <div class="component-card">
+                    <h4>SSH Gateway</h4>
+                    <p>The main entry point - attackers connect here thinking they're accessing the plant's control system.</p>
+                    <span class="port">Port 22</span>
+                </div>
+
+                <div class="component-card">
+                    <h4>HMI Dashboard</h4>
+                    <p>A realistic web interface showing plant operations - pump controls, chemical levels, and system status.</p>
+                    <span class="port">Port 8080</span>
+                </div>
+
+                <div class="component-card">
+                    <h4>S7 Protocol</h4>
+                    <p>Simulates Siemens PLC communication used in real industrial automation.</p>
+                    <span class="port">Port 102</span>
+                </div>
+
+                <div class="component-card">
+                    <h4>Modbus Protocol</h4>
+                    <p>Common SCADA protocol for connecting sensors and controllers.</p>
+                    <span class="port">Port 502</span>
+                </div>
+
+                <div class="component-card">
+                    <h4>MQTT Broker</h4>
+                    <p>IoT messaging system for sensor data exchange.</p>
+                    <span class="port">Port 1883</span>
+                </div>
+            </div>
+
+            <h3>The Breadcrumb Trail</h3>
+            <p>
+                When attackers connect to our SSH gateway, they see a realistic login banner that mentions the 
+                "Perth Water Treatment Plant" and includes a deliberately "leaked" credential for the HMI dashboard. 
+                This encourages them to explore further, allowing us to observe their complete attack chain.
+            </p>
+
+            <div class="info-box">
+                <p><strong>Example Attack Flow:</strong> Attacker scans for open ports → Finds SSH open → 
+                Sees the banner with HMI credentials → Logs in to explore → Visits HMI dashboard → 
+                Attempts to modify plant controls → All actions logged for analysis</p>
+            </div>
+        </div>
+
+        <!-- What We Learn -->
+        <div class="doc-section">
+            <h2>What We Learn</h2>
+            
+            <p>Every interaction with our honeypot provides valuable intelligence:</p>
+
+            <ul>
+                <li><strong>Attack Patterns:</strong> Which services do attackers target first? What commands do they run?</li>
+                <li><strong>Credential Attacks:</strong> What username/password combinations are being tried?</li>
+                <li><strong>Protocol Abuse:</strong> How are attackers manipulating industrial protocols like Modbus and S7?</li>
+                <li><strong>Geographic Sources:</strong> Where in the world are attacks originating?</li>
+                <li><strong>Tool Fingerprints:</strong> What hacking tools and scripts are being deployed?</li>
+            </ul>
+
+            <h3>Detection Development</h3>
+            <p>
+                The data collected feeds into our <strong>detection catalog</strong> - a library of security rules 
+                that can identify these attack patterns in real industrial systems. Each detection is mapped to:
+            </p>
+            
+            <ul>
+                <li><strong>MITRE ATT&CK:</strong> Industry-standard framework for categorizing cyber threats</li>
+                <li><strong>IEC 62443:</strong> International security standards for industrial automation</li>
+                <li><strong>Real Telemetry:</strong> Actual data from our honeypot showing the detection in action</li>
+            </ul>
+        </div>
+
+        <!-- Safety & Ethics -->
+        <div class="doc-section">
+            <h2>Safety & Ethics</h2>
+            
+            <h3>No Real Systems at Risk</h3>
+            <p>
+                It's important to understand that <strong>nothing in this honeypot is real</strong>. There is no 
+                actual water treatment plant, no real pumps, no chemicals, and no public water supply connected 
+                to this system. Everything is simulated in a controlled environment.
+            </p>
+
+            <div class="highlight-box">
+                <p><strong>Safety First:</strong> All honeypot systems are completely isolated from real 
+                infrastructure. Attackers cannot cause any real-world harm through our systems.</p>
+            </div>
+
+            <h3>Responsible Disclosure</h3>
+            <p>
+                When we discover new attack techniques or vulnerabilities through our research, we work with 
+                industrial system vendors and security organizations to help protect real critical infrastructure. 
+                Our goal is to improve security for everyone, not to expose vulnerabilities maliciously.
+            </p>
+
+            <h3>Data Privacy</h3>
+            <p>
+                We collect only technical data about attack methods. We don't use this system to target specific 
+                individuals, and we share our findings with the security community to help defend against these threats.
+            </p>
+        </div>
+
+        <!-- Real-World Impact -->
+        <div class="doc-section">
+            <h2>Real-World Impact</h2>
+            
+            <p>
+                The intelligence gathered from port254 helps security teams protect actual critical infrastructure by:
+            </p>
+
+            <ul>
+                <li>Providing early warning of new attack techniques targeting industrial systems</li>
+                <li>Creating detection rules that can be deployed in real SCADA environments</li>
+                <li>Understanding attacker motivations and target selection</li>
+                <li>Training security professionals on realistic industrial cyber threats</li>
+                <li>Contributing to open-source security tools and frameworks</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Contributing to Security:</strong> Our detection catalog is designed to be compatible 
+                with popular security platforms like ELK Stack, Splunk, and QRadar - allowing security teams to 
+                deploy these defenses in their own environments.</p>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="doc-section">
+            <h2>Technology Stack</h2>
+            
+            <p>For those curious about the technical side, port254 is built using:</p>
+
+            <ul>
+                <li><strong>Cowrie:</strong> SSH/Telnet honeypot that logs all attacker commands</li>
+                <li><strong>Conpot:</strong> Industrial protocol honeypot supporting S7, Modbus, and more</li>
+                <li><strong>Custom HMI:</strong> Web-based SCADA interface built with Python and HTML/CSS</li>
+                <li><strong>Docker:</strong> Containerization for easy deployment and isolation</li>
+                <li><strong>ELK Stack:</strong> Elasticsearch, Logstash, and Kibana for log analysis</li>
+                <li><strong>Geographic Mapping:</strong> KML files showing fake plant locations</li>
+            </ul>
+        </div>
+
+        <!-- Get Involved -->
+        <div class="doc-section">
+            <h2>Get Involved</h2>
+            
+            <p>
+                port254 is part of the larger effort to improve industrial cybersecurity. If you're interested in:
+            </p>
+
+            <ul>
+                <li>Learning more about OT/ICS security</li>
+                <li>Contributing detection rules or honeypot components</li>
+                <li>Deploying similar honeypots in your research environment</li>
+                <li>Collaborating on industrial security research</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Contact:</strong> For research inquiries, collaboration opportunities, or to report 
+                findings, please visit our <a href="contact.html" style="color: #60a5fa;">Contact page</a>.</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>port254 Detection Catalog | Powered by Conpot honeypot telemetry | Mapping to MITRE ATT&CK & IEC 62443</p>
+            <p>port254 Detection Catalog | Perth, Western Australia | Research Project for Industrial Cybersecurity</p>
         </div>
     </footer>
 </body>
