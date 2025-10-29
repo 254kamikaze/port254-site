@@ -7,7 +7,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #0f0f0f;
-    color: #f3f4f6;
+    color: #9ca3af;
     line-height: 1.6;
 }
 
@@ -216,7 +216,10 @@ body {
     background-color: #1a1a1a !important;
 }
 
-.dashboard-card:nth-child(10) { grid-column: 1 / 2; }
+.dashboard-card:nth-child(10) { 
+    grid-column: 1 / 2;
+    border-color: #244d2d !important;
+}
 .dashboard-card:nth-child(11) { grid-column: 2 / 3; }
 .dashboard-card:nth-child(12) { grid-column: 3 / 4; }
 .dashboard-card:nth-child(13) { grid-column: 4 / 5; }
@@ -282,7 +285,7 @@ body {
 }
 
 .compact-list td {
-    padding: 0.3rem 0.4rem;
+    padding: 0.18rem 0.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -581,7 +584,7 @@ body {
     background-color: rgba(16, 185, 129, 0.05);
     border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 0.25rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 0.75rem;
     font-size: 0.7rem;
 }
 
