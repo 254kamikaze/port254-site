@@ -150,7 +150,9 @@ async function fetchStats() {
     const hmiLogins = data.aggregations.hmi_login_attempts ? data.aggregations.hmi_login_attempts.doc_count : 0;
 
     document.getElementById("sshLogins").textContent = sshLogins.toLocaleString();
-    document.getElementById("hmiLogins").textContent = hmiLogins.toLocaleString();
+    
+    // Update HMI count in health monitor
+    document.getElementById("liveHMICount").textContent = hmiLogins.toLocaleString();
 
     // NEW: Update split compromised counts
     document.getElementById("sshCompromised").textContent = data.aggregations.ssh_successful_logins.doc_count;
