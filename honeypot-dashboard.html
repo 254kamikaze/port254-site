@@ -60,9 +60,45 @@
                     <div class="stat-value" id="sshLogins">-</div>
                     <div class="stat-label">SSH Login Attempts</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value stat-value-orange" id="hmiLogins">-</div>
-                    <div class="stat-label">HMI Login Attempts</div>
+                <div class="stat-card honeypot-health-card">
+                    <div class="honeypot-header">
+                        <svg class="honeypot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <span class="honeypot-label">Infrastructure Health</span>
+                    </div>
+                    <div class="honeypot-status-grid">
+                        <div class="health-item">
+                            <span class="health-indicator health-online"></span>
+                            <span class="health-label">SSH</span>
+                            <span class="health-port">:22</span>
+                        </div>
+                        <div class="health-item">
+                            <span class="health-indicator health-online"></span>
+                            <span class="health-label">S7comm</span>
+                            <span class="health-port">:102</span>
+                        </div>
+                        <div class="health-item">
+                            <span class="health-indicator health-online"></span>
+                            <span class="health-label">Modbus</span>
+                            <span class="health-port">:502</span>
+                        </div>
+                        <div class="health-item">
+                            <span class="health-indicator health-online"></span>
+                            <span class="health-label">ELK</span>
+                            <span class="health-status">Indexing</span>
+                        </div>
+                    </div>
+                    <div class="honeypot-footer-stats">
+                        <div class="footer-stat">
+                            <span class="stat-number">99.2%</span>
+                            <span class="stat-text">Uptime</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="stat-number" id="liveHMICount">-</span>
+                            <span class="stat-text">HMI (24h)</span>
+                        </div>
+                    </div>
                 </div>
                 <!-- SPLIT: SSH Compromised -->
                 <div class="stat-card" title="Successful SSH login attempts by attackers">
