@@ -356,8 +356,8 @@ body {
 .dashboard-card:nth-child(2),
 .credentials-card,
 .countries-card {
-    min-height: 280px; /* Increased from 260px */
-    max-height: 280px;
+    min-height: 260px; /* Back to original - fits with tighter spacing */
+    max-height: 260px;
 }
 
 .dashboard-card:nth-child(1) {
@@ -466,8 +466,9 @@ body {
 }
 
 .compact-list {
-    overflow-y: auto; /* Changed from hidden to auto for scrolling if needed */
-    max-height: 180px; /* Increased from 75px to show all 3 items */
+    overflow: hidden; /* No scroll needed */
+    max-height: 130px; /* Reduced to fit exactly 3 items */
+    line-height: 1.2; /* Tighter line spacing */
 }
 
 .compact-list table {
@@ -485,11 +486,12 @@ body {
 }
 
 .compact-list td {
-    padding: 0.5rem 0.6rem; /* Increased from 0.3rem 0.4rem */
+    padding: 0.35rem 0.5rem; /* Reduced from 0.5rem 0.6rem for tighter fit */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #e5e7eb;
+    line-height: 1.2; /* Tighter line spacing */
 }
 
 .compact-list td:first-child {
@@ -524,15 +526,16 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.4rem;
+    padding: 0.3rem 0.4rem; /* Reduced padding for tighter spacing */
     border-bottom: 1px solid #2a2a2a;
-    font-size: 0.85rem;
+    font-size: 0.85rem; /* Consistent with other cards */
+    line-height: 1.2; /* Tighter line spacing */
 }
 
 .ip-address {
     font-family: 'Courier New', monospace;
     color: #e5e7eb;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
 }
 
 .ip-country {
@@ -550,20 +553,21 @@ body {
 }
 
 .event-item {
-    padding: 0.4rem;
+    padding: 0.3rem 0.4rem; /* Reduced padding for tighter spacing */
     border-bottom: 1px solid #2a2a2a;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #9ca3af;
     background-color: #1a1a1a;
+    line-height: 1.2; /* Tighter line spacing */
 }
 
 .event-time {
     color: #60a5fa;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
 }
 
 .event-type {
@@ -571,12 +575,12 @@ body {
     color: #93c5fd;
     padding: 0.1rem 0.3rem;
     border-radius: 0.2rem;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
 }
 
 .event-message {
     color: #9ca3af;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
 }
 
 /* ======================
@@ -594,7 +598,7 @@ body {
 #repeatOffendersList table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
     display: table !important;
     table-layout: fixed;
 }
@@ -609,19 +613,22 @@ body {
 
 #topCommandsList th,
 #repeatOffendersList th {
-    padding: 0.4rem;
+    padding: 0.3rem 0.4rem; /* Reduced for tighter spacing */
     text-align: left;
     color: #9ca3af;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Increased from 0.8rem */
     border-bottom: 1px solid #2a2a2a;
+    line-height: 1.2; /* Tighter line spacing */
 }
 
 #topCommandsList td,
 #repeatOffendersList td {
-    padding: 0.4rem;
+    padding: 0.3rem 0.4rem; /* Reduced for tighter spacing */
     border-bottom: 1px solid #2a2a2a;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.2; /* Tighter line spacing */
+    font-size: 0.85rem; /* Added for consistency */
 }
 
 #topCommandsList tbody,
@@ -881,4 +888,81 @@ canvas {
 .compact-list tbody tr:hover {
     background-color: rgba(96, 165, 250, 0.05);
     transition: background-color 0.2s ease;
+}
+
+/* ======================
+   FAILED SSH LOGIN & ALL TABLES - INCREASED FONT & TIGHTER SPACING
+   ====================== */
+table {
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+table th {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+table td {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+/* Specific styling for Failed SSH Login table */
+.failed-login-table,
+#failedLoginTable {
+    font-size: 0.85rem;
+}
+
+.failed-login-table th,
+#failedLoginTable th {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+.failed-login-table td,
+#failedLoginTable td {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+/* Recent HTTP Login Attempts */
+.http-login-table,
+#httpLoginTable {
+    font-size: 0.85rem;
+}
+
+.http-login-table th,
+#httpLoginTable th {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+.http-login-table td,
+#httpLoginTable td {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+/* Tighter spacing for all scrollable lists */
+.scrollable-list {
+    line-height: 1.2;
+}
+
+.scrollable-list table {
+    line-height: 1.2;
+}
+
+/* Better text overflow handling */
+table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
