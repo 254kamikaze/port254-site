@@ -566,28 +566,257 @@
             });
         }
 
+        // ICS Technique Descriptions Database (from MITRE ATT&CK for ICS)
+        const techniqueDetails = {
+            "T0800": {
+                description: "Adversaries may activate firmware update mode on devices to prevent expected response functions from engaging in reaction to an emergency or process malfunction. For example, devices such as protection relays may have an operation mode designed for firmware installation. This mode may halt process monitoring and related functions to allow new firmware to be loaded. A device left in update mode may be placed in an inactive holding state if no firmware is provided to it. By entering and leaving a device in this mode, the adversary may deny its usual functionalities.",
+                mitigations: [
+                    "All devices or systems changes, including all administrative functions, should require authentication",
+                    "Restrict configurations changes and firmware updating abilities to only authorized individuals",
+                    "Protocols used for device management should authenticate all network messages",
+                    "Use host-based allowlists to prevent devices from accepting connections from unauthorized systems",
+                    "Segment operational network and systems to restrict access to critical system functions"
+                ]
+            },
+            "T0801": {
+                description: "Adversaries may gather information about the physical process state. This information may be used to gain more information about the process itself or used as a trigger for malicious actions. The sources of process state information may vary such as OPC tags, historian data, specific PLC block information, or network traffic. Process state information can provide adversaries with valuable context about the operational status of ICS equipment, enabling them to time attacks or understand system behavior before launching more sophisticated operations.",
+                mitigations: [
+                    "This type of attack technique cannot be easily mitigated with preventive controls since it is based on the abuse of system features",
+                    "Monitor ICS automation network protocols for functions related to reading operational process state",
+                    "Monitor applications logs for any access attempts to operational databases or historians",
+                    "Monitor for the operating mode being checked in unexpected ways"
+                ]
+            },
+            "T0803": {
+                description: "Adversaries may block a command message from reaching its intended target to prevent command execution. In OT networks, command messages are sent to provide instructions to control system devices. A blocked command message can inhibit response functions from correcting a disruption or unsafe condition. This technique can prevent safety systems from responding to hazardous conditions, potentially leading to equipment damage or safety incidents in industrial environments.",
+                mitigations: [
+                    "Utilize monitoring tools and intrusion detection systems to detect blocked or delayed commands",
+                    "Implement redundant communication paths for critical command messages",
+                    "Use authenticated and encrypted communication channels for industrial protocols",
+                    "Monitor for unexpected drops in command acknowledgments or response times",
+                    "Deploy defense-in-depth strategies including network segmentation"
+                ]
+            },
+            "T0804": {
+                description: "Adversaries may block or prevent a reporting message from reaching its intended target. In control systems, reporting messages contain telemetry data (e.g., I/O values) pertaining to the current state of equipment and the industrial process. By blocking these reporting messages, an adversary can potentially hide their actions from an operator. Blocking reporting messages in control systems that manage physical processes may contribute to system impact, causing inhibition of a response function. A control system may not be able to respond in a proper or timely manner to an event, such as a dangerous fault, if its corresponding reporting message is blocked.",
+                mitigations: [
+                    "Utilize network allowlists to restrict unnecessary connections to network devices",
+                    "Provide an alternative method for sending critical report messages to operators",
+                    "Unauthorized connections can be prevented by statically defining hosts and ports",
+                    "Monitor asset alarms which may help identify loss of communications",
+                    "Monitor for termination of processes or services associated with ICS automation protocols"
+                ]
+            },
+            "T0878": {
+                description: "Adversaries may block or prevent the reporting of alarms to operators and safety systems. Alarm messages are a form of reporting that notify operators about changes in the state of equipment or critical parameters. Blocking alarms can prevent appropriate responses to hazardous conditions or hide malicious activities from operators. In ICS environments, suppressed alarms may allow dangerous process conditions to persist unnoticed, potentially leading to equipment damage, production losses, or safety incidents affecting personnel and the environment.",
+                mitigations: [
+                    "Collect alarm data and compare with other system data for signs of manipulation",
+                    "Design alarm systems with diverse communication paths and redundancy",
+                    "Monitor external connections and network traffic for unusual alarm suppression patterns",
+                    "Use authentication and authorization controls for alarm configuration changes",
+                    "Implement alarm watchdog functions that verify alarm system integrity"
+                ]
+            },
+            "T0805": {
+                description: "Adversaries may block access to serial COM ports or serial communication interfaces to prevent legitimate access to attached devices. Serial COM ports may provide access to Programmable Logic Controllers (PLCs) and other control system devices, and disrupting these communications may prevent operators or safety systems from effectively managing industrial processes. This technique has been used in sophisticated ICS attacks where adversaries block serial connections to hide malicious modifications or prevent defensive responses.",
+                mitigations: [
+                    "Use authenticated communications between serial devices and monitoring systems",
+                    "Implement redundant communication paths for critical control functions",
+                    "Monitor for processes that unexpectedly open or monopolize serial ports",
+                    "Alert on unauthorized access attempts to serial communication interfaces",
+                    "Deploy device monitoring that can detect when serial ports become unavailable"
+                ]
+            },
+            "T0809": {
+                description: "Adversaries may perform data destruction attacks targeting configuration files, historical data, logs, engineering workstation data, or other files critical to industrial operations. The loss of control system operational data or engineering files may disrupt ongoing plant operations, cause loss of view for operators, prevent recovery of normal operations, and make incident response activities more difficult. Destruction of critical data, particularly when combined with attacks on backup systems, may cause prolonged downtime and economic impact.",
+                mitigations: [
+                    "Implement regular backup procedures for all critical system data and configurations",
+                    "Store backup data on segregated networks or offline storage",
+                    "Use application allowlisting to prevent execution of data wiping tools",
+                    "Implement file integrity monitoring for critical system files",
+                    "Restrict user permissions using least privilege principles"
+                ]
+            },
+            "T0812": {
+                description: "Adversaries may leverage manufacturer or supplier set default credentials on control system devices to gain initial access or move laterally within an ICS environment. Many ICS devices are deployed with default usernames and passwords that are well-documented and publicly available. Default credentials represent a significant security weakness in OT environments, as they provide adversaries with easy authentication bypass opportunities across multiple devices if left unchanged. This is particularly problematic in operational technology where password changes may require production downtime.",
+                mitigations: [
+                    "Change all default passwords and credentials during device commissioning",
+                    "Implement strong password policies specific to ICS environments",
+                    "Use multi-factor authentication where supported by ICS devices",
+                    "Regular audit of device credentials and access controls",
+                    "Segment networks to limit the impact of compromised credentials"
+                ]
+            },
+            "T0817": {
+                description: "Adversaries may gain access to industrial control systems through drive-by compromise attacks, where victims are compromised by visiting a website or through compromised legitimate websites that ICS personnel frequently access. This technique takes advantage of vulnerabilities in web browsers, browser plugins, or operating systems to establish initial access to systems within or adjacent to the ICS environment. Engineering workstations and HMI systems with web browsers are particularly vulnerable to this attack vector.",
+                mitigations: [
+                    "Keep web browsers and plugins updated with latest security patches",
+                    "Use browser isolation technologies for engineering workstations",
+                    "Restrict web browsing from engineering workstations and HMI systems",
+                    "Deploy web content filtering to block malicious sites",
+                    "Segment networks to isolate systems with internet access from control systems"
+                ]
+            },
+            "T0858": {
+                description: "Adversaries may change the operating mode of a controller to prevent actions from occurring or to modify operations in the target environment. Control system devices often have multiple operating modes that control the primary function of the device (e.g., run mode, program mode, remote mode, local mode). Changing operating modes may prevent expected response functions from occurring or enable adversary manipulation of device functions. For example, placing a device in program mode may allow an adversary to upload malicious control logic.",
+                mitigations: [
+                    "Use hardware switches or keys that physically prevent mode changes",
+                    "Implement strong authentication before allowing mode changes",
+                    "Monitor and alert on unexpected operating mode transitions",
+                    "Restrict mode change capabilities to authorized personnel only",
+                    "Log all mode change events for security monitoring and incident response"
+                ]
+            },
+            "T0859": {
+                description: "Adversaries may steal or compromise the credentials of valid accounts to gain initial access, persistence, privilege escalation, or lateral movement within ICS environments. In industrial environments, compromised credentials can provide access to critical control systems, engineering workstations, historians, and HMIs. Valid account credentials may be obtained through various means including credential dumping, phishing, social engineering, or brute force attacks. The use of valid credentials allows adversaries to blend in with normal activity.",
+                mitigations: [
+                    "Implement strong multi-factor authentication for all ICS access",
+                    "Use privileged access management solutions",
+                    "Monitor for unusual account activity and login patterns",
+                    "Implement least privilege access controls",
+                    "Regular credential rotation and complexity requirements",
+                    "Segment network access based on role and function"
+                ]
+            },
+            "T0836": {
+                description: "Adversaries may modify parameters on control system devices to cause impacts to processes or hide their presence. Control systems devices run based on a set of parameters describing intended operations for the process. Modifying these parameters can affect the safety, quality, quantity, or other aspects of the physical process. Parameter modifications may cause unsafe process conditions, production quality issues, equipment damage, or other adverse effects. This technique has been observed in sophisticated attacks like Stuxnet, which modified PLC parameters to cause physical damage to centrifuges.",
+                mitigations: [
+                    "Monitor for unexpected parameter changes in control system devices",
+                    "Implement change control procedures for all parameter modifications",
+                    "Use file integrity monitoring for controller configurations",
+                    "Require authentication and logging for parameter changes",
+                    "Implement parameter value limits and validation checks",
+                    "Regular audits of parameter values against known-good configurations"
+                ]
+            },
+            "T0855": {
+                description: "Adversaries may send unauthorized command messages to control system devices to affect process operations or prevent safety functions from operating correctly. In ICS environments, unauthorized commands can manipulate physical processes, disable safety systems, or cause equipment damage. Unlike legitimate commands, these are sent without proper authorization and may target PLCs, RTUs, or other field devices. Unauthorized command messages represent a direct threat to operational safety and process integrity in industrial environments.",
+                mitigations: [
+                    "Implement authentication and authorization for all command messages",
+                    "Use encrypted communication channels for industrial protocols where possible",
+                    "Deploy intrusion detection systems tuned for ICS protocols",
+                    "Monitor for command messages from unexpected sources",
+                    "Implement application allowlisting on engineering workstations",
+                    "Use network segmentation to limit command message sources"
+                ]
+            },
+            "T0856": {
+                description: "Adversaries may spoof reporting messages in control systems to manipulate the perception of the operational state. By falsifying telemetry, alarms, or status information, adversaries can hide malicious activities, prevent appropriate responses to hazardous conditions, or cause operators to make incorrect decisions. Spoofed reporting messages may show normal operations while the actual industrial process is in a dangerous state, or may trigger unnecessary responses that disrupt operations. This technique requires understanding of industrial protocols and the ability to inject false data into communication channels.",
+                mitigations: [
+                    "Implement cryptographic authentication for reporting messages where supported",
+                    "Use intrusion detection systems to identify anomalous message patterns",
+                    "Deploy out-of-band verification methods for critical process measurements",
+                    "Monitor for duplicate or conflicting reporting messages from same sources",
+                    "Implement message sequence number verification to detect inserted messages"
+                ]
+            },
+            "T0819": {
+                description: "Adversaries may exploit weaknesses in internet-facing applications to gain initial access to ICS environments. Web-based HMIs, remote access portals, and other public-facing ICS applications may contain vulnerabilities that adversaries can exploit. These applications often bridge IT and OT networks, making them valuable targets for gaining access to control systems. Successful exploitation can provide adversaries with authenticated access to engineering workstations, historians, or directly to control system networks.",
+                mitigations: [
+                    "Keep all public-facing applications updated with latest security patches",
+                    "Use web application firewalls to protect internet-facing ICS applications",
+                    "Implement strong authentication including multi-factor authentication",
+                    "Regular vulnerability scanning and penetration testing",
+                    "Minimize the number of public-facing ICS applications",
+                    "Deploy applications behind VPNs or zero-trust architectures"
+                ]
+            },
+            "T0802": {
+                description: "Adversaries may automate the collection of operational data from ICS environments through scripts, malware, or built-in system utilities. Automated collection can gather large volumes of data including control logic, process values, network configurations, and historian data with minimal adversary interaction. This data may be used for reconnaissance, to understand operational processes, or to identify targets for further attacks. Automated collection is more efficient than manual methods and reduces the adversary's operational footprint.",
+                mitigations: [
+                    "Monitor for unusual data access patterns or bulk data queries",
+                    "Implement data loss prevention controls for sensitive ICS data",
+                    "Restrict access to historians and data repositories based on business need",
+                    "Monitor for execution of scripts or tools not typically used in the environment",
+                    "Log and alert on large data transfers from operational databases"
+                ]
+            },
+            "T0868": {
+                description: "Adversaries may gather information about an industrial device's current operating mode to inform their attack strategy. Understanding whether a device is in run mode, program mode, stop mode, or other states helps adversaries determine the best time and method for conducting malicious activities. Operating mode information can indicate when devices are vulnerable to modification, when changes will have the greatest impact, or when defensive monitoring may be reduced. This reconnaissance is often a precursor to more impactful attacks.",
+                mitigations: [
+                    "This technique is difficult to mitigate as it exploits normal system features",
+                    "Monitor for unusual queries about device operating modes",
+                    "Implement network segmentation to limit reconnaissance capabilities",
+                    "Use anomaly detection to identify abnormal mode query patterns",
+                    "Log all requests for device status and operating mode information"
+                ]
+            },
+            "T0821": {
+                description: "Adversaries may modify the tasking of a controller to allow for the execution of malicious code or to disrupt process control. Control system devices run based on programmed logic that defines how they respond to inputs and control outputs. By modifying controller tasking, adversaries can change how the controller interacts with the physical process. This may include adding malicious logic, removing safety functions, or altering the normal operation sequence. Modified tasking can cause unsafe conditions, production disruptions, or enable follow-on attacks.",
+                mitigations: [
+                    "Implement code signing and integrity verification for controller programs",
+                    "Use change control processes for all controller programming changes",
+                    "Monitor for unexpected program downloads to controllers",
+                    "Restrict program upload/download capabilities to authorized workstations",
+                    "Maintain baseline configurations and regularly verify controller logic integrity",
+                    "Deploy network monitoring to detect unauthorized engineering connections"
+                ]
+            },
+            "T0839": {
+                description: "Adversaries may modify module firmware to maintain persistence, evade defenses, or establish a presence within an ICS environment. Firmware modifications can survive reboots and may be difficult to detect using standard security tools. In ICS environments, modified firmware may alter device behavior, disable security features, or provide persistent backdoor access. This technique is particularly concerning as firmware updates often require specialized knowledge and may not be regularly audited in operational technology environments.",
+                mitigations: [
+                    "Implement firmware verification and validation procedures",
+                    "Use digitally signed firmware updates from trusted sources only",
+                    "Monitor and restrict firmware update capabilities to authorized personnel",
+                    "Maintain inventory of known-good firmware versions for all devices",
+                    "Regular firmware integrity checks against manufacturer baselines",
+                    "Implement secure boot capabilities where available"
+                ]
+            },
+            "T0865": {
+                description: "Adversaries may use spearphishing with a malicious attachment to gain initial access to ICS environments. Spearphishing attachments targeting ICS personnel often contain malware designed to establish a foothold in engineering networks or workstations with access to control systems. These attacks may target engineering documentation, SCADA screenshots, or other ICS-related content to appear legitimate. Once executed, the malware can enable further reconnaissance, lateral movement, or direct manipulation of control systems.",
+                mitigations: [
+                    "User training to recognize and report phishing attempts",
+                    "Email filtering and scanning for malicious attachments",
+                    "Disable macros and restrict execution of unnecessary file types",
+                    "Use sandboxing technology to analyze suspicious attachments",
+                    "Network segmentation to limit impact of compromised workstations",
+                    "Endpoint detection and response tools on engineering workstations"
+                ]
+            },
+            "T0883": {
+                description: "Adversaries may gain access to ICS environments through internet-accessible control system devices. Many industrial devices including PLCs, RTUs, HMIs, and engineering workstations may be directly accessible from the internet due to misconfiguration, convenience, or remote access requirements. Internet-accessible devices represent significant attack surface as they can be discovered through network scanning and exploited without requiring access to internal networks. These exposures bypass perimeter security controls and provide direct paths to critical industrial systems.",
+                mitigations: [
+                    "Conduct regular external scanning to identify internet-exposed ICS devices",
+                    "Place all ICS devices behind VPNs or secure remote access solutions",
+                    "Implement firewall rules to prevent direct internet access to control systems",
+                    "Use network address translation and private addressing for ICS networks",
+                    "Deploy secure remote access solutions with strong authentication",
+                    "Regular audit of external attack surface and unnecessary exposures"
+                ]
+            }
+        };
+
         // Show technique detail
         function showTechniqueDetail(technique, tacticName) {
             document.getElementById('techniqueId').textContent = technique.id;
             document.getElementById('techniqueName').textContent = technique.name;
             
-            // Sample description - in real implementation, fetch from MITRE API
-            document.getElementById('techniqueDescription').textContent = 
-                `${technique.name} is a technique used by adversaries in ICS environments. This technique is categorized under the ${tacticName} tactic and represents a specific method attackers use to achieve their objectives in industrial control systems.`;
+            // Get real technique details or use fallback
+            const details = techniqueDetails[technique.id];
+            
+            if (details) {
+                document.getElementById('techniqueDescription').textContent = details.description;
+                
+                // Show mitigations
+                document.getElementById('techniqueMitigations').innerHTML = `
+                    <ul style="padding-left: 1.5rem; color: #9ca3af; line-height: 1.8;">
+                        ${details.mitigations.map(m => `<li style="margin-bottom: 0.5rem;">${m}</li>`).join('')}
+                    </ul>
+                `;
+            } else {
+                // Fallback for techniques not in database
+                document.getElementById('techniqueDescription').textContent = 
+                    `${technique.name} (${technique.id}) is an ICS technique categorized under ${tacticName}. This technique represents a specific adversary behavior observed in industrial control system environments. For detailed information, please refer to the official MITRE ATT&CK for ICS documentation at attack.mitre.org.`;
+                
+                document.getElementById('techniqueMitigations').innerHTML = `
+                    <p style="color: #9ca3af;">Detailed mitigation information for this technique can be found at: <a href="https://attack.mitre.org/techniques/${technique.id}/" target="_blank" style="color: #60a5fa;">https://attack.mitre.org/techniques/${technique.id}/</a></p>
+                `;
+            }
             
             // Show tactics
             document.getElementById('techniqueTactics').innerHTML = `
                 <div class="technique-tactic-badge">${tacticName}</div>
-            `;
-            
-            // Sample mitigations
-            document.getElementById('techniqueMitigations').innerHTML = `
-                <ul style="padding-left: 1.5rem; color: #9ca3af;">
-                    <li>Network segmentation to limit lateral movement</li>
-                    <li>Application allowlisting to prevent unauthorized execution</li>
-                    <li>Monitor for unusual process activity and command execution</li>
-                    <li>Implement least privilege access controls</li>
-                </ul>
             `;
             
             document.getElementById('techniqueModal').classList.add('active');
