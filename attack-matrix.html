@@ -1204,6 +1204,236 @@
                     "Restrict program download capabilities to authorized workstations",
                     "Deploy integrity checking to verify program authenticity"
                 ]
+            },
+            "T0879": {
+                description: "Adversaries may cause damage to physical property and assets in ICS environments. This impact can result from manipulated control logic, disabled safety systems, or unauthorized commands that cause equipment to operate outside safe parameters. Physical damage may include equipment destruction, facility damage, environmental contamination, or infrastructure harm. Damage to property represents one of the most severe consequences of ICS attacks, potentially resulting in long-term operational disruption, environmental impact, and significant financial losses.",
+                mitigations: [
+                    "Implement and maintain robust safety instrumented systems (SIS)",
+                    "Deploy physical sensors and monitoring that detect abnormal conditions",
+                    "Use independent safety systems that can override process control commands",
+                    "Implement operational limits and interlocks at multiple system levels",
+                    "Conduct regular safety system testing and validation",
+                    "Maintain emergency shutdown capabilities independent of primary control systems"
+                ]
+            },
+            "T0813": {
+                description: "Adversaries may cause denial of control to prevent operators from interacting with control systems. This may involve blocking operator commands, disrupting communication paths, or disabling control interfaces. Denial of control prevents operators from responding to process anomalies, adjusting setpoints, or managing safety functions. This can lead to process upsets, safety incidents, or enable other attack objectives by preventing defensive responses.",
+                mitigations: [
+                    "Implement redundant control paths and backup control systems",
+                    "Deploy out-of-band control capabilities for emergency situations",
+                    "Use monitoring to detect blocked or delayed control commands",
+                    "Maintain manual control capabilities as backup to automated systems",
+                    "Implement watchdog timers that detect loss of control communications",
+                    "Design systems with fail-safe modes that activate when control is lost"
+                ]
+            },
+            "T0815": {
+                description: "Adversaries may cause denial of view to prevent operators from monitoring industrial processes. This may involve blocking telemetry data, disrupting HMI displays, or preventing access to monitoring systems. Denial of view blinds operators to process conditions, preventing them from detecting anomalies, responding to alarms, or managing operations effectively. Combined with other techniques, denial of view can hide malicious activities and prevent appropriate responses.",
+                mitigations: [
+                    "Implement redundant monitoring and display systems",
+                    "Deploy independent monitoring paths that use different communication channels",
+                    "Use field-level indicators and local displays as backup to centralized HMIs",
+                    "Monitor for loss of telemetry data and generate alarms",
+                    "Implement out-of-band monitoring capabilities",
+                    "Maintain process logging that can be reviewed when primary view is restored"
+                ]
+            },
+            "T0826": {
+                description: "Adversaries may attempt to disrupt essential components or systems to prevent owners and operators from delivering products or services. Adversaries may leverage malware to delete or encrypt critical data on HMIs, workstations, or databases. Loss of availability can halt operations, prevent production, and cause significant economic impact. Notable examples include the 2021 Colonial Pipeline ransomware incident where operations were halted for days, and various attacks on critical infrastructure that disrupted essential services.",
+                mitigations: [
+                    "Implement comprehensive backup and recovery procedures for all critical systems",
+                    "Deploy redundant systems and failover capabilities",
+                    "Use network segmentation to limit impact of availability attacks",
+                    "Maintain offline backups that cannot be accessed by ransomware",
+                    "Implement anti-malware and endpoint protection on ICS workstations",
+                    "Develop and test incident response procedures for availability events"
+                ]
+            },
+            "T0827": {
+                description: "Adversaries may cause loss of control to prevent operators from maintaining effective control over industrial processes. This differs from denial of control in that it represents complete loss rather than temporary blocking. Loss of control can result from malware infection, system compromise, or physical damage to control infrastructure. Without control, processes may drift into unsafe states, production may halt, or equipment may be damaged. Regaining control often requires significant recovery efforts.",
+                mitigations: [
+                    "Deploy defense-in-depth strategies to prevent system compromise",
+                    "Maintain independent backup control systems",
+                    "Implement network segmentation to limit spread of compromise",
+                    "Use application allowlisting to prevent malware execution",
+                    "Develop detailed recovery procedures for regaining control",
+                    "Design processes with safe default states when control is lost"
+                ]
+            },
+            "T0828": {
+                description: "Adversaries may cause loss of productivity and revenue by disrupting industrial operations. This impact encompasses production slowdowns, quality issues, missed deliveries, and business disruption. Loss of productivity and revenue can result from various attack techniques including ransomware, process manipulation, or sustained operational disruptions. The economic impact of these attacks extends beyond immediate losses to include market share loss, reputation damage, and breach response costs.",
+                mitigations: [
+                    "Implement business continuity and disaster recovery planning",
+                    "Deploy comprehensive security controls to prevent initial compromise",
+                    "Maintain cyber insurance coverage for operational disruptions",
+                    "Use network segmentation to limit impact scope",
+                    "Develop rapid response capabilities to minimize disruption duration",
+                    "Implement production monitoring and quality controls to detect manipulation"
+                ]
+            },
+            "T0837": {
+                description: "Adversaries may compromise protective systems including safety instrumented systems (SIS), protection relays, and other safety mechanisms that prevent hazardous conditions. Loss of protection removes critical safeguards that protect personnel, equipment, and the environment. Without functioning protection systems, industrial processes become vulnerable to cascading failures, unsafe conditions, and catastrophic incidents. Attacks like CRASHOVERRIDE specifically targeted protective relay systems to create dangerous electrical grid conditions.",
+                mitigations: [
+                    "Implement security measures specifically for safety systems",
+                    "Use network segmentation to isolate safety systems from control systems",
+                    "Deploy diverse and redundant protection mechanisms",
+                    "Monitor safety system health and integrity continuously",
+                    "Conduct regular safety system testing and proof-testing",
+                    "Implement tamper detection and alarm systems for safety devices"
+                ]
+            },
+            "T0880": {
+                description: "Adversaries may cause loss of safety by compromising systems and conditions that protect human life and health in industrial environments. Loss of safety can result from disabled safety systems, manipulated process conditions, or compromised safety interlocks. This represents the most severe potential consequence of ICS attacks, as it directly threatens human lives. Safety systems are specifically designed to prevent hazardous conditions, and their compromise creates direct safety risks to operators, maintenance personnel, and surrounding communities.",
+                mitigations: [
+                    "Implement independent and diverse safety instrumented systems",
+                    "Deploy defense-in-depth security controls protecting safety systems",
+                    "Conduct regular safety assessments and hazard analyses",
+                    "Maintain physical safety barriers independent of electronic controls",
+                    "Implement safety integrity level (SIL) rated systems appropriately",
+                    "Train personnel on identifying and responding to safety system anomalies",
+                    "Deploy continuous monitoring of safety-critical parameters"
+                ]
+            },
+            "T0829": {
+                description: "Adversaries may cause loss of view by compromising HMIs, historians, or monitoring systems that provide visibility into industrial processes. Loss of view leaves operators blind to current process conditions, equipment status, and alarm states. Unlike denial of view which temporarily blocks visibility, loss of view represents more sustained or complete compromise of monitoring capabilities. Operators cannot effectively manage processes, detect anomalies, or respond to incidents without process visibility.",
+                mitigations: [
+                    "Implement redundant monitoring systems with independent communication paths",
+                    "Deploy field-level indicators and local displays independent of central systems",
+                    "Maintain backup data historians with separate infrastructure",
+                    "Use network segmentation to protect monitoring system infrastructure",
+                    "Implement continuous integrity monitoring of HMI and historian systems",
+                    "Develop procedures for operating with degraded or lost visibility"
+                ]
+            },
+            "T0831": {
+                description: "Adversaries may manipulate control system operations by modifying control logic, altering commands, or changing operational parameters. Manipulation of control can cause processes to operate unsafely, damage equipment, produce defective products, or create environmental hazards. Unlike denial of control, manipulation allows processes to continue operating but in ways that achieve adversary objectives. Subtle manipulation may be difficult to detect and can cause significant damage before being discovered. Examples include Stuxnet's manipulation of centrifuge speeds and TRITON's attempts to manipulate safety system logic.",
+                mitigations: [
+                    "Implement integrity checking and verification of control commands",
+                    "Deploy anomaly detection systems that identify unusual control behavior",
+                    "Use process bounds checking and limit validation",
+                    "Implement code signing and logic verification for control programs",
+                    "Monitor for unexpected changes in process control parameters",
+                    "Deploy independent monitoring that compares commands to expected values",
+                    "Maintain detailed audit logs of all control modifications"
+                ]
+            },
+            "T0832": {
+                description: "Adversaries may manipulate operator displays and monitoring systems to present false information about process states. Manipulation of view can show normal operations while actual conditions are dangerous, hide adversary activities from operators, or trigger unnecessary operator responses. By controlling what operators see, adversaries can prevent appropriate responses to genuine problems or cause operators to make decisions based on false information. This technique exploits operator trust in monitoring systems and can enable other attack objectives by hiding their execution.",
+                mitigations: [
+                    "Implement cryptographic authentication for telemetry data",
+                    "Deploy independent monitoring that verifies displayed data",
+                    "Use out-of-band verification methods for critical measurements",
+                    "Monitor for discrepancies between different data sources",
+                    "Implement operator training on identifying potential manipulation",
+                    "Deploy integrity checking for HMI and historian data",
+                    "Maintain physical field inspections as verification method"
+                ]
+            },
+            "T0882": {
+                description: "Adversaries may steal operational information including proprietary process designs, production data, intellectual property, or operational procedures. Theft of operational information provides adversaries with valuable intelligence for planning attacks, understanding system vulnerabilities, or gaining competitive advantages. Stolen information may include control logic, system configurations, network diagrams, operational data, or trade secrets. This information can be used directly by adversaries or sold to competitors or nation-states.",
+                mitigations: [
+                    "Implement data loss prevention controls for sensitive operational information",
+                    "Use encryption for operational data at rest and in transit",
+                    "Monitor and log access to sensitive information repositories",
+                    "Implement need-to-know access controls for operational data",
+                    "Deploy network segmentation to protect information repositories",
+                    "Use data classification and handling procedures",
+                    "Monitor for unusual data access patterns or large data transfers"
+                ]
+            },
+            "T0814": {
+                description: "Adversaries may perform denial of service (DoS) attacks to disrupt industrial operations. DoS attacks flood networks or systems with traffic, exhaust resources, or exploit vulnerabilities to make systems unavailable. In ICS environments, DoS can prevent critical communications between controllers and field devices, disrupt HMI operations, or overload SCADA servers. Even brief service disruptions can cause process upsets, lost production, or safety concerns in time-critical industrial operations.",
+                mitigations: [
+                    "Implement network segmentation to isolate critical systems",
+                    "Deploy network traffic filtering and rate limiting",
+                    "Use redundant communication paths for critical functions",
+                    "Implement resource limits and timeout configurations",
+                    "Monitor network traffic for DoS attack patterns",
+                    "Deploy intrusion prevention systems configured for ICS protocols",
+                    "Design systems with graceful degradation under heavy load"
+                ]
+            },
+            "T0816": {
+                description: "Adversaries may manipulate device operating modes to disrupt operations or enable other attack techniques. Devices like PLCs, RTUs, and protection relays have multiple operating modes including run, program, stop, remote, local, and maintenance modes. Unauthorized mode changes can halt operations, enable unauthorized programming, disable safety functions, or prevent legitimate control. Mode manipulation is often a precursor to more impactful attacks as it places devices in states vulnerable to further exploitation.",
+                mitigations: [
+                    "Implement physical key switches or hardware controls for mode selection",
+                    "Use strong authentication before allowing mode changes",
+                    "Monitor and alert on all operating mode transitions",
+                    "Restrict mode change capabilities to authorized personnel only",
+                    "Log all mode change events with user identification",
+                    "Deploy device monitoring that detects unexpected mode changes",
+                    "Use operational procedures that verify mode before critical operations"
+                ]
+            },
+            "T0810": {
+                description: "Adversaries may compromise data historians to manipulate historical data, steal operational information, or gain intelligence about industrial processes. Historians store time-series process data, alarm logs, and operational events. Compromising historians provides access to detailed process knowledge, production data, and security event information. Adversaries may modify historical data to hide their activities, corrupt reporting, or support other attack objectives. Historian data is valuable for understanding process behavior and planning targeted attacks.",
+                mitigations: [
+                    "Implement strong access controls for historian systems",
+                    "Use encryption for historian data at rest and in transit",
+                    "Deploy network segmentation to isolate historian infrastructure",
+                    "Implement data integrity verification and tamper detection",
+                    "Monitor historian access patterns for anomalies",
+                    "Maintain offline backup copies of historical data",
+                    "Use write-once storage for critical historical records"
+                ]
+            },
+            "T0818": {
+                description: "Adversaries may target engineering workstations to gain access to ICS networks, steal project files, modify control logic, or pivot to control systems. Engineering workstations have elevated privileges, access to controllers, and contain sensitive configuration data. Compromising these systems provides adversaries with detailed knowledge of ICS architecture and capabilities to modify control system configurations. Engineering workstations often bridge IT and OT networks, making them valuable pivot points for lateral movement.",
+                mitigations: [
+                    "Implement application allowlisting on engineering workstations",
+                    "Deploy endpoint detection and response tools",
+                    "Use separate dedicated workstations for engineering functions",
+                    "Implement strong authentication including multi-factor authentication",
+                    "Maintain offline backups of project files and configurations",
+                    "Monitor all connections from engineering workstations to controllers",
+                    "Restrict internet access and email from engineering workstations"
+                ]
+            },
+            "T0824": {
+                description: "Adversaries may discover I/O modules and their configurations to understand physical process connections. I/O modules interface between controllers and physical field devices like sensors, valves, and actuators. Understanding I/O module configurations reveals how control systems interact with physical processes, enabling targeted attacks. I/O discovery helps adversaries identify critical control points, understand cause-and-effect relationships, and plan process manipulation attacks.",
+                mitigations: [
+                    "Restrict access to I/O module configuration tools",
+                    "Implement network segmentation limiting I/O module visibility",
+                    "Monitor for unauthorized enumeration of I/O configurations",
+                    "Use authentication for I/O module configuration access",
+                    "Deploy intrusion detection for unusual I/O discovery activities",
+                    "Implement least privilege access to I/O configuration data"
+                ]
+            },
+            "T0844": {
+                description: "Adversaries may manipulate program organization units (POUs) which are reusable code blocks in control logic programs. POUs include functions, function blocks, and programs that implement control algorithms. Modifying POUs can affect multiple parts of control logic wherever they are used, potentially creating widespread impacts from a single change. POU manipulation may introduce malicious logic, disable safety functions, or alter process behavior throughout the control system.",
+                mitigations: [
+                    "Implement code signing and integrity verification for POUs",
+                    "Use version control for all POU changes",
+                    "Deploy change control procedures for POU modifications",
+                    "Monitor for unexpected POU modifications",
+                    "Restrict POU editing to authorized engineering workstations",
+                    "Maintain baseline configurations of known-good POUs",
+                    "Implement automated testing of POU functionality after changes"
+                ]
+            },
+            "T0850": {
+                description: "Adversaries may identify roles and responsibilities of personnel in ICS environments through reconnaissance activities. Understanding organizational roles helps adversaries conduct social engineering, identify high-value targets, and understand operational procedures. Role identification may reveal who has privileged access, who makes operational decisions, and who responds to incidents. This information supports targeted attacks including spear phishing, credential theft, and manipulation of personnel.",
+                mitigations: [
+                    "Implement operational security practices that limit public role information",
+                    "Provide security awareness training on social engineering risks",
+                    "Monitor for reconnaissance activities targeting personnel",
+                    "Use role-based access controls to limit privilege exposure",
+                    "Implement verification procedures for sensitive requests",
+                    "Develop security awareness programs focused on ICS-specific threats"
+                ]
+            },
+            "T0871": {
+                description: "Adversaries may abuse control system APIs to execute commands or manipulate operations. Many ICS systems and protocols expose APIs for configuration, monitoring, and control functions. API abuse can enable unauthorized command execution, data manipulation, or system configuration changes. Understanding and exploiting APIs allows adversaries to interact with control systems using legitimate interfaces, making detection difficult.",
+                mitigations: [
+                    "Implement authentication and authorization for all API access",
+                    "Use API gateways with security controls and monitoring",
+                    "Restrict API access to specific source addresses or systems",
+                    "Monitor API usage patterns for anomalies",
+                    "Implement rate limiting and request validation",
+                    "Use encryption for API communications",
+                    "Deploy logging of all API transactions"
+                ]
             }
         };
 
