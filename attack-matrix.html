@@ -784,6 +784,426 @@
                     "Deploy secure remote access solutions with strong authentication",
                     "Regular audit of external attack surface and unnecessary exposures"
                 ]
+            },
+            "T0874": {
+                description: "Adversaries may hook into application programming interface (API) functions used by processes to redirect calls for execution and privilege escalation means. Windows processes often leverage these API functions to perform tasks that require reusable system resources. One type of hooking seen in ICS involves redirecting calls via import address table (IAT) hooking, which modifies pointers to imported API functions. Stuxnet used this technique to hook APIs that open project files, while TRITON's injector modified function pointers to execute malicious code before normal handlers. This allows adversaries to intercept and manipulate critical function calls in engineering workstations and control systems.",
+                mitigations: [
+                    "Perform periodic integrity checks of firmware, software, and configurations",
+                    "Restrict use of untrusted or unknown DLL libraries",
+                    "Monitor for API calls used to install hook procedures like SetWindowsHookEx",
+                    "Analyze hook chains to detect unauthorized function redirections",
+                    "Verify integrity of live processes by comparing memory code to static binaries"
+                ]
+            },
+            "T0807": {
+                description: "Adversaries may utilize command-line interfaces (CLI) to interact with systems and execute commands. CLIs provide text-based interfaces for running programs, managing system configurations, and controlling industrial processes. In ICS environments, adversaries can use CLIs on engineering workstations, servers, or directly on control system devices to execute malicious commands, modify configurations, or gather intelligence. Many industrial devices support CLI access via serial, SSH, or Telnet connections.",
+                mitigations: [
+                    "Restrict command-line access to authorized personnel only",
+                    "Monitor and log all CLI sessions and command executions",
+                    "Use application allowlisting to restrict unauthorized command execution",
+                    "Implement strong authentication for CLI access",
+                    "Disable unnecessary CLI services like Telnet in favor of secure alternatives"
+                ]
+            },
+            "T0823": {
+                description: "Adversaries may use graphical user interfaces (GUIs) to interact with and execute commands on control systems. GUIs provide user-friendly interfaces for HMIs, SCADA systems, engineering tools, and other ICS applications. Adversaries with access to these systems can manipulate process controls, modify setpoints, view sensitive operational data, or execute administrative functions through GUI applications. This technique is often used in conjunction with other access methods after initial compromise.",
+                mitigations: [
+                    "Implement screen lock policies for idle GUI sessions",
+                    "Use session recording for critical GUI applications",
+                    "Restrict GUI access based on role and function",
+                    "Monitor for unusual GUI application usage patterns",
+                    "Deploy multi-factor authentication for GUI application access"
+                ]
+            },
+            "T0834": {
+                description: "Adversaries may use native operating system APIs to execute commands and manipulate systems. Native APIs provide low-level access to system resources and can be used to interact with hardware, manage processes, and control system behavior. In ICS environments, native APIs may provide access to industrial communication protocols, device drivers, or control system functions. Use of native APIs can help adversaries evade detection by security tools that monitor higher-level system calls.",
+                mitigations: [
+                    "Monitor for unusual API call patterns or sequences",
+                    "Implement application allowlisting to prevent unauthorized code execution",
+                    "Use endpoint detection and response tools that monitor API activity",
+                    "Restrict API access based on application needs and principle of least privilege",
+                    "Deploy behavior-based detection for anomalous API usage"
+                ]
+            },
+            "T0853": {
+                description: "Adversaries may use scripting languages like PowerShell, Python, VBScript, or Bash to execute commands and automate tasks in ICS environments. Scripts can interact with industrial systems, modify configurations, collect data, or manipulate processes. Engineering environments often have scripting capabilities for legitimate automation purposes, which adversaries can abuse. Scripts may be executed through compromised engineering workstations, historians, or other systems with scripting engines.",
+                mitigations: [
+                    "Restrict script execution policies to signed scripts only",
+                    "Monitor and log all script execution activity",
+                    "Implement application allowlisting for script interpreters",
+                    "Disable or restrict unnecessary scripting engines",
+                    "Use PowerShell Constrained Language Mode where applicable"
+                ]
+            },
+            "T0863": {
+                description: "Adversaries may rely on user execution of malicious files or applications to gain code execution in ICS environments. This may include tricking users into opening malicious email attachments, executing files from removable media, or running programs disguised as legitimate engineering tools. ICS personnel may be targeted with social engineering tactics that exploit their trust in engineering documentation, SCADA screenshots, or vendor communications.",
+                mitigations: [
+                    "Provide security awareness training focused on ICS-specific threats",
+                    "Disable auto-execution of files from removable media",
+                    "Use email filtering and attachment scanning",
+                    "Implement execution controls that prevent unauthorized file execution",
+                    "Deploy sandboxing for suspicious files before execution"
+                ]
+            },
+            "T0891": {
+                description: "Adversaries may leverage manufacturer or vendor hardcoded credentials that exist in control system devices and software. Hardcoded credentials are embedded in firmware, software, or configuration files and may not be readily changeable by users. These credentials represent a persistent security weakness as they are often shared across many devices of the same model and may be documented in publicly available resources. Hardcoded credentials can provide backdoor access that persists even after password changes.",
+                mitigations: [
+                    "Work with vendors to identify and remediate hardcoded credentials",
+                    "Use network segmentation to limit access to vulnerable devices",
+                    "Monitor for unauthorized access attempts using known hardcoded accounts",
+                    "Implement compensating controls like network access control lists",
+                    "Prioritize patching or replacement of devices with known hardcoded credentials"
+                ]
+            },
+            "T0889": {
+                description: "Adversaries may modify control system programs to maintain persistence, cause process disruption, or enable other malicious activities. Control logic programs define how PLCs and other controllers respond to inputs and control physical processes. Modifying these programs can alter process behavior, disable safety functions, introduce backdoors, or cause equipment damage. Modified programs may include malicious logic that only activates under specific conditions, making detection difficult.",
+                mitigations: [
+                    "Implement code signing and verification for control logic",
+                    "Use version control and change management for all program modifications",
+                    "Monitor and alert on unauthorized program downloads to controllers",
+                    "Maintain known-good baseline copies of all control programs",
+                    "Restrict program modification rights to authorized engineering workstations only"
+                ]
+            },
+            "T0873": {
+                description: "Adversaries may infect project files used by engineering software to maintain persistence or enable lateral movement. Engineering project files contain control logic, configurations, documentation, and other critical information. When infected files are opened, malicious code can execute, spreading to other systems or modifying control system configurations. This technique was notably used by Stuxnet, which infected Siemens STEP 7 project files to spread within ICS environments.",
+                mitigations: [
+                    "Use anti-malware software to scan project files before opening",
+                    "Implement file integrity monitoring for project file directories",
+                    "Restrict project file sharing to controlled methods and repositories",
+                    "Use isolated engineering workstations for opening untrusted project files",
+                    "Maintain backups of clean project files in offline storage"
+                ]
+            },
+            "T0857": {
+                description: "Adversaries may modify system firmware to establish persistence, hide their presence, or gain low-level control over ICS devices. System firmware operates at a level below the operating system and can provide adversaries with capabilities that survive operating system reinstallation and are difficult to detect. Firmware modifications may affect PLCs, RTUs, network devices, or other embedded systems common in ICS environments.",
+                mitigations: [
+                    "Use secure boot and firmware verification capabilities where available",
+                    "Implement firmware version management and integrity monitoring",
+                    "Restrict firmware update capabilities to authorized personnel and systems",
+                    "Use digitally signed firmware from trusted vendors only",
+                    "Conduct regular firmware integrity audits against known-good versions"
+                ]
+            },
+            "T0890": {
+                description: "Adversaries may exploit software vulnerabilities to escalate privileges in ICS systems. Privilege escalation allows adversaries to gain higher-level permissions, execute restricted commands, access sensitive data, or modify critical configurations. In ICS environments, privilege escalation can enable adversaries to manipulate control system functions, modify safety parameters, or gain administrative access to SCADA systems. Exploitation targets may include operating systems, control system software, or industrial applications.",
+                mitigations: [
+                    "Keep all systems and software updated with latest security patches",
+                    "Use sandboxing and exploit protection technologies",
+                    "Implement least privilege access controls",
+                    "Monitor for signs of exploitation and suspicious privilege changes",
+                    "Deploy endpoint detection and response tools tuned for ICS environments"
+                ]
+            },
+            "T0820": {
+                description: "Adversaries may exploit software vulnerabilities to evade defenses in ICS environments. This may include exploiting weaknesses in security products, control system software, or operating systems to disable protections, hide malicious activities, or bypass security controls. Evasion through exploitation allows adversaries to operate undetected while conducting reconnaissance, lateral movement, or impact operations in industrial environments.",
+                mitigations: [
+                    "Maintain current patch levels for all security and control system software",
+                    "Deploy multiple layers of defense to prevent single-point bypass",
+                    "Monitor security tool logs for signs of tampering or disablement",
+                    "Use network segmentation to limit impact of compromised security tools",
+                    "Implement anomaly detection that doesn't rely solely on signature-based detection"
+                ]
+            },
+            "T0872": {
+                description: "Adversaries may remove indicators of their presence from ICS environments to evade detection and hide their activities. This may include deleting logs, removing files, clearing event histories, or modifying timestamps. In control systems, adversaries may target historian databases, engineering workstation logs, controller event logs, or network device logs. Removing indicators can complicate incident response and forensic investigation.",
+                mitigations: [
+                    "Forward logs to centralized SIEM systems for preservation",
+                    "Implement log integrity protection and write-once storage",
+                    "Monitor for log deletion events and missing log entries",
+                    "Use file integrity monitoring to detect file deletions",
+                    "Restrict log file access to authorized security personnel only"
+                ]
+            },
+            "T0849": {
+                description: "Adversaries may present themselves or their malware as legitimate entities in ICS environments. Masquerading may involve renaming malicious files to match legitimate programs, spoofing process names, or manipulating file metadata. In control system environments, adversaries may disguise malware as engineering tools, vendor software, or system utilities. This technique helps evade detection by security tools and personnel who may trust apparently legitimate files or processes.",
+                mitigations: [
+                    "Implement application allowlisting based on cryptographic hashes",
+                    "Use code signing and verify signatures before execution",
+                    "Monitor for processes or files with suspicious names or locations",
+                    "Deploy endpoint detection and response tools that identify masquerading",
+                    "Educate personnel on identifying suspicious files and applications"
+                ]
+            },
+            "T0851": {
+                description: "Adversaries may use rootkits to hide their presence and maintain privileged access in ICS environments. Rootkits operate at low system levels, often in kernel mode, to conceal processes, files, network connections, and other indicators of compromise. In control systems, rootkits may hide malicious modifications to control logic, conceal backdoor access, or mask data exfiltration activities. Rootkits are particularly dangerous in ICS as they can persist through reboots and evade traditional security tools.",
+                mitigations: [
+                    "Use secure boot and measured boot capabilities to detect rootkits",
+                    "Deploy anti-rootkit tools and kernel integrity checking",
+                    "Implement behavioral analysis that can detect hidden activities",
+                    "Conduct memory forensics to identify hidden processes and drivers",
+                    "Restrict kernel-mode driver installation to signed drivers only"
+                ]
+            },
+            "T0202": {
+                description: "Adversaries may abuse legitimate system binaries and utilities to proxy execution of malicious code. System binary proxy execution allows adversaries to bypass application allowlisting and hide malicious activities behind trusted processes. In Windows-based ICS environments, this may include using utilities like regsvr32, rundll32, or MSHTA to execute malicious code while appearing as legitimate system activities.",
+                mitigations: [
+                    "Configure application allowlisting with strict rules for proxy-capable binaries",
+                    "Monitor for unusual command-line parameters to system utilities",
+                    "Restrict execution of scripting engines and proxy-capable binaries",
+                    "Deploy behavior-based detection for abnormal use of system binaries",
+                    "Audit and log all executions of high-risk system utilities"
+                ]
+            },
+            "T0840": {
+                description: "Adversaries may enumerate network connections to discover network architecture, active sessions, and communication patterns in ICS environments. This reconnaissance helps adversaries understand network topology, identify targets for lateral movement, and locate critical systems. Network connection enumeration may reveal relationships between engineering workstations and PLCs, SCADA server connections, or historian data flows.",
+                mitigations: [
+                    "Use network segmentation to limit visibility of network connections",
+                    "Monitor for unusual network scanning or enumeration activities",
+                    "Restrict command execution tools that can enumerate connections",
+                    "Implement network access control to prevent unauthorized enumeration",
+                    "Deploy intrusion detection systems tuned for reconnaissance activities"
+                ]
+            },
+            "T0842": {
+                description: "Adversaries may use network sniffing to capture network traffic and gather intelligence in ICS environments. Sniffing can capture industrial protocol communications, credentials transmitted over the network, process data, and network topology information. In unsecured or poorly segmented networks, adversaries can capture valuable operational data, authentication credentials, and system configurations that enable further attacks.",
+                mitigations: [
+                    "Use encrypted communications for industrial protocols where possible",
+                    "Implement network segmentation to limit sniffing impact",
+                    "Deploy switch port security and monitor for promiscuous mode",
+                    "Use network intrusion detection to identify sniffing activities",
+                    "Implement VLANs and private VLANs to isolate sensitive communications"
+                ]
+            },
+            "T0846": {
+                description: "Adversaries may attempt to discover remote systems on industrial networks to expand their understanding of the ICS environment. Discovery of remote systems helps adversaries identify targets for lateral movement, locate critical infrastructure, and map network architecture. This may involve scanning for industrial devices, identifying SCADA servers, locating historians, or enumerating engineering workstations.",
+                mitigations: [
+                    "Implement network segmentation to limit discovery scope",
+                    "Monitor for network scanning activities and unusual discovery attempts",
+                    "Use firewall rules to restrict unnecessary network visibility",
+                    "Deploy intrusion detection systems to alert on reconnaissance",
+                    "Implement network access control to prevent unauthorized device discovery"
+                ]
+            },
+            "T0888": {
+                description: "Adversaries may gather information about remote industrial systems including configurations, versions, capabilities, and operational state. This information helps adversaries select exploitation techniques, identify vulnerabilities, and plan attacks. System information discovery may target PLCs, RTUs, HMIs, engineering workstations, or other ICS components, revealing firmware versions, supported protocols, and system configurations.",
+                mitigations: [
+                    "Limit exposure of system information to authenticated users only",
+                    "Monitor for unauthorized system information queries",
+                    "Restrict protocol commands that reveal system information",
+                    "Use network segmentation to limit system information disclosure",
+                    "Implement intrusion detection for reconnaissance activities"
+                ]
+            },
+            "T0887": {
+                description: "Adversaries may use wireless sniffing to capture data transmitted over wireless networks in ICS environments. Many industrial facilities use wireless networks for monitoring, mobile device connectivity, or field device communications. Wireless sniffing can capture credentials, process data, and communications without requiring physical network access. Unsecured wireless networks represent significant reconnaissance and data gathering opportunities.",
+                mitigations: [
+                    "Use strong encryption (WPA3) for all wireless networks",
+                    "Implement wireless intrusion detection systems",
+                    "Segment wireless networks from critical control system networks",
+                    "Monitor for unauthorized wireless access points and clients",
+                    "Use VPNs for sensitive communications over wireless networks"
+                ]
+            },
+            "T0830": {
+                description: "Adversaries may position themselves between two communicating entities in ICS networks to intercept, modify, or relay communications. Adversary-in-the-middle (AitM) attacks can capture authentication credentials, manipulate command messages, alter reporting data, or inject malicious commands. In industrial protocols that lack encryption or authentication, AitM attacks can be particularly effective for manipulating control system communications.",
+                mitigations: [
+                    "Implement encrypted and authenticated industrial protocol communications",
+                    "Use network segmentation to limit AitM opportunities",
+                    "Deploy certificate pinning for critical communications",
+                    "Monitor for unexpected network devices or unusual network paths",
+                    "Implement mutual authentication between communicating systems"
+                ]
+            },
+            "T0811": {
+                description: "Adversaries may collect operational data from information repositories such as historians, databases, file shares, and documentation systems in ICS environments. These repositories contain valuable information including process trends, operational data, engineering drawings, network diagrams, and system configurations. Access to this data helps adversaries understand operations, identify targets, and plan attacks.",
+                mitigations: [
+                    "Implement access controls based on need-to-know and least privilege",
+                    "Monitor and log all access to sensitive information repositories",
+                    "Use data loss prevention tools to prevent unauthorized data exfiltration",
+                    "Encrypt sensitive data at rest in repositories",
+                    "Segment repositories from control system networks where possible"
+                ]
+            },
+            "T0893": {
+                description: "Adversaries may collect data from local systems including engineering workstations, HMIs, or control system devices. Local data may include project files, configuration backups, documentation, credentials, or operational data stored on individual systems. Collection from local systems provides adversaries with detailed technical information for planning further attacks or understanding operational processes.",
+                mitigations: [
+                    "Implement full disk encryption on engineering workstations",
+                    "Use data loss prevention tools to monitor local data access",
+                    "Restrict local data storage of sensitive information",
+                    "Monitor for unusual file access or copying activities",
+                    "Implement least privilege access to local system resources"
+                ]
+            },
+            "T0877": {
+                description: "Adversaries may collect I/O image data that reflects the current state of process inputs and outputs. I/O image data provides real-time information about sensor readings, valve positions, motor states, and other physical process conditions. This data helps adversaries understand process behavior, identify manipulation opportunities, and time attacks to cause maximum impact.",
+                mitigations: [
+                    "Encrypt I/O communications where possible",
+                    "Monitor for unauthorized access to I/O data structures",
+                    "Implement network segmentation to limit I/O data exposure",
+                    "Use application allowlisting to prevent unauthorized I/O access",
+                    "Deploy anomaly detection for unusual I/O data access patterns"
+                ]
+            },
+            "T0861": {
+                description: "Adversaries may identify and collect information about industrial control system points and tags to understand process operations. Points and tags represent specific process variables, setpoints, alarms, and other operational parameters. Understanding the tag structure helps adversaries identify targets for manipulation, understand cause-and-effect relationships, and plan attacks that affect specific process outcomes.",
+                mitigations: [
+                    "Restrict access to tag databases and configuration systems",
+                    "Monitor for unauthorized tag enumeration activities",
+                    "Use obfuscation of tag names to limit information disclosure",
+                    "Implement network segmentation to limit tag visibility",
+                    "Deploy anomaly detection for unusual tag access patterns"
+                ]
+            },
+            "T0845": {
+                description: "Adversaries may upload programs from control system devices to steal intellectual property, understand control logic, or identify vulnerabilities. Program upload provides adversaries with complete controller logic, algorithms, and configurations. This information can reveal proprietary processes, safety logic, security weaknesses, or information needed to develop targeted attacks that manipulate specific process functions.",
+                mitigations: [
+                    "Restrict program upload capabilities to authorized workstations only",
+                    "Monitor and log all program upload activities",
+                    "Use authentication and encryption for program upload/download",
+                    "Implement change control for any program modifications",
+                    "Deploy network monitoring to detect unauthorized engineering connections"
+                ]
+            },
+            "T0852": {
+                description: "Adversaries may use screen capture to collect visual information from HMI displays, engineering workstations, or operator screens in ICS environments. Screen captures can reveal process states, alarm conditions, network diagrams, system configurations, and operational procedures. This visual information helps adversaries understand operations, plan attacks, or demonstrate compromise capabilities.",
+                mitigations: [
+                    "Implement screen locking and session timeouts for idle systems",
+                    "Monitor for screen capture tools and activities",
+                    "Use application allowlisting to prevent unauthorized screen capture",
+                    "Deploy session recording for sensitive operational displays",
+                    "Implement privacy filters on screens in public areas"
+                ]
+            },
+            "T0885": {
+                description: "Adversaries may communicate using commonly used network ports to blend command and control traffic with legitimate communications. In ICS environments, common ports include HTTP/HTTPS (80/443), DNS (53), or ports used by legitimate industrial applications. Using common ports helps adversaries evade firewall rules and detection systems that focus on unusual port usage.",
+                mitigations: [
+                    "Deploy deep packet inspection to identify C2 traffic regardless of port",
+                    "Use application-aware firewalls that inspect protocol content",
+                    "Monitor for unusual communication patterns on common ports",
+                    "Implement network segmentation to restrict unnecessary external communications",
+                    "Deploy threat intelligence to identify known C2 infrastructure"
+                ]
+            },
+            "T0884": {
+                description: "Adversaries may use connection proxies to obscure the source of command and control traffic or to bypass network security controls. Proxies can hide the adversary's true location, complicate attribution, and help evade detection. In ICS environments, proxies may be used to maintain persistent access while hiding external connections from security monitoring.",
+                mitigations: [
+                    "Monitor for and block known proxy services and infrastructure",
+                    "Use SSL/TLS inspection to identify proxy usage",
+                    "Implement network segmentation to prevent unnecessary external connections",
+                    "Deploy behavior-based detection for proxy-like communication patterns",
+                    "Use DNS monitoring to identify connections to proxy services"
+                ]
+            },
+            "T0869": {
+                description: "Adversaries may use standard application layer protocols for command and control in ICS environments. Standard protocols like HTTP, HTTPS, DNS, or industrial protocols help adversaries blend malicious traffic with normal communications. This makes detection more difficult as the traffic appears similar to legitimate application communications.",
+                mitigations: [
+                    "Deploy deep packet inspection and application-aware security controls",
+                    "Monitor for protocol anomalies and unexpected protocol usage",
+                    "Use network segmentation to limit unnecessary protocol communications",
+                    "Implement allow-listing of known-good communication patterns",
+                    "Deploy threat intelligence to identify malicious C2 patterns"
+                ]
+            },
+            "T0892": {
+                description: "Adversaries may change credentials of control system accounts to establish persistence or deny legitimate access. Credential changes can prevent authorized personnel from accessing critical systems, enable continued adversary access, or disrupt incident response efforts. In ICS environments, credential changes may affect operator consoles, engineering workstations, or device access accounts.",
+                mitigations: [
+                    "Implement multi-factor authentication to make credential changes more difficult",
+                    "Monitor and alert on all credential modification activities",
+                    "Use privileged access management solutions with approval workflows",
+                    "Maintain offline backup access methods for critical systems",
+                    "Deploy emergency access procedures for compromised credential scenarios"
+                ]
+            },
+            "T0862": {
+                description: "Adversaries may compromise the supply chain to gain initial access to ICS environments. Supply chain compromise may occur through infected vendor software, malicious hardware, compromised firmware, or corrupted updates. In industrial environments, trusted vendor relationships and specialized equipment create supply chain dependencies that adversaries can exploit to gain persistent and difficult-to-detect access to control systems.",
+                mitigations: [
+                    "Verify integrity of software and firmware from vendors using digital signatures",
+                    "Implement vendor security assessment and monitoring programs",
+                    "Test and validate all vendor software and hardware in isolated environments",
+                    "Use diverse supplier base to reduce single-vendor dependencies",
+                    "Monitor vendor support connections and remote access sessions"
+                ]
+            },
+            "T0864": {
+                description: "Adversaries may leverage transient cyber assets like contractor laptops, vendor maintenance systems, or temporary engineering workstations to gain access to ICS environments. Transient assets often have elevated access privileges, may not be subject to the same security controls as permanent systems, and can introduce malware from external networks. These assets create temporary but significant security vulnerabilities.",
+                mitigations: [
+                    "Implement strict security requirements for all transient assets",
+                    "Use network access control to isolate and monitor transient connections",
+                    "Require malware scanning before allowing transient asset connections",
+                    "Monitor all activities of transient assets while connected",
+                    "Use jump hosts or terminal servers to limit direct transient asset access"
+                ]
+            },
+            "T0860": {
+                description: "Adversaries may compromise wireless networks to gain access to ICS environments. Wireless compromise may involve exploiting weak encryption, cracking passwords, evil twin attacks, or exploiting wireless protocol vulnerabilities. Many industrial facilities use wireless for monitoring, mobile devices, or remote access, creating potential entry points for adversaries who can physically approach the facility.",
+                mitigations: [
+                    "Use strong wireless encryption (WPA3) with complex passwords",
+                    "Implement wireless intrusion detection and prevention systems",
+                    "Deploy certificate-based authentication for wireless access",
+                    "Use wireless network segmentation and isolation",
+                    "Monitor for unauthorized wireless access points and clients"
+                ]
+            },
+            "T0822": {
+                description: "Adversaries may leverage external remote services to access ICS environments. External remote services include VPNs, remote desktop services, or vendor remote access portals. While these services provide necessary remote access capabilities, they also create external attack surface that adversaries can exploit through credential compromise, vulnerability exploitation, or session hijacking.",
+                mitigations: [
+                    "Implement multi-factor authentication for all remote access",
+                    "Use VPNs with modern encryption and regular certificate rotation",
+                    "Monitor and log all remote access sessions",
+                    "Implement time-based access restrictions for remote connections",
+                    "Deploy risk-based authentication that adapts to connection context"
+                ]
+            },
+            "T0847": {
+                description: "Adversaries may use removable media to replicate malware across ICS environments. Removable media like USB drives are commonly used in industrial facilities for program transfers, configuration backups, and data collection from air-gapped systems. Malware on removable media can spread when devices are connected to multiple systems, enabling adversaries to breach air gaps and propagate throughout ICS networks.",
+                mitigations: [
+                    "Disable or restrict removable media using device control policies",
+                    "Scan all removable media before use with updated anti-malware",
+                    "Use dedicated, controlled removable media for specific purposes",
+                    "Monitor for auto-run features and disable where not needed",
+                    "Implement application allowlisting to prevent malware execution"
+                ]
+            },
+            "T0848": {
+                description: "Adversaries may act as a rogue master device to send unauthorized commands or manipulate data in industrial control networks. In master-slave architectures common in industrial protocols, adversaries can impersonate legitimate master devices to issue commands to field devices, request data, or disrupt communications. Rogue master attacks exploit the limited authentication in many industrial protocols.",
+                mitigations: [
+                    "Implement source address authentication for master-slave communications",
+                    "Use protocol-specific security features where available",
+                    "Deploy network monitoring to detect unexpected master devices",
+                    "Segment networks to limit where master commands can originate",
+                    "Implement device allowlisting at the network layer"
+                ]
+            },
+            "T0866": {
+                description: "Adversaries may exploit remote services to gain initial access or move laterally within ICS environments. This includes exploiting vulnerabilities in remote desktop services, VPNs, industrial protocol services, or other remotely accessible applications. Exploitation of remote services allows adversaries to gain access without requiring physical presence or insider assistance.",
+                mitigations: [
+                    "Keep all remote services updated with latest security patches",
+                    "Disable unnecessary remote services and protocols",
+                    "Use network segmentation to limit exposure of remote services",
+                    "Deploy intrusion prevention systems to block exploitation attempts",
+                    "Implement application allowlisting to prevent exploitation payloads"
+                ]
+            },
+            "T0886": {
+                description: "Adversaries may use remote services like RDP, VNC, SSH, or industrial remote access tools to interact with systems in ICS environments. Remote services provide convenient access for legitimate purposes but can be abused by adversaries who have obtained credentials or exploited service vulnerabilities. Remote services may provide access to engineering workstations, HMIs, servers, or network devices.",
+                mitigations: [
+                    "Implement multi-factor authentication for all remote service access",
+                    "Use jump servers or bastion hosts to control remote access",
+                    "Monitor and log all remote service sessions",
+                    "Restrict remote services to specific source addresses where possible",
+                    "Deploy time-based access controls for remote services"
+                ]
+            },
+            "T0867": {
+                description: "Adversaries may transfer tools or files between systems in ICS environments to support operations. Lateral tool transfer enables adversaries to spread malware, deploy additional capabilities, or move data between systems. Tools may include malware, credential theft utilities, network scanners, or custom scripts. Transfer methods may include network file shares, removable media, email, or command and control channels.",
+                mitigations: [
+                    "Implement application allowlisting to prevent unauthorized tool execution",
+                    "Monitor file transfers between systems",
+                    "Use data loss prevention tools to detect suspicious file movements",
+                    "Segment networks to limit unnecessary inter-system communications",
+                    "Deploy endpoint detection and response tools that monitor file transfers"
+                ]
+            },
+            "T0843": {
+                description: "Adversaries may download and execute programs on control system devices or engineering workstations. Program downloads may include malicious control logic, malware, configuration changes, or tool installations. In ICS environments, program downloads are a normal part of engineering activities, making malicious downloads difficult to distinguish from legitimate operations without proper controls and monitoring.",
+                mitigations: [
+                    "Implement authentication and authorization for all program downloads",
+                    "Use version control and change management for programs",
+                    "Monitor and log all program download activities",
+                    "Restrict program download capabilities to authorized workstations",
+                    "Deploy integrity checking to verify program authenticity"
+                ]
             }
         };
 
