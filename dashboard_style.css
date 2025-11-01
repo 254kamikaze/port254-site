@@ -139,7 +139,7 @@ body {
 }
 
 .dashboard-card {
-    background-color: #1a1a1a;
+    background-color: rgba(59, 130, 246, 0.05);
     border: 1px solid #2a2a2a;
     border-radius: 0.5rem;
     padding: 1rem;
@@ -213,7 +213,7 @@ body {
 .row4-card {
     min-height: 280px;
     max-height: 280px !important;
-    background-color: #1a1a1a !important;
+    /*background-color: #1a1a1a !important;*/
 }
 
 .dashboard-card:nth-child(10) { 
