@@ -797,7 +797,7 @@ async function switchDatabase() {
     const selector = document.getElementById('database-selector');
     const selectedOption = selector.options[selector.selectedIndex];
 
-    if (!selectedOption.dataset.database) {
+    if (!selectedOption || !selectedOption.dataset || !selectedOption.dataset.database) {
         document.getElementById('current-db-info').style.display = 'none';
         document.getElementById('delete-db-btn').disabled = true;
         currentDatabase = null;
