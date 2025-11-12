@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodHound Upload Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-container {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #3a3a3a;
+        }
+        h1 {
+            color: #60a5fa;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #9ca3af;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+        button {
+            background: #60a5fa;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #3b82f6;
+        }
+        button:disabled {
+            background: #4b5563;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        .info {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+        }
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .test-btn {
+            background: #8b5cf6;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .test-btn:hover {
+            background: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 BloodHound Upload Test</h1>
+        <p>This page tests the BloodHound upload functionality step by step.</p>
+
+        <div class="form-group">
+            <h2>Step 1: Test API Connection</h2>
+            <button class="test-btn" onclick="testHealth()">Test /health endpoint</button>
+            <button class="test-btn" onclick="testDatabases()">Test /api/databases</button>
+            <button class="test-btn" onclick="testCORS()">Test CORS preflight</button>
+            <div id="test-result" class="result"></div>
+        </div>
+
+        <div class="form-group">
+            <h2>Step 2: Upload File</h2>
+            <label>Engagement Name:</label>
+            <input type="text" id="name" placeholder="Test Upload" value="Test Upload">
+
+            <label style="margin-top: 15px;">Description (optional):</label>
+            <textarea id="description" rows="3" placeholder="Testing upload from GitHub Pages"></textarea>
+
+            <label style="margin-top: 15px;">BloodHound ZIP file:</label>
+            <input type="file" id="file" accept=".zip">
+
+            <button style="margin-top: 20px;" onclick="testUpload()" id="upload-btn">Upload</button>
+            <div id="upload-result" class="result"></div>
+        </div>
+
+        <div class="form-group">
+            <h2>Configuration</h2>
+            <pre>API URL: https://bh254.duckdns.org:5443
+API Key: c5306776d50342efdf84e58e097e71eec2dea279edd87c5396b180fa5052e9a6
+Origin: https://254kamikaze.github.io (or current page origin)</pre>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://bh254.duckdns.org:5443';
+        const API_KEY = 'c5306776d50342efdf84e58e097e71eec2dea279edd87c5396b180fa5052e9a6';
+
+        function showResult(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.className = `result ${type}`;
+            el.innerHTML = message;
+            el.style.display = 'block';
+        }
+
+        async function testHealth() {
+            try {
+                showResult('test-result', '⏳ Testing /health endpoint...', 'info');
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResult('test-result', `✅ Success!<pre>${JSON.stringify(data, null, 2)}</pre>`, 'success');
+            } catch (error) {
+                showResult('test-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDatabases() {
+            try {
+                showResult('test-result', '⏳ Testing /api/databases endpoint...', 'info');
+                const response = await fetch(`${API_BASE}/api/databases`, {
+                    headers: {
+                        'X-API-Key': API_KEY
+                    }
+                });
+                const data = await response.json();
+                showResult('test-result', `✅ Success! Found ${data.length || 0} databases<pre>${JSON.stringify(data, null, 2)}</pre>`, 'success');
+            } catch (error) {
+                showResult('test-result', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCORS() {
+            try {
+                showResult('test-result', '⏳ Testing CORS preflight...', 'info');
+                const response = await fetch(`${API_BASE}/api/upload`, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': window.location.origin,
+                        'Access-Control-Request-Method': 'POST',
+                        'Access-Control-Request-Headers': 'X-API-Key'
+                    }
+                });
+
+                const corsHeaders = {
+                    'access-control-allow-origin': response.headers.get('access-control-allow-origin'),
+                    'access-control-allow-methods': response.headers.get('access-control-allow-methods'),
+                    'access-control-allow-headers': response.headers.get('access-control-allow-headers'),
+                };
+
+                showResult('test-result', `✅ CORS Preflight Success!<pre>${JSON.stringify(corsHeaders, null, 2)}</pre>`, 'success');
+            } catch (error) {
+                showResult('test-result', `❌ CORS Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testUpload() {
+            const name = document.getElementById('name').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+
+            if (!name) {
+                showResult('upload-result', '❌ Please enter an engagement name', 'error');
+                return;
+            }
+
+            if (!file) {
+                showResult('upload-result', '❌ Please select a file', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('name', name);
+            formData.append('description', description);
+
+            try {
+                document.getElementById('upload-btn').disabled = true;
+                showResult('upload-result', `⏳ Uploading ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)...`, 'info');
+
+                const startTime = Date.now();
+                const response = await fetch(`${API_BASE}/api/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'X-API-Key': API_KEY
+                    },
+                    body: formData
+                });
+
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                const result = await response.json();
+
+                if (response.ok) {
+                    showResult('upload-result', `✅ Upload successful! (${elapsed}s)<pre>${JSON.stringify(result, null, 2)}</pre>`, 'success');
+                } else {
+                    showResult('upload-result', `❌ Upload failed: ${result.error}<pre>${JSON.stringify(result, null, 2)}</pre>`, 'error');
+                }
+            } catch (error) {
+                showResult('upload-result', `❌ Upload error: ${error.message}<br><br>
+                <strong>Details:</strong><br>
+                Error Name: ${error.name}<br>
+                Error Stack: <pre>${error.stack}</pre>`, 'error');
+            } finally {
+                document.getElementById('upload-btn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
