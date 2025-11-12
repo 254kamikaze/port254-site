@@ -763,14 +763,17 @@ async function refreshDatabases() {
 
         selector.innerHTML = '';
 
-        if (data.databases && data.databases.length > 0) {
+        // Handle both {databases: [...]} and [...] response formats
+        const databases = data.databases || data;
+
+        if (databases && databases.length > 0) {
             // Add default option
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
             defaultOption.textContent = '-- Select a database --';
             selector.appendChild(defaultOption);
 
-            data.databases.forEach(db => {
+            databases.forEach(db => {
                 const option = document.createElement('option');
                 option.value = db.id;
                 option.textContent = `${db.engagement_name} (${new Date(db.uploaded_at).toLocaleDateString()})`;
