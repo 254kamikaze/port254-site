@@ -217,7 +217,7 @@
         }
 
         .trigger-section li::before {
-            content: "⚡";
+            content: "[Alert]";
             position: absolute;
             left: 0;
         }
@@ -547,11 +547,11 @@
 
     <!-- Hero -->
     <div class="playbook-hero">
-        <h1>🛡️ Incident Response Playbooks</h1>
+        <h1>Incident Response Playbooks</h1>
         <p>Practical response procedures for critical OT/ICS attack scenarios</p>
         
         <div class="disclaimer-box">
-            <strong>⚠️ Lab Environment Only:</strong> All demonstrations run in isolated, sandboxed environments. 
+            <strong>Lab Environment Only:</strong> All demonstrations run in isolated, sandboxed environments. 
             No live malware, credential capture, or offensive activity. Educational purposes only.
         </div>
     </div>
@@ -561,27 +561,27 @@
         <!-- Tab Navigation -->
         <div class="playbook-tabs">
             <div class="playbook-tab active" onclick="showPlaybook('ransomware')">
-                <span class="playbook-tab-icon">🔒</span>
+                <span class="playbook-tab-icon">[Lock]</span>
                 <span class="playbook-tab-label">Ransomware</span>
                 <span class="severity-badge severity-critical">Critical</span>
             </div>
             <div class="playbook-tab" onclick="showPlaybook('supply-chain')">
-                <span class="playbook-tab-icon">🧰</span>
+                <span class="playbook-tab-icon">[Tools]</span>
                 <span class="playbook-tab-label">Supply Chain</span>
                 <span class="severity-badge severity-critical">Critical</span>
             </div>
             <div class="playbook-tab" onclick="showPlaybook('lateral-movement')">
-                <span class="playbook-tab-icon">🔐</span>
+                <span class="playbook-tab-icon">[Secure]</span>
                 <span class="playbook-tab-label">Lateral Movement</span>
                 <span class="severity-badge severity-high">High</span>
             </div>
             <div class="playbook-tab" onclick="showPlaybook('plc-manipulation')">
-                <span class="playbook-tab-icon">⚡</span>
+                <span class="playbook-tab-icon">[Alert]</span>
                 <span class="playbook-tab-label">PLC Manipulation</span>
                 <span class="severity-badge severity-critical">Critical</span>
             </div>
             <div class="playbook-tab" onclick="showPlaybook('phishing')">
-                <span class="playbook-tab-icon">🎣</span>
+                <span class="playbook-tab-icon">[Phish]</span>
                 <span class="playbook-tab-label">Phishing</span>
                 <span class="severity-badge severity-high">High</span>
             </div>
@@ -591,7 +591,7 @@
         <div id="ransomware" class="playbook-content active">
             <div class="playbook-card">
                 <div class="playbook-header">
-                    <span class="playbook-icon">🔒</span>
+                    <span class="playbook-icon">[Lock]</span>
                     <h2>Ransomware Impacting Engineering / OT Workstations</h2>
                 </div>
 
@@ -599,14 +599,14 @@
                     <!-- Left Column - Main Content -->
                     <div>
                         <div class="playbook-why">
-                            <strong>💡 Why It Matters:</strong><br>
+                            <strong>Why It Matters:</strong><br>
                             Ransomware can halt production by encrypting HMIs, historians, or PLC configuration hosts. 
                             Recent attacks like LockBit targeting critical infrastructure demonstrate real-world impact on 
                             industrial operations.
                         </div>
 
                         <div class="trigger-section">
-                            <strong>🎯 Detection Triggers:</strong>
+                            <strong>Target: Detection Triggers:</strong>
                             <ul>
                                 <li>Suricata/Zeek detects mass file renames or SMB write bursts</li>
                                 <li>EDR shows suspicious parent-child process chains</li>
@@ -616,7 +616,7 @@
                         </div>
 
                         <div class="response-steps">
-                            <h3>📋 Response Steps:</h3>
+                            <h3>Steps: Response Steps:</h3>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
@@ -684,7 +684,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>🎯 Key Indicators</h4>
+                            <h4>Target: Key Indicators</h4>
                             <ul>
                                 <li>File extensions: .lockbit, .encrypted</li>
                                 <li>Ransom note: README.txt</li>
@@ -694,7 +694,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>⏱️ Response Timeline</h4>
+                            <h4>Timeline: Response Timeline</h4>
                             <ul>
                                 <li>0-15 min: Detection & Initial containment</li>
                                 <li>15-60 min: Full network isolation</li>
@@ -727,7 +727,7 @@
 
                     <div id="lockbitSimulator" class="lockbit-simulator" style="display: none;">
                         <div class="lockbit-header">
-                            <div class="lockbit-logo">🔒</div>
+                            <div class="lockbit-logo">[Lock]</div>
                             <div class="lockbit-status">
                                 <h4>LockBit 3.0 Encryption Simulator</h4>
                                 <p>Isolated Lab Environment - Educational Demo Only</p>
@@ -760,14 +760,14 @@
                     </div>
 
                     <div id="attackTimeline" class="timeline-view" style="display: none;">
-                        <h4>⏱️ Attack Timeline & Detection Points</h4>
+                        <h4>Timeline: Attack Timeline & Detection Points</h4>
                         <div class="timeline-item">
                             <div class="timeline-time">T+0:00</div>
                             <div class="timeline-event">Initial access via compromised RDP session</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">T+0:15</div>
-                            <div class="timeline-event">🚨 Detection: Unusual PowerShell execution detected</div>
+                            <div class="timeline-event">ALERT: Detection: Unusual PowerShell execution detected</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">T+0:30</div>
@@ -775,7 +775,7 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">T+1:00</div>
-                            <div class="timeline-event">🚨 Detection: Suspicious SMB write activity</div>
+                            <div class="timeline-event">ALERT: Detection: Suspicious SMB write activity</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">T+1:15</div>
@@ -783,7 +783,7 @@
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">T+1:30</div>
-                            <div class="timeline-event">🚨 Detection: Mass file renaming begins</div>
+                            <div class="timeline-event">ALERT: Detection: Mass file renaming begins</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-time">T+2:00</div>
@@ -798,7 +798,7 @@
         <div id="supply-chain" class="playbook-content">
             <div class="playbook-card">
                 <div class="playbook-header">
-                    <span class="playbook-icon">🧰</span>
+                    <span class="playbook-icon">[Tools]</span>
                     <h2>Supply-Chain or Firmware Compromise</h2>
                 </div>
 
@@ -806,13 +806,13 @@
                     <!-- Left Column - Main Content -->
                     <div>
                         <div class="playbook-why">
-                            <strong>💡 Why It Matters:</strong><br>
+                            <strong>Why It Matters:</strong><br>
                             Compromised vendor firmware can introduce persistent logic manipulation or backdoors that survive reboots 
                             and standard incident response procedures. Think SolarWinds-style attacks targeting OT vendors.
                         </div>
 
                         <div class="trigger-section">
-                            <strong>🎯 Detection Triggers:</strong>
+                            <strong>Target: Detection Triggers:</strong>
                             <ul>
                                 <li>Firmware version change not logged in CMDB or change management system</li>
                                 <li>Mismatch in signed artifact checksum vs vendor-published hashes</li>
@@ -822,7 +822,7 @@
                         </div>
 
                         <div class="response-steps">
-                            <h3>📋 Response Steps:</h3>
+                            <h3>Steps: Response Steps:</h3>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
@@ -893,7 +893,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>🎯 Key Indicators</h4>
+                            <h4>Target: Key Indicators</h4>
                             <ul>
                                 <li>Unsigned firmware detected</li>
                                 <li>Hash mismatch with vendor baseline</li>
@@ -903,7 +903,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>⏱️ Response Timeline</h4>
+                            <h4>Timeline: Response Timeline</h4>
                             <ul>
                                 <li>0-30 min: Firmware validation & quarantine</li>
                                 <li>30-120 min: Vendor notification</li>
@@ -920,7 +920,7 @@
         <div id="lateral-movement" class="playbook-content">
             <div class="playbook-card">
                 <div class="playbook-header">
-                    <span class="playbook-icon">🔐</span>
+                    <span class="playbook-icon">[Secure]</span>
                     <h2>Lateral Movement via Compromised Credentials</h2>
                 </div>
 
@@ -928,13 +928,13 @@
                     <!-- Left Column - Main Content -->
                     <div>
                         <div class="playbook-why">
-                            <strong>💡 Why It Matters:</strong><br>
+                            <strong>Why It Matters:</strong><br>
                             Adversaries often pivot from IT to OT through shared admin accounts, VPN gateways, or compromised 
                             engineering workstations. The Purdue Model segmentation fails when credentials are reused across zones.
                         </div>
 
                         <div class="trigger-section">
-                            <strong>🎯 Detection Triggers:</strong>
+                            <strong>Target: Detection Triggers:</strong>
                             <ul>
                                 <li>Anomalous logins from unusual source IPs or geographic locations</li>
                                 <li>SMB authentication attempts across Purdue security levels (IT → DMZ → OT)</li>
@@ -944,7 +944,7 @@
                         </div>
 
                         <div class="response-steps">
-                            <h3>📋 Response Steps:</h3>
+                            <h3>Steps: Response Steps:</h3>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
@@ -1015,7 +1015,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>🎯 Key Indicators</h4>
+                            <h4>Target: Key Indicators</h4>
                             <ul>
                                 <li>Cross-zone authentication attempts</li>
                                 <li>Off-hours admin logins</li>
@@ -1025,7 +1025,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>⏱️ Response Timeline</h4>
+                            <h4>Timeline: Response Timeline</h4>
                             <ul>
                                 <li>0-10 min: Disable compromised accounts</li>
                                 <li>10-30 min: Block attacker IPs</li>
@@ -1042,7 +1042,7 @@
         <div id="plc-manipulation" class="playbook-content">
             <div class="playbook-card">
                 <div class="playbook-header">
-                    <span class="playbook-icon">⚡</span>
+                    <span class="playbook-icon">[Alert]</span>
                     <h2>PLC / Logic Manipulation</h2>
                 </div>
 
@@ -1050,13 +1050,13 @@
                     <!-- Left Column - Main Content -->
                     <div>
                         <div class="playbook-why">
-                            <strong>💡 Why It Matters:</strong><br>
+                            <strong>Why It Matters:</strong><br>
                             Unauthorized logic changes can alter safety or control behavior, causing process upset, equipment 
                             damage, or safety incidents. Stuxnet demonstrated the devastating potential of PLC logic manipulation.
                         </div>
 
                         <div class="trigger-section">
-                            <strong>🎯 Detection Triggers:</strong>
+                            <strong>Target: Detection Triggers:</strong>
                             <ul>
                                 <li>Mismatch in PLC logic checksum vs. baseline version control repository</li>
                                 <li>Historian shows unexpected actuator commands or setpoint changes</li>
@@ -1066,7 +1066,7 @@
                         </div>
 
                         <div class="response-steps">
-                            <h3>📋 Response Steps:</h3>
+                            <h3>Steps: Response Steps:</h3>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
@@ -1137,7 +1137,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>🎯 Key Indicators</h4>
+                            <h4>Target: Key Indicators</h4>
                             <ul>
                                 <li>Logic checksum mismatch</li>
                                 <li>Unauthorized program uploads</li>
@@ -1147,7 +1147,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>⏱️ Response Timeline</h4>
+                            <h4>Timeline: Response Timeline</h4>
                             <ul>
                                 <li>0-15 min: Detect & place PLC in safe state</li>
                                 <li>15-60 min: Isolate & preserve evidence</li>
@@ -1164,7 +1164,7 @@
         <div id="phishing" class="playbook-content">
             <div class="playbook-card">
                 <div class="playbook-header">
-                    <span class="playbook-icon">🎣</span>
+                    <span class="playbook-icon">[Phish]</span>
                     <h2>Social Engineering / Phishing Targeting OT Operators or Vendors</h2>
                 </div>
 
@@ -1172,13 +1172,13 @@
                     <!-- Left Column - Main Content -->
                     <div>
                         <div class="playbook-why">
-                            <strong>💡 Why It Matters:</strong><br>
+                            <strong>Why It Matters:</strong><br>
                             Phishing remains the most common entry path to OT networks through vendor or operator credentials. 
                             OT personnel are often less security-aware than IT staff, making them prime targets.
                         </div>
 
                         <div class="trigger-section">
-                            <strong>🎯 Detection Triggers:</strong>
+                            <strong>Target: Detection Triggers:</strong>
                             <ul>
                                 <li>Suspicious email activity or automated mailbox rule creation</li>
                                 <li>Alert from email security gateway (malicious link/attachment blocked)</li>
@@ -1188,7 +1188,7 @@
                         </div>
 
                         <div class="response-steps">
-                            <h3>📋 Response Steps:</h3>
+                            <h3>Steps: Response Steps:</h3>
                             
                             <div class="step">
                                 <div class="step-number">1</div>
@@ -1259,7 +1259,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>🎯 Key Indicators</h4>
+                            <h4>Target: Key Indicators</h4>
                             <ul>
                                 <li>Malicious attachment detection</li>
                                 <li>Suspicious sender domains</li>
@@ -1269,7 +1269,7 @@
                         </div>
 
                         <div class="sidebar-card">
-                            <h4>⏱️ Response Timeline</h4>
+                            <h4>Timeline: Response Timeline</h4>
                             <ul>
                                 <li>0-5 min: User report & initial triage</li>
                                 <li>5-30 min: Account disable & endpoint isolation</li>
@@ -1346,7 +1346,7 @@
                     const file = sampleFiles[fileIndex - 1];
                     const fileEl = document.createElement('div');
                     fileEl.className = 'file-item encrypted';
-                    fileEl.textContent = `🔒 ${file}.lockbit`;
+                    fileEl.textContent = `[Lock] ${file}.lockbit`;
                     filesContainer.appendChild(fileEl);
                     filesContainer.scrollTop = filesContainer.scrollHeight;
                 }
@@ -1355,7 +1355,7 @@
                     setTimeout(() => {
                         const ransomNote = document.createElement('div');
                         ransomNote.style.cssText = 'margin-top: 1rem; padding: 1rem; background: rgba(239, 68, 68, 0.2); border: 2px solid #ef4444; border-radius: 0.375rem; color: #fca5a5; font-weight: 600; text-align: center;';
-                        ransomNote.textContent = '⚠️ RANSOMWARE SIMULATION COMPLETE - All critical files encrypted';
+                        ransomNote.textContent = ' RANSOMWARE SIMULATION COMPLETE - All critical files encrypted';
                         simulator.appendChild(ransomNote);
                     }, 500);
                 }
