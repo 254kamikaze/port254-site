@@ -45,6 +45,14 @@
         .doc-section li {
             margin-bottom: 0.5rem;
         }
+        .doc-section code {
+            background-color: #1a1a1a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            color: #93c5fd;
+            font-size: 0.875rem;
+        }
         .highlight-box {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
             border-left: 4px solid #60a5fa;
@@ -130,6 +138,16 @@
             margin-top: 0.5rem;
             border: 1px solid rgba(96, 165, 250, 0.3);
         }
+        .tech-badge {
+            display: inline-block;
+            background-color: #1a1a1a;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            color: #93c5fd;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            margin: 0.25rem;
+        }
     </style>
 </head>
 <body>
@@ -158,68 +176,38 @@
 
     <!-- Documentation Content -->
     <div class="doc-content">
-        
+
         <!-- What is port254 -->
         <div class="doc-section">
             <h2>What is port254?</h2>
             <p>
-                port254 is a <strong>honeypot project</strong> designed to study and detect cyber threats targeting 
-                critical infrastructure systems. Think of it as a digital trap that looks like a real water treatment 
-                plant control system, but is actually monitoring who tries to break in and what they try to do.
+                port254 is a <strong>comprehensive cybersecurity research platform</strong> designed to study and detect
+                cyber threats targeting critical infrastructure systems and enterprise Active Directory environments.
+                The platform combines industrial honeypots, Active Directory attack path analysis, and threat intelligence
+                to improve security for both OT/ICS and IT systems.
             </p>
-            
+
             <div class="highlight-box">
-                <p><strong>Simple Explanation:</strong> We've created a fake water treatment plant system that cyber 
-                attackers think is real. When they try to hack it, we record everything they do to learn their 
-                tactics and improve security for actual critical infrastructure.</p>
+                <p><strong>Mission:</strong> We create realistic fake systems (honeypots) that cyber attackers think are
+                real. When they try to hack them, we record everything to learn their tactics and develop better defenses
+                for actual critical infrastructure and enterprise environments.</p>
             </div>
 
             <h3>Why "port254"?</h3>
             <p>
-                In industrial systems, "port" refers to communication channels (like doors) that systems use to talk 
-                to each other. Common industrial ports include 102 (S7), 502 (Modbus), and others. The "254" represents 
+                In industrial systems, "port" refers to communication channels (like doors) that systems use to talk
+                to each other. Common industrial ports include 102 (S7), 502 (Modbus), and others. The "254" represents
                 the Australian country code (+61) and Western Australia's area - this is a Perth-based security research project.
             </p>
         </div>
 
-        <!-- The Problem We're Solving -->
+        <!-- Platform Components -->
         <div class="doc-section">
-            <h2>The Problem We're Solving</h2>
-            <p>
-                Critical infrastructure like water treatment plants, power stations, and manufacturing facilities are 
-                increasingly connected to the internet. While this connectivity improves efficiency, it also creates 
-                opportunities for cyber attackers to cause real-world damage.
-            </p>
+            <h2>Platform Components</h2>
 
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <span class="number">1,247</span>
-                    <span class="label">Attack Attempts (24h)</span>
-                </div>
-                <div class="stat-item">
-                    <span class="number">5</span>
-                    <span class="label">Protocols Monitored</span>
-                </div>
-                <div class="stat-item">
-                    <span class="number">24/7</span>
-                    <span class="label">Active Monitoring</span>
-                </div>
-            </div>
-
+            <h3>1. Industrial Honeypot System</h3>
             <p>
-                Traditional security systems can't always predict how attackers will behave when targeting industrial 
-                systems. By creating a realistic fake system (our honeypot), we can safely observe actual attack 
-                techniques and develop better defenses.
-            </p>
-        </div>
-
-        <!-- How It Works -->
-        <div class="doc-section">
-            <h2>How It Works</h2>
-            
-            <h3>The Setup</h3>
-            <p>
-                Our honeypot mimics a Perth Water Treatment Plant with several components that look and behave like 
+                Our honeypot mimics a Perth Water Treatment Plant with several components that look and behave like
                 real industrial control systems:
             </p>
 
@@ -255,26 +243,137 @@
                 </div>
             </div>
 
-            <h3>The Breadcrumb Trail</h3>
+            <h3>2. BloodHound Analysis Platform</h3>
             <p>
-                When attackers connect to our SSH gateway, they see a realistic login banner that mentions the 
-                "Perth Water Treatment Plant" and includes a deliberately "leaked" credential for the HMI dashboard. 
-                This encourages them to explore further, allowing us to observe their complete attack chain.
+                A powerful Active Directory attack path analysis system that helps security teams understand and visualize
+                attack paths in enterprise environments. Our implementation includes:
             </p>
 
+            <ul>
+                <li><strong>Multi-Engagement Support:</strong> Upload and manage multiple BloodHound datasets from different environments</li>
+                <li><strong>42 Preset Queries:</strong> Pre-built queries across 7 categories (Users, Computers, Groups, Permissions, Kerberos, Domain Trusts, Attack Paths)</li>
+                <li><strong>Custom Cypher Queries:</strong> Write and execute custom Neo4j Cypher queries for advanced analysis</li>
+                <li><strong>Attack Path Visualization:</strong> Discover and visualize attack paths between any two entities in Active Directory</li>
+                <li><strong>HTTPS Upload:</strong> Secure upload of BloodHound ZIP files from anywhere on the internet</li>
+                <li><strong>Data Isolation:</strong> Complete engagement-based filtering ensures data from different assessments never mix</li>
+                <li><strong>Relationship Analysis:</strong> Full support for all BloodHound relationships including:
+                    <ul>
+                        <li>Delegation: AllowedToAct, AllowedToDelegate</li>
+                        <li>Admin Rights: AdminTo, CanRDP, ExecuteDCOM, CanPSRemote</li>
+                        <li>Permissions: WriteDacl, GenericAll, WriteOwner, AddKeyCredentialLink, ForceChangePassword</li>
+                        <li>Group Membership: MemberOf</li>
+                        <li>Domain Trusts: TrustedBy with full trust analysis</li>
+                    </ul>
+                </li>
+            </ul>
+
             <div class="info-box">
-                <p><strong>Example Attack Flow:</strong> Attacker scans for open ports → Finds SSH open → 
-                Sees the banner with HMI credentials → Logs in to explore → Visits HMI dashboard → 
-                Attempts to modify plant controls → All actions logged for analysis</p>
+                <p><strong>Access:</strong> BloodHound platform available at <a href="bloodhound.html" style="color: #60a5fa;">BloodHound Analysis</a></p>
+            </div>
+
+            <h3>3. ATT&CK Matrix Mapping</h3>
+            <p>
+                All detections and observed attack techniques are mapped to the MITRE ATT&CK framework for:
+            </p>
+            <ul>
+                <li>ICS-specific tactics and techniques (ATT&CK for ICS)</li>
+                <li>Enterprise attack patterns (ATT&CK for Enterprise)</li>
+                <li>Cross-environment attack chains spanning both IT and OT</li>
+            </ul>
+
+            <h3>4. File Analysis System</h3>
+            <p>
+                Automated analysis of malware and suspicious files uploaded by attackers to our honeypots, including:
+            </p>
+            <ul>
+                <li>Static analysis and file fingerprinting</li>
+                <li>Behavior analysis in sandboxed environments</li>
+                <li>IOC extraction and threat intelligence enrichment</li>
+            </ul>
+
+            <h3>5. Incident Response Dashboard</h3>
+            <p>
+                Real-time monitoring and response capabilities for detected threats, featuring:
+            </p>
+            <ul>
+                <li>Live attack telemetry and session monitoring</li>
+                <li>Automated alert generation and triage</li>
+                <li>Incident timeline reconstruction</li>
+                <li>Threat actor profiling and attribution</li>
+            </ul>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="doc-section">
+            <h2>Technology Stack</h2>
+
+            <h3>Frontend Technologies</h3>
+            <div style="margin: 1rem 0;">
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript (ES6+)</span>
+                <span class="tech-badge">Chart.js</span>
+                <span class="tech-badge">GitHub Pages</span>
+            </div>
+
+            <h3>Backend & Infrastructure</h3>
+            <div style="margin: 1rem 0;">
+                <span class="tech-badge">Python 3</span>
+                <span class="tech-badge">Flask</span>
+                <span class="tech-badge">Neo4j 4.x</span>
+                <span class="tech-badge">Docker</span>
+                <span class="tech-badge">Nginx</span>
+                <span class="tech-badge">Ubuntu Server</span>
+            </div>
+
+            <h3>Honeypot Components</h3>
+            <div style="margin: 1rem 0;">
+                <span class="tech-badge">Cowrie (SSH/Telnet)</span>
+                <span class="tech-badge">Conpot (ICS Protocols)</span>
+                <span class="tech-badge">Custom HMI</span>
+            </div>
+
+            <h3>Security & Networking</h3>
+            <div style="margin: 1rem 0;">
+                <span class="tech-badge">SSL/TLS (HTTPS)</span>
+                <span class="tech-badge">DuckDNS</span>
+                <span class="tech-badge">CORS</span>
+                <span class="tech-badge">API Key Authentication</span>
+                <span class="tech-badge">Port Forwarding</span>
+            </div>
+
+            <h3>Data Processing & Analysis</h3>
+            <div style="margin: 1rem 0;">
+                <span class="tech-badge">Cypher Query Language</span>
+                <span class="tech-badge">JSON</span>
+                <span class="tech-badge">ELK Stack</span>
+                <span class="tech-badge">Geographic Mapping (KML)</span>
+            </div>
+
+            <h3>BloodHound Technology Stack</h3>
+            <p>Our BloodHound implementation leverages:</p>
+            <ul>
+                <li><strong>Neo4j Graph Database:</strong> Single-database architecture with engagement-based isolation using <code>engagement_id</code> properties</li>
+                <li><strong>Flask API Backend:</strong> RESTful API for upload, query, and management operations</li>
+                <li><strong>Nginx Reverse Proxy:</strong> SSL termination, CORS handling, and load balancing</li>
+                <li><strong>Docker Containers:</strong> Isolated services for API, Neo4j, and Nginx with custom networking</li>
+                <li><strong>BloodHound Data Format:</strong> Full support for BloodHound v4 and v5+ JSON formats</li>
+                <li><strong>Custom Upload Handler:</strong> Python-based parser with automatic relationship extraction for all ACE types</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Architecture:</strong> Internet (GitHub Pages) → HTTPS (Port 5443) → Public IP (Port Forwarding) →
+                Nginx Container (SSL/CORS) → Flask API Container → Neo4j Container → Graph Database</p>
             </div>
         </div>
 
         <!-- What We Learn -->
         <div class="doc-section">
             <h2>What We Learn</h2>
-            
-            <p>Every interaction with our honeypot provides valuable intelligence:</p>
 
+            <p>Every interaction with our platform provides valuable intelligence:</p>
+
+            <h3>From Honeypots:</h3>
             <ul>
                 <li><strong>Attack Patterns:</strong> Which services do attackers target first? What commands do they run?</li>
                 <li><strong>Credential Attacks:</strong> What username/password combinations are being tried?</li>
@@ -283,12 +382,21 @@
                 <li><strong>Tool Fingerprints:</strong> What hacking tools and scripts are being deployed?</li>
             </ul>
 
+            <h3>From BloodHound Analysis:</h3>
+            <ul>
+                <li><strong>Active Directory Weaknesses:</strong> Misconfigurations and privilege escalation paths</li>
+                <li><strong>Domain Trust Relationships:</strong> Cross-domain attack vectors and SID filtering issues</li>
+                <li><strong>Delegation Abuse:</strong> Unconstrained/constrained delegation and resource-based delegation risks</li>
+                <li><strong>Kerberos Vulnerabilities:</strong> Kerberoasting, AS-REP roasting, and SPNs</li>
+                <li><strong>Permission Chains:</strong> Complex ACE chains leading to Domain Admin compromise</li>
+            </ul>
+
             <h3>Detection Development</h3>
             <p>
-                The data collected feeds into our <strong>detection catalog</strong> - a library of security rules 
-                that can identify these attack patterns in real industrial systems. Each detection is mapped to:
+                The data collected feeds into our <strong>detection catalog</strong> - a library of security rules
+                that can identify these attack patterns in real industrial and enterprise systems. Each detection is mapped to:
             </p>
-            
+
             <ul>
                 <li><strong>MITRE ATT&CK:</strong> Industry-standard framework for categorizing cyber threats</li>
                 <li><strong>IEC 62443:</strong> International security standards for industrial automation</li>
@@ -296,93 +404,224 @@
             </ul>
         </div>
 
+        <!-- BloodHound Features -->
+        <div class="doc-section">
+            <h2>BloodHound Analysis Features</h2>
+
+            <h3>Query Categories</h3>
+            <p>Our BloodHound implementation includes 42 preset queries organized into 7 categories:</p>
+
+            <ul>
+                <li><strong>Users (6 queries):</strong> All Users, Enabled Users, Disabled Users, Users Never Logged On,
+                    Users with Password Never Expires, Users with Reversible Encryption</li>
+                <li><strong>Computers (4 queries):</strong> All Computers, Enabled Computers, Computers with Unconstrained Delegation,
+                    Computers with Constrained Delegation</li>
+                <li><strong>Groups (5 queries):</strong> All Groups, High Value Groups, Domain Admins, Enterprise Admins,
+                    Groups with Most Members</li>
+                <li><strong>Permissions (6 queries):</strong> Users with DCSync Rights, Users with GenericAll, Users with WriteOwner,
+                    Users with WriteDACL, Shortest Paths to Domain Admins, Shortest Paths to High Value Targets</li>
+                <li><strong>Kerberos (4 queries):</strong> Kerberoastable Users, AS-REP Roastable Users, Users with SPN Set,
+                    Computers with LAPS Enabled</li>
+                <li><strong>Domain Trusts (11 queries):</strong> All Domain Trusts, Bidirectional Trusts, One-Way Incoming Trusts,
+                    One-Way Outgoing Trusts, Forest Trusts, External Trusts, Trusts Without SID Filtering, Cross-Domain Admins,
+                    Foreign Security Principals, Cross-Trust Attack Paths, Domains in Environment</li>
+                <li><strong>Attack Paths (6 queries):</strong> Shortest Path to Domain Admins, All Paths to Domain Admins,
+                    Shortest Path to High Value, Owned Principals Path to DA, Computers to DA (unconstrained delegation),
+                    Cross-Domain Privilege Escalation</li>
+            </ul>
+
+            <h3>Supported Relationships</h3>
+            <p>Complete support for all BloodHound relationship types:</p>
+            <ul>
+                <li><strong>Delegation:</strong> AllowedToAct, AllowedToDelegate</li>
+                <li><strong>Admin Rights:</strong> AdminTo, CanRDP, ExecuteDCOM, CanPSRemote</li>
+                <li><strong>Ownership & Control:</strong> Owns, GenericAll</li>
+                <li><strong>Permission Modification:</strong> WriteDacl, WriteOwner, GenericWrite</li>
+                <li><strong>Credential Access:</strong> ForceChangePassword, ReadLAPSPassword, ReadGMSAPassword, AddKeyCredentialLink</li>
+                <li><strong>DCSync:</strong> GetChanges, GetChangesAll, GetChangesInFilteredSet</li>
+                <li><strong>Group Management:</strong> MemberOf, AddMember</li>
+                <li><strong>Domain Relationships:</strong> TrustedBy with trust type, direction, and SID filtering analysis</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Data Isolation:</strong> All queries automatically filter by selected engagement using
+                <code>engagement_id</code> properties on all nodes and relationships, ensuring complete data isolation
+                between different assessments.</p>
+            </div>
+        </div>
+
+        <!-- Architecture Details -->
+        <div class="doc-section">
+            <h2>System Architecture</h2>
+
+            <h3>BloodHound Multi-Engagement Architecture</h3>
+            <p>Our BloodHound system uses a single Neo4j database with engagement-based isolation:</p>
+
+            <ul>
+                <li><strong>Single Database Design:</strong> All engagements share one Neo4j database instance for efficiency</li>
+                <li><strong>Engagement ID Tagging:</strong> Every node and relationship has an <code>engagement_id</code> property</li>
+                <li><strong>Automatic Query Filtering:</strong> All queries inject WHERE clauses to filter by selected engagement</li>
+                <li><strong>Upload Processing:</strong> Custom Python handler parses BloodHound v4/v5+ ZIP files and extracts:
+                    <ul>
+                        <li>All node types (Users, Computers, Groups, Domains, GPOs, OUs, Containers)</li>
+                        <li>All relationship types from various data sources (Aces, Members, Trusts, LocalAdmins, etc.)</li>
+                        <li>Metadata and statistics for each engagement</li>
+                    </ul>
+                </li>
+                <li><strong>Data Normalization:</strong> Consistent engagement_id format ensures proper filtering across uploads</li>
+            </ul>
+
+            <h3>Network Flow</h3>
+            <pre style="background-color: #1a1a1a; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; color: #93c5fd;">
+Internet (GitHub Pages)
+  │
+  └─→ https://254kamikaze.github.io/port254-site/bloodhound.html
+        │
+        └─→ HTTPS Request (Port 5443)
+              │
+Your Public IP (58.84.158.146)
+  │
+  └─→ Port Forward: 5443 → 443
+        │
+        └─→ Docker Container: bloodhound-nginx
+              │
+              ├─→ SSL Termination (cert: bh254.duckdns.org)
+              ├─→ CORS: Allow all origins
+              └─→ Reverse Proxy
+                    │
+                    └─→ Docker Container: bloodhound-api (Port 5000)
+                          │
+                          └─→ Flask API
+                                │
+                                └─→ Docker Container: bloodhound-neo4j
+                                      │
+                                      └─→ Neo4j Graph Database (Port 7687)
+                                            │
+                                            └─→ Multiple Engagements (isolated by engagement_id)
+            </pre>
+
+            <h3>Security Layers</h3>
+            <ul>
+                <li><strong>Transport Security:</strong> All communication over HTTPS with SSL/TLS encryption</li>
+                <li><strong>API Key Authentication:</strong> Required for all upload and query operations</li>
+                <li><strong>CORS Configuration:</strong> Allows cross-origin requests for GitHub Pages integration</li>
+                <li><strong>Query Safety:</strong> Only SELECT queries allowed (MATCH/RETURN), no write operations from frontend</li>
+                <li><strong>Container Isolation:</strong> Each service runs in isolated Docker container with custom networking</li>
+                <li><strong>Data Validation:</strong> Input sanitization and validation on all API endpoints</li>
+            </ul>
+        </div>
+
         <!-- Safety & Ethics -->
         <div class="doc-section">
             <h2>Safety & Ethics</h2>
-            
+
             <h3>No Real Systems at Risk</h3>
             <p>
-                It's important to understand that <strong>nothing in this honeypot is real</strong>. There is no 
-                actual water treatment plant, no real pumps, no chemicals, and no public water supply connected 
+                It's important to understand that <strong>nothing in the honeypot is real</strong>. There is no
+                actual water treatment plant, no real pumps, no chemicals, and no public water supply connected
                 to this system. Everything is simulated in a controlled environment.
             </p>
 
             <div class="highlight-box">
-                <p><strong>Safety First:</strong> All honeypot systems are completely isolated from real 
+                <p><strong>Safety First:</strong> All honeypot systems are completely isolated from real
                 infrastructure. Attackers cannot cause any real-world harm through our systems.</p>
             </div>
 
+            <h3>BloodHound Data Privacy</h3>
+            <p>
+                The BloodHound analysis platform is designed for authorized security assessments only:
+            </p>
+            <ul>
+                <li>Only upload BloodHound data from environments you have permission to assess</li>
+                <li>All uploaded data is stored securely with engagement-based isolation</li>
+                <li>Delete engagements when assessments are complete</li>
+                <li>Do not upload sensitive production data to internet-accessible instances</li>
+            </ul>
+
             <h3>Responsible Disclosure</h3>
             <p>
-                When we discover new attack techniques or vulnerabilities through our research, we work with 
-                industrial system vendors and security organizations to help protect real critical infrastructure. 
+                When we discover new attack techniques or vulnerabilities through our research, we work with
+                industrial system vendors and security organizations to help protect real critical infrastructure.
                 Our goal is to improve security for everyone, not to expose vulnerabilities maliciously.
-            </p>
-
-            <h3>Data Privacy</h3>
-            <p>
-                We collect only technical data about attack methods. We don't use this system to target specific 
-                individuals, and we share our findings with the security community to help defend against these threats.
             </p>
         </div>
 
         <!-- Real-World Impact -->
         <div class="doc-section">
             <h2>Real-World Impact</h2>
-            
+
             <p>
-                The intelligence gathered from port254 helps security teams protect actual critical infrastructure by:
+                The intelligence gathered from port254 helps security teams protect actual critical infrastructure
+                and enterprise environments by:
             </p>
 
             <ul>
                 <li>Providing early warning of new attack techniques targeting industrial systems</li>
                 <li>Creating detection rules that can be deployed in real SCADA environments</li>
+                <li>Enabling proactive Active Directory hardening through attack path analysis</li>
                 <li>Understanding attacker motivations and target selection</li>
-                <li>Training security professionals on realistic industrial cyber threats</li>
+                <li>Training security professionals on realistic industrial and enterprise cyber threats</li>
                 <li>Contributing to open-source security tools and frameworks</li>
+                <li>Identifying misconfigurations and privilege escalation paths before attackers do</li>
             </ul>
 
             <div class="info-box">
-                <p><strong>Contributing to Security:</strong> Our detection catalog is designed to be compatible 
-                with popular security platforms like ELK Stack, Splunk, and QRadar - allowing security teams to 
+                <p><strong>Contributing to Security:</strong> Our detection catalog is designed to be compatible
+                with popular security platforms like ELK Stack, Splunk, and QRadar - allowing security teams to
                 deploy these defenses in their own environments.</p>
             </div>
-        </div>
-
-        <!-- Technology Stack -->
-        <div class="doc-section">
-            <h2>Technology Stack</h2>
-            
-            <p>For those curious about the technical side, port254 is built using:</p>
-
-            <ul>
-                <li><strong>Cowrie:</strong> SSH/Telnet honeypot that logs all attacker commands</li>
-                <li><strong>Conpot:</strong> Industrial protocol honeypot supporting S7, Modbus, and more</li>
-                <li><strong>Custom HMI:</strong> Web-based SCADA interface built with Python and HTML/CSS</li>
-                <li><strong>Docker:</strong> Containerization for easy deployment and isolation</li>
-                <li><strong>ELK Stack:</strong> Elasticsearch, Logstash, and Kibana for log analysis</li>
-                <li><strong>Geographic Mapping:</strong> KML files showing fake plant locations</li>
-            </ul>
         </div>
 
         <!-- Get Involved -->
         <div class="doc-section">
             <h2>Get Involved</h2>
-            
+
             <p>
-                port254 is part of the larger effort to improve industrial cybersecurity. If you're interested in:
+                port254 is part of the larger effort to improve industrial and enterprise cybersecurity. If you're interested in:
             </p>
 
             <ul>
-                <li>Learning more about OT/ICS security</li>
+                <li>Learning more about OT/ICS security and Active Directory attack paths</li>
                 <li>Contributing detection rules or honeypot components</li>
-                <li>Deploying similar honeypots in your research environment</li>
-                <li>Collaborating on industrial security research</li>
+                <li>Deploying similar honeypots or BloodHound instances in your research environment</li>
+                <li>Collaborating on industrial or enterprise security research</li>
+                <li>Using BloodHound for authorized security assessments</li>
             </ul>
 
             <div class="highlight-box">
-                <p><strong>Contact:</strong> For research inquiries, collaboration opportunities, or to report 
+                <p><strong>Contact:</strong> For research inquiries, collaboration opportunities, or to report
                 findings, please visit our <a href="contact.html" style="color: #60a5fa;">Contact page</a>.</p>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="doc-section">
+            <h2>Quick Links</h2>
+
+            <div class="component-list">
+                <div class="component-card">
+                    <h4>BloodHound Platform</h4>
+                    <p>Upload and analyze Active Directory data from security assessments</p>
+                    <a href="bloodhound.html" style="color: #60a5fa; text-decoration: none;">Launch Platform →</a>
+                </div>
+
+                <div class="component-card">
+                    <h4>Attack Matrix</h4>
+                    <p>View MITRE ATT&CK mapped detections and observed techniques</p>
+                    <a href="attack-matrix.html" style="color: #60a5fa; text-decoration: none;">View Matrix →</a>
+                </div>
+
+                <div class="component-card">
+                    <h4>Honeypot Dashboard</h4>
+                    <p>Real-time monitoring of honeypot activity and threat intelligence</p>
+                    <a href="honeypot-dashboard.html" style="color: #60a5fa; text-decoration: none;">Open Dashboard →</a>
+                </div>
+
+                <div class="component-card">
+                    <h4>File Analysis</h4>
+                    <p>Automated malware analysis and IOC extraction</p>
+                    <a href="file-analysis.html" style="color: #60a5fa; text-decoration: none;">Analyze Files →</a>
+                </div>
             </div>
         </div>
 
@@ -391,7 +630,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>port254 Detection Catalog | Perth, Western Australia | Research Project for Industrial Cybersecurity</p>
+            <p>port254 Security Research Platform | Perth, Western Australia | OT/ICS & Enterprise Cybersecurity Research</p>
         </div>
     </footer>
 </body>
