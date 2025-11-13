@@ -971,8 +971,13 @@ function injectEngagementFilter(query, engagementId) {
         }
     }
 
-    for (const varName of relVars) {
-        conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+    // Note: Relationships may also have inconsistent engagement_id format
+    // Only filter relationships if we're filtering nodes (to maintain data consistency)
+    if (!hasOnlyDomains) {
+        for (const varName of relVars) {
+            // Skip relationship filtering for now due to engagement_id format inconsistency
+            // conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+        }
     }
 
     if (conditions.length === 0) {
