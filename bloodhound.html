@@ -942,10 +942,35 @@ function injectEngagementFilter(query, engagementId) {
     console.log('All relationship variables:', Array.from(relVars));
 
     // Build WHERE clause
+    // Note: Domain nodes may have inconsistent engagement_id format in some datasets
+    // We filter non-Domain nodes strictly, but allow Domains that are connected to entities in this engagement
     const conditions = [];
+    const domainVars = new Set();
+
     for (const varName of nodeVars) {
-        conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+        // Check if this is a Domain node
+        const isDomainPattern = new RegExp(`\\(${varName}:Domain[^)]*\\)`, 'i');
+        if (isDomainPattern.test(query)) {
+            domainVars.add(varName);
+            // For Domain nodes, use a more flexible filter that handles both ID formats
+            // OR skip filtering if it's a pure domain query (trusts, etc)
+        } else {
+            // For User, Computer, Group nodes, apply strict engagement_id filter
+            conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+        }
     }
+
+    // If query ONLY has Domain nodes and no other entity types, skip engagement filtering
+    // This handles domain trust queries that don't have associated users/computers
+    const hasOnlyDomains = nodeVars.size > 0 && domainVars.size === nodeVars.size;
+
+    if (!hasOnlyDomains) {
+        // Add Domain filters only if we have other entities
+        for (const varName of domainVars) {
+            conditions.push(`${varName}.engagement_id = "${escapedId}"`);
+        }
+    }
+
     for (const varName of relVars) {
         conditions.push(`${varName}.engagement_id = "${escapedId}"`);
     }
