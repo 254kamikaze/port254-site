@@ -884,7 +884,8 @@ async function runQuery(cypher) {
                 'X-API-Key': API_KEY
             },
             body: JSON.stringify({
-                query: modifiedQuery
+                query: modifiedQuery,
+                database: currentDatabase.database_name
             })
         });
 
@@ -902,6 +903,10 @@ async function runQuery(cypher) {
 
 function injectEngagementFilter(query, engagementId) {
     // Add engagement_id filter to ALL node and relationship patterns throughout the query
+    if (!engagementId || typeof engagementId !== 'string') {
+        console.error('Invalid engagement ID:', engagementId);
+        return query; // Return original query if no valid engagement ID
+    }
     const escapedId = engagementId.replace(/"/g, '\\"');
 
     // Find all unique node variables in the query
@@ -1308,13 +1313,16 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                 console.log('Modified query:', modifiedQuery);
                 console.log('Engagement ID:', engagementId);
 
-                const response = await fetch('http://192.168.1.7:5000/api/custom-query', {
+                const response = await fetch(`${API_BASE}/api/custom-query`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-API-Key': 'change_me_in_production'
+                        'X-API-Key': API_KEY
                     },
-                    body: JSON.stringify({ query: modifiedQuery })
+                    body: JSON.stringify({
+                        query: modifiedQuery,
+                        database: currentDatabase.database_name
+                    })
                 });
 
                 if (!response.ok) {
@@ -1559,7 +1567,10 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         'Content-Type': 'application/json',
                         'X-API-Key': API_KEY
                     },
-                    body: JSON.stringify({ query: modifiedQuery })
+                    body: JSON.stringify({
+                        query: modifiedQuery,
+                        database: currentDatabase.database_name
+                    })
                 });
 
                 const data = await response.json();
