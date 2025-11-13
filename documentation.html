@@ -362,8 +362,7 @@
             </ul>
 
             <div class="highlight-box">
-                <p><strong>Architecture:</strong> Internet (GitHub Pages) → HTTPS (Port 5443) → Public IP (Port Forwarding) →
-                Nginx Container (SSL/CORS) → Flask API Container → Neo4j Container → Graph Database</p>
+                <p><strong>Architecture:</strong> Static frontend hosted on GitHub Pages communicates via HTTPS with a backend API server, which connects to a Neo4j graph database for data storage and analysis.</p>
             </div>
         </div>
 
@@ -470,35 +469,6 @@
                 </li>
                 <li><strong>Data Normalization:</strong> Consistent engagement_id format ensures proper filtering across uploads</li>
             </ul>
-
-            <h3>Network Flow</h3>
-            <pre style="background-color: #1a1a1a; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; color: #93c5fd;">
-Internet (GitHub Pages)
-  │
-  └─→ https://254kamikaze.github.io/port254-site/bloodhound.html
-        │
-        └─→ HTTPS Request (Port 5443)
-              │
-Your Public IP (58.84.158.146)
-  │
-  └─→ Port Forward: 5443 → 443
-        │
-        └─→ Docker Container: bloodhound-nginx
-              │
-              ├─→ SSL Termination (cert: bh254.duckdns.org)
-              ├─→ CORS: Allow all origins
-              └─→ Reverse Proxy
-                    │
-                    └─→ Docker Container: bloodhound-api (Port 5000)
-                          │
-                          └─→ Flask API
-                                │
-                                └─→ Docker Container: bloodhound-neo4j
-                                      │
-                                      └─→ Neo4j Graph Database (Port 7687)
-                                            │
-                                            └─→ Multiple Engagements (isolated by engagement_id)
-            </pre>
 
             <h3>Security Layers</h3>
             <ul>
