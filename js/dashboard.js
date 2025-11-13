@@ -1032,11 +1032,11 @@ function initCharts() {
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: '#2a2a2a' },
+                    grid: { display: false },
                     ticks: { color: '#9ca3af', font: { size: 10 } }
                 },
                 x: {
-                    grid: { color: '#2a2a2a' },
+                    grid: { display: false },
                     ticks: { color: '#9ca3af', font: { size: 10 } }
                 }
             }
