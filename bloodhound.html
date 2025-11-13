@@ -870,7 +870,7 @@ async function runQuery(cypher) {
 
     try {
         // Inject engagement_id filter into query
-        const engagementId = currentDatabase.database_name;
+        const engagementId = currentDatabase.id;
         const modifiedQuery = injectEngagementFilter(cypher, engagementId);
 
         console.log('Original query:', cypher);
@@ -884,8 +884,7 @@ async function runQuery(cypher) {
                 'X-API-Key': API_KEY
             },
             body: JSON.stringify({
-                query: modifiedQuery,
-                database: currentDatabase.database_name
+                query: modifiedQuery
             })
         });
 
@@ -981,7 +980,7 @@ async function loadStats() {
     if (!currentDatabase) return;
 
     try {
-        const response = await fetch(`${API_BASE}/api/stats?database=${currentDatabase.database_name}`, {
+        const response = await fetch(`${API_BASE}/api/stats?engagement_id=${currentDatabase.id}`, {
             headers: {
                 'X-API-Key': API_KEY
             }
@@ -1306,7 +1305,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
 
             try {
                 // Apply engagement filter
-                const engagementId = currentDatabase.database_name;
+                const engagementId = currentDatabase.id;
                 const modifiedQuery = injectEngagementFilter(queryText, engagementId);
 
                 console.log('Original query:', queryText);
@@ -1549,7 +1548,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
             toSelector.innerHTML = '<option value="">Loading...</option>';
 
             try {
-                const engagementId = currentDatabase.database_name;
+                const engagementId = currentDatabase.id;
 
                 // Query to get users, computers, and groups
                 const query = `
@@ -1651,7 +1650,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
             }
 
             const resultsDiv = document.getElementById('path-results');
-            const engagementId = currentDatabase.database_name;
+            const engagementId = currentDatabase.id;
             let query;
             let description;
 
