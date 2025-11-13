@@ -467,7 +467,7 @@
     <div class="container" style="max-width: 1200px; margin: 1rem auto 0;">
         <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 0.5rem; padding: 0.875rem 1rem;">
             <p style="color: #9ca3af; font-size: 0.8125rem; margin: 0; line-height: 1.5;">
-                ⚠️ <strong style="color: #60a5fa;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
+                <strong style="color: #60a5fa;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
             </p>
         </div>
     </div>
@@ -1062,7 +1062,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
             <!-- Left Panel: Pathfinding -->
             <div class="bh-queries-panel">
                 <div class="content-header" style="margin-bottom: 1.5rem;">
-                    <h1 class="content-title" style="font-size: 1.25rem; margin: 0;">🎯 Pathfinding</h1>
+                    <h1 class="content-title" style="font-size: 1.25rem; margin: 0;">Pathfinding</h1>
                     <p style="color: #6b7280; font-size: 0.8125rem; margin: 0.5rem 0 0 0;">Find attack paths between nodes in your Active Directory environment</p>
                 </div>
 
@@ -1080,7 +1080,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                             <select id="path-to" style="width: 100%; padding: 0.625rem; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.75rem; font-family: 'JetBrains Mono', 'Courier New', monospace; text-transform: lowercase;">
                                 <option value="">-- Any / Not specified --</option>
                                 <optgroup label="High-Value Targets">
-                                    <option value="__DA__">🎯 Domain Admins Groups</option>
+                                    <option value="__DA__">Domain Admins Groups</option>
                                     <option value="__DC__">💻 Domain Controllers</option>
                                     <option value="__HVT__">⭐ High Value Targets</option>
                                 </optgroup>
@@ -1122,7 +1122,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
             <div class="bh-results-panel">
                 <div id="query-section">
                     <div class="content-header" style="margin-bottom: 1rem;">
-                        <h1 class="content-title" id="content-title" style="font-size: 1.25rem;">📊 Pre-Built Queries</h1>
+                        <h1 class="content-title" id="content-title" style="font-size: 1.25rem;">Pre-Built Queries</h1>
                         <span class="content-badge" id="content-badge">Select from sidebar</span>
                     </div>
 
@@ -1142,7 +1142,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                     </div>
 
                     <div class="info-banner" id="query-description" style="margin-top: 1rem;">
-                        👈 Select a query from the sidebar to view its details and execute it against your BloodHound data
+                        Select a query from the sidebar to view its details and execute it against your BloodHound data
                     </div>
 
                     <div class="results-section" id="results-section" style="display: none; margin-top: 1.5rem;">
@@ -1601,7 +1601,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                     hvtGroup.label = 'High-Value Targets';
                     const daOpt = document.createElement('option');
                     daOpt.value = '__DA__';
-                    daOpt.textContent = '🎯 Domain Admins Groups';
+                    daOpt.textContent = 'Domain Admins Groups';
                     const dcOpt = document.createElement('option');
                     dcOpt.value = '__DC__';
                     dcOpt.textContent = '💻 Domain Controllers';
