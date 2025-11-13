@@ -525,7 +525,7 @@ This provides upload functionality and database selection
                 <input type="file" id="file-input" accept=".zip" style="display: none;">
 
                 <div id="drop-zone-content">
-                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📦</div>
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">[Node]</div>
                     <div style="color: #9ca3af; font-size: 0.8125rem; margin-bottom: 0.375rem;">
                         Drop ZIP or click to browse
                     </div>
@@ -1070,7 +1070,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                                 <optgroup label="High-Value Targets">
                                     <option value="__DA__">Domain Admins Groups</option>
                                     <option value="__DC__">Domain Controllers</option>
-                                    <option value="__HVT__">⭐ High Value Targets</option>
+                                    <option value="__HVT__">High Value Targets</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -1567,10 +1567,10 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                     data.forEach(node => {
                         const option = document.createElement('option');
                         option.value = node.name;
-                        let typeLabel = '📦';
-                        if (node.type.includes('User')) typeLabel = '👤';
-                        else if (node.type.includes('Computer')) typeLabel = '💻';
-                        else if (node.type.includes('Group')) typeLabel = '👥';
+                        let typeLabel = '[Node]';
+                        if (node.type.includes('User')) typeLabel = '[User]';
+                        else if (node.type.includes('Computer')) typeLabel = '[Computer]';
+                        else if (node.type.includes('Group')) typeLabel = '[Group]';
                         option.textContent = `${typeLabel} ${node.name}`;
                         fromSelector.appendChild(option);
                     });
@@ -1589,7 +1589,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                     dcOpt.textContent = 'Domain Controllers';
                     const hvtOpt = document.createElement('option');
                     hvtOpt.value = '__HVT__';
-                    hvtOpt.textContent = '⭐ All High Value Targets';
+                    hvtOpt.textContent = 'All High Value Targets';
                     hvtGroup.appendChild(daOpt);
                     hvtGroup.appendChild(dcOpt);
                     hvtGroup.appendChild(hvtOpt);
@@ -1601,10 +1601,10 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                     data.forEach(node => {
                         const option = document.createElement('option');
                         option.value = node.name;
-                        let typeLabel = '📦';
-                        if (node.type.includes('User')) typeLabel = '👤';
-                        else if (node.type.includes('Computer')) typeLabel = '💻';
-                        else if (node.type.includes('Group')) typeLabel = '👥';
+                        let typeLabel = '[Node]';
+                        if (node.type.includes('User')) typeLabel = '[User]';
+                        else if (node.type.includes('Computer')) typeLabel = '[Computer]';
+                        else if (node.type.includes('Group')) typeLabel = '[Group]';
                         option.textContent = `${typeLabel} ${node.name}`;
                         nodesGroup.appendChild(option);
                     });
@@ -1796,13 +1796,13 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         const nodeType = nodeLabels[0] || 'Node';
 
                         // Node icon
-                        let icon = '📦';
-                        if (nodeType === 'User') icon = '👤';
-                        else if (nodeType === 'Computer') icon = '💻';
-                        else if (nodeType === 'Group') icon = '👥';
-                        else if (nodeType === 'Domain') icon = '🌐';
-                        else if (nodeType === 'GPO') icon = '⚙️';
-                        else if (nodeType === 'OU') icon = '📁';
+                        let icon = '[Node]';
+                        if (nodeType === 'User') icon = '[User]';
+                        else if (nodeType === 'Computer') icon = '[Computer]';
+                        else if (nodeType === 'Group') icon = '[Group]';
+                        else if (nodeType === 'Domain') icon = '[Domain]';
+                        else if (nodeType === 'GPO') icon = '[GPO]';
+                        else if (nodeType === 'OU') icon = '[OU]';
 
                         pathsHTML += `
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
