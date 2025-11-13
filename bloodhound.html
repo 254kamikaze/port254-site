@@ -467,7 +467,7 @@
     <div class="container" style="max-width: 1200px; margin: 1rem auto 0;">
         <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 0.5rem; padding: 0.875rem 1rem;">
             <p style="color: #9ca3af; font-size: 0.8125rem; margin: 0; line-height: 1.5;">
-                <strong style="color: #60a5fa;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
+                ⚠️ <strong style="color: #60a5fa;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
             </p>
         </div>
     </div>
@@ -499,7 +499,7 @@ This provides upload functionality and database selection
                     </button>
 
                     <button onclick="deleteCurrentDatabase()" id="delete-db-btn" style="flex: 1; padding: 0.5rem; background: #3a0000; border: 1px solid #600; color: #ef4444; border-radius: 0.375rem; cursor: pointer; font-size: 0.75rem;" disabled>
-                        Delete
+                        🗑️ Delete
                     </button>
                 </div>
 
@@ -1019,7 +1019,7 @@ function showError(message) {
     const resultDiv = document.getElementById('upload-result');
     resultDiv.innerHTML = `
         <div style="background: #4a0000; border: 1px solid #800; padding: 15px; border-radius: 4px; color: #ff6b6b;">
-            <strong>Error:</strong> ${message}
+            <strong>❌ Error:</strong> ${message}
         </div>
     `;
     resultDiv.style.display = 'block';
@@ -1030,7 +1030,7 @@ function showSuccess(result) {
     const resultDiv = document.getElementById('upload-result');
     resultDiv.innerHTML = `
         <div class="upload-success" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(96, 165, 250, 0.3); padding: 15px; border-radius: 4px; color: #60a5fa;">
-            <strong>Upload Successful!</strong>
+            <strong>✅ Upload Successful!</strong>
             <div style="margin-top: 10px; color: #aaa; font-size: 13px;">
                 Database: ${result.database}<br>
                 Format: ${result.format}<br>
@@ -1062,7 +1062,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
             <!-- Left Panel: Pathfinding -->
             <div class="bh-queries-panel">
                 <div class="content-header" style="margin-bottom: 1.5rem;">
-                    <h1 class="content-title" style="font-size: 1.25rem; margin: 0;">Pathfinding</h1>
+                    <h1 class="content-title" style="font-size: 1.25rem; margin: 0;">🎯 Pathfinding</h1>
                     <p style="color: #6b7280; font-size: 0.8125rem; margin: 0.5rem 0 0 0;">Find attack paths between nodes in your Active Directory environment</p>
                 </div>
 
@@ -1080,15 +1080,15 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                             <select id="path-to" style="width: 100%; padding: 0.625rem; background: #1a1a1a; border: 1px solid #3a3a3a; color: #f3f4f6; border-radius: 0.375rem; font-size: 0.75rem; font-family: 'JetBrains Mono', 'Courier New', monospace; text-transform: lowercase;">
                                 <option value="">-- Any / Not specified --</option>
                                 <optgroup label="High-Value Targets">
-                                    <option value="__DA__">Domain Admins Groups</option>
-                                    <option value="__DC__">Domain Controllers</option>
+                                    <option value="__DA__">🎯 Domain Admins Groups</option>
+                                    <option value="__DC__">💻 Domain Controllers</option>
                                     <option value="__HVT__">⭐ High Value Targets</option>
                                 </optgroup>
                             </select>
                         </div>
                     </div>
                     <button onclick="runPathQuery()" style="padding: 0.625rem 1.5rem; background: #3b82f6; border: none; color: #fff; border-radius: 0.375rem; cursor: pointer; font-size: 0.8125rem; font-weight: 600; font-family: 'JetBrains Mono', 'Courier New', monospace; width: 100%;">
-                        Find Attack Paths
+                        🔍 Find Attack Paths
                     </button>
                 </div>
 
@@ -1098,7 +1098,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                 <!-- SharpHound Commands Section -->
                 <div id="sharphound-section" style="margin-top: 2rem;">
                     <div style="margin-bottom: 1rem;">
-                        <h3 style="color: #60a5fa; font-size: 0.875rem; margin: 0 0 0.5rem 0; font-family: 'JetBrains Mono', 'Courier New', monospace;">SharpHound Collection</h3>
+                        <h3 style="color: #60a5fa; font-size: 0.875rem; margin: 0 0 0.5rem 0; font-family: 'JetBrains Mono', 'Courier New', monospace;">📋 SharpHound Collection</h3>
                         <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">Common data collection commands for Active Directory enumeration</p>
                     </div>
 
@@ -1122,7 +1122,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
             <div class="bh-results-panel">
                 <div id="query-section">
                     <div class="content-header" style="margin-bottom: 1rem;">
-                        <h1 class="content-title" id="content-title" style="font-size: 1.25rem;">Pre-Built Queries</h1>
+                        <h1 class="content-title" id="content-title" style="font-size: 1.25rem;">📊 Pre-Built Queries</h1>
                         <span class="content-badge" id="content-badge">Select from sidebar</span>
                     </div>
 
@@ -1131,7 +1131,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                             <span class="code-lang">Cypher Query</span>
                             <div class="code-actions">
                                 <button class="btn-code" onclick="copyQuery()">
-                                    Copy
+                                    📋 Copy
                                 </button>
                                 <button class="btn-code btn-run" onclick="runQuery()">
                                     ▶ Run Query
@@ -1277,7 +1277,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
 
             const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
+            btn.textContent = '✓ Copied!';
             btn.style.color = '#60a5fa';
             setTimeout(() => {
                 btn.textContent = originalText;
@@ -1365,13 +1365,13 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                 });
 
                 tableHTML += '</tbody></table></div>';
-                resultsContent.innerHTML = `<div class="success-banner">Query completed successfully - ${data.length} results</div>` + tableHTML;
+                resultsContent.innerHTML = `<div class="success-banner">✓ Query completed successfully - ${data.length} results</div>` + tableHTML;
 
             } catch (error) {
                 console.error('Query error:', error);
                 resultsContent.innerHTML = `
                     <div class="error-banner">
-                        <strong>Error:</strong> ${error.message}<br><br>
+                        <strong>⚠ Error:</strong> ${error.message}<br><br>
                         <strong>Troubleshooting:</strong><br>
                         • Verify the API is accessible at http://192.168.1.7:5000<br>
                         • Select an engagement from the dropdown above<br>
@@ -1587,7 +1587,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         option.value = node.name;
                         let typeLabel = '📦';
                         if (node.type.includes('User')) typeLabel = '👤';
-                        else if (node.type.includes('Computer')) typeLabel = '[Computer]';
+                        else if (node.type.includes('Computer')) typeLabel = '💻';
                         else if (node.type.includes('Group')) typeLabel = '👥';
                         option.textContent = `${typeLabel} ${node.name}`;
                         fromSelector.appendChild(option);
@@ -1601,10 +1601,10 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                     hvtGroup.label = 'High-Value Targets';
                     const daOpt = document.createElement('option');
                     daOpt.value = '__DA__';
-                    daOpt.textContent = 'Domain Admins Groups';
+                    daOpt.textContent = '🎯 Domain Admins Groups';
                     const dcOpt = document.createElement('option');
                     dcOpt.value = '__DC__';
-                    dcOpt.textContent = 'Domain Controllers';
+                    dcOpt.textContent = '💻 Domain Controllers';
                     const hvtOpt = document.createElement('option');
                     hvtOpt.value = '__HVT__';
                     hvtOpt.textContent = '⭐ All High Value Targets';
@@ -1621,7 +1621,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         option.value = node.name;
                         let typeLabel = '📦';
                         if (node.type.includes('User')) typeLabel = '👤';
-                        else if (node.type.includes('Computer')) typeLabel = '[Computer]';
+                        else if (node.type.includes('Computer')) typeLabel = '💻';
                         else if (node.type.includes('Group')) typeLabel = '👥';
                         option.textContent = `${typeLabel} ${node.name}`;
                         nodesGroup.appendChild(option);
@@ -1776,7 +1776,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                 const data = await response.json();
 
                 if (!response.ok) {
-                    resultsDiv.innerHTML = `<div class="error-banner">Error: ${data.error || 'Query failed'}</div>`;
+                    resultsDiv.innerHTML = `<div class="error-banner">❌ Error: ${data.error || 'Query failed'}</div>`;
                     return;
                 }
 
@@ -1814,13 +1814,13 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         const nodeType = nodeLabels[0] || 'Node';
 
                         // Node icon
-                        let icon = '[Node]';
-                        if (nodeType === 'User') icon = '[U]';
-                        else if (nodeType === 'Computer') icon = '[C]';
-                        else if (nodeType === 'Group') icon = '[G]';
-                        else if (nodeType === 'Domain') icon = '[D]';
-                        else if (nodeType === 'GPO') icon = '[GPO]';
-                        else if (nodeType === 'OU') icon = '[OU]';
+                        let icon = '📦';
+                        if (nodeType === 'User') icon = '👤';
+                        else if (nodeType === 'Computer') icon = '💻';
+                        else if (nodeType === 'Group') icon = '👥';
+                        else if (nodeType === 'Domain') icon = '🌐';
+                        else if (nodeType === 'GPO') icon = '⚙️';
+                        else if (nodeType === 'OU') icon = '📁';
 
                         pathsHTML += `
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -1871,7 +1871,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
 
             } catch (error) {
                 console.error('Path query error:', error);
-                resultsDiv.innerHTML = `<div class="error-banner">Error: ${error.message}</div>`;
+                resultsDiv.innerHTML = `<div class="error-banner">❌ Error: ${error.message}</div>`;
             }
         }
 
