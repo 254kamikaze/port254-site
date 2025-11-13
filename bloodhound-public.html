@@ -763,17 +763,14 @@ async function refreshDatabases() {
 
         selector.innerHTML = '';
 
-        // Handle both {databases: [...]} and [...] response formats
-        const databases = data.databases || data;
-
-        if (databases && databases.length > 0) {
+        if (data.databases && data.databases.length > 0) {
             // Add default option
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
             defaultOption.textContent = '-- Select a database --';
             selector.appendChild(defaultOption);
 
-            databases.forEach(db => {
+            data.databases.forEach(db => {
                 const option = document.createElement('option');
                 option.value = db.id;
                 option.textContent = `${db.engagement_name} (${new Date(db.uploaded_at).toLocaleDateString()})`;
@@ -800,7 +797,7 @@ async function switchDatabase() {
     const selector = document.getElementById('database-selector');
     const selectedOption = selector.options[selector.selectedIndex];
 
-    if (!selectedOption || !selectedOption.dataset || !selectedOption.dataset.database) {
+    if (!selectedOption.dataset.database) {
         document.getElementById('current-db-info').style.display = 'none';
         document.getElementById('delete-db-btn').disabled = true;
         currentDatabase = null;
@@ -870,7 +867,7 @@ async function runQuery(cypher) {
 
     try {
         // Inject engagement_id filter into query
-        const engagementId = currentDatabase.id;
+        const engagementId = currentDatabase.database_name;
         const modifiedQuery = injectEngagementFilter(cypher, engagementId);
 
         console.log('Original query:', cypher);
@@ -902,10 +899,6 @@ async function runQuery(cypher) {
 
 function injectEngagementFilter(query, engagementId) {
     // Add engagement_id filter to ALL node and relationship patterns throughout the query
-    if (!engagementId || typeof engagementId !== 'string') {
-        console.error('Invalid engagement ID:', engagementId);
-        return query; // Return original query if no valid engagement ID
-    }
     const escapedId = engagementId.replace(/"/g, '\\"');
 
     // Find all unique node variables in the query
@@ -942,15 +935,10 @@ function injectEngagementFilter(query, engagementId) {
     console.log('All relationship variables:', Array.from(relVars));
 
     // Build WHERE clause
-    // All nodes and relationships now have consistent engagement_id format
     const conditions = [];
-
-    // Filter all nodes by engagement_id
     for (const varName of nodeVars) {
         conditions.push(`${varName}.engagement_id = "${escapedId}"`);
     }
-
-    // Filter all relationships by engagement_id
     for (const varName of relVars) {
         conditions.push(`${varName}.engagement_id = "${escapedId}"`);
     }
@@ -985,7 +973,7 @@ async function loadStats() {
     if (!currentDatabase) return;
 
     try {
-        const response = await fetch(`${API_BASE}/api/stats?engagement_id=${currentDatabase.id}`, {
+        const response = await fetch(`${API_BASE}/api/stats?database=${currentDatabase.database_name}`, {
             headers: {
                 'X-API-Key': API_KEY
             }
@@ -1310,23 +1298,20 @@ document.getElementById('database-selector').addEventListener('change', switchDa
 
             try {
                 // Apply engagement filter
-                const engagementId = currentDatabase.id;
+                const engagementId = currentDatabase.database_name;
                 const modifiedQuery = injectEngagementFilter(queryText, engagementId);
 
                 console.log('Original query:', queryText);
                 console.log('Modified query:', modifiedQuery);
                 console.log('Engagement ID:', engagementId);
 
-                const response = await fetch(`${API_BASE}/api/custom-query`, {
+                const response = await fetch('http://192.168.1.7:5000/api/custom-query', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-API-Key': API_KEY
+                        'X-API-Key': 'change_me_in_production'
                     },
-                    body: JSON.stringify({
-                        query: modifiedQuery,
-                        database: currentDatabase.database_name
-                    })
+                    body: JSON.stringify({ query: modifiedQuery })
                 });
 
                 if (!response.ok) {
@@ -1553,7 +1538,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
             toSelector.innerHTML = '<option value="">Loading...</option>';
 
             try {
-                const engagementId = currentDatabase.id;
+                const engagementId = currentDatabase.database_name;
 
                 // Query to get users, computers, and groups
                 const query = `
@@ -1571,10 +1556,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         'Content-Type': 'application/json',
                         'X-API-Key': API_KEY
                     },
-                    body: JSON.stringify({
-                        query: modifiedQuery,
-                        database: currentDatabase.database_name
-                    })
+                    body: JSON.stringify({ query: modifiedQuery })
                 });
 
                 const data = await response.json();
@@ -1587,7 +1569,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         option.value = node.name;
                         let typeLabel = '📦';
                         if (node.type.includes('User')) typeLabel = '👤';
-                        else if (node.type.includes('Computer')) typeLabel = '[Computer]';
+                        else if (node.type.includes('Computer')) typeLabel = '💻';
                         else if (node.type.includes('Group')) typeLabel = '👥';
                         option.textContent = `${typeLabel} ${node.name}`;
                         fromSelector.appendChild(option);
@@ -1621,7 +1603,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         option.value = node.name;
                         let typeLabel = '📦';
                         if (node.type.includes('User')) typeLabel = '👤';
-                        else if (node.type.includes('Computer')) typeLabel = '[Computer]';
+                        else if (node.type.includes('Computer')) typeLabel = '💻';
                         else if (node.type.includes('Group')) typeLabel = '👥';
                         option.textContent = `${typeLabel} ${node.name}`;
                         nodesGroup.appendChild(option);
@@ -1655,7 +1637,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
             }
 
             const resultsDiv = document.getElementById('path-results');
-            const engagementId = currentDatabase.id;
+            const engagementId = currentDatabase.database_name;
             let query;
             let description;
 
@@ -1814,13 +1796,13 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                         const nodeType = nodeLabels[0] || 'Node';
 
                         // Node icon
-                        let icon = '[Node]';
-                        if (nodeType === 'User') icon = '[U]';
-                        else if (nodeType === 'Computer') icon = '[C]';
-                        else if (nodeType === 'Group') icon = '[G]';
-                        else if (nodeType === 'Domain') icon = '[D]';
-                        else if (nodeType === 'GPO') icon = '[GPO]';
-                        else if (nodeType === 'OU') icon = '[OU]';
+                        let icon = '📦';
+                        if (nodeType === 'User') icon = '👤';
+                        else if (nodeType === 'Computer') icon = '💻';
+                        else if (nodeType === 'Group') icon = '👥';
+                        else if (nodeType === 'Domain') icon = '🌐';
+                        else if (nodeType === 'GPO') icon = '⚙️';
+                        else if (nodeType === 'OU') icon = '📁';
 
                         pathsHTML += `
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
