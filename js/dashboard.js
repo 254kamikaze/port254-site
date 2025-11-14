@@ -673,11 +673,10 @@ async function fetchHMILogins() {
                     { range: { "@timestamp": { gte: "now-24h" } } }
                 ],
                 should: [
-                    { term: { "eventid": "cowrie.login.failed" } },
-                    { term: { "eventid": "cowrie.login.success" } },
                     { term: { "eventid": "http.login.failed" } },
                     { term: { "eventid": "http.login.success" } },
                     { term: { "eventid": "web.login.failed" } },
+                    { term: { "eventid": "web.login.success" } },
                     { bool: {
                         must: [
                             { term: { "dst_port": "8081" } },
@@ -686,7 +685,7 @@ async function fetchHMILogins() {
                     }},
                     { bool: {
                         must: [
-                            { match_phrase: { "message": "login" } },
+                            { term: { "dst_port": "80" } },
                             { exists: { "field": "username" } }
                         ]
                     }}
