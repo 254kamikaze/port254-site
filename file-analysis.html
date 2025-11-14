@@ -647,7 +647,7 @@
                 document.getElementById('analyzingStatus').textContent = 'Searching ELK database...';
                 
                 // Send to backend - REAL API CALL
-                const response = await fetch('https://api.port254.com/analyze-file', {
+                const response = await fetch('https://p-scada.duckdns.org/analyze-file', {
                     method: 'POST',
                     body: formData
                 });
@@ -697,10 +697,6 @@
             const verdictBadge = document.getElementById('verdictBadge');
             verdictBadge.className = 'verdict-badge verdict-' + verdict;
             verdictBadge.textContent = verdict.charAt(0).toUpperCase() + verdict.slice(1);
-
-            // Icon
-            document.getElementById('resultsIcon').textContent = 
-                verdict === 'clean' ? '✅' : verdict === 'suspicious' ? '⚠️' : '🚨';
 
             resultsSection.classList.add('show');
         }
