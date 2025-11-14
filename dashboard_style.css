@@ -139,7 +139,7 @@ body {
 }
 
 .dashboard-card {
-    /* background-color: rgba(59, 130, 246, 0.05); */
+    background-color: rgba(59, 130, 246, 0.05);
     border: 1px solid #2a2a2a;
     border-radius: 0.5rem;
     padding: 1rem;
