@@ -336,8 +336,8 @@ async function fetchFailedLogins() {
                                 <tr style="border-bottom: 1px solid #2a2a2a;">
                                     <td style="padding: 0.3rem; font-size: 0.65rem; color: #9ca3af;">${time}</td>
                                     <td style="padding: 0.3rem; font-size: 0.65rem; font-family: 'Courier New', monospace;">${ip}</td>
-                                    <td style="padding: 0.3rem;"><code style="font-size: 0.65rem; background: #252525; padding: 0.2rem 0.3rem; border-radius: 0.2rem; color: #60a5fa;">${username}</code></td>
-                                    <td style="padding: 0.3rem;"><code style="font-size: 0.65rem; background: #252525; padding: 0.2rem 0.3rem; border-radius: 0.2rem; color: #ffa94d;">${password}</code></td>
+                                    <td style="padding: 0.3rem;"><code style="font-size: 0.65rem; padding: 0.2rem 0.3rem; border-radius: 0.2rem; color: #60a5fa;">${username}</code></td>
+                                    <td style="padding: 0.3rem;"><code style="font-size: 0.65rem; padding: 0.2rem 0.3rem; border-radius: 0.2rem; color: #ffa94d;">${password}</code></td>
                                 </tr>
                             `;
                         }).join('')}
@@ -970,10 +970,10 @@ async function fetchRepeatOffenders() {
 
                         return `
                             <tr>
-                                <td style="font-family: 'Courier New', monospace; font-size: 0.65rem;">${bucket.key}</td>
-                                <td style="font-size: 0.65rem;">${country}</td>
-                                <td style="text-align: right;">
-                                    <span style="background-color: rgba(239, 68, 68, 0.15); color: ${threatColor}; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.6rem; font-weight: 600;">
+                                <td style="font-family: 'Courier New', monospace; font-size: 0.65rem; width: 35%;">${bucket.key}</td>
+                                <td style="font-size: 0.65rem; width: 25%;">${country}</td>
+                                <td style="text-align: right; width: 40%;">
+                                    <span style="color: ${threatColor}; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.6rem; font-weight: 600;">
                                         ${bucket.doc_count} (${threatLevel})
                                     </span>
                                 </td>

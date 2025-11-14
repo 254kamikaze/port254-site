@@ -517,8 +517,8 @@ body {
    COMMANDS DISPLAY - COMPACT TERMINAL
    ====================== */
 .commands-display {
-    background-color: #0a0a0a;
-    border: 1px solid #1a1a1a;
+    /* background-color: #0a0a0a; */
+    /* border: 1px solid #1a1a1a; */
     border-radius: 0.375rem;
     padding: 0.75rem;
     flex: 1;
