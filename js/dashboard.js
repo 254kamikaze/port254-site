@@ -611,7 +611,7 @@ function escapeHtml(text) {
 async function fetchRecentEvents() {
     const query = {
         size: 15,
-        query: { range: { "@timestamp": { gte: "now-5m" } } },
+        query: { range: { "@timestamp": { gte: "now-24h" } } },
         sort: [{ "@timestamp": "desc" }]
     };
 
@@ -954,12 +954,12 @@ async function fetchRepeatOffenders() {
 
         // NO WRAPPER DIV - table goes directly into container
         const listHTML = `
-            <table>
+            <table style="table-layout: fixed; width: 100%;">
                 <thead>
                     <tr>
-                        <th>IP ADDRESS</th>
-                        <th>ORIGIN</th>
-                        <th style="text-align: right;">ATTACKS</th>
+                        <th style="width: 30%;">IP ADDRESS</th>
+                        <th style="width: 20%;">ORIGIN</th>
+                        <th style="width: 50%; text-align: right;">ATTACKS</th>
                     </tr>
                 </thead>
                 <tbody>
