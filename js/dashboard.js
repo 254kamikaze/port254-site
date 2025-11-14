@@ -41,8 +41,7 @@ async function refreshDashboard() {
             fetchRecentEvents(),
             fetchHMILogins(),
             fetchProtocolActivity(),
-            fetchRecentHTTPLogins(),
-            fetchRepeatOffenders()
+            fetchRecentHTTPLogins()
         ]);
     } catch (error) {
         console.error('Error refreshing dashboard:', error);
@@ -899,6 +898,7 @@ async function fetchRecentHTTPLogins() {
             const time = new Date(source['@timestamp']).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', second: '2-digit'});
             const username = source.username || 'unknown';
             const password = source.password || 'N/A';
+            const srcIP = source.src_ip || 'unknown';
 
             // NEW: Check for success and show green "Success" or red "Failed"
             const isSuccess = source.eventid === 'http.login.success' || source.eventid === 'web.login.success';
@@ -908,7 +908,7 @@ async function fetchRecentHTTPLogins() {
             return `
                 <div class="event-item">
                     <span class="event-time">${time}</span>
-                    <span class="event-type">HTTP Login</span>
+                    <span class="event-type" style="color: #60a5fa;">${srcIP}</span>
                     <span style="color: ${statusColor}; font-weight: 600;"> ${statusText}</span>
                     <span class="event-message">- ${username} / ${password.substring(0, 12)}${password.length > 12 ? '...' : ''}</span>
                 </div>
