@@ -39,9 +39,9 @@ async function refreshDashboard() {
             fetchTopCountries(),
             fetchSuccessfulBreaches(),
             fetchRecentEvents(),
-            fetchHMILogins(),
             fetchProtocolActivity(),
-            fetchRecentHTTPLogins()
+            fetchRecentHTTPLogins(),
+            fetchRepeatOffenders()
         ]);
     } catch (error) {
         console.error('Error refreshing dashboard:', error);
@@ -95,6 +95,7 @@ function getCountryFromIP(ip) {
 async function fetchStats() {
     const query = {
         size: 0,
+        track_total_hits: true,
         query: { range: { "@timestamp": { gte: "now-24h" } } },
         aggs: {
             unique_ips: { cardinality: { field: "src_ip", precision_threshold: 1000 } },
