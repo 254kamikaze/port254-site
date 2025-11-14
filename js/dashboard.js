@@ -954,26 +954,25 @@ async function fetchRepeatOffenders() {
 
         // NO WRAPPER DIV - table goes directly into container
         const listHTML = `
-            <table style="table-layout: fixed; width: 100%;">
+            <table style="width: 100%;">
                 <thead>
                     <tr>
-                        <th style="width: 30%;">IP ADDRESS</th>
-                        <th style="width: 20%;">ORIGIN</th>
-                        <th style="width: 50%; text-align: right;">ATTACKS</th>
+                        <th style="width: 40%;">IP ADDRESS</th>
+                        <th style="width: 25%;">ORIGIN</th>
+                        <th style="width: 35%; text-align: right;">ATTACKS</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${data.aggregations.repeat_ips.buckets.map(bucket => {
                         const country = getCountryFromIP(bucket.key);
                         const threatLevel = bucket.doc_count > 50 ? 'CRITICAL' : bucket.doc_count > 20 ? 'HIGH' : 'MEDIUM';
-                        const threatColor = bucket.doc_count > 50 ? '#ef4444' : bucket.doc_count > 20 ? '#ffa94d' : '#fde047';
 
                         return `
                             <tr>
-                                <td style="font-family: 'Courier New', monospace; font-size: 0.65rem; width: 30%;">${bucket.key}</td>
-                                <td style="font-size: 0.65rem; width: 20%;">${country}</td>
-                                <td style="text-align: right; width: 50%;">
-                                    <span style="color: ${threatColor}; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.6rem; font-weight: 600;">
+                                <td style="font-family: 'Courier New', monospace; font-size: 0.65rem; color: #9ca3af;">${bucket.key}</td>
+                                <td style="font-size: 0.65rem; color: #9ca3af; white-space: nowrap;">${country}</td>
+                                <td style="text-align: right;">
+                                    <span style="color: #9ca3af; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.6rem; font-weight: 600;">
                                         ${bucket.doc_count} (${threatLevel})
                                     </span>
                                 </td>
