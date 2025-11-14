@@ -970,9 +970,9 @@ async function fetchRepeatOffenders() {
 
                         return `
                             <tr>
-                                <td style="font-family: 'Courier New', monospace; font-size: 0.65rem; width: 35%;">${bucket.key}</td>
-                                <td style="font-size: 0.65rem; width: 25%;">${country}</td>
-                                <td style="text-align: right; width: 40%;">
+                                <td style="font-family: 'Courier New', monospace; font-size: 0.65rem; width: 30%;">${bucket.key}</td>
+                                <td style="font-size: 0.65rem; width: 20%;">${country}</td>
+                                <td style="text-align: right; width: 50%;">
                                     <span style="color: ${threatColor}; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.6rem; font-weight: 600;">
                                         ${bucket.doc_count} (${threatLevel})
                                     </span>
