@@ -866,7 +866,7 @@ async function fetchRecentHTTPLogins() {
         query: {
             bool: {
                 must: [
-                    { range: { "@timestamp": { gte: "now-5m" } } }
+                    { range: { "@timestamp": { gte: "now-24h" } } }
                 ],
                 should: [
                     { term: { "eventid": "http.login.failed" } },
