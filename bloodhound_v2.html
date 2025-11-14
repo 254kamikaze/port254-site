@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://192.168.1.7:5000 http://localhost:5000; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; img-src 'self' data:;">
+    <title>BloodHound Analysis - port254</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Vis.js for graph visualization -->
+    <link rel="stylesheet" href="https://unpkg.com/vis-network@9.1.6/styles/vis-network.min.css">
+    <style>
+        /* Minimalist Design Overrides */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --bg-dark: #0a0a0a;
+            --bg-card: #111827;
+            --bg-hover: #1f2937;
+            --text: #e5e7eb;
+            --text-muted: #9ca3af;
+            --border: #374151;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .bh-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Compact Header */
+        .bh-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .bh-header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .bh-header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .bh-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .bh-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .bh-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            color: var(--text);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bh-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+
+        /* Compact Stats Grid */
+        .bh-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bh-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s;
+        }
+
+        .bh-stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .bh-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .bh-stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .bh-stat-value.critical { color: var(--danger); }
+        .bh-stat-value.warning { color: var(--warning); }
+
+        /* Tab Navigation */
+        .bh-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .bh-tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .bh-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .bh-tab:hover {
+            color: var(--text);
+        }
+
+        .bh-tab-content {
+            display: none;
+        }
+
+        .bh-tab-content.active {
+            display: block;
+        }
+
+        /* Compact Cards */
+        .bh-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .bh-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .bh-card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .bh-card-badge {
+            background: var(--bg-hover);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .bh-card-body {
+            font-size: 0.875rem;
+        }
+
+        .bh-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bh-list-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bh-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .bh-list-item:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Query Browser */
+        .bh-query-browser {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+            height: 600px;
+        }
+
+        .bh-query-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            overflow-y: auto;
+        }
+
+        .bh-query-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bh-query-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .bh-query-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .bh-query-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .bh-query-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .bh-query-item.active .bh-query-desc {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .bh-query-viewer {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .bh-query-code {
+            background: #000;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.813rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .bh-btn-run {
+            background: var(--primary);
+            border: none;
+            color: white;
+        }
+
+        .bh-btn-run:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Graph Visualization */
+        #bh-graph {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        .bh-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .bh-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .bh-query-browser {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <nav class="nav-menu" style="justify-content: center;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
+                <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
+                <a href="file-analysis.html" class="nav-link">File Analysis</a>
+                <a href="incident-response.html" class="nav-link">Incident Response</a>
+                <a href="bloodhound_v2.html" class="nav-link active">BloodHound</a>
+                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="bh-container">
+        <!-- Compact Header -->
+        <div class="bh-header">
+            <h1>🩸 BloodHound Analysis</h1>
+            <div class="bh-header-actions">
+                <div class="bh-status">
+                    <span id="bh-status-dot" class="bh-status-dot"></span>
+                    <span id="bh-status-text">Connected</span>
+                </div>
+                <button id="bh-refresh-btn" class="bh-btn">↻ Refresh</button>
+                <span style="font-size: 0.75rem; color: var(--text-muted);" id="bh-last-update">--:--</span>
+            </div>
+        </div>
+
+        <!-- Compact Stats -->
+        <div class="bh-stats">
+            <div class="bh-stat-card">
+                <div class="bh-stat-label">Users</div>
+                <div id="bh-stat-users" class="bh-stat-value">0</div>
+            </div>
+            <div class="bh-stat-card">
+                <div class="bh-stat-label">Computers</div>
+                <div id="bh-stat-computers" class="bh-stat-value">0</div>
+            </div>
+            <div class="bh-stat-card">
+                <div class="bh-stat-label">Groups</div>
+                <div id="bh-stat-groups" class="bh-stat-value">0</div>
+            </div>
+            <div class="bh-stat-card">
+                <div class="bh-stat-label">Domain Admins</div>
+                <div id="bh-stat-admins" class="bh-stat-value critical">0</div>
+            </div>
+            <div class="bh-stat-card">
+                <div class="bh-stat-label">High Value</div>
+                <div id="bh-stat-highvalue" class="bh-stat-value warning">0</div>
+            </div>
+            <div class="bh-stat-card">
+                <div class="bh-stat-label">Kerberoastable</div>
+                <div id="bh-stat-kerberoast" class="bh-stat-value warning">0</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bh-tabs">
+            <button class="bh-tab active" data-tab="overview">Overview</button>
+            <button class="bh-tab" data-tab="queries">Query Browser</button>
+            <button class="bh-tab" data-tab="graph">Graph View</button>
+        </div>
+
+        <!-- Tab Content: Overview -->
+        <div id="tab-overview" class="bh-tab-content active">
+            <div class="bh-grid-2">
+                <div class="bh-card">
+                    <div class="bh-card-header">
+                        <div class="bh-card-title">Domain Administrators</div>
+                        <div id="bh-admins-count" class="bh-card-badge">0</div>
+                    </div>
+                    <div class="bh-card-body">
+                        <ul id="bh-admins-list" class="bh-list"></ul>
+                    </div>
+                </div>
+
+                <div class="bh-card">
+                    <div class="bh-card-header">
+                        <div class="bh-card-title">High Value Targets</div>
+                        <div id="bh-highvalue-count" class="bh-card-badge">0</div>
+                    </div>
+                    <div class="bh-card-body">
+                        <ul id="bh-highvalue-list" class="bh-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bh-grid-2">
+                <div class="bh-card">
+                    <div class="bh-card-header">
+                        <div class="bh-card-title">Kerberoastable Users</div>
+                        <div id="bh-kerberoast-count" class="bh-card-badge">0</div>
+                    </div>
+                    <div class="bh-card-body">
+                        <ul id="bh-kerberoast-list" class="bh-list"></ul>
+                    </div>
+                </div>
+
+                <div class="bh-card">
+                    <div class="bh-card-header">
+                        <div class="bh-card-title">Unconstrained Delegation</div>
+                        <div id="bh-delegation-count" class="bh-card-badge">0</div>
+                    </div>
+                    <div class="bh-card-body">
+                        <ul id="bh-delegation-list" class="bh-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Query Browser -->
+        <div id="tab-queries" class="bh-tab-content">
+            <div class="bh-query-browser">
+                <div class="bh-query-list" id="bh-query-list"></div>
+                <div class="bh-query-viewer">
+                    <div id="bh-query-details">
+                        <h3 style="margin-top: 0; font-size: 1rem;">Select a query from the list</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Graph View -->
+        <div id="tab-graph" class="bh-tab-content">
+            <div class="bh-card">
+                <div class="bh-card-header">
+                    <div class="bh-card-title">Attack Path Visualization</div>
+                    <button id="bh-graph-refresh" class="bh-btn">Load Graph</button>
+                </div>
+                <div class="bh-card-body">
+                    <div id="bh-graph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vis.js Library -->
+    <script src="https://unpkg.com/vis-network@9.1.6/dist/vis-network.min.js"></script>
+
+    <script>
+        const CONFIG = {
+            apiUrl: 'http://192.168.1.7:5000',
+            apiKey: 'change_me_in_production',
+            refreshInterval: 30000
+        };
+
+        // BloodHound Query Library
+        const QUERIES = [
+            {
+                name: "Shortest Path to Domain Admins",
+                description: "Find all paths leading to Domain Admin privileges",
+                category: "Attack Paths",
+                cypher: `MATCH p=shortestPath((n)-[*1..]->(g:Group))
+WHERE g.objectid ENDS WITH '-512' AND n<>g
+RETURN p LIMIT 100`
+            },
+            {
+                name: "List All Users",
+                description: "Display all user accounts in the domain",
+                category: "Enumeration",
+                cypher: `MATCH (u:User)
+RETURN u.name, u.enabled, u.lastlogon
+ORDER BY u.name LIMIT 100`
+            },
+            {
+                name: "List All Computers",
+                description: "Display all computer objects",
+                category: "Enumeration",
+                cypher: `MATCH (c:Computer)
+RETURN c.name, c.operatingsystem, c.enabled
+ORDER BY c.name LIMIT 100`
+            },
+            {
+                name: "Domain Admins Members",
+                description: "Show all members of Domain Admins group",
+                category: "Privileged Access",
+                cypher: `MATCH (u:User)-[:MemberOf*1..]->(g:Group)
+WHERE g.name =~ '(?i).*DOMAIN ADMINS.*'
+RETURN DISTINCT u.name, u.enabled`
+            },
+            {
+                name: "Kerberoastable Users",
+                description: "Users with SPNs that can be Kerberoasted",
+                category: "Attack Vectors",
+                cypher: `MATCH (u:User)
+WHERE u.hasspn = true AND u.enabled = true
+RETURN u.name, u.serviceprincipalnames LIMIT 100`
+            },
+            {
+                name: "AS-REP Roastable Users",
+                description: "Users without Kerberos pre-authentication",
+                category: "Attack Vectors",
+                cypher: `MATCH (u:User)
+WHERE u.dontreqpreauth = true AND u.enabled = true
+RETURN u.name LIMIT 100`
+            },
+            {
+                name: "Unconstrained Delegation",
+                description: "Computers with unconstrained delegation enabled",
+                category: "Misconfigurations",
+                cypher: `MATCH (c:Computer)
+WHERE c.unconstraineddelegation = true
+RETURN c.name, c.enabled`
+            },
+            {
+                name: "High Value Targets",
+                description: "All objects marked as high value",
+                category: "Critical Assets",
+                cypher: `MATCH (n)
+WHERE n.highvalue = true
+RETURN labels(n)[0] as Type, n.name as Name`
+            },
+            {
+                name: "DCSync Rights",
+                description: "Principals with DCSync permissions",
+                category: "Dangerous Permissions",
+                cypher: `MATCH p=(n)-[:DCSync|AllExtendedRights|GenericAll]->(d:Domain)
+RETURN p LIMIT 100`
+            },
+            {
+                name: "Paths from Domain Users",
+                description: "Attack paths available to standard users",
+                category: "Attack Paths",
+                cypher: `MATCH p=shortestPath((g:Group)-[*1..]->(n))
+WHERE g.objectid ENDS WITH '-513' AND n.highvalue = true
+RETURN p LIMIT 100`
+            },
+            {
+                name: "Computers without LAPS",
+                description: "Computers missing LAPS protection",
+                category: "Misconfigurations",
+                cypher: `MATCH (c:Computer)
+WHERE c.haslaps = false AND c.enabled = true
+RETURN c.name LIMIT 100`
+            },
+            {
+                name: "Admin Sessions",
+                description: "Active admin sessions on computers",
+                category: "Lateral Movement",
+                cypher: `MATCH p=(c:Computer)-[:HasSession]->(u:User)-[:MemberOf*1..]->(g:Group)
+WHERE g.objectid ENDS WITH '-512'
+RETURN p LIMIT 100`
+            },
+            {
+                name: "Domain Trusts",
+                description: "Visualize domain trust relationships",
+                category: "Infrastructure",
+                cypher: `MATCH p=(:Domain)-[:TrustedBy]->(:Domain)
+RETURN p`
+            },
+            {
+                name: "Owned Objects Paths",
+                description: "Paths from compromised objects",
+                category: "Attack Paths",
+                cypher: `MATCH p=shortestPath((n)-[*1..]->(m))
+WHERE n.owned = true AND m.highvalue = true AND n<>m
+RETURN p LIMIT 100`
+            },
+            {
+                name: "Users with Local Admin",
+                description: "Users with admin rights on computers",
+                category: "Privileged Access",
+                cypher: `MATCH p=(u:User)-[:AdminTo]->(c:Computer)
+RETURN u.name, COUNT(c) as AdminCount
+ORDER BY AdminCount DESC LIMIT 50`
+            },
+            {
+                name: "Inactive Admin Accounts",
+                description: "Admin accounts not used in 90+ days",
+                category: "Security Hygiene",
+                cypher: `MATCH (u:User)-[:MemberOf*1..]->(g:Group)
+WHERE g.name =~ '(?i).*ADMIN.*'
+AND u.lastlogon < (datetime().epochseconds - (90 * 86400))
+AND u.enabled = true
+RETURN u.name, u.lastlogon LIMIT 100`
+            },
+            {
+                name: "Circular Group Membership",
+                description: "Groups that are members of themselves",
+                category: "Misconfigurations",
+                cypher: `MATCH p=(g:Group)-[:MemberOf*2..]->(g)
+RETURN p LIMIT 100`
+            },
+            {
+                name: "Privileged Users RDP Access",
+                description: "Admins with RDP rights to computers",
+                category: "Lateral Movement",
+                cypher: `MATCH p=(u:User)-[:MemberOf*1..]->(g:Group)
+-[:CanRDP]->(c:Computer)
+WHERE g.name =~ '(?i).*ADMIN.*'
+RETURN p LIMIT 100`
+            },
+            {
+                name: "GPO Modify Rights",
+                description: "Principals who can modify GPOs",
+                category: "Dangerous Permissions",
+                cypher: `MATCH p=(n)-[:GenericAll|GenericWrite|WriteOwner|WriteDacl]
+->(gpo:GPO)
+RETURN p LIMIT 100`
+            },
+            {
+                name: "Foreign Group Members",
+                description: "Cross-domain group memberships",
+                category: "Infrastructure",
+                cypher: `MATCH p=(u:User)-[:MemberOf]->(g:Group)
+WHERE u.domainsid <> g.domainsid
+RETURN p LIMIT 100`
+            }
+        ];
+
+        // State
+        let currentData = {
+            stats: {},
+            domainAdmins: [],
+            highValueTargets: [],
+            kerberoastable: [],
+            delegation: []
+        };
+        let graphNetwork = null;
+
+        // API Request
+        async function apiRequest(endpoint) {
+            try {
+                const response = await fetch(`${CONFIG.apiUrl}${endpoint}`, {
+                    headers: { 'X-API-Key': CONFIG.apiKey }
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`API Error (${endpoint}):`, error);
+                return null;
+            }
+        }
+
+        // Fetch All Data
+        async function fetchData() {
+            const [stats, admins, highvalue, kerberoast, delegation] = await Promise.all([
+                apiRequest('/api/stats'),
+                apiRequest('/api/domain-admins'),
+                apiRequest('/api/high-value-targets'),
+                apiRequest('/api/kerberoastable'),
+                apiRequest('/api/computers-unconstrained-delegation')
+            ]);
+
+            currentData = {
+                stats: stats || {},
+                domainAdmins: admins?.domain_admins || [],
+                highValueTargets: highvalue?.high_value_targets || [],
+                kerberoastable: kerberoast?.kerberoastable_users || [],
+                delegation: delegation?.computers || []
+            };
+
+            updateUI();
+        }
+
+        // Update UI
+        function updateUI() {
+            // Stats
+            document.getElementById('bh-stat-users').textContent = currentData.stats.total_users || 0;
+            document.getElementById('bh-stat-computers').textContent = currentData.stats.total_computers || 0;
+            document.getElementById('bh-stat-groups').textContent = currentData.stats.total_groups || 0;
+            document.getElementById('bh-stat-admins').textContent = currentData.stats.domain_admins || 0;
+            document.getElementById('bh-stat-highvalue').textContent = currentData.stats.high_value_targets || 0;
+            document.getElementById('bh-stat-kerberoast').textContent = currentData.stats.kerberoastable_users || 0;
+
+            // Lists
+            updateList('bh-admins-list', 'bh-admins-count', currentData.domainAdmins);
+            updateList('bh-highvalue-list', 'bh-highvalue-count', currentData.highValueTargets);
+            updateList('bh-kerberoast-list', 'bh-kerberoast-count', currentData.kerberoastable);
+            updateList('bh-delegation-list', 'bh-delegation-count', currentData.delegation);
+
+            // Update time
+            document.getElementById('bh-last-update').textContent = new Date().toLocaleTimeString();
+        }
+
+        function updateList(listId, countId, items) {
+            const list = document.getElementById(listId);
+            const count = document.getElementById(countId);
+
+            count.textContent = items.length;
+
+            if (items.length === 0) {
+                list.innerHTML = '<li class="bh-list-item" style="color: var(--text-muted);">No items found</li>';
+                return;
+            }
+
+            list.innerHTML = items.map(item => `
+                <li class="bh-list-item">
+                    <span>${item.name || item}</span>
+                    ${item.enabled !== undefined ?
+                        `<span style="font-size: 0.75rem; color: ${item.enabled ? 'var(--success)' : 'var(--text-muted)'}">
+                            ${item.enabled ? '✓ Enabled' : '✗ Disabled'}
+                        </span>` : ''}
+                </li>
+            `).join('');
+        }
+
+        // Query Browser
+        function initQueryBrowser() {
+            const list = document.getElementById('bh-query-list');
+
+            list.innerHTML = QUERIES.map((q, i) => `
+                <div class="bh-query-item" data-index="${i}">
+                    <div class="bh-query-name">${q.name}</div>
+                    <div class="bh-query-desc">${q.description}</div>
+                </div>
+            `).join('');
+
+            list.querySelectorAll('.bh-query-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    list.querySelectorAll('.bh-query-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    showQuery(QUERIES[item.dataset.index]);
+                });
+            });
+        }
+
+        function showQuery(query) {
+            document.getElementById('bh-query-details').innerHTML = `
+                <h3 style="margin-top: 0; font-size: 1rem;">${query.name}</h3>
+                <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">${query.description}</p>
+                <div style="margin-bottom: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">Category: ${query.category}</div>
+                <pre class="bh-query-code">${query.cypher}</pre>
+                <button class="bh-btn bh-btn-run" onclick="copyQuery(\`${query.cypher.replace(/`/g, '\\`')}\`)">
+                    📋 Copy Query
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
+                    Run this query in the BloodHound CE UI or Neo4j Browser
+                </p>
+            `;
+        }
+
+        function copyQuery(text) {
+            navigator.clipboard.writeText(text);
+            alert('Query copied to clipboard!');
+        }
+
+        // Graph Visualization
+        function initGraph() {
+            const container = document.getElementById('bh-graph');
+
+            // Sample graph data (replace with real data from API)
+            const nodes = new vis.DataSet([
+                { id: 1, label: 'Domain Admins', color: '#ef4444', font: { color: '#fff' } },
+                { id: 2, label: 'User1', color: '#3b82f6' },
+                { id: 3, label: 'User2', color: '#3b82f6' },
+                { id: 4, label: 'Computer1', color: '#10b981' },
+                { id: 5, label: 'Group1', color: '#f59e0b' }
+            ]);
+
+            const edges = new vis.DataSet([
+                { from: 2, to: 5, arrows: 'to', label: 'MemberOf' },
+                { from: 5, to: 1, arrows: 'to', label: 'MemberOf' },
+                { from: 3, to: 4, arrows: 'to', label: 'AdminTo' },
+                { from: 4, to: 1, arrows: 'to', label: 'HasSession' }
+            ]);
+
+            const data = { nodes, edges };
+            const options = {
+                nodes: {
+                    shape: 'dot',
+                    size: 20,
+                    font: { size: 12, color: '#e5e7eb' }
+                },
+                edges: {
+                    font: { size: 10, color: '#9ca3af', strokeWidth: 0 },
+                    smooth: { type: 'continuous' }
+                },
+                physics: {
+                    enabled: true,
+                    stabilization: { iterations: 100 }
+                }
+            };
+
+            graphNetwork = new vis.Network(container, data, options);
+        }
+
+        // Tab Switching
+        function initTabs() {
+            document.querySelectorAll('.bh-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+
+                    document.querySelectorAll('.bh-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.bh-tab-content').forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    document.getElementById(`tab-${tabName}`).classList.add('active');
+
+                    if (tabName === 'graph' && !graphNetwork) {
+                        initGraph();
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initTabs();
+            initQueryBrowser();
+            fetchData();
+
+            document.getElementById('bh-refresh-btn').addEventListener('click', fetchData);
+            document.getElementById('bh-graph-refresh')?.addEventListener('click', initGraph);
+
+            setInterval(fetchData, CONFIG.refreshInterval);
+        });
+    </script>
+</body>
+</html>
