@@ -126,10 +126,18 @@ async function fetchStats() {
                     bool: {
                         should: [
                             { term: { "eventid": "http.login.failed" } },
+                            { term: { "eventid": "http.login.success" } },
                             { term: { "eventid": "web.login.failed" } },
+                            { term: { "eventid": "web.login.success" } },
                             { bool: {
                                 must: [
                                     { term: { "dst_port": "8081" } },
+                                    { exists: { "field": "username" } }
+                                ]
+                            }},
+                            { bool: {
+                                must: [
+                                    { term: { "dst_port": "80" } },
                                     { exists: { "field": "username" } }
                                 ]
                             }}
