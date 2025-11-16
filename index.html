@@ -141,41 +141,6 @@
             text-decoration: underline;
         }
 
-        .stats-section {
-            background: rgba(59, 130, 246, 0.05);
-            border: 1px solid #2a2a2a;
-            border-radius: 0.75rem;
-            padding: 3rem 2rem;
-            max-width: 1280px;
-            margin: 4rem auto;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 1rem;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            color: #60a5fa;
-            font-weight: 700;
-            display: block;
-        }
-
-        .stat-label {
-            color: #9ca3af;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 0.5rem;
-        }
-
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
@@ -187,11 +152,6 @@
 
             .features-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
             }
         }
     </style>
@@ -244,30 +204,6 @@
                 </svg>
                 Browse Toolkit
             </a>
-        </div>
-    </div>
-
-    <!-- Stats Section -->
-    <div class="container">
-        <div class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">5</span>
-                    <div class="stat-label">Active Honeypots</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">91</span>
-                    <div class="stat-label">Security Tools</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <div class="stat-label">Monitoring</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">Live</span>
-                    <div class="stat-label">Threat Intelligence</div>
-                </div>
-            </div>
         </div>
     </div>
 
