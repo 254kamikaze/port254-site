@@ -93,7 +93,8 @@ function getCountryFromIP(ip) {
 
 
 async function fetchStats() {
-    const query = {
+    // Query for 24h stats (Events, Unique IPs, SSH Login Attempts)
+    const query24h = {
         size: 0,
         track_total_hits: true,
         query: { range: { "@timestamp": { gte: "now-24h" } } },
@@ -108,8 +109,14 @@ async function fetchStats() {
                         ]
                     }
                 }
-            },
-            // NEW: Split SSH and HTTP successful logins
+            }
+        }
+    };
+
+    // Query for all-time stats (HMI logins, SSH compromised, HTTP compromised)
+    const queryAllTime = {
+        size: 0,
+        aggs: {
             ssh_successful_logins: { filter: { term: { "eventid": "cowrie.login.success" } } },
             http_successful_logins: {
                 filter: {
@@ -149,20 +156,21 @@ async function fetchStats() {
         }
     };
 
-    const data = await esQuery(query);
+    const data24h = await esQuery(query24h);
+    const dataAllTime = await esQuery(queryAllTime);
 
-    document.getElementById('totalEvents').textContent = data.hits.total.value.toLocaleString();
-    document.getElementById('uniqueIPs').textContent = data.aggregations.unique_ips.value;
+    document.getElementById('totalEvents').textContent = data24h.hits.total.value.toLocaleString();
+    document.getElementById('uniqueIPs').textContent = data24h.aggregations.unique_ips.value;
 
-    const sshLogins = data.aggregations.login_attempts.doc_count;
-    const hmiLogins = data.aggregations.hmi_login_attempts ? data.aggregations.hmi_login_attempts.doc_count : 0;
+    const sshLogins = data24h.aggregations.login_attempts.doc_count;
+    const hmiLogins = dataAllTime.aggregations.hmi_login_attempts ? dataAllTime.aggregations.hmi_login_attempts.doc_count : 0;
 
     document.getElementById("sshLogins").textContent = sshLogins.toLocaleString();
     document.getElementById("hmiLogins").textContent = hmiLogins.toLocaleString();
 
-    // NEW: Update split compromised counts
-    document.getElementById("sshCompromised").textContent = data.aggregations.ssh_successful_logins.doc_count;
-    document.getElementById("httpCompromised").textContent = data.aggregations.http_successful_logins.doc_count;
+    // Update all-time compromised counts
+    document.getElementById("sshCompromised").textContent = dataAllTime.aggregations.ssh_successful_logins.doc_count;
+    document.getElementById("httpCompromised").textContent = dataAllTime.aggregations.http_successful_logins.doc_count;
 }
 
 
