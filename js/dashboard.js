@@ -400,14 +400,13 @@ async function fetchTopCountries() {
     updateTopCountriesChart(labels, values);
 }
 
-// Fetch successful breaches - NEW FORMAT WITHOUT CREDENTIALS
+// Fetch successful breaches - ALL TIME
 async function fetchSuccessfulBreaches() {
     const query = {
         size: 20,
         query: {
             bool: {
                 must: [
-                    { range: { "@timestamp": { gte: "now-24h" } } },
                     { term: { "eventid": "cowrie.login.success" } }
                 ]
             }
@@ -419,7 +418,7 @@ async function fetchSuccessfulBreaches() {
         const data = await esQuery(query);
 
         if (!data.hits || !data.hits.hits || data.hits.hits.length === 0) {
-            document.getElementById('breachesList').innerHTML = '<p style="color: #6b7280; font-size: 0.75rem; padding: 1rem; text-align: center;">No breaches detected in last 24h</p>';
+            document.getElementById('breachesList').innerHTML = '<p style="color: #6b7280; font-size: 0.75rem; padding: 1rem; text-align: center;">No breaches detected</p>';
             return;
         }
 
@@ -510,8 +509,7 @@ async function viewBreachCommands(breachId, session, event) {
         query: {
             bool: {
                 must: [
-                    { term: { "session": session } },
-                    { range: { "@timestamp": { gte: "now-24h" } } }
+                    { term: { "session": session } }
                 ],
                 should: [
                     { term: { "eventid": "cowrie.command.input" } },
