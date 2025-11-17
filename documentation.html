@@ -3,150 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - port254 Honeypot Project</title>
+    <title>Documentation - port254</title>
     <link rel="stylesheet" href="./css/style.css">
     <style>
-        .doc-content {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 4rem;
+        .doc-hero {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            border-bottom: 1px solid #2a2a2a;
         }
-        .doc-section {
-            background-color: rgba(59, 130, 246, 0.05);
-            border: 1px solid rgba(96, 165, 250, 0.2);
+
+        .doc-hero h1 {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+        }
+
+        .doc-hero p {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .doc-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid #2a2a2a;
+            flex-wrap: wrap;
+        }
+
+        .doc-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid #2a2a2a;
             border-radius: 0.5rem;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .doc-tab:hover {
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .doc-tab.active {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .doc-content-area {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.75rem;
             padding: 2rem;
             margin-bottom: 2rem;
         }
-        .doc-section h2 {
+
+        .content-section h2 {
             color: #60a5fa;
             font-size: 1.75rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
             border-bottom: 2px solid rgba(96, 165, 250, 0.2);
         }
-        .doc-section h3 {
+
+        .content-section h3 {
             color: #93c5fd;
             font-size: 1.25rem;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
         }
-        .doc-section p {
+
+        .content-section p, .content-section li {
             color: #9ca3af;
             line-height: 1.8;
-            margin-bottom: 1rem;
         }
-        .doc-section ul {
-            color: #9ca3af;
-            line-height: 1.8;
+
+        .content-section ul {
             margin-left: 1.5rem;
             margin-bottom: 1rem;
         }
-        .doc-section li {
-            margin-bottom: 0.5rem;
+
+        .infrastructure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
         }
-        .doc-section code {
-            background-color: #1a1a1a;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            font-family: monospace;
-            color: #93c5fd;
+
+        .infra-card {
+            background: #252525;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .infra-card:hover {
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.15);
+        }
+
+        .infra-card h4 {
+            color: #60a5fa;
+            font-size: 1.125rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .infra-card .spec {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
             font-size: 0.875rem;
         }
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
-            border-left: 4px solid #60a5fa;
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0.25rem;
+
+        .infra-card .spec:last-child {
+            border-bottom: none;
         }
+
+        .infra-card .spec-label {
+            color: #9ca3af;
+        }
+
+        .infra-card .spec-value {
+            color: #e5e7eb;
+            font-family: 'Courier New', monospace;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-item {
+            background: #252525;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tech-item:hover {
+            border-color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        .tech-item-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-item-name {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .tech-item-desc {
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-left: 4px solid #60a5fa;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+
         .highlight-box p {
             margin: 0;
             color: #e5e7eb;
         }
-        .info-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
-            border-left: 4px solid #3b82f6;
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0.25rem;
-        }
-        .info-box p {
-            margin: 0;
-            color: #e5e7eb;
-        }
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
             margin: 1.5rem 0;
         }
-        .stat-item {
-            background-color: #252525;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 0.375rem;
-            padding: 1rem;
-            text-align: center;
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #60a5fa, rgba(96, 165, 250, 0.2));
         }
-        .stat-item .number {
-            font-size: 2rem;
-            font-weight: bold;
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.375rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #60a5fa;
+            border: 2px solid #0a0a0a;
+        }
+
+        .timeline-item h4 {
             color: #60a5fa;
-            display: block;
             margin-bottom: 0.5rem;
         }
-        .stat-item .label {
-            font-size: 0.875rem;
+
+        .timeline-item p {
             color: #9ca3af;
-            text-transform: uppercase;
-        }
-        .component-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .component-card {
-            background-color: #252525;
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 0.375rem;
-            padding: 1.25rem;
-            transition: all 0.2s;
-        }
-        .component-card:hover {
-            border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.15);
-        }
-        .component-card h4 {
-            color: #60a5fa;
-            font-size: 1rem;
             margin-bottom: 0.5rem;
         }
-        .component-card p {
-            font-size: 0.875rem;
+
+        .timeline-item ul {
+            margin-left: 1.5rem;
             color: #9ca3af;
-            margin: 0;
         }
-        .component-card .port {
-            display: inline-block;
-            background-color: #1a1a1a;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-family: monospace;
-            color: #93c5fd;
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-        }
-        .tech-badge {
-            display: inline-block;
-            background-color: #1a1a1a;
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            color: #93c5fd;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            margin: 0.25rem;
+
+        @media (max-width: 768px) {
+            .doc-tabs {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .infrastructure-grid,
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -154,7 +275,9 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <h1 class="logo">port254</h1>
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="logo">port254</h1>
+            </a>
         </div>
     </header>
 
@@ -168,429 +291,563 @@
                 <a href="file-analysis.html" class="nav-link">File Analysis</a>
                 <a href="incident-response.html" class="nav-link">Incident Response</a>
                 <a href="bloodhound.html" class="nav-link">BloodHound</a>
+                <a href="tools.html" class="nav-link">Tools</a>
                 <a href="documentation.html" class="nav-link active">Documentation</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </nav>
         </div>
     </div>
 
-    <!-- Documentation Content -->
-    <div class="doc-content">
+    <!-- Hero -->
+    <div class="doc-hero">
+        <h1>Technical Documentation</h1>
+        <p>A journey through cybersecurity research, infrastructure deployment, and hands-on learning in OT/ICS security, Active Directory, and threat intelligence.</p>
+    </div>
 
-        <!-- What is port254 -->
-        <div class="doc-section">
-            <h2>What is port254?</h2>
-            <p>
-                port254 is a <strong>comprehensive cybersecurity research platform</strong> designed to study and detect
-                cyber threats targeting critical infrastructure systems and enterprise Active Directory environments.
-                The platform combines industrial honeypots, Active Directory attack path analysis, and threat intelligence
-                to improve security for both OT/ICS and IT systems.
-            </p>
+    <!-- Tabs -->
+    <div class="doc-tabs">
+        <div class="doc-tab active" onclick="showTab('infrastructure')">Infrastructure</div>
+        <div class="doc-tab" onclick="showTab('technologies')">Technologies</div>
+        <div class="doc-tab" onclick="showTab('honeypots')">Honeypot System</div>
+        <div class="doc-tab" onclick="showTab('bloodhound')">BloodHound</div>
+        <div class="doc-tab" onclick="showTab('learning')">Learning Journey</div>
+    </div>
 
-            <div class="highlight-box">
-                <p><strong>Mission:</strong> We create realistic fake systems (honeypots) that cyber attackers think are
-                real. When they try to hack them, we record everything to learn their tactics and develop better defenses
-                for actual critical infrastructure and enterprise environments.</p>
-            </div>
+    <!-- Content Area -->
+    <div class="doc-content-area">
 
-            <h3>Why "port254"?</h3>
-            <p>
-                In industrial systems, "port" refers to communication channels (like doors) that systems use to talk
-                to each other. Common industrial ports include 102 (S7), 502 (Modbus), and others. The "254" represents
-                the Australian country code (+61) and Western Australia's area - this is a Perth-based security research project.
-            </p>
-        </div>
+        <!-- Infrastructure Tab -->
+        <div id="infrastructure" class="tab-content active">
+            <div class="content-section">
+                <h2>Lab Infrastructure</h2>
+                <p>Complete self-hosted infrastructure running on Proxmox and Raspberry Pi, demonstrating practical deployment and management of production-grade security systems.</p>
 
-        <!-- Platform Components -->
-        <div class="doc-section">
-            <h2>Platform Components</h2>
+                <div class="infrastructure-grid">
+                    <div class="infra-card">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="2" y="3" width="20" height="18" rx="2" ry="2" stroke-width="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21" stroke-width="2"></line>
+                                <line x1="12" y1="17" x2="12" y2="21" stroke-width="2"></line>
+                            </svg>
+                            Proxmox Server
+                        </h4>
+                        <div class="spec">
+                            <span class="spec-label">Purpose</span>
+                            <span class="spec-value">Core Services</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">OS</span>
+                            <span class="spec-value">Proxmox VE</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Services</span>
+                            <span class="spec-value">BloodHound, Neo4j, File Analysis</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Network</span>
+                            <span class="spec-value">192.168.1.12</span>
+                        </div>
+                    </div>
 
-            <h3>1. Industrial Honeypot System</h3>
-            <p>
-                Our honeypot mimics a Perth Water Treatment Plant with several components that look and behave like
-                real industrial control systems:
-            </p>
+                    <div class="infra-card">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                                <path d="M12 6v6l4 2" stroke-width="2" stroke-linecap="round"></path>
+                            </svg>
+                            Raspberry Pi
+                        </h4>
+                        <div class="spec">
+                            <span class="spec-label">Purpose</span>
+                            <span class="spec-value">Honeypot Platform</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">OS</span>
+                            <span class="spec-value">Raspberry Pi OS</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Services</span>
+                            <span class="spec-value">Cowrie, Conpot, HMI</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Protocols</span>
+                            <span class="spec-value">SSH, S7, Modbus, MQTT</span>
+                        </div>
+                    </div>
 
-            <div class="component-list">
-                <div class="component-card">
-                    <h4>SSH Gateway</h4>
-                    <p>The main entry point - attackers connect here thinking they're accessing the plant's control system.</p>
-                    <span class="port">Port 22</span>
+                    <div class="infra-card">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-width="2"></path>
+                                <polyline points="9 22 9 12 15 12 15 22" stroke-width="2"></polyline>
+                            </svg>
+                            DuckDNS
+                        </h4>
+                        <div class="spec">
+                            <span class="spec-label">Purpose</span>
+                            <span class="spec-value">Dynamic DNS</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Domain</span>
+                            <span class="spec-value">bh254.duckdns.org</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">SSL</span>
+                            <span class="spec-value">Let's Encrypt</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Ports</span>
+                            <span class="spec-value">5443, 5001, 80, 443</span>
+                        </div>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke-width="2"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke-width="2"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12" stroke-width="2"></line>
+                            </svg>
+                            ELK Stack
+                        </h4>
+                        <div class="spec">
+                            <span class="spec-label">Purpose</span>
+                            <span class="spec-value">Log Analysis</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Components</span>
+                            <span class="spec-value">Elasticsearch, Kibana</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Data</span>
+                            <span class="spec-value">Honeypot Logs</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Port</span>
+                            <span class="spec-value">9200, 5601</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="component-card">
-                    <h4>HMI Dashboard</h4>
-                    <p>A realistic web interface showing plant operations - pump controls, chemical levels, and system status.</p>
-                    <span class="port">Port 8080</span>
-                </div>
-
-                <div class="component-card">
-                    <h4>S7 Protocol</h4>
-                    <p>Simulates Siemens PLC communication used in real industrial automation.</p>
-                    <span class="port">Port 102</span>
-                </div>
-
-                <div class="component-card">
-                    <h4>Modbus Protocol</h4>
-                    <p>Common SCADA protocol for connecting sensors and controllers.</p>
-                    <span class="port">Port 502</span>
-                </div>
-
-                <div class="component-card">
-                    <h4>MQTT Broker</h4>
-                    <p>IoT messaging system for sensor data exchange.</p>
-                    <span class="port">Port 1883</span>
+                <div class="highlight-box">
+                    <p><strong>Key Learning:</strong> Hands-on experience deploying and managing production-grade infrastructure, including virtualization (Proxmox), containerization (Docker), reverse proxies (Nginx), SSL/TLS certificates (Let's Encrypt), dynamic DNS, and port forwarding for public accessibility.</p>
                 </div>
             </div>
-
-            <h3>2. BloodHound Analysis Platform</h3>
-            <p>
-                A powerful Active Directory attack path analysis system that helps security teams understand and visualize
-                attack paths in enterprise environments. Our implementation includes:
-            </p>
-
-            <ul>
-                <li><strong>Multi-Engagement Support:</strong> Upload and manage multiple BloodHound datasets from different environments</li>
-                <li><strong>42 Preset Queries:</strong> Pre-built queries across 7 categories (Users, Computers, Groups, Permissions, Kerberos, Domain Trusts, Attack Paths)</li>
-                <li><strong>Custom Cypher Queries:</strong> Write and execute custom Neo4j Cypher queries for advanced analysis</li>
-                <li><strong>Attack Path Visualization:</strong> Discover and visualize attack paths between any two entities in Active Directory</li>
-                <li><strong>HTTPS Upload:</strong> Secure upload of BloodHound ZIP files from anywhere on the internet</li>
-                <li><strong>Data Isolation:</strong> Complete engagement-based filtering ensures data from different assessments never mix</li>
-                <li><strong>Relationship Analysis:</strong> Full support for all BloodHound relationships including:
-                    <ul>
-                        <li>Delegation: AllowedToAct, AllowedToDelegate</li>
-                        <li>Admin Rights: AdminTo, CanRDP, ExecuteDCOM, CanPSRemote</li>
-                        <li>Permissions: WriteDacl, GenericAll, WriteOwner, AddKeyCredentialLink, ForceChangePassword</li>
-                        <li>Group Membership: MemberOf</li>
-                        <li>Domain Trusts: TrustedBy with full trust analysis</li>
-                    </ul>
-                </li>
-            </ul>
-
-            <div class="info-box">
-                <p><strong>Access:</strong> BloodHound platform available at <a href="bloodhound.html" style="color: #60a5fa;">BloodHound Analysis</a></p>
-            </div>
-
-            <h3>3. ATT&CK Matrix Mapping</h3>
-            <p>
-                All detections and observed attack techniques are mapped to the MITRE ATT&CK framework for:
-            </p>
-            <ul>
-                <li>ICS-specific tactics and techniques (ATT&CK for ICS)</li>
-                <li>Enterprise attack patterns (ATT&CK for Enterprise)</li>
-                <li>Cross-environment attack chains spanning both IT and OT</li>
-            </ul>
-
-            <h3>4. File Analysis System</h3>
-            <p>
-                Automated analysis of malware and suspicious files uploaded by attackers to our honeypots, including:
-            </p>
-            <ul>
-                <li>Static analysis and file fingerprinting</li>
-                <li>Behavior analysis in sandboxed environments</li>
-                <li>IOC extraction and threat intelligence enrichment</li>
-            </ul>
-
-            <h3>5. Incident Response Dashboard</h3>
-            <p>
-                Real-time monitoring and response capabilities for detected threats, featuring:
-            </p>
-            <ul>
-                <li>Live attack telemetry and session monitoring</li>
-                <li>Automated alert generation and triage</li>
-                <li>Incident timeline reconstruction</li>
-                <li>Threat actor profiling and attribution</li>
-            </ul>
         </div>
 
-        <!-- Technology Stack -->
-        <div class="doc-section">
-            <h2>Technology Stack</h2>
+        <!-- Technologies Tab -->
+        <div id="technologies" class="tab-content">
+            <div class="content-section">
+                <h2>Technology Stack</h2>
+                <p>Core technologies mastered through building and deploying this security research platform.</p>
 
-            <h3>Frontend Technologies</h3>
-            <div style="margin: 1rem 0;">
-                <span class="tech-badge">HTML5</span>
-                <span class="tech-badge">CSS3</span>
-                <span class="tech-badge">JavaScript (ES6+)</span>
-                <span class="tech-badge">Chart.js</span>
-                <span class="tech-badge">GitHub Pages</span>
-            </div>
-
-            <h3>Backend & Infrastructure</h3>
-            <div style="margin: 1rem 0;">
-                <span class="tech-badge">Python 3</span>
-                <span class="tech-badge">Flask</span>
-                <span class="tech-badge">Neo4j 4.x</span>
-                <span class="tech-badge">Docker</span>
-                <span class="tech-badge">Nginx</span>
-                <span class="tech-badge">Ubuntu Server</span>
-            </div>
-
-            <h3>Honeypot Components</h3>
-            <div style="margin: 1rem 0;">
-                <span class="tech-badge">Cowrie (SSH/Telnet)</span>
-                <span class="tech-badge">Conpot (ICS Protocols)</span>
-                <span class="tech-badge">Custom HMI</span>
-            </div>
-
-            <h3>Security & Networking</h3>
-            <div style="margin: 1rem 0;">
-                <span class="tech-badge">SSL/TLS (HTTPS)</span>
-                <span class="tech-badge">DuckDNS</span>
-                <span class="tech-badge">CORS</span>
-                <span class="tech-badge">API Key Authentication</span>
-                <span class="tech-badge">Port Forwarding</span>
-            </div>
-
-            <h3>Data Processing & Analysis</h3>
-            <div style="margin: 1rem 0;">
-                <span class="tech-badge">Cypher Query Language</span>
-                <span class="tech-badge">JSON</span>
-                <span class="tech-badge">ELK Stack</span>
-                <span class="tech-badge">Geographic Mapping (KML)</span>
-            </div>
-
-            <h3>BloodHound Technology Stack</h3>
-            <p>Our BloodHound implementation leverages:</p>
-            <ul>
-                <li><strong>Neo4j Graph Database:</strong> Single-database architecture with engagement-based isolation using <code>engagement_id</code> properties</li>
-                <li><strong>Flask API Backend:</strong> RESTful API for upload, query, and management operations</li>
-                <li><strong>Nginx Reverse Proxy:</strong> SSL termination, CORS handling, and load balancing</li>
-                <li><strong>Docker Containers:</strong> Isolated services for API, Neo4j, and Nginx with custom networking</li>
-                <li><strong>BloodHound Data Format:</strong> Full support for BloodHound v4 and v5+ JSON formats</li>
-                <li><strong>Custom Upload Handler:</strong> Python-based parser with automatic relationship extraction for all ACE types</li>
-            </ul>
-
-            <div class="highlight-box">
-                <p><strong>Architecture:</strong> Static frontend hosted on GitHub Pages communicates via HTTPS with a backend API server, which connects to a Neo4j graph database for data storage and analysis.</p>
-            </div>
-        </div>
-
-        <!-- What We Learn -->
-        <div class="doc-section">
-            <h2>What We Learn</h2>
-
-            <p>Every interaction with our platform provides valuable intelligence:</p>
-
-            <h3>From Honeypots:</h3>
-            <ul>
-                <li><strong>Attack Patterns:</strong> Which services do attackers target first? What commands do they run?</li>
-                <li><strong>Credential Attacks:</strong> What username/password combinations are being tried?</li>
-                <li><strong>Protocol Abuse:</strong> How are attackers manipulating industrial protocols like Modbus and S7?</li>
-                <li><strong>Geographic Sources:</strong> Where in the world are attacks originating?</li>
-                <li><strong>Tool Fingerprints:</strong> What hacking tools and scripts are being deployed?</li>
-            </ul>
-
-            <h3>From BloodHound Analysis:</h3>
-            <ul>
-                <li><strong>Active Directory Weaknesses:</strong> Misconfigurations and privilege escalation paths</li>
-                <li><strong>Domain Trust Relationships:</strong> Cross-domain attack vectors and SID filtering issues</li>
-                <li><strong>Delegation Abuse:</strong> Unconstrained/constrained delegation and resource-based delegation risks</li>
-                <li><strong>Kerberos Vulnerabilities:</strong> Kerberoasting, AS-REP roasting, and SPNs</li>
-                <li><strong>Permission Chains:</strong> Complex ACE chains leading to Domain Admin compromise</li>
-            </ul>
-
-            <h3>Detection Development</h3>
-            <p>
-                The data collected feeds into our <strong>detection catalog</strong> - a library of security rules
-                that can identify these attack patterns in real industrial and enterprise systems. Each detection is mapped to:
-            </p>
-
-            <ul>
-                <li><strong>MITRE ATT&CK:</strong> Industry-standard framework for categorizing cyber threats</li>
-                <li><strong>IEC 62443:</strong> International security standards for industrial automation</li>
-                <li><strong>Real Telemetry:</strong> Actual data from our honeypot showing the detection in action</li>
-            </ul>
-        </div>
-
-        <!-- BloodHound Features -->
-        <div class="doc-section">
-            <h2>BloodHound Analysis Features</h2>
-
-            <h3>Query Categories</h3>
-            <p>Our BloodHound implementation includes 42 preset queries organized into 7 categories:</p>
-
-            <ul>
-                <li><strong>Users (6 queries):</strong> All Users, Enabled Users, Disabled Users, Users Never Logged On,
-                    Users with Password Never Expires, Users with Reversible Encryption</li>
-                <li><strong>Computers (4 queries):</strong> All Computers, Enabled Computers, Computers with Unconstrained Delegation,
-                    Computers with Constrained Delegation</li>
-                <li><strong>Groups (5 queries):</strong> All Groups, High Value Groups, Domain Admins, Enterprise Admins,
-                    Groups with Most Members</li>
-                <li><strong>Permissions (6 queries):</strong> Users with DCSync Rights, Users with GenericAll, Users with WriteOwner,
-                    Users with WriteDACL, Shortest Paths to Domain Admins, Shortest Paths to High Value Targets</li>
-                <li><strong>Kerberos (4 queries):</strong> Kerberoastable Users, AS-REP Roastable Users, Users with SPN Set,
-                    Computers with LAPS Enabled</li>
-                <li><strong>Domain Trusts (11 queries):</strong> All Domain Trusts, Bidirectional Trusts, One-Way Incoming Trusts,
-                    One-Way Outgoing Trusts, Forest Trusts, External Trusts, Trusts Without SID Filtering, Cross-Domain Admins,
-                    Foreign Security Principals, Cross-Trust Attack Paths, Domains in Environment</li>
-                <li><strong>Attack Paths (6 queries):</strong> Shortest Path to Domain Admins, All Paths to Domain Admins,
-                    Shortest Path to High Value, Owned Principals Path to DA, Computers to DA (unconstrained delegation),
-                    Cross-Domain Privilege Escalation</li>
-            </ul>
-
-            <h3>Supported Relationships</h3>
-            <p>Complete support for all BloodHound relationship types:</p>
-            <ul>
-                <li><strong>Delegation:</strong> AllowedToAct, AllowedToDelegate</li>
-                <li><strong>Admin Rights:</strong> AdminTo, CanRDP, ExecuteDCOM, CanPSRemote</li>
-                <li><strong>Ownership & Control:</strong> Owns, GenericAll</li>
-                <li><strong>Permission Modification:</strong> WriteDacl, WriteOwner, GenericWrite</li>
-                <li><strong>Credential Access:</strong> ForceChangePassword, ReadLAPSPassword, ReadGMSAPassword, AddKeyCredentialLink</li>
-                <li><strong>DCSync:</strong> GetChanges, GetChangesAll, GetChangesInFilteredSet</li>
-                <li><strong>Group Management:</strong> MemberOf, AddMember</li>
-                <li><strong>Domain Relationships:</strong> TrustedBy with trust type, direction, and SID filtering analysis</li>
-            </ul>
-
-            <div class="info-box">
-                <p><strong>Data Isolation:</strong> All queries automatically filter by selected engagement using
-                <code>engagement_id</code> properties on all nodes and relationships, ensuring complete data isolation
-                between different assessments.</p>
-            </div>
-        </div>
-
-        <!-- Architecture Details -->
-        <div class="doc-section">
-            <h2>System Architecture</h2>
-
-            <h3>BloodHound Multi-Engagement Architecture</h3>
-            <p>Our BloodHound system uses a single Neo4j database with engagement-based isolation:</p>
-
-            <ul>
-                <li><strong>Single Database Design:</strong> All engagements share one Neo4j database instance for efficiency</li>
-                <li><strong>Engagement ID Tagging:</strong> Every node and relationship has an <code>engagement_id</code> property</li>
-                <li><strong>Automatic Query Filtering:</strong> All queries inject WHERE clauses to filter by selected engagement</li>
-                <li><strong>Upload Processing:</strong> Custom Python handler parses BloodHound v4/v5+ ZIP files and extracts:
-                    <ul>
-                        <li>All node types (Users, Computers, Groups, Domains, GPOs, OUs, Containers)</li>
-                        <li>All relationship types from various data sources (Aces, Members, Trusts, LocalAdmins, etc.)</li>
-                        <li>Metadata and statistics for each engagement</li>
-                    </ul>
-                </li>
-                <li><strong>Data Normalization:</strong> Consistent engagement_id format ensures proper filtering across uploads</li>
-            </ul>
-
-            <h3>Security Layers</h3>
-            <ul>
-                <li><strong>Transport Security:</strong> All communication over HTTPS with SSL/TLS encryption</li>
-                <li><strong>API Key Authentication:</strong> Required for all upload and query operations</li>
-                <li><strong>CORS Configuration:</strong> Allows cross-origin requests for GitHub Pages integration</li>
-                <li><strong>Query Safety:</strong> Only SELECT queries allowed (MATCH/RETURN), no write operations from frontend</li>
-                <li><strong>Container Isolation:</strong> Each service runs in isolated Docker container with custom networking</li>
-                <li><strong>Data Validation:</strong> Input sanitization and validation on all API endpoints</li>
-            </ul>
-        </div>
-
-        <!-- Safety & Ethics -->
-        <div class="doc-section">
-            <h2>Safety & Ethics</h2>
-
-            <h3>No Real Systems at Risk</h3>
-            <p>
-                It's important to understand that <strong>nothing in the honeypot is real</strong>. There is no
-                actual water treatment plant, no real pumps, no chemicals, and no public water supply connected
-                to this system. Everything is simulated in a controlled environment.
-            </p>
-
-            <div class="highlight-box">
-                <p><strong>Safety First:</strong> All honeypot systems are completely isolated from real
-                infrastructure. Attackers cannot cause any real-world harm through our systems.</p>
-            </div>
-
-            <h3>BloodHound Data Privacy</h3>
-            <p>
-                The BloodHound analysis platform is designed for authorized security assessments only:
-            </p>
-            <ul>
-                <li>Only upload BloodHound data from environments you have permission to assess</li>
-                <li>All uploaded data is stored securely with engagement-based isolation</li>
-                <li>Delete engagements when assessments are complete</li>
-                <li>Do not upload sensitive production data to internet-accessible instances</li>
-            </ul>
-
-            <h3>Responsible Disclosure</h3>
-            <p>
-                When we discover new attack techniques or vulnerabilities through our research, we work with
-                industrial system vendors and security organizations to help protect real critical infrastructure.
-                Our goal is to improve security for everyone, not to expose vulnerabilities maliciously.
-            </p>
-        </div>
-
-        <!-- Real-World Impact -->
-        <div class="doc-section">
-            <h2>Real-World Impact</h2>
-
-            <p>
-                The intelligence gathered from port254 helps security teams protect actual critical infrastructure
-                and enterprise environments by:
-            </p>
-
-            <ul>
-                <li>Providing early warning of new attack techniques targeting industrial systems</li>
-                <li>Creating detection rules that can be deployed in real SCADA environments</li>
-                <li>Enabling proactive Active Directory hardening through attack path analysis</li>
-                <li>Understanding attacker motivations and target selection</li>
-                <li>Training security professionals on realistic industrial and enterprise cyber threats</li>
-                <li>Contributing to open-source security tools and frameworks</li>
-                <li>Identifying misconfigurations and privilege escalation paths before attackers do</li>
-            </ul>
-
-            <div class="info-box">
-                <p><strong>Contributing to Security:</strong> Our detection catalog is designed to be compatible
-                with popular security platforms like ELK Stack, Splunk, and QRadar - allowing security teams to
-                deploy these defenses in their own environments.</p>
-            </div>
-        </div>
-
-        <!-- Get Involved -->
-        <div class="doc-section">
-            <h2>Get Involved</h2>
-
-            <p>
-                port254 is part of the larger effort to improve industrial and enterprise cybersecurity. If you're interested in:
-            </p>
-
-            <ul>
-                <li>Learning more about OT/ICS security and Active Directory attack paths</li>
-                <li>Contributing detection rules or honeypot components</li>
-                <li>Deploying similar honeypots or BloodHound instances in your research environment</li>
-                <li>Collaborating on industrial or enterprise security research</li>
-                <li>Using BloodHound for authorized security assessments</li>
-            </ul>
-
-            <div class="highlight-box">
-                <p><strong>Contact:</strong> For research inquiries, collaboration opportunities, or to report
-                findings, please visit our <a href="contact.html" style="color: #60a5fa;">Contact page</a>.</p>
-            </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="doc-section">
-            <h2>Quick Links</h2>
-
-            <div class="component-list">
-                <div class="component-card">
-                    <h4>BloodHound Platform</h4>
-                    <p>Upload and analyze Active Directory data from security assessments</p>
-                    <a href="bloodhound.html" style="color: #60a5fa; text-decoration: none;">Launch Platform →</a>
+                <h3>Web & Frontend</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🌐</div>
+                        <div class="tech-item-name">HTML5 & CSS3</div>
+                        <div class="tech-item-desc">Responsive UI design</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">⚡</div>
+                        <div class="tech-item-name">JavaScript</div>
+                        <div class="tech-item-desc">Dynamic dashboards</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">📊</div>
+                        <div class="tech-item-name">Chart.js</div>
+                        <div class="tech-item-desc">Data visualization</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🔄</div>
+                        <div class="tech-item-name">AJAX/Fetch API</div>
+                        <div class="tech-item-desc">Async data loading</div>
+                    </div>
                 </div>
 
-                <div class="component-card">
-                    <h4>Attack Matrix</h4>
-                    <p>View MITRE ATT&CK mapped detections and observed techniques</p>
-                    <a href="attack-matrix.html" style="color: #60a5fa; text-decoration: none;">View Matrix →</a>
+                <h3>Backend & APIs</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🐍</div>
+                        <div class="tech-item-name">Python 3</div>
+                        <div class="tech-item-desc">Backend development</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🌶️</div>
+                        <div class="tech-item-name">Flask</div>
+                        <div class="tech-item-desc">REST API framework</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🔌</div>
+                        <div class="tech-item-name">CORS</div>
+                        <div class="tech-item-desc">Cross-origin requests</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">📧</div>
+                        <div class="tech-item-name">SMTP</div>
+                        <div class="tech-item-desc">Email integration</div>
+                    </div>
                 </div>
 
-                <div class="component-card">
-                    <h4>Honeypot Dashboard</h4>
-                    <p>Real-time monitoring of honeypot activity and threat intelligence</p>
-                    <a href="honeypot-dashboard.html" style="color: #60a5fa; text-decoration: none;">Open Dashboard →</a>
+                <h3>Infrastructure & DevOps</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🐳</div>
+                        <div class="tech-item-name">Docker</div>
+                        <div class="tech-item-desc">Containerization</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🔧</div>
+                        <div class="tech-item-name">Nginx</div>
+                        <div class="tech-item-desc">Reverse proxy</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🔒</div>
+                        <div class="tech-item-name">Let's Encrypt</div>
+                        <div class="tech-item-desc">SSL/TLS certificates</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">⚙️</div>
+                        <div class="tech-item-name">Systemd</div>
+                        <div class="tech-item-desc">Service management</div>
+                    </div>
                 </div>
 
-                <div class="component-card">
-                    <h4>File Analysis</h4>
-                    <p>Automated malware analysis and IOC extraction</p>
-                    <a href="file-analysis.html" style="color: #60a5fa; text-decoration: none;">Analyze Files →</a>
+                <h3>Databases & Data</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🕸️</div>
+                        <div class="tech-item-name">Neo4j</div>
+                        <div class="tech-item-desc">Graph database</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🔍</div>
+                        <div class="tech-item-name">Cypher</div>
+                        <div class="tech-item-desc">Query language</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">📈</div>
+                        <div class="tech-item-name">Elasticsearch</div>
+                        <div class="tech-item-desc">Search & analytics</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">📊</div>
+                        <div class="tech-item-name">Kibana</div>
+                        <div class="tech-item-desc">Data visualization</div>
+                    </div>
+                </div>
+
+                <h3>Security & Honeypots</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🍯</div>
+                        <div class="tech-item-name">Cowrie</div>
+                        <div class="tech-item-desc">SSH/Telnet honeypot</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🏭</div>
+                        <div class="tech-item-name">Conpot</div>
+                        <div class="tech-item-desc">ICS honeypot</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🩸</div>
+                        <div class="tech-item-name">BloodHound</div>
+                        <div class="tech-item-desc">AD attack paths</div>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-item-icon">🎯</div>
+                        <div class="tech-item-name">MITRE ATT&CK</div>
+                        <div class="tech-item-desc">Threat framework</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Honeypots Tab -->
+        <div id="honeypots" class="tab-content">
+            <div class="content-section">
+                <h2>Honeypot Architecture</h2>
+                <p>Multi-protocol honeypot system designed to detect and analyze threats targeting industrial control systems and enterprise infrastructure.</p>
+
+                <h3>Deployed Honeypots</h3>
+
+                <div class="infrastructure-grid">
+                    <div class="infra-card">
+                        <h4>SSH Honeypot (Cowrie)</h4>
+                        <div class="spec">
+                            <span class="spec-label">Port</span>
+                            <span class="spec-value">22</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Protocol</span>
+                            <span class="spec-value">SSH/Telnet</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Captures</span>
+                            <span class="spec-value">Credentials, Commands, Files</span>
+                        </div>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>S7comm (Conpot)</h4>
+                        <div class="spec">
+                            <span class="spec-label">Port</span>
+                            <span class="spec-value">102</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Protocol</span>
+                            <span class="spec-value">Siemens S7</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Emulates</span>
+                            <span class="spec-value">Siemens PLC S7-1200</span>
+                        </div>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>Modbus TCP (Conpot)</h4>
+                        <div class="spec">
+                            <span class="spec-label">Port</span>
+                            <span class="spec-value">502</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Protocol</span>
+                            <span class="spec-value">Modbus TCP</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Captures</span>
+                            <span class="spec-value">Read/Write Coils, Registers</span>
+                        </div>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>MQTT Broker</h4>
+                        <div class="spec">
+                            <span class="spec-label">Port</span>
+                            <span class="spec-value">1883</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Protocol</span>
+                            <span class="spec-value">MQTT</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Captures</span>
+                            <span class="spec-value">Pub/Sub Messages</span>
+                        </div>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>HMI Web Interface</h4>
+                        <div class="spec">
+                            <span class="spec-label">Port</span>
+                            <span class="spec-value">80</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Protocol</span>
+                            <span class="spec-value">HTTP</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Captures</span>
+                            <span class="spec-value">Login Attempts, Commands</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>Learning Focus:</strong> Deployed and configured multiple honeypot technologies, integrated with ELK stack for centralized logging, configured port forwarding and firewall rules, and developed custom parsers for protocol-specific data extraction.</p>
+                </div>
+
+                <h3>Data Collection & Analysis</h3>
+                <p>All honeypot data flows through a centralized ELK stack for real-time analysis:</p>
+                <ul>
+                    <li><strong>Logstash:</strong> Parses and enriches honeypot logs with GeoIP, threat intelligence</li>
+                    <li><strong>Elasticsearch:</strong> Stores and indexes all events for fast querying</li>
+                    <li><strong>Kibana:</strong> Visualizes attack patterns, trends, and statistics</li>
+                    <li><strong>Custom Dashboard:</strong> Real-time web interface displaying live honeypot activity</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BloodHound Tab -->
+        <div id="bloodhound" class="tab-content">
+            <div class="content-section">
+                <h2>BloodHound Platform</h2>
+                <p>Custom-built Active Directory attack path analysis platform with multi-engagement support, 42 preset queries, and secure HTTPS upload capabilities.</p>
+
+                <h3>Architecture & Implementation</h3>
+                <ul>
+                    <li><strong>Neo4j Graph Database:</strong> Single-database design with engagement-based isolation using <code style="background:#1a1a1a;padding:0.2rem 0.4rem;border-radius:0.25rem;color:#93c5fd;">engagement_id</code> properties</li>
+                    <li><strong>Flask REST API:</strong> Custom Python backend handling uploads, queries, and data management</li>
+                    <li><strong>Docker Deployment:</strong> Containerized services with custom networking for isolation</li>
+                    <li><strong>Nginx Reverse Proxy:</strong> SSL termination, CORS handling, and load balancing</li>
+                    <li><strong>Let's Encrypt SSL:</strong> Automated certificate management with auto-renewal</li>
+                </ul>
+
+                <h3>Key Features Implemented</h3>
+                <div class="infrastructure-grid">
+                    <div class="infra-card">
+                        <h4>42 Preset Queries</h4>
+                        <p style="color:#9ca3af;font-size:0.875rem;margin-top:0.5rem;">7 categories: Users, Computers, Groups, Permissions, Kerberos, Domain Trusts, Attack Paths</p>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>Custom Cypher Queries</h4>
+                        <p style="color:#9ca3af;font-size:0.875rem;margin-top:0.5rem;">Execute custom Neo4j queries for advanced analysis</p>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>HTTPS Upload</h4>
+                        <p style="color:#9ca3af;font-size:0.875rem;margin-top:0.5rem;">Secure BloodHound ZIP upload from anywhere</p>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>Multi-Engagement</h4>
+                        <p style="color:#9ca3af;font-size:0.875rem;margin-top:0.5rem;">Complete data isolation between assessments</p>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>Attack Path Discovery</h4>
+                        <p style="color:#9ca3af;font-size:0.875rem;margin-top:0.5rem;">Find paths between any two AD entities</p>
+                    </div>
+
+                    <div class="infra-card">
+                        <h4>Relationship Analysis</h4>
+                        <p style="color:#9ca3af;font-size:0.875rem;margin-top:0.5rem;">Full support for all BloodHound relationships</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>Technical Achievement:</strong> Built a production-ready BloodHound platform from scratch, including custom upload handler with ZIP parsing, engagement isolation logic, 42 Cypher queries across 7 categories, Docker containerization, Nginx reverse proxy configuration, Let's Encrypt SSL automation, and CORS-enabled API for cross-origin access.</p>
+                </div>
+
+                <h3>Supported Relationships</h3>
+                <p>Complete implementation of all BloodHound relationship types:</p>
+                <ul>
+                    <li><strong>Delegation:</strong> AllowedToAct, AllowedToDelegate</li>
+                    <li><strong>Admin Rights:</strong> AdminTo, CanRDP, ExecuteDCOM, CanPSRemote</li>
+                    <li><strong>Permissions:</strong> WriteDacl, GenericAll, WriteOwner, AddKeyCredentialLink</li>
+                    <li><strong>Credential Access:</strong> ForceChangePassword, ReadLAPSPassword, ReadGMSAPassword</li>
+                    <li><strong>DCSync:</strong> GetChanges, GetChangesAll, GetChangesInFilteredSet</li>
+                    <li><strong>Group Management:</strong> MemberOf, AddMember</li>
+                    <li><strong>Domain Trusts:</strong> TrustedBy with trust type and SID filtering analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Learning Journey Tab -->
+        <div id="learning" class="tab-content">
+            <div class="content-section">
+                <h2>Learning Journey</h2>
+                <p>A chronological view of skills and technologies mastered through hands-on implementation of this security research platform.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Infrastructure Foundation</h4>
+                        <p><strong>Proxmox & Virtualization</strong></p>
+                        <ul>
+                            <li>Set up Proxmox VE hypervisor for virtual machine management</li>
+                            <li>Created isolated networks for honeypot and analysis systems</li>
+                            <li>Configured resource allocation and storage management</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Honeypot Deployment</h4>
+                        <p><strong>Cowrie, Conpot & ICS Protocols</strong></p>
+                        <ul>
+                            <li>Deployed Cowrie SSH/Telnet honeypot on Raspberry Pi</li>
+                            <li>Configured Conpot for S7comm and Modbus TCP emulation</li>
+                            <li>Integrated MQTT broker for IoT protocol monitoring</li>
+                            <li>Built custom HMI web interface for realistic plant simulation</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Log Management & Analysis</h4>
+                        <p><strong>ELK Stack Integration</strong></p>
+                        <ul>
+                            <li>Deployed Elasticsearch for log storage and indexing</li>
+                            <li>Configured Logstash for log parsing and enrichment</li>
+                            <li>Set up Kibana for data visualization and dashboards</li>
+                            <li>Implemented GeoIP lookups for attacker geolocation</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Web Development & Dashboards</h4>
+                        <p><strong>Frontend & API Integration</strong></p>
+                        <ul>
+                            <li>Built responsive web interfaces with HTML5/CSS3</li>
+                            <li>Developed JavaScript dashboards with Chart.js for live data visualization</li>
+                            <li>Implemented AJAX/Fetch API for real-time data updates</li>
+                            <li>Created custom Elasticsearch queries for dashboard metrics</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>BloodHound Platform Development</h4>
+                        <p><strong>Graph Database & Active Directory Analysis</strong></p>
+                        <ul>
+                            <li>Deployed Neo4j graph database with Docker</li>
+                            <li>Learned Cypher query language for graph traversal</li>
+                            <li>Built Flask REST API for BloodHound data management</li>
+                            <li>Implemented custom ZIP upload handler with engagement isolation</li>
+                            <li>Created 42 preset Cypher queries across 7 attack categories</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Networking & Security</h4>
+                        <p><strong>Nginx, SSL/TLS & Network Configuration</strong></p>
+                        <ul>
+                            <li>Configured Nginx as reverse proxy for API and Neo4j</li>
+                            <li>Implemented SSL/TLS with Let's Encrypt certificates</li>
+                            <li>Set up automatic certificate renewal with certbot</li>
+                            <li>Configured CORS headers for cross-origin API access</li>
+                            <li>Implemented port forwarding for public accessibility</li>
+                            <li>Set up DuckDNS for dynamic DNS management</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Backend Development</h4>
+                        <p><strong>Python, Flask & Email Integration</strong></p>
+                        <ul>
+                            <li>Built Flask backend for contact form with SMTP integration</li>
+                            <li>Implemented honeypot field for spam protection</li>
+                            <li>Configured Gmail App Passwords for secure email delivery</li>
+                            <li>Created systemd services for background process management</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>DevOps & Deployment</h4>
+                        <p><strong>Docker, CI/CD & Service Management</strong></p>
+                        <ul>
+                            <li>Containerized services with Docker and Docker Compose</li>
+                            <li>Configured custom Docker networks for service isolation</li>
+                            <li>Deployed static site to GitHub Pages with git workflows</li>
+                            <li>Implemented systemd service files for auto-start and monitoring</li>
+                            <li>Set up log rotation and service health checks</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Security Research & Analysis</h4>
+                        <p><strong>MITRE ATT&CK, IEC 62443 & Threat Intelligence</strong></p>
+                        <ul>
+                            <li>Mapped observed attacks to MITRE ATT&CK framework</li>
+                            <li>Studied IEC 62443 standards for ICS security</li>
+                            <li>Analyzed attack patterns and developed detection rules</li>
+                            <li>Built file analysis system with ClamAV integration</li>
+                            <li>Created incident response playbooks for common threats</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <p><strong>Key Takeaway:</strong> This project represents a comprehensive journey from basic infrastructure setup to advanced security research, demonstrating practical skills in virtualization, containerization, web development, API design, database management, networking, security operations, and threat intelligence—all deployed and managed on self-hosted infrastructure.</p>
                 </div>
             </div>
         </div>
@@ -603,5 +860,27 @@
             <p>PORT254 | tony@port254.com | Cyber Research</p>
         </div>
     </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.doc-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
