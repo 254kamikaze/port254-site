@@ -70,7 +70,7 @@ body {
     border-radius: 0.25rem;
     padding: 0.35rem 0.5rem;
     text-align: center;
-    max-width: 110px;
+    max-width: 196px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -84,14 +84,17 @@ body {
     color: #60a5fa;
     line-height: 1;
     margin-bottom: 0.15rem;
+    padding: 8px;
 }
 
 .stat-value-orange {
     color: #ffa94d;
+    padding: 8px;
 }
 
 .stat-value-red {
     color: #ef4444;
+    padding: 8px;
 }
 
 .stat-label {
