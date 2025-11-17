@@ -65,13 +65,13 @@ body {
 .stat-card {
     background-color: #252525;
     border: 1px solid #3a3a3a;
-    border-radius: 0.5rem;
-    padding: 1rem;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
     text-align: center;
 }
 
 .stat-value {
-    font-size: 2rem;
+    font-size: 0.875rem;
     font-weight: bold;
     color: #60a5fa;
 }
@@ -85,10 +85,10 @@ body {
 }
 
 .stat-label {
-    font-size: 0.7rem;
+    font-size: 0.5rem;
     color: #9ca3af;
     text-transform: uppercase;
-    margin-top: 0.35rem;
+    margin-top: 0.125rem;
 }
 
 .honeypot-card {
