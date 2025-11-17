@@ -1,0 +1,149 @@
+############################################################
+# FINISH MULTI-USER BLOODHOUND SETUP - COPY/PASTE COMMANDS
+############################################################
+
+Everything is ready! Just run these commands:
+
+===== STEP 1: UBUNTU SERVER (192.168.1.7) =====
+
+ssh port254@192.168.1.7
+
+# Copy and paste this ENTIRE block:
+cat > /tmp/add_api.sh << 'END_SCRIPT'
+docker exec bloodhound-api bash -c 'cat >> /app/app.py << '\''EOF'\''
+
+import os, json, uuid
+from datetime import datetime
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER, METADATA_FILE = "/tmp/bloodhound_uploads", "/app/data/databases.json"
+
+def allowed_file(f):
+    return "." in f and f.rsplit(".", 1)[1].lower() == "zip"
+
+def load_metadata():
+    return json.load(open(METADATA_FILE)) if os.path.exists(METADATA_FILE) else []
+
+def save_metadata(m):
+    json.dump(m, open(METADATA_FILE, "w"), indent=2)
+
+@app.route("/api/upload", methods=["POST"])
+def upload_bloodhound():
+    if request.headers.get("X-API-Key") != API_KEY:
+        return jsonify({"error": "Unauthorized"}), 401
+    if "file" not in request.files or not (file := request.files["file"]).filename:
+        return jsonify({"error": "No file"}), 400
+    if not allowed_file(file.filename) or not (name := request.form.get("name", "").strip()):
+        return jsonify({"error": "Invalid"}), 400
+    ts, db_id = datetime.now().strftime("%Y%m%d_%H%M%S"), str(uuid.uuid4())[:8]
+    db_name = f"bh_{''.join(c if c.isalnum() else '_' for c in name.lower())}_{ts}_{db_id}"
+    uid, path = str(uuid.uuid4()), os.path.join(UPLOAD_FOLDER, f"{str(uuid.uuid4())}_{secure_filename(file.filename)}")
+    try:
+        file.save(path)
+        if os.path.getsize(path) > 500*1024*1024:
+            raise Exception("Too large")
+        import sys; sys.path.insert(0, "/app")
+        from import_bloodhound_multi_db import import_from_zip
+        result = import_from_zip(path, os.getenv("NEO4J_URI", "bolt://neo4j:7687"), os.getenv("NEO4J_USER", "neo4j"), os.getenv("NEO4J_PASS", "bloodhound"), db_name)
+        if not result["success"]:
+            raise Exception(result.get("error"))
+        m = load_metadata()
+        m.append({"id": uid, "database_name": db_name, "engagement_name": name, "description": request.form.get("description", ""), "uploaded_at": datetime.now().isoformat(), "file_size": os.path.getsize(path), "stats": result["stats"], "original_filename": file.filename})
+        save_metadata(m)
+        os.remove(path)
+        return jsonify({"success": True, "database": db_name, "id": uid, "stats": result["stats"]}), 200
+    except Exception as e:
+        os.path.exists(path) and os.remove(path)
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/databases", methods=["GET"])
+def list_databases():
+    if request.headers.get("X-API-Key") != API_KEY:
+        return jsonify({"error": "Unauthorized"}), 401
+    m = load_metadata(); m.sort(key=lambda x: x.get("uploaded_at", ""), reverse=True)
+    return jsonify({"databases": m}), 200
+
+@app.route("/api/databases/<db_id>", methods=["DELETE"])
+def delete_database(db_id):
+    if request.headers.get("X-API-Key") != API_KEY:
+        return jsonify({"error": "Unauthorized"}), 401
+    m = load_metadata()
+    if not (db := next((d for d in m if d["id"] == db_id), None)):
+        return jsonify({"error": "Not found"}), 404
+    try:
+        from neo4j import GraphDatabase
+        driver = GraphDatabase.driver(os.getenv("NEO4J_URI", "bolt://neo4j:7687"), auth=(os.getenv("NEO4J_USER", "neo4j"), os.getenv("NEO4J_PASS", "bloodhound")))
+        with driver.session(database="system") as s:
+            s.run(f"DROP DATABASE `{db['\''database_name'\'']}` IF EXISTS")
+        driver.close()
+        save_metadata([d for d in m if d["id"] != db_id])
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+EOF
+'
+docker restart bloodhound-api
+sleep 12
+curl -H "X-API-Key: change_me_in_production" http://localhost:5000/api/databases
+END_SCRIPT
+
+bash /tmp/add_api.sh
+
+# You should see: {"databases":[]}
+# That means it's working!
+
+exit
+
+===== STEP 2: KALI (Add Upload UI) =====
+
+# Open bloodhound.html and add upload UI after navigation
+nano /home/kali/port254-site/bloodhound.html
+
+# Find this line (around line 405):
+#    </div>
+# </div>
+#
+# <!-- Main Container -->
+
+# Insert the ENTIRE contents of /tmp/bloodhound_upload_ui.html BEFORE "<!-- Main Container -->"
+
+# OR use this command to do it automatically:
+sed -i '/<!-- Main Container -->/r /tmp/bloodhound_upload_ui.html' /home/kali/port254-site/bloodhound.html
+
+===== STEP 3: TEST IT =====
+
+Open browser: http://192.168.1.128:8000/bloodhound.html
+
+You should see:
+- Database selector dropdown at top
+- Upload zone with drag & drop
+- Query browser below
+
+Try uploading a ZIP file!
+
+###########################################################
+# FILES CREATED FOR YOU:
+###########################################################
+
+/tmp/import_bloodhound_multi_db.py  - Multi-DB import script (ALREADY ON UBUNTU)
+/tmp/bloodhound_upload_ui.html      - Upload UI (482 lines, ready to insert)
+/tmp/api_extensions.py              - Full API code (reference)
+/home/kali/port254-site/docs/BLOODHOUND_MULTI_USER_SETUP.md - Complete docs
+
+###########################################################
+# WHAT'S DEPLOYED:
+###########################################################
+
+Ubuntu Server (192.168.1.7):
+✓ Import script installed
+✓ Dependencies ready
+✓ Directories created
+⚠ API endpoints - run Step 1 above
+
+Kali (192.168.1.128):
+✓ Upload UI ready
+⚠ Insert into bloodhound.html - run Step 2 above
+
+###########################################################
+
+Total time: ~2 minutes!

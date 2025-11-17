@@ -1,0 +1,131 @@
+╔═══════════════════════════════════════════════════════╗
+║  🔗 RE-IMPORT DATA WITH DOMAIN TRUSTS                 ║
+╚═══════════════════════════════════════════════════════╝
+
+## 🎯 WHAT WE FOUND
+
+Your JIJISTUDIO.COM data HAS trust relationships:
+- Trust to: DEV.JIJISTUDIO.COM
+- Type: Bidirectional (TrustDirection: 3)
+- Transitive: YES
+- ⚠️ SID Filtering: DISABLED (vulnerable!)
+
+But the old import script didn't import trusts.
+
+## 🚀 RE-IMPORT WITH TRUST SUPPORT
+
+SSH into Ubuntu and run these commands:
+
+```bash
+ssh port254@192.168.1.7
+# Password: Mandazi457!
+
+# Copy updated import script from Kali
+# (Or I'll provide the command to update it on Ubuntu)
+
+# Create updated import script with trust support
+cat > /tmp/update_trust_import.py << 'PYTHON_EOF'
+# This updates the import_domains method to include trusts
+import sys
+
+with open('/app/import_bloodhound_multi_db.py', 'r') as f:
+    content = f.read()
+
+# Check if trusts already imported
+if 'Import domain trusts' in content:
+    print("✓ Trust import already added")
+    sys.exit(0)
+
+# Find the import_domains method and add trust import
+# The update is complex, so we'll replace the entire script
+
+print("Updated script needs to be copied from Kali")
+print("File: /tmp/import_bloodhound_multi_db.py")
+PYTHON_EOF
+
+# Simpler approach: Copy the entire updated script
+docker exec bloodhound-api bash -c 'cat > /tmp/copy_from_kali.sh << '\''EOF'\''
+# Temporary - need to get updated script from Kali
+echo "Copy /tmp/import_bloodhound_multi_db.py from Kali to /tmp/ on Ubuntu"
+echo "Then run: docker cp /tmp/import_bloodhound_multi_db.py bloodhound-api:/app/"
+EOF
+'
+
+# Manual steps since automated transfer isn't working:
+
+# 1. On Kali, the updated script is at: /tmp/import_bloodhound_multi_db.py
+
+# 2. Copy it to Ubuntu (use scp or copy/paste):
+# From Kali:
+scp /tmp/import_bloodhound_multi_db.py port254@192.168.1.7:/tmp/
+
+# 3. On Ubuntu, copy to container:
+docker cp /tmp/import_bloodhound_multi_db.py bloodhound-api:/app/
+
+# 4. Re-import the JIJISTUDIO data:
+docker exec bloodhound-api python3 /app/import_bloodhound_multi_db.py \
+  /var/run/vmblock-fuse/blockdir/1cJyil/20240907182802_BloodHound.zip \
+  bh_jijistudio_reimport_with_trusts
+
+# Or update existing database (if API supports database param):
+# Just re-upload via the web UI!
+```
+
+## ⚡ EASIER WAY - Use Web UI
+
+Since you now have the upload UI working:
+
+1. Open: http://192.168.1.128:8000/bloodhound.html
+
+2. First, copy the updated import script to Ubuntu:
+   - Copy `/tmp/import_bloodhound_multi_db.py` to Ubuntu
+   - `docker cp /tmp/import_bloodhound_multi_db.py bloodhound-api:/app/`
+
+3. Upload the same ZIP file again via the web UI
+   - Name it: "JIJISTUDIO with Trusts"
+   - It will create a new database with trusts!
+
+4. Select the new database from dropdown
+
+5. Run trust queries!
+
+## 🔍 VERIFY TRUSTS IMPORTED
+
+After re-import, test:
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -H "X-API-Key: change_me_in_production" \
+  -d '{"query":"MATCH (d1:Domain)-[r:TrustedBy]->(d2:Domain) RETURN d1.name as Source, d2.name as Target, r.sidfiltering as SIDFiltering", "database":"bh_jijistudio_reimport_with_trusts"}' \
+  http://192.168.1.7:5000/api/custom-query
+```
+
+Expected output:
+```json
+[{
+  "Source": "JIJISTUDIO.COM",
+  "Target": "DEV.JIJISTUDIO.COM",
+  "SIDFiltering": false
+}]
+```
+
+## 📊 WHAT TRUST QUERIES WILL SHOW
+
+Once trusts are imported, you'll see:
+
+1. **All Domain Trusts**: JIJISTUDIO.COM ⟷ DEV.JIJISTUDIO.COM
+2. **Bidirectional Trusts**: Both directions
+3. **Trusts Without SID Filtering**: ⚠️ This one is vulnerable!
+4. **Domains in Environment**: 2 domains total
+
+## ⚠️ SECURITY FINDING
+
+SID Filtering DISABLED = HIGH RISK
+- Attackers can inject SID history
+- Instant Domain Admin in trusted domain
+- Classic Golden Ticket attack vector
+
+═══════════════════════════════════════════════════════════
+
+Updated script ready at: /tmp/import_bloodhound_multi_db.py
+Copy it to Ubuntu and re-import!
