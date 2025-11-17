@@ -142,55 +142,6 @@
             text-decoration: underline;
         }
 
-        .live-stats {
-            max-width: 1280px;
-            margin: 2rem auto 4rem;
-            padding: 0 2rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background: rgba(59, 130, 246, 0.05);
-            border: 1px solid #2a2a2a;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            border-color: #60a5fa;
-            transform: translateY(-2px);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #60a5fa;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: #9ca3af;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 1.5rem;
-            color: #e5e7eb;
-            margin-bottom: 1rem;
-        }
-
         @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
@@ -255,33 +206,6 @@
                 </svg>
                 Browse Toolkit
             </a>
-        </div>
-    </div>
-
-    <!-- Live Stats Section -->
-    <div class="live-stats">
-        <h2 class="section-title">Live Honeypot Activity (24h)</h2>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-number" id="totalEvents">-</span>
-                <span class="stat-label">Total Events</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="uniqueIPs">-</span>
-                <span class="stat-label">Unique IPs</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="sshAttempts">-</span>
-                <span class="stat-label">SSH Attacks</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" id="countries">-</span>
-                <span class="stat-label">Countries</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number" style="color: #10b981;">5</span>
-                <span class="stat-label">Honeypots Online</span>
-            </div>
         </div>
     </div>
 
@@ -391,71 +315,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Fetch live stats from Elasticsearch
-        async function fetchLiveStats() {
-            const ES_URL = 'https://192.168.1.12:9200/cowrie-*/_search';
-
-            try {
-                const query = {
-                    size: 0,
-                    track_total_hits: true,
-                    query: {
-                        range: {
-                            "@timestamp": {
-                                gte: "now-24h"
-                            }
-                        }
-                    },
-                    aggs: {
-                        unique_ips: {
-                            cardinality: {
-                                field: "src_ip",
-                                precision_threshold: 1000
-                            }
-                        },
-                        ssh_attacks: {
-                            filter: {
-                                bool: {
-                                    should: [
-                                        { term: { "eventid": "cowrie.login.failed" } },
-                                        { term: { "eventid": "cowrie.login.success" } }
-                                    ]
-                                }
-                            }
-                        },
-                        countries: {
-                            cardinality: {
-                                field: "src_ip_geo.country_name",
-                                precision_threshold: 100
-                            }
-                        }
-                    }
-                };
-
-                const response = await fetch(ES_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(query)
-                });
-
-                const data = await response.json();
-
-                document.getElementById('totalEvents').textContent = data.hits.total.value.toLocaleString();
-                document.getElementById('uniqueIPs').textContent = data.aggregations.unique_ips.value.toLocaleString();
-                document.getElementById('sshAttempts').textContent = data.aggregations.ssh_attacks.doc_count.toLocaleString();
-                document.getElementById('countries').textContent = data.aggregations.countries.value.toLocaleString();
-
-            } catch (error) {
-                console.log('Stats unavailable:', error);
-                // Keep showing dashes if stats unavailable
-            }
-        }
-
-        // Load stats on page load
-        fetchLiveStats();
-    </script>
 
     <footer style="text-align: center; padding: 3rem 2rem; margin-top: 6rem; border-top: 1px solid #2a2a2a; color: #6b7280;">
         <p style="margin-bottom: 1rem;">PORT254 | tony@port254.com | Cyber Research</p>
