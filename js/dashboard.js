@@ -871,14 +871,11 @@ async function fetchRecentHTTPLogins() {
         size: 10,
         query: {
             bool: {
-                must: [
-                    { range: { "@timestamp": { gte: "now-24h" } } }
-                ],
                 should: [
                     { term: { "eventid": "http.login.failed" } },
-                    { term: { "eventid": "http.login.success" } },  // NEW: Include success
+                    { term: { "eventid": "http.login.success" } },
                     { term: { "eventid": "web.login.failed" } },
-                    { term: { "eventid": "web.login.success" } },   // NEW: Include success
+                    { term: { "eventid": "web.login.success" } },
                     { bool: {
                         must: [
                             { term: { "dst_port": "8081" } },
@@ -896,7 +893,7 @@ async function fetchRecentHTTPLogins() {
         const data = await esQuery(query);
 
         if (!data.hits || !data.hits.hits || data.hits.hits.length === 0) {
-            document.getElementById('recentHTTPLoginsList').innerHTML = '<p style="color: #6b7280; font-size: 0.7rem; padding: 1rem; text-align: center;">No recent HTTP login attempts</p>';
+            document.getElementById('recentHTTPLoginsList').innerHTML = '<p style="color: #6b7280; font-size: 0.7rem; padding: 1rem; text-align: center;">No HTTP login attempts detected</p>';
             return;
         }
 
