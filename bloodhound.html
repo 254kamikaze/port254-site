@@ -832,7 +832,16 @@ async function switchDatabase() {
 async function deleteCurrentDatabase() {
     if (!currentDatabase) return;
 
-    if (!confirm(`Are you sure you want to delete "${currentDatabase.engagement_name}"?\n\nThis will permanently remove all data for this engagement.`)) {
+    // Protected databases that cannot be deleted
+    const protectedDatabases = ['GOAD', 'cybernetics'];
+    const dbName = currentDatabase.engagement_name;
+
+    if (protectedDatabases.includes(dbName)) {
+        showError(`Cannot delete "${dbName}" - This is a protected database`);
+        return;
+    }
+
+    if (!confirm(`Are you sure you want to delete "${dbName}"?\n\nThis will permanently remove all data for this engagement.`)) {
         return;
     }
 
