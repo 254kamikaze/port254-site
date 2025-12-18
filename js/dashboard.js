@@ -97,7 +97,7 @@ async function fetchStats() {
     const query24h = {
         size: 0,
         track_total_hits: true,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: {
             unique_ips: { cardinality: { field: "src_ip", precision_threshold: 1000 } },
             login_attempts: {
@@ -185,7 +185,7 @@ async function fetchTopUsernames() {
         query: {
             bool: {
                 must: [
-                    { range: { "@timestamp": { gte: "now-24h" } } },
+                    { range: { "@timestamp": { gte: "now-7d" } } },
                     { exists: { field: "username" } }
                 ]
             }
@@ -218,7 +218,7 @@ async function fetchTopPasswords() {
         query: {
             bool: {
                 must: [
-                    { range: { "@timestamp": { gte: "now-24h" } } },
+                    { range: { "@timestamp": { gte: "now-7d" } } },
                     { exists: { field: "password" } }
                 ]
             }
@@ -248,7 +248,7 @@ async function fetchTopPasswords() {
 async function fetchTimeline() {
     const query = {
         size: 0,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: {
             timeline: {
                 date_histogram: {
@@ -272,7 +272,7 @@ async function fetchTimeline() {
 async function fetchTopIPs() {
     const query = {
         size: 0,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: { top_ips: { terms: { field: "src_ip", size: 10 } } }
     };
 
@@ -365,7 +365,7 @@ async function fetchFailedLogins() {
 async function fetchProtocolDistribution() {
     const query = {
         size: 0,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: {
             by_protocol: {
                 terms: { field: "protocol", size: 10 }
@@ -385,7 +385,7 @@ async function fetchProtocolDistribution() {
 async function fetchTopCountries() {
     const query = {
         size: 0,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: { top_ips: { terms: { field: "src_ip", size: 50 } } }
     };
 
@@ -617,7 +617,7 @@ function escapeHtml(text) {
 async function fetchRecentEvents() {
     const query = {
         size: 15,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         sort: [{ "@timestamp": "desc" }]
     };
 
@@ -684,7 +684,7 @@ async function fetchHMILogins() {
         query: {
             bool: {
                 must: [
-                    { range: { "@timestamp": { gte: "now-24h" } } }
+                    { range: { "@timestamp": { gte: "now-7d" } } }
                 ],
                 should: [
                     { term: { "eventid": "http.login.failed" } },
@@ -803,7 +803,7 @@ let protocolActivityChart = null;
 async function fetchProtocolActivity() {
     const query = {
         size: 0,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: {
             by_protocol: {
                 terms: { field: "protocol", size: 10 }
@@ -939,7 +939,7 @@ async function fetchRecentHTTPLogins() {
 async function fetchRepeatOffenders() {
     const query = {
         size: 0,
-        query: { range: { "@timestamp": { gte: "now-24h" } } },
+        query: { range: { "@timestamp": { gte: "now-7d" } } },
         aggs: {
             repeat_ips: {
                 terms: { field: "src_ip", size: 10, min_doc_count: 5 }
