@@ -335,7 +335,8 @@ async function fetchFailedLogins() {
                     <tbody>
                         ${data.hits.hits.map(hit => {
                             const source = hit._source;
-                            const time = new Date(source['@timestamp']).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', second: '2-digit'});
+                            const date = new Date(source['@timestamp']);
+                            const time = date.toLocaleString('en-GB', {month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit', second: '2-digit'});
                             const ip = source.src_ip || '?';
                             const username = source.username || '?';
                             const password = source.password || '?';
@@ -547,7 +548,9 @@ async function viewBreachCommands(breachId, session, event) {
 
         data.hits.hits.forEach(hit => {
             const source = hit._source;
-            const timestamp = new Date(source['@timestamp']).toLocaleTimeString('en-GB', {
+            const timestamp = new Date(source['@timestamp']).toLocaleString('en-GB', {
+                month: 'short',
+                day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit'
@@ -632,7 +635,7 @@ async function fetchRecentEvents() {
         const eventsHTML = data.hits.hits.slice(0, 12).map(hit => {
             const source = hit._source;
             const timestamp = source['@timestamp'] || source.timestamp;
-            const time = timestamp ? new Date(timestamp).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit', second: '2-digit'}) : '??:??:??';
+            const time = timestamp ? new Date(timestamp).toLocaleString('en-GB', {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'}) : '??:??:??';
             const eventType = (source.eventid || 'unknown').replace('cowrie.', '').substring(0, 15);
             const message = String(source.message || source.input || "Event").substring(0, 35);
             return `
@@ -899,7 +902,7 @@ async function fetchRecentHTTPLogins() {
 
         const eventsHTML = data.hits.hits.map(hit => {
             const source = hit._source;
-            const time = new Date(source['@timestamp']).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', second: '2-digit'});
+            const time = new Date(source['@timestamp']).toLocaleString('en-GB', {month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit', second: '2-digit'});
             const username = source.username || 'unknown';
             const password = source.password || 'N/A';
             const srcIP = source.src_ip || 'unknown';
