@@ -1,0 +1,17 @@
+# Archived pages
+archive/
+
+# Documentation and scripts
+docs/
+*.sh
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

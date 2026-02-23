@@ -28,7 +28,7 @@ body {
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #60a5fa;
+    color: #4B8BF5;
     text-align: center;
 }
 
@@ -81,7 +81,7 @@ body {
 .stat-value {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #60a5fa;
+    color: #4B8BF5;
     line-height: 1;
     margin-bottom: 0.15rem;
     padding: 8px;
@@ -243,7 +243,7 @@ body {
 .card-title {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #60a5fa;
+    color: #4B8BF5;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -307,7 +307,7 @@ body {
 
 .compact-list td:first-child {
     font-family: 'Courier New', monospace;
-    color: #60a5fa;
+    color: #4B8BF5;
 }
 
 .compact-list td:last-child {
@@ -350,7 +350,7 @@ body {
 
 .ip-country {
     font-size: 0.65rem;
-    color: #60a5fa;
+    color: #4B8BF5;
 }
 
 .ip-count {
@@ -374,7 +374,7 @@ body {
 }
 
 .event-time {
-    color: #60a5fa;
+    color: #4B8BF5;
     font-weight: 600;
     font-size: 0.6rem;
 }
@@ -466,17 +466,17 @@ body {
 
 .breach-item:hover {
     /* background-color: #2a2a2a; */
-    border-color: #60a5fa;
+    border-color: #4B8BF5;
 }
 
 .breach-item.selected {
     /* background-color: #1e293b; */
-    border: 2px solid #60a5fa;
+    border: 2px solid #4B8BF5;
     box-shadow: 0 0 12px rgba(96, 165, 250, 0.3);
 }
 
 .breach-time {
-    color: #60a5fa;
+    color: #4B8BF5;
     font-size: 0.7rem;
     font-weight: 600;
 }
@@ -510,7 +510,7 @@ body {
 }
 
 .btn-view-commands {
-    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #4B8BF5 0%, #3b82f6 100%);
     color: white;
     border: none;
     padding: 0.4rem 0.75rem;
@@ -571,7 +571,7 @@ body {
 }
 
 .command-prompt {
-    color: #60a5fa;
+    color: #4B8BF5;
     font-weight: 600;
 }
 
@@ -612,7 +612,7 @@ body {
 }
 
 .health-port {
-    color: #60a5fa;
+    color: #4B8BF5;
     font-family: 'Courier New', monospace;
     font-size: 0.65rem;
 }

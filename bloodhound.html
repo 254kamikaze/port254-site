@@ -54,7 +54,7 @@
 
         .bh-search:focus {
             outline: none;
-            border-color: #60a5fa;
+            border-color: #4B8BF5;
         }
 
         .bh-sidebar-content {
@@ -74,7 +74,7 @@
         .category-title {
             font-size: 0.75rem;
             font-weight: 700;
-            color: #60a5fa;
+            color: #4B8BF5;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             padding: 0.25rem 0.5rem;
@@ -94,14 +94,14 @@
 
         .query-item:hover {
             background: rgba(96, 165, 250, 0.1);
-            color: #60a5fa;
-            border-left-color: #60a5fa;
+            color: #4B8BF5;
+            border-left-color: #4B8BF5;
         }
 
         .query-item.active {
             background: rgba(96, 165, 250, 0.15);
-            color: #60a5fa;
-            border-left-color: #60a5fa;
+            color: #4B8BF5;
+            border-left-color: #4B8BF5;
             font-weight: 500;
         }
 
@@ -150,7 +150,7 @@
         .content-badge {
             display: inline-block;
             background: rgba(96, 165, 250, 0.15);
-            color: #60a5fa;
+            color: #4B8BF5;
             padding: 0.25rem 0.75rem;
             border-radius: 0.25rem;
             font-size: 0.75rem;
@@ -181,7 +181,7 @@
         }
 
         .sharphound-section h3 {
-            color: #60a5fa;
+            color: #4B8BF5;
             font-size: 1rem;
             margin: 0 0 1rem 0;
             font-weight: 600;
@@ -195,7 +195,7 @@
             margin: 0.75rem 0;
             font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 0.8rem;
-            color: #60a5fa;
+            color: #4B8BF5;
             overflow-x: auto;
             position: relative;
         }
@@ -229,7 +229,7 @@
 
         .code-lang {
             font-size: 0.7rem;
-            color: #60a5fa;
+            color: #4B8BF5;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -254,12 +254,12 @@
 
         .btn-code:hover {
             background: #2f2f2f;
-            color: #60a5fa;
-            border-color: #60a5fa;
+            color: #4B8BF5;
+            border-color: #4B8BF5;
         }
 
         .btn-run {
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #4B8BF5 0%, #3b82f6 100%);
             color: white;
             border: none;
         }
@@ -272,7 +272,7 @@
         .code-content {
             font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 0.875rem;
-            color: #60a5fa;
+            color: #4B8BF5;
             line-height: 1.6;
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -285,7 +285,7 @@
         .results-header {
             font-size: 0.7rem;
             font-weight: 700;
-            color: #60a5fa;
+            color: #4B8BF5;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 1rem;
@@ -357,11 +357,11 @@
 
         .success-banner {
             background: rgba(59, 130, 246, 0.1);
-            border: 1px solid #60a5fa;
+            border: 1px solid #4B8BF5;
             border-radius: 0.5rem;
             padding: 1rem;
             margin: 1rem 0;
-            color: #60a5fa;
+            color: #4B8BF5;
             font-size: 0.875rem;
             font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
@@ -399,7 +399,7 @@
         }
 
         .upload-section h3 {
-            color: #60a5fa;
+            color: #4B8BF5;
             font-size: 1rem;
             margin: 0 0 0.5rem 0;
         }
@@ -411,7 +411,7 @@
         }
 
         .upload-link {
-            color: #60a5fa;
+            color: #4B8BF5;
             text-decoration: none;
             font-weight: 500;
         }
@@ -434,7 +434,7 @@
         }
 
         strong {
-            color: #60a5fa;
+            color: #4B8BF5;
             font-weight: 600;
         }
 
@@ -466,13 +466,20 @@
         <div class="container">
             <nav class="nav-menu" style="justify-content: center;">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
-                <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
-                <a href="file-analysis.html" class="nav-link">File Analysis</a>
-                <a href="incident-response.html" class="nav-link">Incident Response</a>
-                <a href="bloodhound.html" class="nav-link active">BloodHound</a>
-                <a href="tools.html" class="nav-link">Tools</a>
-                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle active">
+                        Lab
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="honeypot-dashboard.html" class="nav-dropdown-item">Honeypot Dashboard</a>
+                        <a href="attack-matrix.html" class="nav-dropdown-item">ATT&CK Matrix</a>
+                        <a href="bloodhound.html" class="nav-dropdown-item active">BloodHound</a>
+                    </div>
+                </div>
                 <a href="contact.html" class="nav-link">Contact</a>
             </nav>
         </div>
@@ -482,7 +489,7 @@
     <div class="container" style="max-width: 1200px; margin: 1rem auto 0;">
         <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 0.5rem; padding: 0.875rem 1rem;">
             <p style="color: #9ca3af; font-size: 0.8125rem; margin: 0; line-height: 1.5;">
-                <strong style="color: #60a5fa;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
+                <strong style="color: #4B8BF5;">Security Notice:</strong> Remove all sensitive information before uploading. Do not upload exam-related content or data from unauthorized assessments. All uploads are processed locally on your infrastructure.
             </p>
         </div>
     </div>
@@ -500,7 +507,7 @@ This provides upload functionality and database selection
 
             <!-- Left: Database Selector -->
             <div class="database-selector" style="background: #1a1a1a; padding: 1rem; border-radius: 0.5rem; border: 1px solid #2a2a2a;">
-                <h3 style="color: #60a5fa; margin: 0 0 0.75rem 0; font-size: 0.9375rem; font-weight: 600;">
+                <h3 style="color: #4B8BF5; margin: 0 0 0.75rem 0; font-size: 0.9375rem; font-weight: 600;">
                     Select Engagement
                 </h3>
 
@@ -518,9 +525,9 @@ This provides upload functionality and database selection
                     </button>
                 </div>
 
-                <div id="current-db-info" style="margin-top: 0.75rem; padding: 0.75rem; background: #252525; border-radius: 0.375rem; border-left: 2px solid #60a5fa; display: none;">
+                <div id="current-db-info" style="margin-top: 0.75rem; padding: 0.75rem; background: #252525; border-radius: 0.375rem; border-left: 2px solid #4B8BF5; display: none;">
                     <div style="color: #9ca3af; font-size: 0.75rem;">
-                        <strong style="color: #60a5fa; font-size: 0.8125rem;"><span id="current-db-name"></span></strong>
+                        <strong style="color: #4B8BF5; font-size: 0.8125rem;"><span id="current-db-name"></span></strong>
                     </div>
                     <div style="color: #6b7280; font-size: 0.6875rem; margin-top: 0.25rem;">
                         <span id="current-db-stats"></span> • <span id="current-db-date"></span>
@@ -531,7 +538,7 @@ This provides upload functionality and database selection
 
             <!-- Right: Upload Zone -->
             <div class="upload-zone" style="background: #1a1a1a; padding: 1rem; border-radius: 0.5rem; border: 1px solid #2a2a2a;">
-                <h3 style="color: #60a5fa; margin: 0 0 0.75rem 0; font-size: 0.9375rem; font-weight: 600;">
+                <h3 style="color: #4B8BF5; margin: 0 0 0.75rem 0; font-size: 0.9375rem; font-weight: 600;">
                     Upload New Data
                 </h3>
 
@@ -596,12 +603,12 @@ This provides upload functionality and database selection
 <style>
 /* Hover effects */
 #drop-zone:hover {
-    border-color: #60a5fa;
+    border-color: #4B8BF5;
     background: #2a2a2a;
 }
 
 #drop-zone.dragover {
-    border-color: #60a5fa;
+    border-color: #4B8BF5;
     background: #2a3a2a;
     border-style: solid;
 }
@@ -1053,7 +1060,7 @@ function showError(message) {
 function showSuccess(result) {
     const resultDiv = document.getElementById('upload-result');
     resultDiv.innerHTML = `
-        <div class="upload-success" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(96, 165, 250, 0.3); padding: 15px; border-radius: 4px; color: #60a5fa;">
+        <div class="upload-success" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(96, 165, 250, 0.3); padding: 15px; border-radius: 4px; color: #4B8BF5;">
             <strong>✅ Upload Successful!</strong>
             <div style="margin-top: 10px; color: #aaa; font-size: 13px;">
                 Database: ${result.database}<br>
@@ -1124,7 +1131,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
                 <!-- SharpHound Commands Section -->
                 <div id="sharphound-section" style="margin-top: 2rem;">
                     <div style="margin-bottom: 1rem;">
-                        <h3 style="color: #60a5fa; font-size: 0.875rem; margin: 0 0 0.5rem 0; font-family: 'JetBrains Mono', 'Courier New', monospace;">📋 SharpHound Collection</h3>
+                        <h3 style="color: #4B8BF5; font-size: 0.875rem; margin: 0 0 0.5rem 0; font-family: 'JetBrains Mono', 'Courier New', monospace;">📋 SharpHound Collection</h3>
                         <p style="color: #6b7280; font-size: 0.75rem; margin: 0;">Common data collection commands for Active Directory enumeration</p>
                     </div>
 
@@ -1304,7 +1311,7 @@ document.getElementById('database-selector').addEventListener('change', switchDa
             const btn = event.target;
             const originalText = btn.textContent;
             btn.textContent = '✓ Copied!';
-            btn.style.color = '#60a5fa';
+            btn.style.color = '#4B8BF5';
             setTimeout(() => {
                 btn.textContent = originalText;
                 btn.style.color = '';
@@ -1815,7 +1822,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
                 }
 
                 // Render paths with detailed visualization
-                let pathsHTML = `<div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 1rem; font-weight: 600;">
+                let pathsHTML = `<div style="color: #4B8BF5; font-size: 0.875rem; margin-bottom: 1rem; font-weight: 600;">
                     Found ${data.length} path${data.length > 1 ? 's' : ''}: ${description}
                 </div>`;
 
@@ -1867,7 +1874,7 @@ $com.Document.ActiveView.ExecuteShellCommand('cmd.exe',$null,"/c powershell.exe"
 
                             pathsHTML += `
                                 <div style="margin-left: 1.5rem; padding: 0.75rem; background: #0a0a0a; border-left: 2px solid #3b82f6; border-radius: 0.25rem;">
-                                    <div style="color: #60a5fa; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem;">
+                                    <div style="color: #4B8BF5; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem;">
                                         ↓ ${edgeType}
                                     </div>
                                     ${abuseInfo.summary ? `

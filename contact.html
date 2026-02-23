@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - port254</title>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://port254.com/contact.html">
+    <meta property="og:title" content="Contact - port254 | OT Cybersecurity Advisory">
+    <meta property="og:description" content="Get in touch for OT cybersecurity advisory, assessments, training, and critical infrastructure security services.">
+    <meta property="og:image" content="https://port254.com/images/dashboard-preview.png">
     <link rel="icon" type="image/png" href="./images/favicon.png">
     <link rel="stylesheet" href="./css/style.css">
     <style>
         .contact-hero {
             border-bottom: 1px solid #2a2a2a;
-            padding: 3rem 1.5rem;
+            padding: 4rem 1.5rem;
             text-align: center;
         }
 
@@ -24,6 +29,7 @@
             color: #9ca3af;
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.7;
         }
 
         .contact-container {
@@ -40,7 +46,6 @@
         }
 
         .contact-form-section {
-            /*background-color: #000000;*/
             border: 1px solid #2a2a2a;
             border-radius: 0.75rem;
             padding: 2rem;
@@ -82,7 +87,7 @@
         .form-select:focus,
         .form-textarea:focus {
             outline: none;
-            border-color: #60a5fa;
+            border-color: #4B8BF5;
         }
 
         .form-textarea {
@@ -92,7 +97,7 @@
 
         .form-submit {
             width: 100%;
-            background-color: #60a5fa;
+            background-color: #4B8BF5;
             color: white;
             padding: 0.875rem 1.5rem;
             border-radius: 0.5rem;
@@ -115,7 +120,6 @@
         }
 
         .info-card {
-            /*background-color: #000000;*/
             border: 1px solid #2a2a2a;
             border-radius: 0.75rem;
             padding: 1.5rem;
@@ -131,7 +135,7 @@
         .info-card-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #4B8BF5 0%, #3b82f6 100%);
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
@@ -151,40 +155,13 @@
         }
 
         .info-card-content a {
-            color: #60a5fa;
+            color: #4B8BF5;
             text-decoration: none;
             transition: color 0.2s;
         }
 
         .info-card-content a:hover {
             color: #93c5fd;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background-color: #252525;
-            border: 1px solid #3a3a3a;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #9ca3af;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .social-link:hover {
-            background-color: #60a5fa;
-            border-color: #60a5fa;
-            color: white;
-            transform: translateY(-2px);
         }
 
         @media (max-width: 1024px) {
@@ -209,13 +186,20 @@
         <div class="container">
             <nav class="nav-menu" style="justify-content: center;">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="honeypot-dashboard.html" class="nav-link">Honeypot Dashboard</a>
-                <a href="attack-matrix.html" class="nav-link">ATT&CK Matrix</a>
-                <a href="file-analysis.html" class="nav-link">File Analysis</a>
-                <a href="incident-response.html" class="nav-link">Incident Response</a>
-                <a href="bloodhound.html" class="nav-link">BloodHound</a>
-                <a href="tools.html" class="nav-link">Tools</a>
-                <a href="documentation.html" class="nav-link">Documentation</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle">
+                        Lab
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="honeypot-dashboard.html" class="nav-dropdown-item">Honeypot Dashboard</a>
+                        <a href="attack-matrix.html" class="nav-dropdown-item">ATT&CK Matrix</a>
+                        <a href="bloodhound.html" class="nav-dropdown-item">BloodHound</a>
+                    </div>
+                </div>
                 <a href="contact.html" class="nav-link active">Contact</a>
             </nav>
         </div>
@@ -223,8 +207,8 @@
 
     <!-- Hero -->
     <div class="contact-hero">
-        <h1>Say Hello</h1>
-        <p>If you'd like to chat about security research, labs, content, or anything related, feel free to message me. Always open to knowledge sharing.</p>
+        <h1>Get in Touch</h1>
+        <p>Interested in OT cybersecurity advisory services? Send me a message and I'll get back to you to discuss how I can help secure your critical infrastructure.</p>
     </div>
 
     <!-- Contact Content -->
@@ -232,7 +216,7 @@
         <div class="contact-grid">
             <!-- Contact Form -->
             <div class="contact-form-section">
-                <h2 class="form-title">Send us a Message</h2>
+                <h2 class="form-title">Send a Message</h2>
                 <div id="formMessage" style="display: none; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;"></div>
                 <form id="contactForm">
                     <!-- Honeypot field (hidden from humans, bots will fill it) -->
@@ -252,14 +236,17 @@
                         <label class="form-label" for="subject">Subject *</label>
                         <select id="subject" name="subject" class="form-select" required>
                             <option value="">Select a subject</option>
-                            <option value="General Inquiry">General Inquiry</option>
-                            <option value="Collaboration">Collaboration</option>
+                            <option value="Advisory Inquiry">Advisory Inquiry</option>
+                            <option value="Assessment Request">Assessment Request</option>
+                            <option value="Training Inquiry">Training Inquiry</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="General">General</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="message">Message *</label>
-                        <textarea id="message" name="message" class="form-textarea" required placeholder="Tell us how we can help..."></textarea>
+                        <textarea id="message" name="message" class="form-textarea" required placeholder="How can I help?"></textarea>
                     </div>
 
                     <button type="submit" class="form-submit" id="submitBtn">Send Message</button>
@@ -285,20 +272,6 @@
                 <div class="info-card">
                     <div class="info-card-header">
                         <div class="info-card-icon">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                            </svg>
-                        </div>
-                        <h3 class="info-card-title">Discord</h3>
-                    </div>
-                    <div class="info-card-content">
-                        <p>254kamikaze</p>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <div class="info-card-header">
-                        <div class="info-card-icon">
                             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -307,8 +280,8 @@
                         <h3 class="info-card-title">Location</h3>
                     </div>
                     <div class="info-card-content">
-                        <p>Remote, anywhere.</p>
-                        <p>Focused on personal cyber research and global collaboration.</p>
+                        <p>Australia & East Africa</p>
+                        <p>Available for remote and on-site engagements.</p>
                     </div>
                 </div>
 
@@ -319,22 +292,25 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
                             </svg>
                         </div>
-                        <h3 class="info-card-title">Professional Certifications</h3>
+                        <h3 class="info-card-title">Credentials</h3>
                     </div>
                     <div class="info-card-content">
-                        <p style="margin-bottom: 1rem;">Certified in advanced security domains:</p>
+                        <p style="margin-bottom: 1rem;">Professional certifications:</p>
                         <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li style="padding: 0.5rem 0; color: #d1d5db; font-weight: 500;">
-                                <span style="color: #60a5fa;">•</span> CISSP - Certified Information Systems Security Professional
+                            <li style="padding: 0.35rem 0; color: #d1d5db; font-weight: 500;">
+                                <span style="color: #4B8BF5;">&#8226;</span> IEC 62443 Expert
                             </li>
-                            <li style="padding: 0.5rem 0; color: #d1d5db; font-weight: 500;">
-                                <span style="color: #60a5fa;">•</span> OSCP - Offensive Security Certified Professional
+                            <li style="padding: 0.35rem 0; color: #d1d5db; font-weight: 500;">
+                                <span style="color: #4B8BF5;">&#8226;</span> CISSP
                             </li>
-                            <li style="padding: 0.5rem 0; color: #d1d5db; font-weight: 500;">
-                                <span style="color: #60a5fa;">•</span> OSEP - Offensive Security Experienced Penetration Tester
+                            <li style="padding: 0.35rem 0; color: #d1d5db; font-weight: 500;">
+                                <span style="color: #4B8BF5;">&#8226;</span> OSCP
                             </li>
-                            <li style="padding: 0.5rem 0; color: #d1d5db; font-weight: 500;">
-                                <span style="color: #60a5fa;">•</span> IEC 62443 - Industrial Automation and Control Systems Security
+                            <li style="padding: 0.35rem 0; color: #d1d5db; font-weight: 500;">
+                                <span style="color: #4B8BF5;">&#8226;</span> OSEP
+                            </li>
+                            <li style="padding: 0.35rem 0; color: #d1d5db; font-weight: 500;">
+                                <span style="color: #4B8BF5;">&#8226;</span> MSc Cybersecurity
                             </li>
                         </ul>
                     </div>
@@ -344,21 +320,16 @@
     </div>
 
     <!-- Footer -->
-        <footer class="footer">
+    <footer class="footer">
         <div class="container">
-            <p style="margin-bottom: 1rem;">PORT254 | tony@port254.com | Cyber Research</p>
-            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap;">
-                <a href="https://github.com/254kamikaze" target="_blank" style="color: #9ca3af; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#9ca3af'">
+            <p style="margin-bottom: 1rem;">Port254 &mdash; OT Cybersecurity Advisory</p>
+            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="mailto:tony@port254.com" style="color: #9ca3af; text-decoration: none; transition: color 0.2s; font-size: 0.875rem;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">tony@port254.com</a>
+                <a href="https://github.com/254kamikaze" target="_blank" style="color: #9ca3af; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                     GitHub
-                </a>
-                <a href="#" onclick="navigator.clipboard.writeText('254kamikaze'); alert('Discord username copied!'); return false;" style="color: #9ca3af; text-decoration: none; transition: color 0.2s; cursor: pointer;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='#9ca3af'">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
-                        <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                    </svg>
-                    Discord: 254kamikaze
                 </a>
             </div>
         </div>
@@ -393,7 +364,7 @@
                     formMessage.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
                     formMessage.style.border = '1px solid #10b981';
                     formMessage.style.color = '#10b981';
-                    formMessage.textContent = data.message || 'Thank you for your message! We\'ll get back to you soon.';
+                    formMessage.textContent = data.message || 'Thank you for your message! I\'ll get back to you soon.';
                     form.reset();
                 } else {
                     // Error
