@@ -1020,7 +1020,16 @@ body {
     padding: 0.5rem 0;
     z-index: 100;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+.nav-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    left: 0;
+    right: 0;
+    height: 1rem;
 }
 
 .nav-dropdown:hover .nav-dropdown-menu {
