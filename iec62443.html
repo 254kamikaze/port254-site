@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEC 62443 - port254</title>
+    <meta name="description" content="IEC 62443 cybersecurity for industrial automation and control systems. ISA/IEC 62443 Expert-certified advisory for critical infrastructure operators in Australia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://port254.com/iec62443.html">
+    <meta property="og:title" content="IEC 62443 OT Cybersecurity - port254">
+    <meta property="og:description" content="ISA/IEC 62443 Expert-certified advisory. Full lifecycle OT security — from risk assessment to system design, implementation, and ongoing management.">
+    <meta property="og:image" content="https://port254.com/images/dashboard-preview.png">
+    <link rel="icon" type="image/png" href="./images/favicon.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* Certification Shields */
+        .cert-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .cert-shields {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+        }
+
+        .cert-shield {
+            width: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .shield {
+            width: 110px;
+            height: 130px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem 0.5rem 1.5rem;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%);
+        }
+
+        .shield-label-top {
+            font-size: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 0.15rem;
+        }
+
+        .shield-title {
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 0.25rem;
+        }
+
+        .shield-subtitle {
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .shield-1 {
+            background: linear-gradient(135deg, #4a7c59 0%, #2d5a3a 50%, #1a3d24 100%);
+            border: 2px solid #8fbc8f;
+        }
+
+        .shield-2 {
+            background: linear-gradient(135deg, #7b5ea7 0%, #5a3d8a 50%, #3d2463 100%);
+            border: 2px solid #b39ddb;
+        }
+
+        .shield-3 {
+            background: linear-gradient(135deg, #4a76a8 0%, #2d5a8a 50%, #1a3d63 100%);
+            border: 2px solid #82b1ff;
+        }
+
+        .shield-4 {
+            background: linear-gradient(135deg, #a88c4a 0%, #8a6d2d 50%, #63501a 100%);
+            border: 2px solid #d4b976;
+        }
+
+        .shield-expert {
+            background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 50%, #000000 100%);
+            border: 2px solid #9ca3af;
+            width: 120px;
+            height: 142px;
+        }
+
+        .shield-expert .shield-title {
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .cert-plus {
+            color: #4B8BF5;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0.15rem;
+            align-self: center;
+        }
+
+        .cert-equals {
+            color: #9ca3af;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0.25rem;
+            align-self: center;
+        }
+
+        .cert-label {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .cert-statement {
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            background: rgba(75, 139, 245, 0.06);
+            border: 1px solid rgba(75, 139, 245, 0.2);
+            border-radius: 0.75rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cert-statement p {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .cert-statement strong {
+            color: #4B8BF5;
+        }
+
+        /* Module Cards */
+        .module-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .module-card {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card:hover {
+            border-color: #4B8BF5;
+            transform: translateY(-4px);
+        }
+
+        .module-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .module-tag-general { color: #4ade80; }
+        .module-tag-policies { color: #c084fc; }
+        .module-tag-system { color: #60a5fa; }
+        .module-tag-component { color: #fbbf24; }
+
+        .module-card h3 {
+            color: #e5e7eb;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .module-card > p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .module-parts {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.25rem 0;
+            flex: 1;
+        }
+
+        .module-parts li {
+            padding: 0.35rem 0;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .module-parts li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            width: 6px;
+            height: 6px;
+            background: #4B8BF5;
+            border-radius: 50%;
+        }
+
+        .module-card-footer {
+            font-size: 0.8rem;
+            color: #6b7280;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .module-card-footer strong {
+            color: #9ca3af;
+        }
+
+        /* FR Grid */
+        .fr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .fr-item {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+        }
+
+        .fr-item h4 {
+            color: #4B8BF5;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .fr-item p {
+            color: #9ca3af;
+            font-size: 0.825rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Why 62443 */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .why-item {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .why-item h4 {
+            color: #e5e7eb;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .why-item p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .cert-shields {
+                gap: 0.25rem;
+            }
+
+            .cert-shield {
+                width: 90px;
+            }
+
+            .shield {
+                width: 80px;
+                height: 95px;
+                padding: 0.5rem 0.25rem 1rem;
+            }
+
+            .shield-label-top {
+                font-size: 0.35rem;
+            }
+
+            .shield-title {
+                font-size: 0.45rem;
+            }
+
+            .shield-subtitle {
+                font-size: 0.35rem;
+            }
+
+            .shield-expert {
+                width: 88px;
+                height: 104px;
+            }
+
+            .shield-expert .shield-title {
+                font-size: 0.65rem;
+            }
+
+            .cert-plus, .cert-equals {
+                font-size: 1rem;
+            }
+
+            .module-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cert-shields {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="logo">port254</h1>
+            </a>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <nav class="nav-menu" style="justify-content: center;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="soci.html" class="nav-link">SOCI</a>
+                <a href="iec62443.html" class="nav-link active">62443</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle">
+                        Lab
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="honeypot-dashboard.html" class="nav-dropdown-item">Honeypot Dashboard</a>
+                        <a href="attack-matrix.html" class="nav-dropdown-item">ATT&CK Matrix</a>
+                        <a href="bloodhound.html" class="nav-dropdown-item">BloodHound</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <h1>IEC 62443</h1>
+        <p>The international standard for securing industrial automation and control systems. We hold ISA/IEC 62443 Expert-level certification — the full lifecycle, from risk assessment through system design to ongoing security management.</p>
+    </div>
+
+    <!-- Certification Shields -->
+    <div class="section">
+        <div class="cert-section">
+            <h2 class="section-heading">ISA/IEC 62443 Certified Expert</h2>
+            <p class="section-subheading">Four specialist certifications covering the complete IACS cybersecurity lifecycle.</p>
+
+            <div class="cert-shields">
+                <div class="cert-shield">
+                    <div class="shield shield-1">
+                        <span class="shield-label-top">ISA/IEC 62443</span>
+                        <span class="shield-title">Fundamentals Specialist</span>
+                        <span class="shield-subtitle">Certificate 1</span>
+                    </div>
+                    <span class="cert-label">Fundamentals</span>
+                </div>
+
+                <span class="cert-plus">+</span>
+
+                <div class="cert-shield">
+                    <div class="shield shield-2">
+                        <span class="shield-label-top">ISA/IEC 62443</span>
+                        <span class="shield-title">Risk Assessment Specialist</span>
+                        <span class="shield-subtitle">Certificate 2</span>
+                    </div>
+                    <span class="cert-label">Risk Assessment</span>
+                </div>
+
+                <span class="cert-plus">+</span>
+
+                <div class="cert-shield">
+                    <div class="shield shield-3">
+                        <span class="shield-label-top">ISA/IEC 62443</span>
+                        <span class="shield-title">Design Specialist</span>
+                        <span class="shield-subtitle">Certificate 3</span>
+                    </div>
+                    <span class="cert-label">Design</span>
+                </div>
+
+                <span class="cert-plus">+</span>
+
+                <div class="cert-shield">
+                    <div class="shield shield-4">
+                        <span class="shield-label-top">ISA/IEC 62443</span>
+                        <span class="shield-title">Maintenance Specialist</span>
+                        <span class="shield-subtitle">Certificate 4</span>
+                    </div>
+                    <span class="cert-label">Maintenance</span>
+                </div>
+
+                <span class="cert-equals">=</span>
+
+                <div class="cert-shield">
+                    <div class="shield shield-expert">
+                        <span class="shield-label-top">ISA/IEC 62443</span>
+                        <span class="shield-title">Expert</span>
+                        <span class="shield-subtitle">Cybersecurity</span>
+                    </div>
+                    <span class="cert-label">Expert</span>
+                </div>
+            </div>
+
+            <div class="cert-statement">
+                <p>The ISA/IEC 62443 Cybersecurity Expert certification requires mastery across all four domains — fundamentals, risk assessment, system design, and ongoing maintenance. It represents the highest level of demonstrated competency in industrial control system cybersecurity recognised by the International Society of Automation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- What is 62443 -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">Why IEC 62443</h2>
+        <p class="section-subheading">IEC 62443 is the only international standard purpose-built for securing industrial automation and control systems. It addresses the full ecosystem — asset owners, system integrators, and component suppliers — with a risk-based approach that scales from a single PLC to an enterprise-wide SCADA deployment.</p>
+
+        <div class="why-grid">
+            <div class="why-item">
+                <h4>Built for OT, Not Adapted from IT</h4>
+                <p>Unlike ISO 27001 or NIST CSF, IEC 62443 was designed from the ground up for environments where availability outranks confidentiality, where patching requires outage windows, and where a misconfigured firewall rule can stop a turbine.</p>
+            </div>
+            <div class="why-item">
+                <h4>Recognised Under SOCI</h4>
+                <p>The CIRMP Rules accept IEC 62443 as an equivalent cyber security framework. For Australian critical infrastructure operators, it provides a defensible compliance position while delivering genuine security uplift — not just a checkbox.</p>
+            </div>
+            <div class="why-item">
+                <h4>Covers the Full Supply Chain</h4>
+                <p>62443 is unique in addressing asset owners (2-x), system integrators (3-x), and product suppliers (4-x) with specific requirements for each role. This matters when your OT vendor's security posture directly affects your regulatory exposure.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Four Module Groups -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">The Standard — Four Module Groups</h2>
+        <p class="section-subheading">IEC 62443 is structured into four series, each addressing a different layer of industrial cybersecurity. Together they provide a complete framework from policy through to component-level security requirements.</p>
+
+        <div class="module-cards">
+            <!-- Series 1: General -->
+            <div class="module-card">
+                <div class="module-tag module-tag-general">Series 1 — General</div>
+                <h3>Concepts, Models & Terminology</h3>
+                <p>Establishes the foundational concepts, security models, and terminology used across the entire standard. Defines the zone and conduit model, security levels, and the roles of asset owners, integrators, and suppliers.</p>
+                <ul class="module-parts">
+                    <li>62443-1-1 — Terminology, concepts, and models</li>
+                    <li>62443-1-2 — Master glossary</li>
+                    <li>62443-1-3 — System security conformance metrics</li>
+                    <li>62443-1-4 — IACS security lifecycle and use cases</li>
+                </ul>
+                <div class="module-card-footer">
+                    <strong>Covers:</strong> Zone/conduit model, security levels (SL 1-4), foundational requirements (FR1-FR7), IACS reference architecture
+                </div>
+            </div>
+
+            <!-- Series 2: Policies & Procedures -->
+            <div class="module-card">
+                <div class="module-tag module-tag-policies">Series 2 — Policies & Procedures</div>
+                <h3>Security Management System</h3>
+                <p>Requirements for establishing and maintaining an IACS security program. Covers governance, risk management, personnel security, patch management, and the organisational processes that sustain security over time.</p>
+                <ul class="module-parts">
+                    <li>62443-2-1 — IACS security management system</li>
+                    <li>62443-2-2 — IACS security protection rating</li>
+                    <li>62443-2-3 — Patch management</li>
+                    <li>62443-2-4 — Requirements for IACS service providers</li>
+                </ul>
+                <div class="module-card-footer">
+                    <strong>Covers:</strong> Security policy, organisational security, risk assessment processes, personnel security, physical security, incident management, business continuity
+                </div>
+            </div>
+
+            <!-- Series 3: System -->
+            <div class="module-card">
+                <div class="module-tag module-tag-system">Series 3 — System</div>
+                <h3>Risk Assessment & System Design</h3>
+                <p>The technical core. Defines how to conduct a security risk assessment for system design (3-2) and the system-level security requirements organised by security level (3-3). This is where zone/conduit architecture, SL-T assignment, and control selection happen.</p>
+                <ul class="module-parts">
+                    <li>62443-3-1 — Security technologies for IACS</li>
+                    <li>62443-3-2 — Security risk assessment for system design</li>
+                    <li>62443-3-3 — System security requirements and security levels</li>
+                </ul>
+                <div class="module-card-footer">
+                    <strong>Covers:</strong> Zone/conduit risk assessment (ZCR), target security level assignment, 7 foundational requirements across 4 security levels, system architecture security
+                </div>
+            </div>
+
+            <!-- Series 4: Component -->
+            <div class="module-card">
+                <div class="module-tag module-tag-component">Series 4 — Component</div>
+                <h3>Secure Product Development</h3>
+                <p>Requirements for product suppliers and component manufacturers. Defines secure development lifecycle requirements (4-1) and technical security requirements for IACS components (4-2). Critical for supply chain security and vendor assessment.</p>
+                <ul class="module-parts">
+                    <li>62443-4-1 — Secure product development lifecycle</li>
+                    <li>62443-4-2 — Technical security requirements for IACS components</li>
+                </ul>
+                <div class="module-card-footer">
+                    <strong>Covers:</strong> Secure development practices, security verification and validation, defect management, patch management, component-level security capabilities
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Foundational Requirements -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">Seven Foundational Requirements</h2>
+        <p class="section-subheading">IEC 62443 organises security controls around seven foundational requirements. Each is assessed across four security levels (SL 1-4), from protection against casual violation through to state-sponsored attack.</p>
+
+        <div class="fr-grid">
+            <div class="fr-item">
+                <h4>FR 1 — Identification & Authentication</h4>
+                <p>Identify and authenticate all users (human, software, device) before granting access to the IACS.</p>
+            </div>
+            <div class="fr-item">
+                <h4>FR 2 — Use Control</h4>
+                <p>Enforce assigned privileges to authorised users for actions on the IACS, supporting segregation of duties.</p>
+            </div>
+            <div class="fr-item">
+                <h4>FR 3 — System Integrity</h4>
+                <p>Ensure the integrity of the IACS to prevent unauthorised manipulation of system behaviour.</p>
+            </div>
+            <div class="fr-item">
+                <h4>FR 4 — Data Confidentiality</h4>
+                <p>Ensure the confidentiality of information on communication channels and in data repositories.</p>
+            </div>
+            <div class="fr-item">
+                <h4>FR 5 — Restricted Data Flow</h4>
+                <p>Segment the IACS via zones and conduits to restrict unnecessary data flows between zones.</p>
+            </div>
+            <div class="fr-item">
+                <h4>FR 6 — Timely Response to Events</h4>
+                <p>Respond to security violations by notifying the proper authority, reporting evidence, and taking corrective action.</p>
+            </div>
+            <div class="fr-item">
+                <h4>FR 7 — Resource Availability</h4>
+                <p>Ensure the availability of the IACS against degradation or denial of essential services.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- What We Deliver -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">What We Deliver</h2>
+        <p class="section-subheading">Expert-level certification means we work across the full 62443 lifecycle — not just one slice. From initial risk assessment through to system design, implementation support, and ongoing program management.</p>
+
+        <div class="why-grid">
+            <div class="why-item">
+                <h4>Risk Assessment (62443-3-2)</h4>
+                <p>Zone and conduit identification, threat modelling, consequence analysis, target security level assignment. The structured risk assessment that drives every decision downstream.</p>
+            </div>
+            <div class="why-item">
+                <h4>Gap Analysis (62443-3-3)</h4>
+                <p>Current security level (SL-A) assessment against target (SL-T) across all seven foundational requirements. Identifies exactly where your OT environment falls short and what controls close the gap.</p>
+            </div>
+            <div class="why-item">
+                <h4>System Design Review</h4>
+                <p>Architecture assessment against 62443 zone/conduit principles. Network segmentation, remote access design, safety system isolation, and DMZ architecture for IT/OT convergence.</p>
+            </div>
+            <div class="why-item">
+                <h4>Security Management Program (62443-2-1)</h4>
+                <p>Establish and maintain the IACS security management system — policies, procedures, roles, training, and continuous improvement. Aligned to SOCI CIRMP requirements where applicable.</p>
+            </div>
+            <div class="why-item">
+                <h4>Vendor & Supply Chain Assessment</h4>
+                <p>Evaluate OT product suppliers and system integrators against 62443-4-1 (secure development) and 62443-2-4 (service provider requirements). Build security into procurement.</p>
+            </div>
+            <div class="why-item">
+                <h4>Remediation Roadmap</h4>
+                <p>Risk-prioritised implementation plan that accounts for operational constraints — outage windows, legacy systems, budget cycles, and the reality that you can't patch a running plant.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="section" style="padding-top: 0;">
+        <div class="cta-section">
+            <h3>Secure Your Industrial Systems</h3>
+            <p>IEC 62443 provides the framework. Expert certification provides the depth. Let's apply both to your operational environment.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="contact.html" class="cta-button">Start a Conversation</a>
+                <a href="soci.html" class="cta-button secondary" style="border-color: #2a2a2a; color: #d1d5db;">SOCI Act & CIRMP</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p style="margin-bottom: 1rem;">Port254 &mdash; OT Cybersecurity Advisory</p>
+            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="mailto:tony@port254.com" style="color: #9ca3af; text-decoration: none; transition: color 0.2s; font-size: 0.875rem;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">tony@port254.com</a>
+                <a href="https://github.com/254kamikaze" target="_blank" style="color: #9ca3af; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
