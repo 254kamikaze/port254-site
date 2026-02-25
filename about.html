@@ -11,85 +11,6 @@
     <meta property="og:image" content="https://port254.com/images/dashboard-preview.png">
     <link rel="icon" type="image/png" href="./images/favicon.png">
     <link rel="stylesheet" href="./css/style.css">
-    <style>
-        .cred-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .cred-card {
-            background-color: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-top: 3px solid;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .cred-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .cred-card-cissp { border-top-color: #4ade80; }
-        .cred-card-cissp:hover { border-color: #4ade80; }
-
-        .cred-card-oscp { border-top-color: #fb923c; }
-        .cred-card-oscp:hover { border-color: #fb923c; }
-
-        .cred-card-osep { border-top-color: #f87171; }
-        .cred-card-osep:hover { border-color: #f87171; }
-
-        .cred-card-62443 { border-top-color: #4B8BF5; }
-        .cred-card-62443:hover { border-color: #4B8BF5; }
-
-        .cred-abbrev {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .cred-abbrev-cissp { color: #4ade80; }
-        .cred-abbrev-oscp { color: #fb923c; }
-        .cred-abbrev-osep { color: #f87171; }
-        .cred-abbrev-62443 { color: #4B8BF5; }
-
-        .cred-issuer {
-            font-size: 0.75rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.75rem;
-        }
-
-        .cred-desc {
-            font-size: 0.85rem;
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        .cred-link {
-            color: #4B8BF5;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .cred-link:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .cred-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Header -->
@@ -195,39 +116,6 @@
             <div class="expertise-item">
                 <h4>Manufacturing</h4>
                 <p>Industrial automation, production control, and supply chain systems. PLC, HMI, and industrial network security.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Credentials -->
-    <div class="section" style="padding-top: 0;">
-        <h2 class="section-heading">Credentials</h2>
-        <p class="section-subheading">Governance depth, offensive security expertise, and OT standards mastery — across every engagement.</p>
-
-        <div class="cred-grid">
-            <div class="cred-card cred-card-cissp">
-                <div class="cred-abbrev cred-abbrev-cissp">CISSP</div>
-                <div class="cred-issuer">ISC2</div>
-                <p class="cred-desc">Certified Information Systems Security Professional. Enterprise security governance, risk management, and architecture across IT and OT domains.</p>
-            </div>
-
-            <div class="cred-card cred-card-oscp">
-                <div class="cred-abbrev cred-abbrev-oscp">OSCP</div>
-                <div class="cred-issuer">OffSec</div>
-                <p class="cred-desc">Offensive Security Certified Professional. Hands-on penetration testing — network exploitation, privilege escalation, and Active Directory attack paths.</p>
-            </div>
-
-            <div class="cred-card cred-card-osep">
-                <div class="cred-abbrev cred-abbrev-osep">OSEP</div>
-                <div class="cred-issuer">OffSec</div>
-                <p class="cred-desc">Offensive Security Experienced Penetration Tester. Advanced evasion techniques, custom payload development, and enterprise-grade attack simulation.</p>
-            </div>
-
-            <div class="cred-card cred-card-62443">
-                <div class="cred-abbrev cred-abbrev-62443">ISA/IEC 62443 Expert</div>
-                <div class="cred-issuer">International Society of Automation</div>
-                <p class="cred-desc">Certified across all four cybersecurity certificate programs — fundamentals, risk assessment, system design, and maintenance. The highest ISA certification level for industrial control system cybersecurity.</p>
-                <a href="iec62443.html" class="cred-link">View Full Certification →</a>
             </div>
         </div>
     </div>
