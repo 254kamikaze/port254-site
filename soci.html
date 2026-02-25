@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCI Act & CIRMP for OT - port254</title>
+    <meta name="description" content="SOCI Act compliance for OT environments. CIRMP development, IEC 62443 alignment, and practical implementation for critical infrastructure operators in Australia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://port254.com/soci.html">
+    <meta property="og:title" content="SOCI Act Compliance for OT Environments - port254">
+    <meta property="og:description" content="Translating SOCI Act obligations into operational OT security. CIRMP development, IEC 62443 control alignment, and board-level advisory for responsible entities.">
+    <meta property="og:image" content="https://port254.com/images/dashboard-preview.png">
+    <link rel="icon" type="image/png" href="./images/favicon.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* SOCI Page Specific Styles */
+        .soci-urgency {
+            background: rgba(251, 146, 60, 0.08);
+            border: 1px solid rgba(251, 146, 60, 0.25);
+            border-radius: 0.75rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .soci-urgency p {
+            color: #fdba74;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .soci-urgency strong {
+            color: #fb923c;
+        }
+
+        .framework-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            margin-top: 2rem;
+        }
+
+        .framework-layer {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .framework-layer:last-child {
+            border-bottom: none;
+        }
+
+        .layer-number {
+            width: 48px;
+            height: 48px;
+            background: rgba(75, 139, 245, 0.12);
+            border: 1px solid rgba(75, 139, 245, 0.3);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #4B8BF5;
+        }
+
+        .layer-content h4 {
+            color: #e5e7eb;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .layer-content p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .mapping-table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        .soci-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .soci-table thead th {
+            background-color: #1a1a1a;
+            color: #4B8BF5;
+            font-weight: 600;
+            text-align: left;
+            padding: 0.875rem 1rem;
+            border-bottom: 2px solid #4B8BF5;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .soci-table tbody td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid #2a2a2a;
+            color: #d1d5db;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .soci-table tbody tr:hover {
+            background-color: rgba(75, 139, 245, 0.04);
+        }
+
+        .soci-table code {
+            background-color: rgba(192, 132, 252, 0.12);
+            color: #c084fc;
+            padding: 0.15rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+        }
+
+        .hazard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .hazard-card {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 1.75rem;
+            transition: all 0.3s;
+        }
+
+        .hazard-card:hover {
+            border-color: #4B8BF5;
+            transform: translateY(-4px);
+        }
+
+        .hazard-card h4 {
+            color: #4B8BF5;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .hazard-expects, .hazard-finds {
+            margin-bottom: 1rem;
+        }
+
+        .hazard-expects h5, .hazard-finds h5 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .hazard-expects h5 {
+            color: #6b7280;
+        }
+
+        .hazard-finds h5 {
+            color: #fb923c;
+        }
+
+        .hazard-expects p, .hazard-finds p {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .offer-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .offer-card {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .offer-card:hover {
+            border-color: #4B8BF5;
+            transform: translateY(-4px);
+        }
+
+        .offer-tier {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            color: #4B8BF5;
+        }
+
+        .offer-card h3 {
+            color: #e5e7eb;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .offer-card > p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .offer-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .offer-meta-item {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .offer-meta-item strong {
+            color: #9ca3af;
+        }
+
+        .offer-deliverables {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.25rem 0;
+            flex: 1;
+        }
+
+        .offer-deliverables li {
+            padding: 0.35rem 0;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .offer-deliverables li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            width: 6px;
+            height: 6px;
+            background: #4B8BF5;
+            border-radius: 50%;
+        }
+
+        .offer-audience {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-style: italic;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .problem-item {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .problem-item h4 {
+            color: #e5e7eb;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-item p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .offer-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hazard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .framework-layer {
+                grid-template-columns: 44px 1fr;
+                gap: 1rem;
+            }
+
+            .layer-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .soci-table {
+                font-size: 0.78rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="logo">port254</h1>
+            </a>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="filters-section">
+        <div class="container">
+            <nav class="nav-menu" style="justify-content: center;">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="soci.html" class="nav-link active">SOCI</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle">
+                        Lab
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="honeypot-dashboard.html" class="nav-dropdown-item">Honeypot Dashboard</a>
+                        <a href="attack-matrix.html" class="nav-dropdown-item">ATT&CK Matrix</a>
+                        <a href="bloodhound.html" class="nav-dropdown-item">BloodHound</a>
+                    </div>
+                </div>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <h1>SOCI Act Compliance for OT Environments</h1>
+        <p>Translating legislative obligation into operational security. From CIRMP development to IEC 62443 control alignment — practical implementation for responsible entities.</p>
+    </div>
+
+    <!-- Section 1: The Problem -->
+    <div class="section">
+        <h2 class="section-heading">The Problem Most Organisations Face</h2>
+        <p class="section-subheading">The SOCI Act is in force. CIRMPs are mandatory. But most responsible entities have a compliance gap they haven't identified — the distance between what they've documented and what would survive regulatory scrutiny.</p>
+
+        <div class="soci-urgency">
+            <p><strong>2025-26 marks a shift.</strong> CISC has moved from education and awareness into active assurance and audit. The 2023-24 trial audits already identified systemic deficiencies: inadequate insider threat mitigation, missing critical worker identification policies, and physical hazard programs that existed on paper but not in practice. Entities that treated CIRMP adoption as a paperwork exercise are now exposed.</p>
+        </div>
+
+        <div class="problem-grid">
+            <div class="problem-item">
+                <h4>CIRMPs Without Operational Depth</h4>
+                <p>Many programs were drafted by compliance teams with no input from OT operations. They reference "cyber risks" without identifying specific control system vulnerabilities, and list mitigations that don't map to the actual network architecture.</p>
+            </div>
+            <div class="problem-item">
+                <h4>No Clear Link to Technical Controls</h4>
+                <p>The SOCI Act mandates risk treatment but doesn't prescribe a framework. Without a deliberate mapping to IEC 62443 or equivalent, there's no defensible line between identified risk and implemented control.</p>
+            </div>
+            <div class="problem-item">
+                <h4>Board Attestation Without Evidence</h4>
+                <p>Boards are signing annual reports attesting that the CIRMP is current and effective. In many cases, there is no evidence trail — no review records, no risk register updates, no control effectiveness testing — to support that attestation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Framework -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">Operationalising SOCI for OT Environments</h2>
+        <p class="section-subheading">A structured approach to translating SOCI obligations into implementable OT security outcomes. Six layers, from governance through to continuous improvement — each mapped to the Act, the CIRMP Rules, and IEC 62443.</p>
+
+        <div class="framework-grid">
+            <div class="framework-layer">
+                <div class="layer-number">1</div>
+                <div class="layer-content">
+                    <h4>Governance & Accountability</h4>
+                    <p>Establish CIRMP ownership, board attestation processes, and annual review cycles. Define accountable roles per s30AC of the Act. Map governance structure to IEC 62443-2-1 management commitment and security policy requirements.</p>
+                </div>
+            </div>
+            <div class="framework-layer">
+                <div class="layer-number">2</div>
+                <div class="layer-content">
+                    <h4>Asset Identification & Criticality</h4>
+                    <p>Identify critical infrastructure assets, their critical components (PLCs, RTUs, SIS, DCS, HMIs), critical workers (control room operators, OT engineers, integrators), and data storage systems that form part of the CI asset under s9(7). This is where most OT programs have gaps — the Act's definition of "critical component" captures far more than organisations expect.</p>
+                </div>
+            </div>
+            <div class="framework-layer">
+                <div class="layer-number">3</div>
+                <div class="layer-content">
+                    <h4>All-Hazards Risk Modelling</h4>
+                    <p>Conduct risk assessment across all four CIRMP hazard vectors — cyber and information security, personnel, supply chain, and physical and natural hazards — with OT-specific threat scenarios. Identify material risks and relevant impacts per the Rules (s6, s7). Apply IEC 62443-3-2 risk assessment methodology for the cyber vector.</p>
+                </div>
+            </div>
+            <div class="framework-layer">
+                <div class="layer-number">4</div>
+                <div class="layer-content">
+                    <h4>Control Mapping & Standards Alignment</h4>
+                    <p>Map identified risks to IEC 62443 foundational requirements (FR1-FR7), assign target security levels (SL-T) per zone and conduit, and identify control gaps between current state (SL-A) and target. This creates the defensible technical basis your CIRMP needs.</p>
+                </div>
+            </div>
+            <div class="framework-layer">
+                <div class="layer-number">5</div>
+                <div class="layer-content">
+                    <h4>Incident Reporting & Response Alignment</h4>
+                    <p>Align incident response plans to SOCI notification timelines — 12 hours for critical cyber security incidents, 72 hours for other reportable incidents. Ensure OT-specific detection capabilities exist to meet these obligations. Build response procedures that account for ASD's intervention powers under Part 3A.</p>
+                </div>
+            </div>
+            <div class="framework-layer">
+                <div class="layer-number">6</div>
+                <div class="layer-content">
+                    <h4>Board Reporting & Continuous Improvement</h4>
+                    <p>Establish the evidence trail: annual report preparation per s30AG, board-approved attestation, documented CIRMP reviews (minimum every 12 months per the Rules s7), and update triggers for changes in operating environment, threat landscape, or asset configuration. Build maturity over successive review cycles.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: IEC 62443 Mapping -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">Where SOCI Meets IEC 62443</h2>
+        <p class="section-subheading">The SOCI Act mandates outcomes. IEC 62443 provides the implementation path. This mapping demonstrates how 62443 controls satisfy SOCI obligations — creating a defensible compliance position that delivers genuine security uplift.</p>
+
+        <div class="mapping-table-container">
+            <table class="soci-table">
+                <thead>
+                    <tr>
+                        <th>SOCI Obligation</th>
+                        <th>OT Operational Impact</th>
+                        <th>IEC 62443 Reference</th>
+                        <th>Practical Control</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CIRMP must identify material risks across all hazard vectors (Part 2A, s30AC)</td>
+                        <td>Requires structured risk assessment covering OT-specific cyber, physical, personnel, and supply chain threats</td>
+                        <td><code>62443-3-2</code> ZCR 1-7 — Risk assessment methodology</td>
+                        <td>Zone and conduit risk assessment with threat modelling for each OT zone</td>
+                    </tr>
+                    <tr>
+                        <td>Minimise or eliminate material risks, so far as reasonably practicable (Rules s7)</td>
+                        <td>Implement controls proportionate to risk — not theoretical, but achievable in constrained OT environments</td>
+                        <td><code>62443-3-3</code> SR 1-7 — System security requirements by SL</td>
+                        <td>Assign SL-T per zone, implement controls to close SL-A to SL-T gaps</td>
+                    </tr>
+                    <tr>
+                        <td>Adopt a recognised cyber security framework (Rules s8(4))</td>
+                        <td>Must comply with one of the prescribed frameworks or demonstrate equivalency</td>
+                        <td><code>62443-2-1</code> — IACS Security Management System</td>
+                        <td>IEC 62443 as equivalent framework — documented justification in CIRMP</td>
+                    </tr>
+                    <tr>
+                        <td>Identify critical workers and manage personnel hazards (Rules s9)</td>
+                        <td>Map individuals with access to control systems, assess insider risk, implement access controls</td>
+                        <td><code>62443-2-1</code> 4.3.3.6 — Personnel security<br><code>62443-3-3</code> SR 1.1 — Human user identification</td>
+                        <td>Role-based access control for OT systems, background checks, access review cycles</td>
+                    </tr>
+                    <tr>
+                        <td>Manage supply chain hazards and list major suppliers (Rules s10)</td>
+                        <td>Assess OT vendor risk — system integrators, SCADA vendors, remote access providers</td>
+                        <td><code>62443-2-1</code> 4.3.2.6 — Procurement<br><code>62443-4-1</code> — Secure product development</td>
+                        <td>Vendor security requirements, 62443-4-1 certification in procurement, third-party access controls</td>
+                    </tr>
+                    <tr>
+                        <td>Identify physical critical components and manage physical/natural hazards (Rules s11)</td>
+                        <td>Protect control rooms, substations, pump stations, remote sites from physical and environmental threats</td>
+                        <td><code>62443-3-3</code> SR 2.1 — Authorisation enforcement<br><code>62443-2-1</code> 4.3.3.3 — Physical security</td>
+                        <td>Physical access controls for OT areas, environmental monitoring, redundancy for critical sites</td>
+                    </tr>
+                    <tr>
+                        <td>Report critical cyber incidents within 12 hours (Part 2B, s30BC)</td>
+                        <td>Requires OT-specific detection and triage capability to identify and classify incidents within reporting window</td>
+                        <td><code>62443-2-1</code> 4.3.4.5 — Incident response<br><code>62443-3-3</code> SR 6.1 — Audit log accessibility</td>
+                        <td>OT network monitoring, IDS/anomaly detection, defined escalation path to ASD</td>
+                    </tr>
+                    <tr>
+                        <td>Board must approve annual report attesting CIRMP currency (s30AG)</td>
+                        <td>Board needs evidence-based reporting on OT security posture, not just compliance assertions</td>
+                        <td><code>62443-2-1</code> 4.2.2 — Management commitment<br><code>62443-2-1</code> 4.2.3 — Management review</td>
+                        <td>Board reporting pack with risk metrics, control effectiveness evidence, and maturity trajectory</td>
+                    </tr>
+                    <tr>
+                        <td>Data storage systems form part of CI asset (s9(7))</td>
+                        <td>OT historians, engineering workstations, backup systems are legally part of the critical infrastructure asset</td>
+                        <td><code>62443-3-3</code> SR 3.1-3.8 — System integrity<br><code>62443-3-3</code> SR 7.1-7.8 — Resource availability</td>
+                        <td>Historian segmentation, backup integrity validation, engineering workstation hardening</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 4: Hazard Vectors -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">CIRMP Hazard Vectors in OT Context</h2>
+        <p class="section-subheading">The CIRMP Rules define four hazard vectors. Each requires specific treatment in OT environments. Here's what the regulator expects — and what we typically find when we assess.</p>
+
+        <div class="hazard-cards">
+            <div class="hazard-card">
+                <h4>Cyber & Information Security</h4>
+                <div class="hazard-expects">
+                    <h5>What the regulator expects</h5>
+                    <p>Compliance with a prescribed cyber framework (ISO 27001, NIST CSF, Essential Eight, C2M2, AESCSF, or equivalent). Documented process to minimise and mitigate cyber hazards. From 2024-25, entities must report which framework they use.</p>
+                </div>
+                <div class="hazard-finds">
+                    <h5>What we typically find</h5>
+                    <p>IT-centric frameworks applied to OT without adaptation. No zone and conduit model. Flat OT networks with no segmentation between safety and control systems. No OT-specific incident detection capability.</p>
+                </div>
+            </div>
+
+            <div class="hazard-card">
+                <h4>Personnel Hazards</h4>
+                <div class="hazard-expects">
+                    <h5>What the regulator expects</h5>
+                    <p>Critical workers identified by name and position. Access to critical components restricted to assessed and suitable workers. Process to minimise insider risk — including malicious, negligent, and departing employees.</p>
+                </div>
+                <div class="hazard-finds">
+                    <h5>What we typically find</h5>
+                    <p>No formal critical worker register. Shared HMI credentials across shifts. Third-party integrators with persistent remote access and no access review. The 2023-24 CISC audit trials flagged this as a systemic deficiency.</p>
+                </div>
+            </div>
+
+            <div class="hazard-card">
+                <h4>Supply Chain</h4>
+                <div class="hazard-expects">
+                    <h5>What the regulator expects</h5>
+                    <p>Major suppliers listed in the CIRMP. Process to minimise risks from unauthorised access, interference, or exploitation through the supply chain. Consideration of supplier country of origin, ownership, and influence.</p>
+                </div>
+                <div class="hazard-finds">
+                    <h5>What we typically find</h5>
+                    <p>No formal major supplier register for OT. System integrators with domain admin-equivalent access to SCADA. No contractual security requirements flowing to OT vendors. No assessment of vendor product security maturity (IEC 62443-4-1).</p>
+                </div>
+            </div>
+
+            <div class="hazard-card">
+                <h4>Physical & Natural Hazards</h4>
+                <div class="hazard-expects">
+                    <h5>What the regulator expects</h5>
+                    <p>Physical critical components identified. Access restricted to critical workers. Security arrangements tested for effectiveness. Process to detect, delay, deter, respond to, and recover from physical breaches and natural hazards.</p>
+                </div>
+                <div class="hazard-finds">
+                    <h5>What we typically find</h5>
+                    <p>Remote substations and pump stations with no physical intrusion detection. No bush fire survival plan for exposed infrastructure. Control rooms without access logging. The CISC determined physical and natural hazards were the most common cause of significant impact in 2023-24.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: Consulting Offers -->
+    <div class="section" style="padding-top: 0;">
+        <h2 class="section-heading">How We Help</h2>
+        <p class="section-subheading">Three structured engagements — each designed to move responsible entities from regulatory exposure to defensible compliance with genuine operational security improvement.</p>
+
+        <div class="offer-cards">
+            <!-- Tier 1 -->
+            <div class="offer-card">
+                <div class="offer-tier">Entry</div>
+                <h3>SOCI Readiness Diagnostic</h3>
+                <p>Rapid assessment of your current CIRMP posture against CISC expectations and the CIRMP Rules. Identifies gaps before the regulator does.</p>
+                <div class="offer-meta">
+                    <div class="offer-meta-item"><strong>Duration:</strong> 2–3 weeks</div>
+                    <div class="offer-meta-item"><strong>Format:</strong> Remote + on-site</div>
+                </div>
+                <ul class="offer-deliverables">
+                    <li>CIRMP completeness review against Rules s7-11</li>
+                    <li>Hazard vector coverage assessment</li>
+                    <li>Critical worker and critical component identification gap analysis</li>
+                    <li>Board attestation readiness check</li>
+                    <li>Priority gap report with remediation roadmap</li>
+                </ul>
+                <div class="offer-audience">For: Entities unsure of their CIRMP posture heading into the 2025-26 audit cycle</div>
+            </div>
+
+            <!-- Tier 2 -->
+            <div class="offer-card">
+                <div class="offer-tier">Mid-Tier</div>
+                <h3>CIRMP Design & Board Enablement</h3>
+                <p>Full CIRMP development or overhaul — built with operational input, mapped to IEC 62443, and structured to withstand regulatory scrutiny. Includes the governance and reporting framework boards need to attest with confidence.</p>
+                <div class="offer-meta">
+                    <div class="offer-meta-item"><strong>Duration:</strong> 6–8 weeks</div>
+                    <div class="offer-meta-item"><strong>Format:</strong> Embedded advisory</div>
+                </div>
+                <ul class="offer-deliverables">
+                    <li>Complete CIRMP document aligned to Part 2A and Rules</li>
+                    <li>All-hazards risk assessment with OT-specific scenarios</li>
+                    <li>Critical worker register and personnel hazard framework</li>
+                    <li>Major supplier register and supply chain risk assessment</li>
+                    <li>Board attestation pack and annual report template</li>
+                    <li>Review schedule and update trigger framework</li>
+                </ul>
+                <div class="offer-audience">For: Entities that need a defensible CIRMP — not a template, a program</div>
+            </div>
+
+            <!-- Tier 3 -->
+            <div class="offer-card">
+                <div class="offer-tier">Premium</div>
+                <h3>OT Control Alignment to SOCI</h3>
+                <p>Deep technical engagement mapping IEC 62443 controls to SOCI hazard vectors. Zone and conduit modelling, security level assignment, gap analysis, and a remediation roadmap that closes the gap between legislative obligation and operational reality.</p>
+                <div class="offer-meta">
+                    <div class="offer-meta-item"><strong>Duration:</strong> 8–12 weeks</div>
+                    <div class="offer-meta-item"><strong>Format:</strong> On-site assessment</div>
+                </div>
+                <ul class="offer-deliverables">
+                    <li>IEC 62443-3-2 risk assessment mapped to CIRMP hazard vectors</li>
+                    <li>Zone and conduit architecture review</li>
+                    <li>Security level gap assessment (SL-T vs SL-A)</li>
+                    <li>CIRMP technical annexure with control-to-obligation mapping</li>
+                    <li>Risk-prioritised remediation roadmap</li>
+                    <li>Board-ready assessment summary</li>
+                </ul>
+                <div class="offer-audience">For: Asset owners who want IEC 62443 and SOCI integrated into a single defensible program</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="section" style="padding-top: 0;">
+        <div class="cta-section">
+            <h3>Your CIRMP Needs to Survive Scrutiny</h3>
+            <p>Every responsible entity under the SOCI Act needs a defensible CIRMP. Most don't have one that would withstand the 2025-26 audit cycle. Let's fix that.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="contact.html" class="cta-button">Book a SOCI Readiness Assessment</a>
+                <a href="services.html" class="cta-button secondary" style="border-color: #2a2a2a; color: #d1d5db;">View All Services</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p style="margin-bottom: 1rem;">Port254 &mdash; OT Cybersecurity Advisory</p>
+            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="mailto:tony@port254.com" style="color: #9ca3af; text-decoration: none; transition: color 0.2s; font-size: 0.875rem;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">tony@port254.com</a>
+                <a href="https://github.com/254kamikaze" target="_blank" style="color: #9ca3af; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
