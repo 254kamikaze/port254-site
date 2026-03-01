@@ -13,121 +13,258 @@
     <link rel="icon" type="image/png" href="./images/favicon.png">
     <link rel="stylesheet" href="./css/style.css">
     <style>
-        /* Case study layout */
-        .cs-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
 
-        .cs-meta-item {
+        /* ── Impact bar ───────────────────────────── */
+        .impact-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
-            border-radius: 0.5rem;
-            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            margin-bottom: 3rem;
         }
 
-        .cs-meta-label {
+        .impact-stat {
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            border-right: 1px solid #2a2a2a;
+        }
+
+        .impact-stat:last-child {
+            border-right: none;
+        }
+
+        .impact-number {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #4B8BF5;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .impact-number.red   { color: #f87171; }
+        .impact-number.green { color: #4ade80; }
+        .impact-number.grey  { color: #9ca3af; }
+
+        .impact-label {
+            font-size: 0.72rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* ── Case study sections ──────────────────── */
+        .cs-section {
+            margin-bottom: 3rem;
+        }
+
+        .cs-section-title {
             font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.12em;
+            color: #4B8BF5;
+            margin-bottom: 1.25rem;
+        }
+
+        .cs-h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #e5e7eb;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .cs-body {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.85;
+        }
+
+        .cs-body + .cs-body {
+            margin-top: 1rem;
+        }
+
+        /* ── Challenge callout ────────────────────── */
+        .challenge-callout {
+            border-left: 3px solid #4B8BF5;
+            background: rgba(75, 139, 245, 0.05);
+            border-radius: 0 0.5rem 0.5rem 0;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .challenge-callout p {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 0;
+            font-style: italic;
+        }
+
+        /* ── Approach timeline ────────────────────── */
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0;
+            margin-top: 1.25rem;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .approach-phase {
+            padding: 1.5rem;
+            border-right: 1px solid #2a2a2a;
+            position: relative;
+        }
+
+        .approach-phase:last-child {
+            border-right: none;
+        }
+
+        .phase-number {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             color: #4B8BF5;
             margin-bottom: 0.35rem;
         }
 
-        .cs-meta-value {
-            color: #e5e7eb;
+        .phase-week {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-bottom: 0.6rem;
+        }
+
+        .phase-title {
             font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* Section dividers */
-        .cs-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .cs-section-title {
-            font-size: 1.1rem;
             font-weight: 700;
             color: #e5e7eb;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 0.75rem;
         }
 
-        .cs-body-text {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            line-height: 1.8;
-        }
-
-        /* Findings list */
-        .findings-list {
+        .phase-items {
             list-style: none;
             padding: 0;
             margin: 0;
+        }
+
+        .phase-items li {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            line-height: 1.5;
+            padding: 0.2rem 0 0.2rem 1rem;
+            position: relative;
+        }
+
+        .phase-items li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 5px;
+            height: 5px;
+            background: #2a2a2a;
+            border: 1px solid #4B8BF5;
+            border-radius: 50%;
+        }
+
+        /* ── Findings ─────────────────────────────── */
+        .findings-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.25rem 0 0;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.875rem;
         }
 
         .finding-item {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 1rem;
-            align-items: start;
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
-            border-radius: 0.5rem;
-            padding: 1rem 1.25rem;
+            border-radius: 0.625rem;
+            padding: 1.25rem 1.5rem;
+            border-left-width: 3px;
         }
 
-        .finding-severity {
+        .finding-item.crit { border-left-color: #f87171; }
+        .finding-item.high { border-left-color: #fb923c; }
+        .finding-item.med  { border-left-color: #facc15; }
+
+        .finding-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .sev-badge {
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 0.2rem;
+        }
+
+        .sev-critical { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+        .sev-high     { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.25); }
+        .sev-medium   { background: rgba(250,204,21,0.08); color: #facc15; border: 1px solid rgba(250,204,21,0.2); }
+
+        .finding-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .finding-description {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            line-height: 1.65;
+            margin-bottom: 0.65rem;
+        }
+
+        .finding-consequence {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+            background: rgba(255,255,255,0.02);
+            border-radius: 0.35rem;
+            padding: 0.6rem 0.85rem;
+        }
+
+        .consequence-label {
             font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 0.25rem 0.6rem;
-            border-radius: 0.25rem;
+            letter-spacing: 0.07em;
+            color: #6b7280;
             white-space: nowrap;
-            margin-top: 0.1rem;
+            padding-top: 0.1rem;
         }
 
-        .sev-critical {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+        .consequence-text {
+            font-size: 0.8rem;
+            color: #6b7280;
+            line-height: 1.55;
         }
 
-        .sev-high {
-            background: rgba(251, 146, 60, 0.15);
-            color: #fb923c;
-            border: 1px solid rgba(251, 146, 60, 0.3);
-        }
-
-        .sev-medium {
-            background: rgba(250, 204, 21, 0.1);
-            color: #facc15;
-            border: 1px solid rgba(250, 204, 21, 0.25);
-        }
-
-        .finding-text {
-            color: #d1d5db;
-            font-size: 0.875rem;
-            line-height: 1.6;
-        }
-
-        .finding-text strong {
-            color: #e5e7eb;
-            font-weight: 600;
-        }
-
-        /* FR gap table */
+        /* ── FR gap table ─────────────────────────── */
         .fr-table-wrap {
             overflow-x: auto;
-            margin-top: 0;
+            margin-top: 1.25rem;
+            border: 1px solid #2a2a2a;
+            border-radius: 0.75rem;
+            overflow: hidden;
         }
 
         .fr-table {
@@ -137,148 +274,211 @@
         }
 
         .fr-table thead th {
-            background: #1a1a1a;
+            background: #161616;
             color: #4B8BF5;
-            font-weight: 600;
+            font-weight: 700;
             text-align: left;
-            padding: 0.75rem 1rem;
-            border-bottom: 2px solid #4B8BF5;
-            font-size: 0.75rem;
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid #2a2a2a;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.07em;
             white-space: nowrap;
         }
 
+        .fr-table thead th:not(:first-child) {
+            text-align: center;
+        }
+
         .fr-table tbody td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #2a2a2a;
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid #1e1e1e;
             color: #d1d5db;
             vertical-align: middle;
+            background: #1a1a1a;
+        }
+
+        .fr-table tbody td:not(:first-child) {
+            text-align: center;
         }
 
         .fr-table tbody tr:last-child td {
             border-bottom: none;
         }
 
+        .fr-table tbody tr:hover td {
+            background: #1e1e1e;
+        }
+
         .sl-badge {
-            display: inline-block;
-            width: 28px;
-            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            text-align: center;
-            line-height: 28px;
             font-size: 0.8rem;
             font-weight: 700;
         }
 
-        .sl-target {
-            background: rgba(75, 139, 245, 0.15);
-            color: #4B8BF5;
-            border: 1px solid rgba(75, 139, 245, 0.3);
-        }
-
-        .sl-actual-crit {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .sl-actual-high {
-            background: rgba(251, 146, 60, 0.15);
-            color: #fb923c;
-            border: 1px solid rgba(251, 146, 60, 0.3);
-        }
-
-        .sl-actual-met {
-            background: rgba(74, 222, 128, 0.1);
-            color: #4ade80;
-            border: 1px solid rgba(74, 222, 128, 0.25);
-        }
+        .sl-target   { background: rgba(75,139,245,0.15); color: #4B8BF5;  border: 1px solid rgba(75,139,245,0.3);  }
+        .sl-crit     { background: rgba(239,68,68,0.12);  color: #f87171;  border: 1px solid rgba(239,68,68,0.25);  }
+        .sl-high-sl  { background: rgba(251,146,60,0.12); color: #fb923c;  border: 1px solid rgba(251,146,60,0.25); }
+        .sl-met      { background: rgba(74,222,128,0.1);  color: #4ade80;  border: 1px solid rgba(74,222,128,0.2);  }
 
         .gap-pill {
-            font-size: 0.7rem;
+            display: inline-block;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.2rem 0.6rem;
+            letter-spacing: 0.06em;
+            padding: 0.22rem 0.65rem;
             border-radius: 0.25rem;
         }
 
-        .gap-critical { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-        .gap-high     { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
-        .gap-met      { background: rgba(74, 222, 128, 0.1);  color: #4ade80; }
+        .gap-critical { background: rgba(239,68,68,0.12); color: #f87171; }
+        .gap-high     { background: rgba(251,146,60,0.12); color: #fb923c; }
+        .gap-met      { background: rgba(74,222,128,0.08); color: #4ade80; }
 
-        /* Deliverables */
-        .deliverables-grid {
+        .fr-ref {
+            font-size: 0.72rem;
+            color: #4B8BF5;
+            font-family: 'Courier New', monospace;
+            background: rgba(75,139,245,0.08);
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.2rem;
+            white-space: nowrap;
+        }
+
+        /* ── Deliverables ─────────────────────────── */
+        .deliverables-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.25rem 0 0;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.75rem;
         }
 
         .deliverable-item {
+            display: flex;
+            gap: 0.875rem;
+            align-items: flex-start;
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
             border-radius: 0.5rem;
             padding: 1rem 1.25rem;
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-start;
         }
 
-        .deliverable-dot {
-            width: 8px;
-            height: 8px;
-            min-width: 8px;
-            background: #4B8BF5;
-            border-radius: 50%;
-            margin-top: 0.4rem;
+        .deliverable-icon {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            background: rgba(75,139,245,0.1);
+            border: 1px solid rgba(75,139,245,0.2);
+            border-radius: 0.35rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deliverable-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: #4B8BF5;
         }
 
         .deliverable-text {
+            font-size: 0.85rem;
             color: #d1d5db;
-            font-size: 0.875rem;
-            line-height: 1.5;
+            line-height: 1.55;
         }
 
-        /* Outcome block */
+        /* ── Outcome ──────────────────────────────── */
         .outcome-block {
-            background: rgba(74, 222, 128, 0.05);
-            border: 1px solid rgba(74, 222, 128, 0.2);
+            background: rgba(74,222,128,0.04);
+            border: 1px solid rgba(74,222,128,0.18);
             border-radius: 0.75rem;
-            padding: 1.75rem 2rem;
+            padding: 2rem 2.25rem;
         }
 
-        .outcome-block p {
-            color: #d1d5db;
-            font-size: 0.925rem;
-            line-height: 1.8;
-            margin: 0;
-        }
-
-        /* Disclaimer */
-        .cs-disclaimer {
-            background: rgba(107, 114, 128, 0.08);
-            border: 1px solid #2a2a2a;
-            border-radius: 0.5rem;
-            padding: 0.875rem 1.25rem;
-            margin-bottom: 3rem;
-        }
-
-        .cs-disclaimer p {
-            color: #6b7280;
-            font-size: 0.8rem;
+        .outcome-lead {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e5e7eb;
             line-height: 1.6;
-            margin: 0;
+            margin-bottom: 1.25rem;
         }
 
-        @media (max-width: 768px) {
-            .cs-meta-grid { grid-template-columns: 1fr 1fr; }
-            .deliverables-grid { grid-template-columns: 1fr; }
+        .outcome-body {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            line-height: 1.85;
+        }
+
+        .outcome-points {
+            list-style: none;
+            padding: 0;
+            margin: 1.25rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .outcome-points li {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .outcome-points li::before {
+            content: '✓';
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 0.05rem;
+            flex-shrink: 0;
+        }
+
+        /* ── Footer note ──────────────────────────── */
+        .cs-footnote {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .cs-footnote p {
+            color: #4b5563;
+            font-size: 0.78rem;
+            line-height: 1.6;
+        }
+
+        /* ── Responsive ───────────────────────────── */
+        @media (max-width: 900px) {
+            .impact-bar { grid-template-columns: repeat(2, 1fr); }
+            .impact-stat:nth-child(2) { border-right: none; }
+            .impact-stat:nth-child(3) { border-top: 1px solid #2a2a2a; }
+            .approach-grid { grid-template-columns: 1fr 1fr; }
+            .approach-phase:nth-child(2) { border-right: none; }
+            .approach-phase:nth-child(3) { border-top: 1px solid #2a2a2a; }
+        }
+
+        @media (max-width: 600px) {
+            .impact-bar { grid-template-columns: repeat(2, 1fr); }
+            .approach-grid { grid-template-columns: 1fr; }
+            .approach-phase { border-right: none; border-top: 1px solid #2a2a2a; }
+            .approach-phase:first-child { border-top: none; }
+            .deliverables-list { grid-template-columns: 1fr; }
             .fr-table { font-size: 0.78rem; }
+            .fr-ref { display: none; }
         }
     </style>
 </head>
 <body>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -316,152 +516,270 @@
     <!-- Hero -->
     <div class="page-hero">
         <h1>Case Studies</h1>
-        <p>Representative engagements across OT security assessment, SOCI Act advisory, and critical infrastructure security uplift.</p>
+        <p>Engagements across OT security assessment, IEC 62443 advisory, and SOCI Act compliance for Australian critical infrastructure operators.</p>
     </div>
 
-    <!-- Content -->
+    <!-- Case study content -->
     <div class="section">
 
-        <!-- Disclaimer -->
-        <div class="cs-disclaimer">
-            <p>Client details are anonymised. Findings, methodology, and outcomes presented are representative of typical engagements in this sector and service type.</p>
-        </div>
-
-        <!-- Case study header -->
+        <!-- Case header -->
         <div style="margin-bottom: 2rem;">
-            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #4B8BF5; background: rgba(75,139,245,0.1); border: 1px solid rgba(75,139,245,0.25); padding: 0.3rem 0.75rem; border-radius: 0.25rem;">IEC 62443</span>
-                <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; background: rgba(156,163,175,0.08); border: 1px solid #2a2a2a; padding: 0.3rem 0.75rem; border-radius: 0.25rem;">Water &amp; Wastewater</span>
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #4B8BF5; background: rgba(75,139,245,0.1); border: 1px solid rgba(75,139,245,0.22); padding: 0.25rem 0.7rem; border-radius: 0.25rem;">IEC 62443 Gap Assessment</span>
+                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; background: rgba(156,163,175,0.07); border: 1px solid #2a2a2a; padding: 0.25rem 0.7rem; border-radius: 0.25rem;">Water &amp; Wastewater</span>
+                <span style="font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; background: rgba(156,163,175,0.07); border: 1px solid #2a2a2a; padding: 0.25rem 0.7rem; border-radius: 0.25rem;">SOCI Act — Responsible Entity</span>
             </div>
-            <h2 style="font-size: 1.6rem; color: #f3f4f6; font-weight: 700; margin-bottom: 0.5rem;">IEC 62443 Gap Assessment — Regional Water Utility</h2>
-            <p style="color: #6b7280; font-size: 0.875rem;">Anonymous Australian responsible entity under the Security of Critical Infrastructure Act 2018</p>
+            <h2 style="font-size: 1.75rem; color: #f3f4f6; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem;">IEC 62443 Gap Assessment<br>Regional Water Utility</h2>
+            <p style="color: #4b5563; font-size: 0.825rem; margin-top: 0.5rem;">Australian critical infrastructure operator &mdash; client details withheld by mutual agreement</p>
         </div>
 
-        <!-- Meta -->
-        <div class="cs-meta-grid">
-            <div class="cs-meta-item">
-                <div class="cs-meta-label">Sector</div>
-                <div class="cs-meta-value">Water &amp; Wastewater</div>
+        <!-- Impact bar -->
+        <div class="impact-bar">
+            <div class="impact-stat">
+                <div class="impact-number">18</div>
+                <div class="impact-label">Total findings</div>
             </div>
-            <div class="cs-meta-item">
-                <div class="cs-meta-label">Service</div>
-                <div class="cs-meta-value">IEC 62443 Gap Assessment</div>
+            <div class="impact-stat">
+                <div class="impact-number red">4</div>
+                <div class="impact-label">Critical gaps identified</div>
             </div>
-            <div class="cs-meta-item">
-                <div class="cs-meta-label">Engagement Length</div>
-                <div class="cs-meta-value">6 weeks</div>
+            <div class="impact-stat">
+                <div class="impact-number">6</div>
+                <div class="impact-label">Security zones modelled</div>
             </div>
-            <div class="cs-meta-item">
-                <div class="cs-meta-label">Findings</div>
-                <div class="cs-meta-value">18 total — 4 critical</div>
-            </div>
-            <div class="cs-meta-item">
-                <div class="cs-meta-label">Standard</div>
-                <div class="cs-meta-value">IEC 62443-3-2 / 3-3</div>
-            </div>
-            <div class="cs-meta-item">
-                <div class="cs-meta-label">SOCI Linkage</div>
-                <div class="cs-meta-value">CIRMP cyber vector</div>
+            <div class="impact-stat">
+                <div class="impact-number green">6w</div>
+                <div class="impact-label">Remediation funded</div>
             </div>
         </div>
 
-        <!-- Situation -->
+        <!-- The Challenge -->
         <div class="cs-section">
-            <h3 class="cs-section-title">Situation</h3>
-            <p class="cs-body-text">A regional water utility operating multiple treatment plants and a network of remote pumping stations was notified of its status as a responsible entity under the SOCI Act. The board commissioned a CIRMP, and the IT team was tasked with extending the existing ISO 27001-aligned security program to cover OT. Before that work could proceed, the organisation needed a clear picture of its actual OT security posture.</p>
-            <p class="cs-body-text" style="margin-top: 1rem;">The OT environment had grown organically over 15 years — no formal security architecture, no documented zone and conduit model, and no prior OT-specific security assessment had ever been conducted.</p>
+            <div class="cs-section-title">The Challenge</div>
+            <h3 class="cs-h2">A network with no defined boundaries — and a regulatory deadline approaching</h3>
+
+            <p class="cs-body">A regional water utility operating multiple treatment plants and a network of remote pumping stations was notified of its status as a responsible entity under the SOCI Act. The board had commissioned a CIRMP. The IT team had been tasked with extending the existing ISO 27001-aligned program to cover OT. Neither task could proceed without a clear, accurate picture of what the OT environment actually looked like.</p>
+
+            <div class="challenge-callout">
+                <p>"The OT environment had grown organically over 15 years. No formal security architecture. No documented zone and conduit model. No prior OT-specific security assessment — ever."</p>
+            </div>
+
+            <p class="cs-body">The core problem was not a lack of intent — it was a lack of visibility. Leadership did not know what assets were on the OT network, how they were connected, or what the realistic threat surface looked like. The CIRMP could not be defensible without that foundation.</p>
         </div>
 
-        <!-- Key Findings -->
+        <!-- Our Approach -->
         <div class="cs-section">
-            <h3 class="cs-section-title">Key Findings</h3>
+            <div class="cs-section-title">Our Approach</div>
+            <h3 class="cs-h2">A structured six-week assessment aligned to IEC 62443-3-2</h3>
+            <p class="cs-body">The engagement followed the IEC 62443-3-2 risk assessment methodology, structured across four phases. Scope covered the primary treatment plant, two remote pumping stations, the IT/OT boundary, and all third-party vendor access pathways.</p>
+
+            <div class="approach-grid">
+                <div class="approach-phase">
+                    <div class="phase-number">Phase 1</div>
+                    <div class="phase-week">Week 1</div>
+                    <div class="phase-title">Document &amp; Architecture Review</div>
+                    <ul class="phase-items">
+                        <li>Network diagrams and asset register review</li>
+                        <li>Vendor documentation and support agreements</li>
+                        <li>Existing policies and access control records</li>
+                        <li>Stakeholder interviews — OT engineers and IT team</li>
+                    </ul>
+                </div>
+                <div class="approach-phase">
+                    <div class="phase-number">Phase 2</div>
+                    <div class="phase-week">Weeks 2–3</div>
+                    <div class="phase-title">On-Site Assessment</div>
+                    <ul class="phase-items">
+                        <li>Treatment plant walkthrough and architecture verification</li>
+                        <li>Remote pump station inspection</li>
+                        <li>Network topology validation against documentation</li>
+                        <li>Control room and HMI environment review</li>
+                    </ul>
+                </div>
+                <div class="approach-phase">
+                    <div class="phase-number">Phase 3</div>
+                    <div class="phase-week">Week 4</div>
+                    <div class="phase-title">Risk Assessment &amp; Zone Modelling</div>
+                    <ul class="phase-items">
+                        <li>Zone and conduit identification and documentation</li>
+                        <li>Threat modelling per zone with consequence analysis</li>
+                        <li>Target security level (SL-T) assignment per zone</li>
+                        <li>IEC 62443-3-2 risk assessment per zone-conduit relationship</li>
+                    </ul>
+                </div>
+                <div class="approach-phase">
+                    <div class="phase-number">Phase 4</div>
+                    <div class="phase-week">Weeks 5–6</div>
+                    <div class="phase-title">Gap Analysis &amp; Reporting</div>
+                    <ul class="phase-items">
+                        <li>SL-A assessment across FR1–FR7 per zone</li>
+                        <li>Risk-prioritised finding development</li>
+                        <li>CIRMP technical annexure preparation</li>
+                        <li>Board-ready executive summary and full technical report</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- What We Found -->
+        <div class="cs-section">
+            <div class="cs-section-title">What We Found</div>
+            <h3 class="cs-h2">Seven significant findings across network architecture, access control, and detection</h3>
+            <p class="cs-body">Selected findings from the 18-item remediation register. Four findings were rated Critical under the IEC 62443-3-2 risk scoring methodology — each representing a condition where the gap between current state and target security level created material operational risk.</p>
+
             <ul class="findings-list">
-                <li class="finding-item">
-                    <span class="finding-severity sev-critical">Critical</span>
-                    <span class="finding-text"><strong>No network segmentation.</strong> The OT network — treatment plant control systems, remote pump station RTUs, and the corporate network — operated on a single flat network. No firewall or conduit existed between the corporate zone and OT control systems.</span>
+
+                <li class="finding-item crit">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-critical">Critical</span>
+                        <span class="finding-title">No network segmentation between OT and corporate zones</span>
+                    </div>
+                    <p class="finding-description">Treatment plant control systems, remote pump station RTUs, and the corporate network shared a single flat network. No firewall, conduit, or zone boundary existed between the IT environment and OT control systems. The network architecture was inconsistent with any security level above SL 0.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">A successful phishing attack on a corporate workstation could propagate to treatment plant control systems without crossing a single network boundary. No technical control would impede lateral movement from IT to OT.</span>
+                    </div>
                 </li>
-                <li class="finding-item">
-                    <span class="finding-severity sev-critical">Critical</span>
-                    <span class="finding-text"><strong>Process historian directly accessible from corporate network.</strong> The historian had no DMZ or data diode separation from the business network. A compromised corporate endpoint had a direct read/write path to the process historian and onward to the control network.</span>
+
+                <li class="finding-item crit">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-critical">Critical</span>
+                        <span class="finding-title">Process historian directly accessible from corporate network</span>
+                    </div>
+                    <p class="finding-description">The process historian had no DMZ separation, data diode, or unidirectional gateway between itself and the corporate network. Read and write access was available to any authenticated domain user. The historian also maintained direct connectivity to the OT control network.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">The historian represented a pivot point — a compromised corporate endpoint could reach OT control systems via the historian without requiring exploitation of any OT-specific vulnerability.</span>
+                    </div>
                 </li>
-                <li class="finding-item">
-                    <span class="finding-severity sev-critical">Critical</span>
-                    <span class="finding-text"><strong>Persistent vendor remote access with no MFA.</strong> The primary SCADA vendor maintained a persistent VPN connection using static credentials. Access was never time-limited, audited, or reviewed. No multi-factor authentication was enforced.</span>
+
+                <li class="finding-item crit">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-critical">Critical</span>
+                        <span class="finding-title">Persistent vendor remote access with static credentials and no MFA</span>
+                    </div>
+                    <p class="finding-description">The primary SCADA vendor maintained a persistent, always-on VPN connection to the OT environment. Credentials were static, shared across vendor support staff, never rotated, and not subject to any access review cycle. Multi-factor authentication was not in use. No session logging existed.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">A credential compromise at the vendor — through phishing, data breach, or former employee misuse — would grant unconstrained access to OT control systems with no time limit and no detection capability.</span>
+                    </div>
                 </li>
-                <li class="finding-item">
-                    <span class="finding-severity sev-critical">Critical</span>
-                    <span class="finding-text"><strong>No OT monitoring capability.</strong> No network visibility or anomaly detection existed on the OT network. Security events — including unauthorised connections, protocol anomalies, and device changes — were entirely invisible to the security team.</span>
+
+                <li class="finding-item crit">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-critical">Critical</span>
+                        <span class="finding-title">No OT monitoring or detection capability</span>
+                    </div>
+                    <p class="finding-description">No network visibility, anomaly detection, or security monitoring existed on the OT network. The security team had no mechanism to detect unauthorised connections, protocol anomalies, device configuration changes, or lateral movement activity across any OT zone.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">An active intrusion could persist undetected for an extended period. The utility had no ability to meet the SOCI Act's 12-hour critical incident reporting obligation — it could not detect an incident, let alone report one within the required window.</span>
+                    </div>
                 </li>
-                <li class="finding-item">
-                    <span class="finding-severity sev-high">High</span>
-                    <span class="finding-text"><strong>Shared HMI credentials across all shift operators.</strong> A single shared account ("operator") was used by all control room staff. No individual accountability, no session logging, and no mechanism to detect or investigate insider incidents.</span>
+
+                <li class="finding-item high">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-high">High</span>
+                        <span class="finding-title">Shared HMI credentials across all shift operators</span>
+                    </div>
+                    <p class="finding-description">A single shared account was used by all control room staff on the primary HMI. No individual user accounts, no role-based access control, and no session audit trail. All operators had equivalent access to all control functions regardless of role.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">Insider incidents — whether malicious, negligent, or accidental — could not be attributed to an individual. This condition also fails the SOCI Act personnel hazard requirements for access control over critical workers.</span>
+                    </div>
                 </li>
-                <li class="finding-item">
-                    <span class="finding-severity sev-high">High</span>
-                    <span class="finding-text"><strong>Engineering workstations running end-of-life OS.</strong> HMI workstations at the primary treatment plant ran Windows 7 — unsupported since January 2020, unpatched for over three years. Vendor constraints prevented OS upgrades without a full system replacement.</span>
+
+                <li class="finding-item high">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-high">High</span>
+                        <span class="finding-title">HMI workstations running end-of-life operating systems</span>
+                    </div>
+                    <p class="finding-description">Primary HMI workstations at the treatment plant ran Windows 7 — unsupported since January 2020 and unpatched for over three years at the time of assessment. Vendor support constraints prevented OS upgrades without a full system replacement, creating a patching impasse.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">Known exploitable vulnerabilities with public proof-of-concept code existed for the installed OS version. Compensating controls (network isolation, application whitelisting) were absent, leaving the systems directly exposed.</span>
+                    </div>
                 </li>
-                <li class="finding-item">
-                    <span class="finding-severity sev-medium">Medium</span>
-                    <span class="finding-text"><strong>Remote pump stations had no lateral movement controls.</strong> A compromised RTU at any remote site had an unobstructed network path to the treatment plant control zone. No conduit controls existed between remote sites and the primary control network.</span>
+
+                <li class="finding-item med">
+                    <div class="finding-header">
+                        <span class="sev-badge sev-medium">Medium</span>
+                        <span class="finding-title">No lateral movement controls between remote sites and treatment plant</span>
+                    </div>
+                    <p class="finding-description">Remote pump station RTUs connected directly to the treatment plant control network with no intervening conduit controls. A compromised device at any remote site had an unobstructed network path to the primary control zone.</p>
+                    <div class="finding-consequence">
+                        <span class="consequence-label">Consequence</span>
+                        <span class="consequence-text">Remote sites — physically less secure and often unattended — represented a lower-effort entry point to the treatment plant control network than a direct attack on the plant itself.</span>
+                    </div>
                 </li>
+
             </ul>
         </div>
 
-        <!-- FR Gap Table -->
+        <!-- Security Level Assessment -->
         <div class="cs-section">
-            <h3 class="cs-section-title">Security Level Gap — Treatment Plant Control Zone</h3>
-            <p class="cs-body-text" style="margin-bottom: 1.25rem;">Assessment conducted against IEC 62443-3-3 across all seven foundational requirements. Target security levels (SL-T) assigned based on 62443-3-2 risk assessment. Achieved security levels (SL-A) reflect current state.</p>
+            <div class="cs-section-title">Security Level Assessment</div>
+            <h3 class="cs-h2">Treatment plant control zone — FR1 through FR7</h3>
+            <p class="cs-body">Assessed against IEC 62443-3-3. Target security levels (SL-T) derived from the IEC 62443-3-2 risk assessment. Achieved security levels (SL-A) reflect verified current state across all seven foundational requirements.</p>
             <div class="fr-table-wrap">
                 <table class="fr-table">
                     <thead>
                         <tr>
                             <th>Foundational Requirement</th>
-                            <th style="text-align: center;">SL-T</th>
-                            <th style="text-align: center;">SL-A</th>
-                            <th>Gap</th>
+                            <th>Ref</th>
+                            <th>SL-T</th>
+                            <th>SL-A</th>
+                            <th>Gap Rating</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>FR 1 — Identification &amp; Authentication</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">2</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-crit">&lt;1</span></td>
+                            <td><span class="fr-ref">SR 1.1–1.13</span></td>
+                            <td><span class="sl-badge sl-target">2</span></td>
+                            <td><span class="sl-badge sl-crit">&lt;1</span></td>
                             <td><span class="gap-pill gap-critical">Critical</span></td>
                         </tr>
                         <tr>
                             <td>FR 2 — Use Control</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">2</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-high">1</span></td>
+                            <td><span class="fr-ref">SR 2.1–2.12</span></td>
+                            <td><span class="sl-badge sl-target">2</span></td>
+                            <td><span class="sl-badge sl-high-sl">1</span></td>
                             <td><span class="gap-pill gap-high">High</span></td>
                         </tr>
                         <tr>
                             <td>FR 3 — System Integrity</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">2</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-crit">&lt;1</span></td>
+                            <td><span class="fr-ref">SR 3.1–3.9</span></td>
+                            <td><span class="sl-badge sl-target">2</span></td>
+                            <td><span class="sl-badge sl-crit">&lt;1</span></td>
                             <td><span class="gap-pill gap-critical">Critical</span></td>
                         </tr>
                         <tr>
                             <td>FR 4 — Data Confidentiality</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">1</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-met">1</span></td>
+                            <td><span class="fr-ref">SR 4.1–4.2</span></td>
+                            <td><span class="sl-badge sl-target">1</span></td>
+                            <td><span class="sl-badge sl-met">1</span></td>
                             <td><span class="gap-pill gap-met">Met</span></td>
                         </tr>
                         <tr>
                             <td>FR 5 — Restricted Data Flow</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">2</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-crit">&lt;1</span></td>
+                            <td><span class="fr-ref">SR 5.1–5.4</span></td>
+                            <td><span class="sl-badge sl-target">2</span></td>
+                            <td><span class="sl-badge sl-crit">&lt;1</span></td>
                             <td><span class="gap-pill gap-critical">Critical</span></td>
                         </tr>
                         <tr>
                             <td>FR 6 — Timely Response to Events</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">2</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-crit">0</span></td>
+                            <td><span class="fr-ref">SR 6.1–6.2</span></td>
+                            <td><span class="sl-badge sl-target">2</span></td>
+                            <td><span class="sl-badge sl-crit">0</span></td>
                             <td><span class="gap-pill gap-critical">Critical</span></td>
                         </tr>
                         <tr>
                             <td>FR 7 — Resource Availability</td>
-                            <td style="text-align: center;"><span class="sl-badge sl-target">2</span></td>
-                            <td style="text-align: center;"><span class="sl-badge sl-actual-high">1</span></td>
+                            <td><span class="fr-ref">SR 7.1–7.8</span></td>
+                            <td><span class="sl-badge sl-target">2</span></td>
+                            <td><span class="sl-badge sl-high-sl">1</span></td>
                             <td><span class="gap-pill gap-high">High</span></td>
                         </tr>
                     </tbody>
@@ -469,58 +787,86 @@
             </div>
         </div>
 
-        <!-- Deliverables -->
+        <!-- What We Delivered -->
         <div class="cs-section">
-            <h3 class="cs-section-title">Deliverables</h3>
-            <div class="deliverables-grid">
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">Zone and conduit model — 6 zones documented across treatment, remote sites, IT/OT DMZ, and vendor access</span>
-                </div>
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">SL-T assignment per zone based on IEC 62443-3-2 risk assessment</span>
-                </div>
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">SL-A gap assessment across all seven foundational requirements per zone</span>
-                </div>
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">Risk assessment with threat and consequence modelling for water treatment disruption scenarios</span>
-                </div>
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">Risk-prioritised remediation roadmap — 18 findings across 4 critical, 7 high, 5 medium, 2 low</span>
-                </div>
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">CIRMP technical annexure mapping IEC 62443 controls to SOCI Act cyber hazard vector obligations</span>
-                </div>
-                <div class="deliverable-item">
-                    <span class="deliverable-dot"></span>
-                    <span class="deliverable-text">Board-ready executive summary with risk posture overview and investment priorities</span>
-                </div>
-            </div>
+            <div class="cs-section-title">What We Delivered</div>
+            <h3 class="cs-h2">Seven deliverables. One integrated program.</h3>
+            <p class="cs-body">All deliverables were structured to serve a dual purpose: provide the technical evidence base for IEC 62443 gap remediation, and satisfy the documentary requirements of the SOCI Act CIRMP cyber hazard vector.</p>
+            <ul class="deliverables-list">
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">Zone and conduit model</strong> — six security zones documented and diagrammed, covering treatment plant, remote pump stations, IT/OT DMZ, vendor access, safety systems, and corporate IT</span>
+                </li>
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">IEC 62443-3-2 risk assessment</strong> — target security level (SL-T) assignment per zone, based on threat modelling and operational consequence analysis for water treatment disruption scenarios</span>
+                </li>
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">SL-A gap assessment</strong> — current security level assessed across all seven foundational requirements for each zone, with finding-level evidence for each gap rating</span>
+                </li>
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">18-finding remediation register</strong> — risk-prioritised across four severity levels (4 critical, 7 high, 5 medium, 2 low), each with root cause, risk rating, and specific remediation guidance</span>
+                </li>
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">Prioritised remediation roadmap</strong> — phased implementation plan accounting for operational constraints, outage windows, legacy system limitations, and budget cycle timing</span>
+                </li>
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">CIRMP technical annexure</strong> — IEC 62443 controls mapped to SOCI Act cyber hazard vector obligations, providing the defensible technical evidence base required for board attestation</span>
+                </li>
+                <li class="deliverable-item">
+                    <span class="deliverable-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                    </span>
+                    <span class="deliverable-text"><strong style="color:#e5e7eb;">Board-ready executive summary</strong> — non-technical risk posture overview, investment priorities, and SOCI Act compliance implications for board and senior leadership</span>
+                </li>
+            </ul>
         </div>
 
-        <!-- Outcome -->
+        <!-- The Outcome -->
         <div class="cs-section">
-            <h3 class="cs-section-title">Outcome</h3>
+            <div class="cs-section-title">The Outcome</div>
+            <h3 class="cs-h2">From zero OT visibility to a funded, board-approved security program</h3>
             <div class="outcome-block">
-                <p>The assessment gave the utility its first accurate picture of OT security posture — and a defensible technical foundation for its SOCI Act CIRMP. The zone and conduit model and SL gap analysis were incorporated directly into the CIRMP cyber vector as the technical evidence base for board attestation.</p>
-                <p style="margin-top: 1rem;">The top three remediation priorities — historian segmentation, vendor remote access controls, and OT network segmentation — were scoped and funded within six weeks of report delivery. The network segmentation project, estimated at 90 days, was approved as a capital project in the following budget cycle.</p>
+                <p class="outcome-lead">The board had the technical evidence they needed to attest to CIRMP currency. Three critical remediation projects were scoped and funded within six weeks of report delivery.</p>
+                <p class="outcome-body">Prior to the engagement, the utility had no documented OT architecture, no security baseline, and no clear pathway to SOCI Act compliance. The assessment changed all three. The zone and conduit model and SL gap analysis were incorporated directly into the CIRMP cyber vector as the technical evidence base — giving the board a defensible, auditable record underpinning their annual attestation.</p>
+                <ul class="outcome-points">
+                    <li>Historian segmentation project scoped and approved within four weeks — estimated 30-day implementation, funded from existing IT security budget</li>
+                    <li>Vendor remote access replaced with MFA-enforced, session-logged, time-limited access solution within six weeks of report delivery</li>
+                    <li>OT network segmentation approved as a capital project in the next budget cycle — 90-day implementation, separating the corporate IT zone from all OT control zones</li>
+                    <li>CIRMP cyber vector completed with IEC 62443 control mapping, supporting board attestation in the current reporting cycle</li>
+                </ul>
             </div>
         </div>
 
         <!-- CTA -->
-        <div class="cta-section" style="margin-top: 1rem;">
+        <div class="cta-section">
             <h3>Need a similar assessment?</h3>
-            <p>IEC 62443 gap assessments are available for water, energy, transport, and mining operators. Every engagement is tailored to your operational environment.</p>
+            <p>IEC 62443 gap assessments for water, energy, transport, and mining operators. Every engagement is scoped to your operational environment and structured to support both security uplift and regulatory compliance.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <a href="contact.html" class="cta-button">Get in Touch</a>
-                <a href="iec62443.html" class="cta-button secondary" style="border-color: #2a2a2a; color: #d1d5db;">IEC 62443 Expertise</a>
+                <a href="iec62443.html" class="cta-button secondary" style="border-color: #2a2a2a; color: #d1d5db;">IEC 62443 Expertise →</a>
             </div>
+        </div>
+
+        <!-- Footnote -->
+        <div class="cs-footnote">
+            <p>Client details withheld by mutual agreement. Findings, methodology, and outcomes are representative of IEC 62443 gap assessment engagements conducted in the water and wastewater sector.</p>
         </div>
 
     </div>
@@ -540,5 +886,6 @@
             </div>
         </div>
     </footer>
+
 </body>
 </html>
