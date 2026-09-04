@@ -19,8 +19,8 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 0;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
             overflow: hidden;
             margin-bottom: 3rem;
@@ -29,7 +29,7 @@
         .impact-stat {
             padding: 1.75rem 1.5rem;
             text-align: center;
-            border-right: 1px solid #2a2a2a;
+            border-right: 1px solid #e5e7eb;
         }
 
         .impact-stat:last-child {
@@ -39,15 +39,15 @@
         .impact-number {
             font-size: 2.25rem;
             font-weight: 700;
-            color: #e5e7eb;
+            color: #1f2937;
             line-height: 1;
             margin-bottom: 0.4rem;
             font-family: 'Courier New', monospace;
         }
 
-        .impact-number.red   { color: #e5e7eb; }
-        .impact-number.green { color: #e5e7eb; }
-        .impact-number.grey  { color: #e5e7eb; }
+        .impact-number.red   { color: #1f2937; }
+        .impact-number.green { color: #1f2937; }
+        .impact-number.grey  { color: #1f2937; }
 
         .impact-label {
             font-size: 0.72rem;
@@ -75,14 +75,14 @@
         .cs-h2 {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #e5e7eb;
+            color: #1f2937;
             margin-bottom: 1rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .cs-body {
-            color: #9ca3af;
+            color: #4b5563;
             font-size: 0.9rem;
             line-height: 1.85;
         }
@@ -93,15 +93,15 @@
 
         /* ── Challenge callout ────────────────────── */
         .challenge-callout {
-            border-left: 3px solid #2a2a2a;
-            background: rgba(255,255,255,0.02);
+            border-left: 3px solid #e5e7eb;
+            background: rgba(0, 0, 0,0.02);
             border-radius: 0 0.5rem 0.5rem 0;
             padding: 1.25rem 1.5rem;
             margin: 1.5rem 0;
         }
 
         .challenge-callout p {
-            color: #d1d5db;
+            color: #374151;
             font-size: 0.95rem;
             line-height: 1.7;
             margin: 0;
@@ -114,14 +114,14 @@
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 0;
             margin-top: 1.25rem;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
             overflow: hidden;
         }
 
         .approach-phase {
             padding: 1.5rem;
-            border-right: 1px solid #2a2a2a;
+            border-right: 1px solid #e5e7eb;
             position: relative;
         }
 
@@ -147,7 +147,7 @@
         .phase-title {
             font-size: 0.9rem;
             font-weight: 700;
-            color: #e5e7eb;
+            color: #1f2937;
             margin-bottom: 0.75rem;
         }
 
@@ -159,7 +159,7 @@
 
         .phase-items li {
             font-size: 0.8rem;
-            color: #9ca3af;
+            color: #4b5563;
             line-height: 1.5;
             padding: 0.2rem 0 0.2rem 1rem;
             position: relative;
@@ -172,8 +172,8 @@
             top: 0.55rem;
             width: 5px;
             height: 5px;
-            background: #3a3a3a;
-            border: 1px solid #4a4a4a;
+            background: #d1d5db;
+            border: 1px solid #9ca3af;
             border-radius: 50%;
         }
 
@@ -188,16 +188,16 @@
         }
 
         .finding-item {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 0.625rem;
             padding: 1.25rem 1.5rem;
             border-left-width: 3px;
         }
 
-        .finding-item.crit { border-left-color: #2a2a2a; }
-        .finding-item.high { border-left-color: #2a2a2a; }
-        .finding-item.med  { border-left-color: #2a2a2a; }
+        .finding-item.crit { border-left-color: #e5e7eb; }
+        .finding-item.high { border-left-color: #e5e7eb; }
+        .finding-item.med  { border-left-color: #e5e7eb; }
 
         .finding-header {
             display: flex;
@@ -216,19 +216,19 @@
             border-radius: 0.2rem;
         }
 
-        .sev-critical { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid #2a2a2a; }
-        .sev-high     { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid #2a2a2a; }
-        .sev-medium   { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid #2a2a2a; }
+        .sev-critical { background: rgba(0, 0, 0,0.04); color: #4b5563; border: 1px solid #e5e7eb; }
+        .sev-high     { background: rgba(0, 0, 0,0.04); color: #4b5563; border: 1px solid #e5e7eb; }
+        .sev-medium   { background: rgba(0, 0, 0,0.04); color: #4b5563; border: 1px solid #e5e7eb; }
 
         .finding-title {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #e5e7eb;
+            color: #1f2937;
         }
 
         .finding-description {
             font-size: 0.85rem;
-            color: #9ca3af;
+            color: #4b5563;
             line-height: 1.65;
             margin-bottom: 0.65rem;
         }
@@ -237,7 +237,7 @@
             display: flex;
             gap: 0.5rem;
             align-items: flex-start;
-            background: rgba(255,255,255,0.02);
+            background: rgba(0, 0, 0,0.02);
             border-radius: 0.35rem;
             padding: 0.6rem 0.85rem;
         }
@@ -262,7 +262,7 @@
         .fr-table-wrap {
             overflow-x: auto;
             margin-top: 1.25rem;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
             overflow: hidden;
         }
@@ -274,12 +274,12 @@
         }
 
         .fr-table thead th {
-            background: #161616;
+            background: #f1f1f2;
             color: #6b7280;
             font-weight: 700;
             text-align: left;
             padding: 0.875rem 1.25rem;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #e5e7eb;
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.07em;
@@ -292,10 +292,10 @@
 
         .fr-table tbody td {
             padding: 0.875rem 1.25rem;
-            border-bottom: 1px solid #1e1e1e;
-            color: #d1d5db;
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
             vertical-align: middle;
-            background: #1a1a1a;
+            background: #ffffff;
         }
 
         .fr-table tbody td:not(:first-child) {
@@ -307,7 +307,7 @@
         }
 
         .fr-table tbody tr:hover td {
-            background: #1e1e1e;
+            background: #e5e7eb;
         }
 
         .sl-badge {
@@ -321,10 +321,10 @@
             font-weight: 700;
         }
 
-        .sl-target   { background: rgba(255,255,255,0.04); color: #d1d5db; border: 1px solid #2a2a2a; }
-        .sl-crit     { background: rgba(255,255,255,0.04); color: #d1d5db; border: 1px solid #2a2a2a; }
-        .sl-high-sl  { background: rgba(255,255,255,0.04); color: #d1d5db; border: 1px solid #2a2a2a; }
-        .sl-met      { background: rgba(255,255,255,0.04); color: #d1d5db; border: 1px solid #2a2a2a; }
+        .sl-target   { background: rgba(0, 0, 0,0.04); color: #374151; border: 1px solid #e5e7eb; }
+        .sl-crit     { background: rgba(0, 0, 0,0.04); color: #374151; border: 1px solid #e5e7eb; }
+        .sl-high-sl  { background: rgba(0, 0, 0,0.04); color: #374151; border: 1px solid #e5e7eb; }
+        .sl-met      { background: rgba(0, 0, 0,0.04); color: #374151; border: 1px solid #e5e7eb; }
 
         .gap-pill {
             display: inline-block;
@@ -336,15 +336,15 @@
             border-radius: 0.25rem;
         }
 
-        .gap-critical { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid #2a2a2a; }
-        .gap-high     { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid #2a2a2a; }
-        .gap-met      { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid #2a2a2a; }
+        .gap-critical { background: rgba(0, 0, 0,0.04); color: #4b5563; border: 1px solid #e5e7eb; }
+        .gap-high     { background: rgba(0, 0, 0,0.04); color: #4b5563; border: 1px solid #e5e7eb; }
+        .gap-met      { background: rgba(0, 0, 0,0.04); color: #4b5563; border: 1px solid #e5e7eb; }
 
         .fr-ref {
             font-size: 0.72rem;
             color: #6b7280;
             font-family: 'Courier New', monospace;
-            background: rgba(255,255,255,0.03);
+            background: rgba(0, 0, 0,0.03);
             padding: 0.1rem 0.4rem;
             border-radius: 0.2rem;
             white-space: nowrap;
@@ -364,8 +364,8 @@
             display: flex;
             gap: 0.875rem;
             align-items: flex-start;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 0.5rem;
             padding: 1rem 1.25rem;
         }
@@ -374,8 +374,8 @@
             width: 28px;
             height: 28px;
             min-width: 28px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid #2a2a2a;
+            background: rgba(0, 0, 0,0.04);
+            border: 1px solid #e5e7eb;
             border-radius: 0.35rem;
             display: flex;
             align-items: center;
@@ -390,14 +390,14 @@
 
         .deliverable-text {
             font-size: 0.85rem;
-            color: #d1d5db;
+            color: #374151;
             line-height: 1.55;
         }
 
         /* ── Outcome ──────────────────────────────── */
         .outcome-block {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 0.75rem;
             padding: 2rem 2.25rem;
         }
@@ -405,14 +405,14 @@
         .outcome-lead {
             font-size: 1.05rem;
             font-weight: 600;
-            color: #e5e7eb;
+            color: #1f2937;
             line-height: 1.6;
             margin-bottom: 1.25rem;
         }
 
         .outcome-body {
             font-size: 0.9rem;
-            color: #9ca3af;
+            color: #4b5563;
             line-height: 1.85;
         }
 
@@ -430,7 +430,7 @@
             gap: 0.75rem;
             align-items: flex-start;
             font-size: 0.875rem;
-            color: #9ca3af;
+            color: #4b5563;
             line-height: 1.6;
         }
 
@@ -447,7 +447,7 @@
         .cs-footnote {
             margin-top: 2.5rem;
             padding-top: 1.5rem;
-            border-top: 1px solid #2a2a2a;
+            border-top: 1px solid #e5e7eb;
         }
 
         .cs-footnote p {
@@ -460,16 +460,16 @@
         @media (max-width: 900px) {
             .impact-bar { grid-template-columns: repeat(2, 1fr); }
             .impact-stat:nth-child(2) { border-right: none; }
-            .impact-stat:nth-child(3) { border-top: 1px solid #2a2a2a; }
+            .impact-stat:nth-child(3) { border-top: 1px solid #e5e7eb; }
             .approach-grid { grid-template-columns: 1fr 1fr; }
             .approach-phase:nth-child(2) { border-right: none; }
-            .approach-phase:nth-child(3) { border-top: 1px solid #2a2a2a; }
+            .approach-phase:nth-child(3) { border-top: 1px solid #e5e7eb; }
         }
 
         @media (max-width: 600px) {
             .impact-bar { grid-template-columns: repeat(2, 1fr); }
             .approach-grid { grid-template-columns: 1fr; }
-            .approach-phase { border-right: none; border-top: 1px solid #2a2a2a; }
+            .approach-phase { border-right: none; border-top: 1px solid #e5e7eb; }
             .approach-phase:first-child { border-top: none; }
             .deliverables-list { grid-template-columns: 1fr; }
             .fr-table { font-size: 0.78rem; }
@@ -523,9 +523,9 @@
     <div class="section">
 
         <!-- Tabs -->
-        <div style="display: flex; gap: 0; border: 1px solid #2a2a2a; border-radius: 0.5rem; overflow: hidden; margin-bottom: 3rem; max-width: 600px;">
-            <button id="tab-1" onclick="showCase(1)" style="flex: 1; padding: 0.75rem 1.25rem; background: #e5e7eb; color: #111318; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-align: left; line-height: 1.4;">IEC 62443 Gap Assessment<br><span style="font-weight: 400; font-size: 0.78rem; opacity: 0.7;">Regional Water Utility</span></button>
-            <button id="tab-2" onclick="showCase(2)" style="flex: 1; padding: 0.75rem 1.25rem; background: #1a1a1a; color: #9ca3af; border: none; border-left: 1px solid #2a2a2a; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-align: left; line-height: 1.4;">SOCI Act CIRMP Advisory<br><span style="font-weight: 400; font-size: 0.78rem; opacity: 0.7;">Regional Electricity Network Operator</span></button>
+        <div style="display: flex; gap: 0; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden; margin-bottom: 3rem; max-width: 600px;">
+            <button id="tab-1" onclick="showCase(1)" style="flex: 1; padding: 0.75rem 1.25rem; background: #1f2937; color: #f7f6f5; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-align: left; line-height: 1.4;">IEC 62443 Gap Assessment<br><span style="font-weight: 400; font-size: 0.78rem; opacity: 0.7;">Regional Water Utility</span></button>
+            <button id="tab-2" onclick="showCase(2)" style="flex: 1; padding: 0.75rem 1.25rem; background: #ffffff; color: #4b5563; border: none; border-left: 1px solid #e5e7eb; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-align: left; line-height: 1.4;">SOCI Act CIRMP Advisory<br><span style="font-weight: 400; font-size: 0.78rem; opacity: 0.7;">Regional Electricity Network Operator</span></button>
         </div>
 
         <!-- Case 1 -->
@@ -533,7 +533,7 @@
 
         <!-- Case header -->
         <div style="margin-bottom: 2rem;">
-            <h2 style="font-size: 1.75rem; color: #f3f4f6; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem;">IEC 62443 Gap Assessment<br>Regional Water Utility</h2>
+            <h2 style="font-size: 1.75rem; color: #111827; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem;">IEC 62443 Gap Assessment<br>Regional Water Utility</h2>
         </div>
 
         <!-- Impact bar -->
@@ -800,43 +800,43 @@
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">Zone and conduit model</strong> — six security zones documented and diagrammed, covering treatment plant, remote pump stations, IT/OT DMZ, vendor access, safety systems, and corporate IT</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">Zone and conduit model</strong> — six security zones documented and diagrammed, covering treatment plant, remote pump stations, IT/OT DMZ, vendor access, safety systems, and corporate IT</span>
                 </li>
                 <li class="deliverable-item">
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">IEC 62443-3-2 risk assessment</strong> — target security level (SL-T) assignment per zone, based on threat modelling and operational consequence analysis for water treatment disruption scenarios</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">IEC 62443-3-2 risk assessment</strong> — target security level (SL-T) assignment per zone, based on threat modelling and operational consequence analysis for water treatment disruption scenarios</span>
                 </li>
                 <li class="deliverable-item">
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">SL-A gap assessment</strong> — current security level assessed across all seven foundational requirements for each zone, with finding-level evidence for each gap rating</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">SL-A gap assessment</strong> — current security level assessed across all seven foundational requirements for each zone, with finding-level evidence for each gap rating</span>
                 </li>
                 <li class="deliverable-item">
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">18-finding remediation register</strong> — risk-prioritised across four severity levels (4 critical, 7 high, 5 medium, 2 low), each with root cause, risk rating, and specific remediation guidance</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">18-finding remediation register</strong> — risk-prioritised across four severity levels (4 critical, 7 high, 5 medium, 2 low), each with root cause, risk rating, and specific remediation guidance</span>
                 </li>
                 <li class="deliverable-item">
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">Prioritised remediation roadmap</strong> — phased implementation plan accounting for operational constraints, outage windows, legacy system limitations, and budget cycle timing</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">Prioritised remediation roadmap</strong> — phased implementation plan accounting for operational constraints, outage windows, legacy system limitations, and budget cycle timing</span>
                 </li>
                 <li class="deliverable-item">
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">CIRMP technical annexure</strong> — IEC 62443 controls mapped to SOCI Act cyber hazard vector obligations, providing the defensible technical evidence base required for board attestation</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">CIRMP technical annexure</strong> — IEC 62443 controls mapped to SOCI Act cyber hazard vector obligations, providing the defensible technical evidence base required for board attestation</span>
                 </li>
                 <li class="deliverable-item">
                     <span class="deliverable-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
                     </span>
-                    <span class="deliverable-text"><strong style="color:#e5e7eb;">Board-ready executive summary</strong> — non-technical risk posture overview, investment priorities, and SOCI Act compliance implications for board and senior leadership</span>
+                    <span class="deliverable-text"><strong style="color:#1f2937;">Board-ready executive summary</strong> — non-technical risk posture overview, investment priorities, and SOCI Act compliance implications for board and senior leadership</span>
                 </li>
             </ul>
         </div>
@@ -866,7 +866,7 @@
 
         <!-- Case header -->
         <div style="margin-bottom: 2rem;">
-            <h2 style="font-size: 1.75rem; color: #f3f4f6; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem;">SOCI Act CIRMP Advisory<br>Regional Electricity Network Operator</h2>
+            <h2 style="font-size: 1.75rem; color: #111827; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem;">SOCI Act CIRMP Advisory<br>Regional Electricity Network Operator</h2>
         </div>
 
         <!-- Impact bar -->
@@ -1153,7 +1153,7 @@
             <p>CIRMP development, gap assessment, and board reporting for responsible entities under the SOCI Act. Every engagement is scoped to your sector and operational environment.</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <a href="contact.html" class="cta-button">Get in Touch</a>
-                <a href="soci.html" class="cta-button secondary" style="border-color: #2a2a2a; color: #d1d5db;">SOCI Act Advisory →</a>
+                <a href="soci.html" class="cta-button secondary" style="border-color: #e5e7eb; color: #374151;">SOCI Act Advisory →</a>
             </div>
         </div>
 
@@ -1169,8 +1169,8 @@
         <div class="container">
             <p style="margin-bottom: 1rem;">Port254 &mdash; OT Cybersecurity Advisory</p>
             <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; align-items: center;">
-                <a href="mailto:admin@port254.com" style="color: #9ca3af; text-decoration: none; transition: color 0.2s; font-size: 0.875rem;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">admin@port254.com</a>
-                <a href="https://github.com/254kamikaze" target="_blank" style="color: #9ca3af; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4B8BF5'" onmouseout="this.style.color='#9ca3af'">
+                <a href="mailto:admin@port254.com" style="color: #4b5563; text-decoration: none; transition: color 0.2s; font-size: 0.875rem;" onmouseover="this.style.color='#9a1b1b'" onmouseout="this.style.color='#4b5563'">admin@port254.com</a>
+                <a href="https://github.com/254kamikaze" target="_blank" style="color: #4b5563; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#9a1b1b'" onmouseout="this.style.color='#4b5563'">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
@@ -1184,10 +1184,10 @@
         function showCase(n) {
             document.getElementById('case-1').style.display = n === 1 ? 'block' : 'none';
             document.getElementById('case-2').style.display = n === 2 ? 'block' : 'none';
-            document.getElementById('tab-1').style.background = n === 1 ? '#e5e7eb' : '#1a1a1a';
-            document.getElementById('tab-1').style.color      = n === 1 ? '#111318' : '#9ca3af';
-            document.getElementById('tab-2').style.background = n === 2 ? '#e5e7eb' : '#1a1a1a';
-            document.getElementById('tab-2').style.color      = n === 2 ? '#111318' : '#9ca3af';
+            document.getElementById('tab-1').style.background = n === 1 ? '#1f2937' : '#ffffff';
+            document.getElementById('tab-1').style.color      = n === 1 ? '#f7f6f5' : '#4b5563';
+            document.getElementById('tab-2').style.background = n === 2 ? '#1f2937' : '#ffffff';
+            document.getElementById('tab-2').style.color      = n === 2 ? '#f7f6f5' : '#4b5563';
         }
     </script>
 </body>

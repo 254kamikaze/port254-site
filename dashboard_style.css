@@ -6,8 +6,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #0f0f0f;
-    color: #9ca3af;
+    background-color: #f7f6f5;
+    color: #4b5563;
     line-height: 1.6;
 }
 
@@ -21,20 +21,20 @@ body {
    HEADER & SUBTITLE
    ====================== */
 .header {
-    background-color: #1a1a1a;
+    background-color: #ffffff;
     padding: 1.5rem 1.5rem 1rem;
 }
 
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #4B8BF5;
+    color: #9a1b1b;
     text-align: center;
 }
 
 .subtitle-section {
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #2a2a2a;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
     padding: 0.5rem 1.5rem 1.5rem;
 }
 
@@ -43,7 +43,7 @@ body {
 }
 
 .subtitle {
-    color: #9ca3af;
+    color: #4b5563;
     font-size: 1rem;
 }
 
@@ -51,8 +51,8 @@ body {
    STATS SECTION - 7 CARDS
    ====================== */
 .stats-section {
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #2a2a2a;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
     padding: 0.75rem 1rem;
 }
 
@@ -65,8 +65,8 @@ body {
 }
 
 .stat-card {
-    background-color: #252525;
-    border: 1px solid #3a3a3a;
+    background-color: #f1f1f2;
+    border: 1px solid #d1d5db;
     border-radius: 0.25rem;
     padding: 0.35rem 0.5rem;
     text-align: center;
@@ -81,31 +81,31 @@ body {
 .stat-value {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #4B8BF5;
+    color: #9a1b1b;
     line-height: 1;
     margin-bottom: 0.15rem;
     padding: 8px;
 }
 
 .stat-value-orange {
-    color: #ffa94d;
+    color: #c2410c;
     padding: 8px;
 }
 
 .stat-value-red {
-    color: #ef4444;
+    color: #dc2626;
     padding: 8px;
 }
 
 .stat-label {
     font-size: 0.5rem;
-    color: #9ca3af;
+    color: #4b5563;
     text-transform: uppercase;
     line-height: 1;
 }
 
 .honeypot-card {
-    background-color: #1e293b;
+    background-color: #ecfdf5;
     border: 2px solid #10b981;
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
 }
@@ -121,19 +121,19 @@ body {
 .honeypot-icon {
     width: 1.1rem;
     height: 1.1rem;
-    color: #10b981;
+    color: #047857;
 }
 
 .honeypot-label {
     font-size: 0.7rem;
-    color: #9ca3af;
+    color: #4b5563;
     text-transform: uppercase;
     font-weight: 600;
 }
 
 .honeypot-detail {
     font-size: 0.7rem;
-    color: #64748b;
+    color: #4b5563;
     margin-bottom: 0.2rem;
 }
 
@@ -152,8 +152,8 @@ body {
 }
 
 .dashboard-card {
-    background-color: rgba(59, 130, 246, 0.05);
-    border: 1px solid #2a2a2a;
+    background-color: rgba(185, 28, 28, 0.05);
+    border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     padding: 1rem;
     display: flex;
@@ -226,12 +226,12 @@ body {
 .row4-card {
     min-height: 280px;
     max-height: 280px !important;
-    /*background-color: #1a1a1a !important;*/
+    /*background-color: #ffffff !important;*/
 }
 
 .dashboard-card:nth-child(10) { 
     grid-column: 1 / 2;
-    border-color: #244d2d !important;
+    border-color: #6ee7b7 !important;
 }
 .dashboard-card:nth-child(11) { grid-column: 2 / 3; }
 .dashboard-card:nth-child(12) { grid-column: 3 / 4; }
@@ -243,7 +243,7 @@ body {
 .card-title {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #4B8BF5;
+    color: #9a1b1b;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -290,7 +290,7 @@ body {
 }
 
 .compact-list tbody tr {
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .compact-list tbody tr:last-child {
@@ -302,17 +302,17 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color:#9ca3af;
+    color:#4b5563;
 }
 
 .compact-list td:first-child {
     font-family: 'Courier New', monospace;
-    color: #4B8BF5;
+    color: #9a1b1b;
 }
 
 .compact-list td:last-child {
     text-align: right;
-    color: #9ca3af;
+    color: #4b5563;
     font-size: 0.65rem;
 }
 
@@ -338,24 +338,24 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0.4rem;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #e5e7eb;
     font-size: 0.7rem;
 }
 
 .ip-address {
     font-family: 'Courier New', monospace;
-    color:#9ca3af;
+    color:#4b5563;
     font-size: 0.65rem;
 }
 
 .ip-country {
     font-size: 0.65rem;
-    color: #4B8BF5;
+    color: #9a1b1b;
 }
 
 .ip-count {
     /* background-color: rgba(255, 169, 77, 0.15); */
-    color: #ffa94d;
+    color: #c2410c;
     padding: 0.2rem 0.4rem;
     border-radius: 0.25rem;
     font-size: 0.6rem;
@@ -364,31 +364,31 @@ body {
 
 .event-item {
     padding: 0.4rem;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #e5e7eb;
     font-size: 0.65rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #9ca3af;
-    /* background-color: #1a1a1a; */
+    color: #4b5563;
+    /* background-color: #ffffff; */
 }
 
 .event-time {
-    color: #4B8BF5;
+    color: #9a1b1b;
     font-weight: 600;
     font-size: 0.6rem;
 }
 
 .event-type {
-    /* background-color: rgba(96, 165, 250, 0.15); */
-    color: #93c5fd;
+    /* background-color: rgba(185, 28, 28, 0.15); */
+    color: #9a1b1b;
     padding: 0.1rem 0.3rem;
     border-radius: 0.2rem;
     font-size: 0.55rem;
 }
 
 .event-message {
-    color: #9ca3af;
+    color: #4b5563;
     font-size: 0.6rem;
 }
 
@@ -416,7 +416,7 @@ body {
 #repeatOffendersList thead {
     position: sticky;
     top: 0;
-    background: #1a1a1a;
+    background: #ffffff;
     z-index: 10;
 }
 
@@ -424,15 +424,15 @@ body {
 #repeatOffendersList th {
     padding: 0.4rem;
     text-align: left;
-    color: #9ca3af;
+    color: #4b5563;
     font-size: 0.6rem;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 #topCommandsList td,
 #repeatOffendersList td {
     padding: 0.4rem;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #e5e7eb;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -451,8 +451,8 @@ body {
    BREACH CARDS
    ====================== */
 .breach-item {
-    /* background-color: #252525; */
-    border: 1px solid #3a3a3a;
+    /* background-color: #f1f1f2; */
+    border: 1px solid #d1d5db;
     border-radius: 0.375rem;
     padding: 0.75rem;
     margin-bottom: 0.75rem;
@@ -465,30 +465,30 @@ body {
 }
 
 .breach-item:hover {
-    /* background-color: #2a2a2a; */
-    border-color: #4B8BF5;
+    /* background-color: #e5e7eb; */
+    border-color: #9a1b1b;
 }
 
 .breach-item.selected {
-    /* background-color: #1e293b; */
-    border: 2px solid #4B8BF5;
-    box-shadow: 0 0 12px rgba(96, 165, 250, 0.3);
+    /* background-color: #ecfdf5; */
+    border: 2px solid #9a1b1b;
+    box-shadow: 0 0 12px rgba(185, 28, 28, 0.3);
 }
 
 .breach-time {
-    color: #4B8BF5;
+    color: #9a1b1b;
     font-size: 0.7rem;
     font-weight: 600;
 }
 
 .breach-ip {
-    color:#9ca3af;
+    color:#4b5563;
     font-family: 'Courier New', monospace;
     font-size: 0.65rem;
 }
 
 .breach-country {
-    color: #9ca3af;
+    color: #4b5563;
     font-size: 0.65rem;
 }
 
@@ -501,16 +501,16 @@ body {
 
 .severity-critical {
     /* background-color: rgba(239, 68, 68, 0.2); */
-    color: #fca5a5;
+    color: #b91c1c;
 }
 
 .severity-high {
     /* background-color: rgba(251, 146, 60, 0.2); */
-    color: #fdba74;
+    color: #c2410c;
 }
 
 .btn-view-commands {
-    background: linear-gradient(135deg, #4B8BF5 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #9a1b1b 0%, #b91c1c 100%);
     color: white;
     border: none;
     padding: 0.4rem 0.75rem;
@@ -523,22 +523,22 @@ body {
 
 .btn-view-commands:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(96, 165, 250, 0.3);
+    box-shadow: 0 4px 8px rgba(185, 28, 28, 0.3);
 }
 
 /* ======================
    COMMANDS DISPLAY - COMPACT TERMINAL
    ====================== */
 .commands-display {
-    /* background-color: #0a0a0a; */
-    /* border: 1px solid #1a1a1a; */
+    /* background-color: #eef0f2; */
+    /* border: 1px solid #ffffff; */
     border-radius: 0.375rem;
     padding: 0.75rem;
     flex: 1;
     overflow-y: auto;
     font-family: 'Courier New', monospace;
     font-size: 0.7rem;
-    color: #10b981;
+    color: #047857;
     line-height: 1.3;
 }
 
@@ -563,7 +563,7 @@ body {
 }
 
 .command-entry {
-    /* background-color: #0a0a0a; */
+    /* background-color: #eef0f2; */
     padding: 0.35rem 0;
     margin-bottom: 0.35rem;
     word-wrap: break-word;
@@ -571,12 +571,12 @@ body {
 }
 
 .command-prompt {
-    color: #4B8BF5;
+    color: #9a1b1b;
     font-weight: 600;
 }
 
 .command-text {
-    color: #10b981;
+    color: #047857;
 }
 
 /* ======================
@@ -602,23 +602,23 @@ body {
 }
 
 .health-bullet {
-    color: #10b981;
+    color: #047857;
     font-size: 0.6rem;
 }
 
 .health-name {
-    color:#9ca3af;
+    color:#4b5563;
     font-weight: 500;
 }
 
 .health-port {
-    color: #4B8BF5;
+    color: #9a1b1b;
     font-family: 'Courier New', monospace;
     font-size: 0.65rem;
 }
 
 .health-status {
-    color: #10b981;
+    color: #047857;
     font-size: 0.65rem;
     font-weight: 500;
 }
@@ -640,8 +640,8 @@ canvas {
    FOOTER
    ====================== */
 .footer {
-    background-color: #1a1a1a;
-    border-top: 1px solid #2a2a2a;
+    background-color: #ffffff;
+    border-top: 1px solid #e5e7eb;
     padding: 1.5rem;
     margin-top: 2rem;
 }
@@ -661,16 +661,16 @@ canvas {
 }
 
 ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #3a3a3a;
+    background: #d1d5db;
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #4a4a4a;
+    background: #9ca3af;
 }
 
 /* ======================
