@@ -9,337 +9,274 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://port254.com/">
     <meta property="og:title" content="port254 - OT Cybersecurity Advisory">
-    <meta property="og:description" content="Securing critical infrastructure against real-world threats. IEC 62443 | OT/ICS Security | Critical Infrastructure Advisory.">
+    <meta property="og:description" content="OT cybersecurity advisory for critical infrastructure operators. IEC 62443 | SOCI Act | OT/ICS Security. Site refresh in progress.">
     <meta property="og:image" content="https://port254.com/images/dashboard-preview.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://port254.com/">
     <meta name="twitter:title" content="port254 - OT Cybersecurity Advisory">
-    <meta name="twitter:description" content="Securing critical infrastructure against real-world threats. IEC 62443 | OT/ICS Security | Critical Infrastructure Advisory.">
+    <meta name="twitter:description" content="OT cybersecurity advisory for critical infrastructure operators. IEC 62443 | SOCI Act | OT/ICS Security. Site refresh in progress.">
     <meta name="twitter:image" content="https://port254.com/images/dashboard-preview.png">
-    <meta name="description" content="OT cybersecurity advisory for critical infrastructure operators in Australia. IEC 62443 assessments, SOCI Act compliance, penetration testing, and practical security advisory.">
+    <meta name="description" content="port254 — OT cybersecurity advisory for critical infrastructure operators in Australia. Site refresh in progress. Reach out directly at admin@port254.com.">
 
     <link rel="icon" type="image/png" href="./images/favicon.png">
-    <link rel="stylesheet" href="./css/style.css">
     <style>
-        .hero {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f7f6f5;
+            color: #111827;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Faint circuit-grid backdrop */
+        .grid-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(29, 78, 216, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 78, 216, 0.06) 1px, transparent 1px);
+            background-size: 48px 48px;
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 40%, transparent 85%);
+        }
+
+        .node {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 6rem 2rem 2rem;
-            max-width: 900px;
-            margin: 0 auto;
+            padding: 3rem 1.5rem;
         }
 
-        .hero-title {
-            font-size: 3.5rem;
-            color: #1d4ed8;
-            margin-bottom: 1rem;
+        .logo {
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 1.75rem;
             font-weight: 700;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: #374151;
-            margin-bottom: 0.5rem;
-            font-weight: 400;
-        }
-
-        .hero-tagline {
-            font-size: 1rem;
-            color: #6b7280;
+            color: #1d4ed8;
+            letter-spacing: 0.1em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             margin-bottom: 2.5rem;
-            letter-spacing: 0.05em;
         }
 
-        .hero-description {
+        .logo::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #1d4ed8;
+            border-radius: 2px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(29, 78, 216, 0.08);
+            border: 1px solid rgba(29, 78, 216, 0.25);
+            color: #1e40af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            margin-bottom: 2rem;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            animation: pulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
+            50% { opacity: 0.5; box-shadow: 0 0 0 5px rgba(29, 78, 216, 0); }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: #111827;
+            max-width: 720px;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        h1 span {
+            color: #1d4ed8;
+        }
+
+        .lede {
             font-size: 1.125rem;
             color: #4b5563;
-            line-height: 1.8;
-            max-width: 700px;
-            margin: 0 auto 3rem;
+            max-width: 560px;
+            margin-bottom: 2.75rem;
+            line-height: 1.75;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: rgba(29, 78, 216, 0.1);
-            border: 2px solid #1d4ed8;
-            border-radius: 0.5rem;
-            color: #1d4ed8;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .cta-button:hover {
-            background: rgba(29, 78, 216, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .cta-button.secondary {
-            border-color: #e5e7eb;
-            color: #374151;
-        }
-
-        .cta-button.secondary:hover {
-            border-color: #1d4ed8;
-            color: #1d4ed8;
-        }
-
-        .features-section {
-            max-width: 1280px;
-            margin: 1rem auto 4rem;
-            padding: 0 2rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background: rgba(29, 78, 216, 0.05);
+        .contact-card {
+            background: #ffffff;
             border: 1px solid #e5e7eb;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: #1d4ed8;
-            transform: translateY(-4px);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(29, 78, 216, 0.15);
-            border-radius: 0.5rem;
+            border-radius: 0.85rem;
+            padding: 1.75rem 2.25rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
+            gap: 1.1rem;
+            box-shadow: 0 1px 3px rgba(17, 24, 39, 0.04);
         }
 
-        .feature-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: #1d4ed8;
+        .contact-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
         }
 
-        .feature-title {
-            font-size: 1.25rem;
-            color: #1f2937;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .feature-description {
-            color: #4b5563;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .feature-link {
-            color: #1d4ed8;
-            text-decoration: none;
-            font-weight: 500;
+        .contact-email {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            gap: 0.6rem;
+            background: #1d4ed8;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s, transform 0.2s;
         }
 
-        .feature-link:hover {
-            text-decoration: underline;
+        .contact-email:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
         }
 
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
+        .contact-email svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
 
-            .hero-subtitle {
-                font-size: 1.25rem;
-            }
+        .social-row {
+            display: flex;
+            gap: 1.5rem;
+        }
 
-            .features-grid {
-                grid-template-columns: 1fr;
+        .social-row a {
+            color: #6b7280;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .social-row a:hover {
+            color: #1d4ed8;
+        }
+
+        .social-row svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 480px) {
+            .contact-card {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <a href="index.html" style="text-decoration: none;">
-                <h1 class="logo">port254</h1>
+    <div class="grid-backdrop"></div>
+    <div class="node" style="top: 18%; left: 12%;"></div>
+    <div class="node" style="top: 28%; left: 82%;"></div>
+    <div class="node" style="top: 68%; left: 20%;"></div>
+    <div class="node" style="top: 74%; left: 76%;"></div>
+
+    <main>
+        <div class="logo">port254</div>
+
+        <div class="status-pill">
+            <span class="status-dot"></span>
+            Site update in progress
+        </div>
+
+        <h1>We're rebuilding <span>port254</span> from the ground up.</h1>
+        <p class="lede">
+            OT cybersecurity advisory for critical infrastructure operators is taking a short break for a refresh. The work hasn't stopped — if you need to reach us about IEC 62443, SOCI Act compliance, or OT security advisory, get in touch directly.
+        </p>
+
+        <div class="contact-card">
+            <span class="contact-label">Get in touch</span>
+            <a class="contact-email" href="mailto:admin@port254.com">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                admin@port254.com
             </a>
-        </div>
-    </header>
-
-    <!-- Navigation -->
-    <div class="filters-section">
-        <div class="container">
-            <nav class="nav-menu" style="justify-content: center;">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="services.html" class="nav-link">Services</a>
-                <a href="case-studies.html" class="nav-link">Case Studies</a>
-                <a href="soci.html" class="nav-link">SOCI</a>
-                <a href="iec62443.html" class="nav-link">62443</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-                <div class="nav-dropdown">
-                    <button class="nav-dropdown-toggle">
-                        Lab
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="nav-dropdown-menu">
-                        <a href="honeypot-dashboard.html" class="nav-dropdown-item">Honeypot Dashboard</a>
-                        <a href="attack-matrix.html" class="nav-dropdown-item">ATT&CK Matrix</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1 class="hero-title">OT Cybersecurity Advisory</h1>
-        <p class="hero-subtitle">Securing critical infrastructure against real-world threats</p>
-        <p class="hero-tagline">The only OT consultant in Australia who maps IEC 62443 controls directly to SOCI Act obligations — one integrated program, not two.</p>
-        <p class="hero-description">Helping critical infrastructure operators across energy, water, transport, and manufacturing assess OT risk, meet SOCI Act obligations, and build lasting security capability.</p>
-        <div class="cta-buttons">
-            <a href="services.html" class="cta-button">View Services</a>
-            <a href="contact.html" class="cta-button secondary">Get in Touch</a>
-        </div>
-    </div>
-
-    <!-- Features Section -->
-    <div class="features-section">
-        <div class="features-grid">
-            <!-- OT Security Assessments -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                    </svg>
-                </div>
-                <h3 class="feature-title">OT Security Gap & Risk Assessments</h3>
-                <p class="feature-description">
-                    IEC 62443-based gap analysis, security level assessments, and risk assessments for industrial control systems. Prioritised remediation based on operational impact.
-                </p>
-                <a href="services.html" class="feature-link">
-                    Learn More →
-                </a>
-            </div>
-
-            <!-- IEC 62443 Expertise -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                    </svg>
-                </div>
-                <h3 class="feature-title">IEC 62443 Expertise</h3>
-                <p class="feature-description">
-                    ISA/IEC 62443 Expert-certified across all four cybersecurity certificate programs. Zone and conduit modelling, security level verification, and risk assessments.
-                </p>
-                <a href="iec62443.html" class="feature-link">
-                    View Credentials →
-                </a>
-            </div>
-
-            <!-- Training & Advisory -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </div>
-                <h3 class="feature-title">Training & Advisory</h3>
-                <p class="feature-description">
-                    Building OT security capability through hands-on training, tabletop exercises, and ongoing advisory support tailored to your operational environment.
-                </p>
-                <a href="services.html" class="feature-link">
-                    Learn More →
-                </a>
-            </div>
-
-            <!-- SOCI Act Compliance -->
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                </div>
-                <h3 class="feature-title">SOCI Act Compliance</h3>
-                <p class="feature-description">
-                    CIRMP readiness, regulatory gap analysis, and board-level reporting for critical infrastructure operators under the Security of Critical Infrastructure Act 2018.
-                </p>
-                <a href="soci.html" class="feature-link">
-                    SOCI Advisory →
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Case Study Teasers -->
-    <div class="features-section" style="margin-top: 0; padding-top: 0;">
-        <div style="border-top: 1px solid #e5e7eb; padding-top: 3rem;">
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 1.25rem; color: #1f2937; font-weight: 600;">Case Studies</h2>
-                <a href="case-studies.html" style="color: #1d4ed8; font-size: 0.875rem; text-decoration: none; font-weight: 500;">View all →</a>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-                <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1.75rem 2rem;">
-                    <p style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 0.75rem;">IEC 62443 · Water &amp; Wastewater</p>
-                    <h3 style="font-size: 1rem; color: #111827; font-weight: 600; margin-bottom: 0.6rem;">IEC 62443 Gap Assessment — Regional Water Utility</h3>
-                    <p style="color: #4b5563; font-size: 0.875rem; line-height: 1.65; margin-bottom: 1.25rem;">Flat network, no zone model, persistent vendor access with no MFA. 18 findings across 4 critical gaps — assessment delivered the technical foundation for CIRMP attestation.</p>
-                    <a href="case-studies.html" style="color: #1d4ed8; font-size: 0.875rem; text-decoration: none; font-weight: 500;">Read →</a>
-                </div>
-                <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1.75rem 2rem;">
-                    <p style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 0.75rem;">SOCI Act · Energy</p>
-                    <h3 style="font-size: 1rem; color: #111827; font-weight: 600; margin-bottom: 0.6rem;">SOCI Act CIRMP Advisory — Regional Electricity Network Operator</h3>
-                    <p style="color: #4b5563; font-size: 0.875rem; line-height: 1.65; margin-bottom: 1.25rem;">18-month compliance gap, non-compliant CIRMP, OT assets absent from risk register. Full CIRMP redevelopment across all four hazard vectors — board endorsed, ACS audit passed.</p>
-                    <a href="case-studies.html" style="color: #1d4ed8; font-size: 0.875rem; text-decoration: none; font-weight: 500;">Read →</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p style="margin-bottom: 1rem;">Port254 &mdash; OT Cybersecurity Advisory</p>
-            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; align-items: center;">
-                <a href="mailto:admin@port254.com" style="color: #4b5563; text-decoration: none; transition: color 0.2s; font-size: 0.875rem;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#4b5563'">admin@port254.com</a>
-                <a href="https://github.com/254kamikaze" target="_blank" style="color: #4b5563; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#4b5563'">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
+            <div class="social-row">
+                <a href="https://github.com/254kamikaze" target="_blank">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
-                <a href="https://www.linkedin.com/in/tony-kim-port254" target="_blank" style="color: #4b5563; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#4b5563'">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.25rem;">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
+                <a href="https://www.linkedin.com/in/tony-kim-port254" target="_blank">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                     LinkedIn
                 </a>
             </div>
         </div>
+    </main>
+
+    <footer>
+        &copy; 2026 Port254 — OT Cybersecurity Advisory
     </footer>
 </body>
 </html>
