@@ -28,7 +28,7 @@ body {
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #2563eb;
+    color: #1d4ed8;
     text-align: center;
 }
 
@@ -81,7 +81,7 @@ body {
 .stat-value {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #2563eb;
+    color: #1d4ed8;
     line-height: 1;
     margin-bottom: 0.15rem;
     padding: 8px;
@@ -152,7 +152,7 @@ body {
 }
 
 .dashboard-card {
-    background-color: rgba(37, 99, 235, 0.05);
+    background-color: rgba(29, 78, 216, 0.05);
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     padding: 1rem;
@@ -243,7 +243,7 @@ body {
 .card-title {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #2563eb;
+    color: #1d4ed8;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -307,7 +307,7 @@ body {
 
 .compact-list td:first-child {
     font-family: 'Courier New', monospace;
-    color: #2563eb;
+    color: #1d4ed8;
 }
 
 .compact-list td:last-child {
@@ -350,7 +350,7 @@ body {
 
 .ip-country {
     font-size: 0.65rem;
-    color: #2563eb;
+    color: #1d4ed8;
 }
 
 .ip-count {
@@ -374,14 +374,14 @@ body {
 }
 
 .event-time {
-    color: #2563eb;
+    color: #1d4ed8;
     font-weight: 600;
     font-size: 0.6rem;
 }
 
 .event-type {
-    /* background-color: rgba(37, 99, 235, 0.15); */
-    color: #2563eb;
+    /* background-color: rgba(29, 78, 216, 0.15); */
+    color: #1d4ed8;
     padding: 0.1rem 0.3rem;
     border-radius: 0.2rem;
     font-size: 0.55rem;
@@ -466,17 +466,17 @@ body {
 
 .breach-item:hover {
     /* background-color: #e5e7eb; */
-    border-color: #2563eb;
+    border-color: #1d4ed8;
 }
 
 .breach-item.selected {
     /* background-color: #ecfdf5; */
-    border: 2px solid #2563eb;
-    box-shadow: 0 0 12px rgba(37, 99, 235, 0.3);
+    border: 2px solid #1d4ed8;
+    box-shadow: 0 0 12px rgba(29, 78, 216, 0.3);
 }
 
 .breach-time {
-    color: #2563eb;
+    color: #1d4ed8;
     font-size: 0.7rem;
     font-weight: 600;
 }
@@ -501,7 +501,7 @@ body {
 
 .severity-critical {
     /* background-color: rgba(239, 68, 68, 0.2); */
-    color: #2563eb;
+    color: #1d4ed8;
 }
 
 .severity-high {
@@ -510,7 +510,7 @@ body {
 }
 
 .btn-view-commands {
-    background: linear-gradient(135deg, #2563eb 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #1d4ed8 0%, #1d4ed8 100%);
     color: white;
     border: none;
     padding: 0.4rem 0.75rem;
@@ -523,7 +523,7 @@ body {
 
 .btn-view-commands:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 8px rgba(29, 78, 216, 0.3);
 }
 
 /* ======================
@@ -571,7 +571,7 @@ body {
 }
 
 .command-prompt {
-    color: #2563eb;
+    color: #1d4ed8;
     font-weight: 600;
 }
 
@@ -612,7 +612,7 @@ body {
 }
 
 .health-port {
-    color: #2563eb;
+    color: #1d4ed8;
     font-family: 'Courier New', monospace;
     font-size: 0.65rem;
 }
